@@ -22,7 +22,11 @@ npm run build
 
 ### Development
 
-Ensure the dependencies are installed (see above) and the `back-end` is running with its basic "worlds" setup (docker recommended). Then, run the following command to start the development server:
+Ensure the dependencies are installed (see above) and the `back-end` is running with its basic "worlds" setup (docker recommended).
+
+Copy the `.example.env.local` file to `.env.local` and edit it to match your local backend instance.
+
+Then, run the following command to start the development server:
 
 ```bash
 npm run dev
