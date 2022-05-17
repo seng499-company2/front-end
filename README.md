@@ -62,7 +62,7 @@ And here's a React "cheatsheet": [https://www.freecodecamp.org/news/the-react-ch
 
 ### Other useful links for development
 
-You will also find these in the relevant files in the demo branch.
+You will also find these in the relevant files in the [tutorial branch](https://github.com/seng499-company2/front-end/tree/tutorial).
 
 - https://chakra-ui.com/docs/styled-system/theming/customize-theme
 - https://nextjs.org/docs/basic-features/pages
