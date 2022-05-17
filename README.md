@@ -22,7 +22,7 @@ npm run build
 
 ### Development
 
-Ensure the dependencies are installed. Then, run the following command to start the development server:
+Ensure the dependencies are installed (see above) and the `back-end` is running with its basic "worlds" setup (docker recommended). Then, run the following command to start the development server:
 
 ```bash
 npm run dev
