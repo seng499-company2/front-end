@@ -18,6 +18,10 @@ const navLinks = [
     name: "Home",
     route: "/",
   },
+  {
+    name: "Worlds",
+    route: "/worlds",
+  },
 ];
 
 const Header = () => {
