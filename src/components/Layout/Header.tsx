@@ -19,6 +19,10 @@ const navLinks = [
   {
     name: "Sample Components",
     route: '/sample'
+  },
+  {
+    name: "Prof Preferences",
+    route: '/preferences'
   }
 ];
 
