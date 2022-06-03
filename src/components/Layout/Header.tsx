@@ -11,13 +11,15 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { DarkModeSwitch } from "./DarkModeSwitch";
-
 const navLinks = [
   {
     name: "Home",
     route: "/",
   },
+  {
+    name: "Sample Components",
+    route: '/sample'
+  }
 ];
 
 const Header = () => {
@@ -27,7 +29,7 @@ const Header = () => {
     <>
       {navLinks.map((link) => (
         <Link key={link.name} href={link.route}>
-          <Button variant="link" p={2} rounded={"md"}>
+          <Button variant="link" color='white'>
             {link.name}
           </Button>
         </Link>
@@ -37,9 +39,9 @@ const Header = () => {
 
   return (
     <>
-      <Box py={1}>
+      <Box py={1} bg="primary.800" >
         <Container maxW="container.lg">
-          <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+          <Flex h={16} alignItems={"center"} justifyContent={"space-between"} >
             <IconButton
               size={"md"}
               icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -56,7 +58,6 @@ const Header = () => {
                 {!isOpen && navigationItems}
               </HStack>
             </HStack>
-            <DarkModeSwitch />
           </Flex>
           {isOpen && (
             <Box pb={4} mt={3}>
