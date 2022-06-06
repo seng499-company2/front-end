@@ -11,36 +11,33 @@ const breakpoints = createBreakpoints({
 });
 
 const theme = extendTheme(
-
   {
     fonts,
     breakpoints,
     colors: {
-      primary:
-      {
-        50: '#e3f3ff',
-        100: '#c3d7f0',
-        200: '#9fbde0',
-        300: '#7ba2d1',
-        400: '#5687c2',
-        500: '#3d6ea9',
-        600: '#2d5584',
-        700: '#1f3d60',
-        800: '#0e253c',
-        900: '#000d1b',
+      primary: {
+        50: "#e3f3ff",
+        100: "#c3d7f0",
+        200: "#9fbde0",
+        300: "#7ba2d1",
+        400: "#5687c2",
+        500: "#3d6ea9",
+        600: "#2d5584",
+        700: "#1f3d60",
+        800: "#0e253c",
+        900: "#000d1b",
       },
       secondary: {
-        main: '#DBE2EF'
+        main: "#DBE2EF",
       },
       background: {
-        main: '#F9F7F7'
-      }
+        main: "#F9F7F7",
+      },
     },
-  }
+  },
 
-  ,
   withDefaultColorScheme({
-    colorScheme: 'primary'
+    colorScheme: "primary",
   })
 );
 
