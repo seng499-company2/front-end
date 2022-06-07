@@ -1,5 +1,12 @@
-import { Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Text, VStack, Checkbox } from "@chakra-ui/react";
-import { Field, Form, Formik, ErrorMessage } from "formik";
+import {
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Input,
+    VStack,
+    Checkbox,
+} from "@chakra-ui/react";
+import { Field, Form, Formik } from "formik";
 
 const SampleForm = (props) => {
     const { handleSubmit } = props;
@@ -9,7 +16,7 @@ const SampleForm = (props) => {
             initialValues={{
                 name: "",
                 email: "",
-                rememberMe: false
+                rememberMe: false,
             }}
             onSubmit={(values) => {
                 handleSubmit(values);
@@ -18,14 +25,14 @@ const SampleForm = (props) => {
             {({ errors, touched }) => (
                 <Form id="sample-form">
                     <VStack spacing={4} align="flex-start">
-                        <FormControl >
+                        <FormControl>
                             <FormLabel htmlFor="name">Name</FormLabel>
                             <Field
                                 as={Input}
                                 id="name"
                                 name="name"
                                 type="name"
-                                colorScheme='primary'
+                                colorScheme="primary"
                                 variant="filled"
                             />
                         </FormControl>
@@ -40,25 +47,21 @@ const SampleForm = (props) => {
                                 validate={(value) => {
                                     let error;
                                     if (value?.length < 1) {
-                                        error = "Email is required"
+                                        error = "Email is required";
                                     }
                                     return error;
                                 }}
                             />
                             <FormErrorMessage>{errors.email}</FormErrorMessage>
                         </FormControl>
-                        <Field
-                            as={Checkbox}
-                            id="rememberMe"
-                            name="rememberMe"
-                        >
+                        <Field as={Checkbox} id="rememberMe" name="rememberMe">
                             Remember me?
                         </Field>
                     </VStack>
                 </Form>
             )}
         </Formik>
-    )
+    );
 };
 
 export default SampleForm;

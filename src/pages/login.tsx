@@ -1,7 +1,7 @@
 import LoginCard from "../components/LoginCard";
 
 export const Auth = () => {
-  return <LoginCard />;
+    return <LoginCard />;
 };
 
 export default Auth;

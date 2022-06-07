@@ -4,13 +4,13 @@ import { ReactElement } from "react";
 import AdminLayout from "../components/Layout/AdminLayout";
 
 const Constraints = () => (
-  <Box pt="1rem">
-    <Text>Constraints</Text>
-  </Box>
+    <Box pt="1rem">
+        <Text>Constraints</Text>
+    </Box>
 );
 
 Constraints.getLayout = function getLayout(page: ReactElement) {
-  return <AdminLayout>{page}</AdminLayout>;
+    return <AdminLayout>{page}</AdminLayout>;
 };
 
 export default Constraints;
