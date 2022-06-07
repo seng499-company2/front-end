@@ -1,16 +1,12 @@
 import {
-    Button,
-    Flex,
     FormControl,
     FormErrorMessage,
     FormLabel,
-    Heading,
     Input,
-    Text,
     VStack,
     Checkbox,
 } from "@chakra-ui/react";
-import { Field, Form, Formik, ErrorMessage } from "formik";
+import { Field, Form, Formik } from "formik";
 
 const SampleForm = (props) => {
     const { handleSubmit } = props;
