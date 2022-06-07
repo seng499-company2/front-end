@@ -60,8 +60,8 @@ And here's a React "cheatsheet": [https://www.freecodecamp.org/news/the-react-ch
 
 You will also find these in the relevant files in the demo branch.
 
-- https://chakra-ui.com/docs/styled-system/theming/customize-theme
-- https://nextjs.org/docs/basic-features/pages
-- https://nextjs.org/docs/basic-features/layouts
-- https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
-- https://nextjs.org/docs/routing/dynamic-routes
+-   https://chakra-ui.com/docs/styled-system/theming/customize-theme
+-   https://nextjs.org/docs/basic-features/pages
+-   https://nextjs.org/docs/basic-features/layouts
+-   https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props
+-   https://nextjs.org/docs/routing/dynamic-routes
