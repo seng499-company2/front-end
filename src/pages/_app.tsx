@@ -7,23 +7,24 @@ import theme from "../theme";
 import DefaultLayout from "../components/Layout/DefaultLayout";
 
 type Page<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactNode) => ReactNode;
+    getLayout?: (page: ReactNode) => ReactNode;
 };
 
 type Props = AppProps & {
-  Component: Page;
+    Component: Page;
 };
 
 function App({ Component, pageProps }: Props) {
-  // Use the layout defined at the page level, if available
-  const getLayout =
-    Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
+    // Use the layout defined at the page level, if available
+    const getLayout =
+        Component.getLayout ??
+        ((page) => <DefaultLayout>{page}</DefaultLayout>);
 
-  return (
-    <ChakraProvider resetCSS theme={theme}>
-      {getLayout(<Component {...pageProps} />)}
-    </ChakraProvider>
-  );
+    return (
+        <ChakraProvider resetCSS theme={theme}>
+            {getLayout(<Component {...pageProps} />)}
+        </ChakraProvider>
+    );
 }
 
 export default App;
