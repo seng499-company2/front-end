@@ -1,15 +1,15 @@
 import { Box, Checkbox, Flex, Select, Stack } from "@chakra-ui/react";
+import { useState } from "react";
 
 const Availability = () => {
 
-    function setEnable(toEnable: boolean): void {
-        toEnable = !toEnable; //not doing shit
-    }
+    const [isReliefDisabled, setIsReliefDisabled] = useState(true);
+    const [isSabbaticalDisabled, setIsSabbaticalDisabled] = useState(true);
 
     var enableRelief: boolean = true, enableSabbatical: boolean = true;
     
     return (
-        <Box>
+        <Box w='80%'>
             <Stack spacing={5} direction='column'>
                 <Stack spacing={5} direction='row'>
                     <p>Please check desired semester(s) off:</p>
@@ -18,10 +18,10 @@ const Availability = () => {
                     <Checkbox> Summer </Checkbox>
                 </Stack>
                 <Stack spacing={2} direction='column'>
-                    <Checkbox onChange={(e) => setEnable(enableRelief)}> I am taking relief </Checkbox>
+                    <Checkbox onChange={() => setIsReliefDisabled(!isReliefDisabled)}> I am taking relief </Checkbox>
                     <Stack spacing={5} direction='row'>
                         <p>If yes, enter how many courses you will be teaching this year:</p>
-                        <Select placeholder='5 Courses' isDisabled={enableRelief}>
+                        <Select placeholder='5 Courses' isDisabled={isReliefDisabled}>
                             <option value='option2'>4 Courses</option>
                             <option value='option3'>3 Courses</option>
                             <option value='option4'>2 Courses</option>
@@ -30,15 +30,16 @@ const Availability = () => {
                     </Stack>
                 </Stack>
                 <Stack spacing={2} direction='column'>
-                    <Checkbox onChange={(e) => setEnable(enableSabbatical)}> I am on sabbatical </Checkbox>
+                    <Checkbox onChange={(e) => setIsSabbaticalDisabled(!isSabbaticalDisabled)}> I am on sabbatical </Checkbox>
                     <Stack spacing={5} direction='row'>
                     <p>If yes, enter the duration:</p>
-                        <Select placeholder='half leave' isDisabled={enableSabbatical}>
+                        <Select placeholder='half leave' isDisabled={isSabbaticalDisabled}>
                             <option value='option2'>full leave</option>
                         </Select>
                         <p>from</p>
-                        <Select placeholder='January' isDisabled={enableSabbatical}>
-                            <option value='option2'></option>
+                        <Select placeholder='January' isDisabled={isSabbaticalDisabled}>
+                            <option value='option2'>May</option>
+                            <option value='option3'>September</option>
                         </Select>
                     </Stack>
                 </Stack>
