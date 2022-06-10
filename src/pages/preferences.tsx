@@ -1,6 +1,6 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, Tabs, TabPanels, TabPanel, TabList, Tab } from "@chakra-ui/react";
 import Availability from "../components/Preferences/Availability";
-import App from "../components/Preferences/ScheduleSelector";
+import Timetable from "../components/Preferences/ScheduleSelector";
 
 
 const Preferences = () => {
@@ -8,7 +8,24 @@ const Preferences = () => {
         <Box pt="1rem">
             <Heading>Prof Preferences</Heading>
             <Availability/>
-            <App/>
+            <Tabs variant='soft-rounded' colorScheme='green'>
+                <TabList>
+                    <Tab>Fall</Tab>
+                    <Tab>Summer</Tab>
+                    <Tab>Spring</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                    <Timetable/>
+                    </TabPanel>
+                    <TabPanel>
+                    <Timetable/>
+                    </TabPanel>
+                    <TabPanel>
+                    <Timetable/>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </Box>
         
     );
