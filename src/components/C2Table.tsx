@@ -8,11 +8,20 @@ import {
     Th,
     Td,
     Flex,
+    Icon,
+    Input,
+    InputGroup,
+    InputLeftElement,
 } from "@chakra-ui/react";
+import { useMemo, useState } from "react";
+import { FaFilter } from "react-icons/fa";
 import { useTable, useSortBy } from "react-table";
 
 const C2Table = (props) => {
-    const { columns, data } = props;
+    const { columns, entries } = props;
+
+    const [data, setData] = useState(entries);
+
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         useTable(
             {
@@ -22,11 +31,30 @@ const C2Table = (props) => {
             useSortBy
         );
 
+    const onFilter = (column, val) => {
+        // if e[column]
+        val = val.toLowerCase();
+
+        if (typeof data[0][column] !== "object") {
+            setData(
+                entries.filter((e) => e[column].toLowerCase().includes(val))
+            );
+            return;
+        }
+
+        // console.log(column, val);
+    };
+
+    const filters = getFilters(columns, onFilter);
+
     // TODO: Slice rows for pages
     let pageRows = rows;
 
     return (
         <FormControl>
+            <Table {...getTableProps()}>
+                <Tbody {...getTableBodyProps()}></Tbody>
+            </Table>
             <Table {...getTableProps()} variant="striped">
                 <Thead>
                     {headerGroups.map((headerGroup) => (
@@ -65,6 +93,8 @@ const C2Table = (props) => {
                             ))}
                         </Tr>
                     ))}
+
+                    <Tr>{filters}</Tr>
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
                     {pageRows.map((row, i) => {
@@ -85,6 +115,29 @@ const C2Table = (props) => {
             </Table>
         </FormControl>
     );
+};
+
+const getFilters = (columns, onFilter) => {
+    return columns.map((column) => {
+        const [filterVal, setfilterVal] = useState("");
+
+        return (
+            <Td>
+                <InputGroup>
+                    <Input
+                        variant="filled"
+                        isDisabled={column.disableFilterBy}
+                        onChange={(event) =>
+                            onFilter(column.accessor, event.target.value)
+                        }
+                    />
+                    <InputLeftElement
+                        children={<Icon as={FaFilter} ml={1} w={4} h={3} />}
+                    />
+                </InputGroup>
+            </Td>
+        );
+    });
 };
 
 export default C2Table;
