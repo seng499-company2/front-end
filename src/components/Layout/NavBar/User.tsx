@@ -35,10 +35,10 @@ export const User = () => (
                         spacing="1px"
                         ml="2"
                     >
-                        <Text fontSize="sm">Owen Wilson</Text>
+                        <Text fontSize="sm" color={"gray.100"}>Owen Wilson</Text>
                         <Text
                             fontSize="xs"
-                            color={useColorModeValue("gray.800", "gray.100")}
+                            color={"gray.100"}
                         >
                             Admin
                         </Text>

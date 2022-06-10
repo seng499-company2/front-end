@@ -14,10 +14,11 @@ export default function NavBar({ children }: { children: ReactNode }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <Box
-            minH="100vh"
+            //minH="100vh"
             transition="0.5s ease"
-            bg={useColorModeValue("background.main", "primary.900")}
+        //bg={useColorModeValue("background.main", "primary.900")}
         >
+            <Header onOpen={onOpen} />
             <SidebarContent
                 onClose={() => onClose}
                 display={{ base: "none", md: "block" }}
@@ -35,7 +36,7 @@ export default function NavBar({ children }: { children: ReactNode }) {
                     <SidebarContent onClose={onClose} />
                 </DrawerContent>
             </Drawer>
-            <Header onOpen={onOpen} />
+
             {/* page content */}
             <Box ml={{ base: 0, md: 60 }} p="4">
                 {children}

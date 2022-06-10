@@ -16,23 +16,28 @@ const theme = extendTheme(
         breakpoints,
         colors: {
             primary: {
-                50: "#e3f3ff",
-                100: "#c3d7f0",
-                200: "#9fbde0",
-                300: "#7ba2d1",
-                400: "#5687c2",
-                500: "#3d6ea9",
-                600: "#2d5584",
-                700: "#1f3d60",
-                800: "#0e253c",
-                900: "#000d1b",
+                "50": "#f6f8f8",
+                "100": "#dae2e2",
+                "200": "#bac8c9",
+                "300": "#95aaab",
+                "400": "#7f999b",
+                "500": "#6a8183",
+                "600": "#596d6e",
+                "700": "#475759",
+                "800": "#3c4a4b",
+                "900": "#2b3536"
             },
             secondary: {
-                main: "#DBE2EF",
+                main: "#B4CFB0",
+                dark: "#94B49F"
+            },
+            highlight: {
+                main: '#91818A'
             },
             background: {
                 main: "#F9F7F7",
             },
+            //#F18F88
         },
     },
 
