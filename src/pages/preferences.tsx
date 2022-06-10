@@ -19,6 +19,7 @@ const Preferences = () => {
             <Heading>Prof Preferences</Heading>
             <Availability />
             <GeneralPreferences />
+            <Availability />
             <CoursesPreferencesTable courses={courses} />
         </Box>
     );
