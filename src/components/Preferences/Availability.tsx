@@ -2,7 +2,6 @@ import {
     Box,
     Checkbox,
     HStack,
-    Flex,
     Select,
     Stack,
     Text,
@@ -17,7 +16,7 @@ const Availability = () => {
         <Box>
             <Stack spacing={5} direction="column">
                 <HStack spacing={5}>
-                    <Text>Please check desired semester(s) off:</Text>
+                    <Text>Please check desired non-teaching semester(s):</Text>
                     <Checkbox> Fall </Checkbox>
                     <Checkbox> Spring </Checkbox>
                     <Checkbox> Summer </Checkbox>
@@ -26,8 +25,7 @@ const Availability = () => {
                     <Checkbox
                         onChange={() => setIsReliefDisabled(!isReliefDisabled)}
                     >
-                        {" "}
-                        I am taking relief{" "}
+                        I am taking relief
                     </Checkbox>
                     <HStack>
                         <Text minW="450px">
@@ -35,13 +33,13 @@ const Availability = () => {
                             this year:
                         </Text>
                         <Select
-                            placeholder="5 Courses"
                             isDisabled={isReliefDisabled}
                         >
-                            <option value="option2">4 Courses</option>
+                            <option value="option5">5 Courses</option>
+                            <option value="option4">4 Courses</option>
                             <option value="option3">3 Courses</option>
-                            <option value="option4">2 Courses</option>
-                            <option value="option5">1 Course</option>
+                            <option value="option2">2 Courses</option>
+                            <option value="option1">1 Course</option>
                         </Select>
                     </HStack>
                 </Stack>
@@ -51,22 +49,21 @@ const Availability = () => {
                             setIsSabbaticalDisabled(!isSabbaticalDisabled)
                         }
                     >
-                        {" "}
-                        I am on sabbatical{" "}
+                        I am on sabbatical
                     </Checkbox>
                     <HStack spacing={5}>
                         <Text minW="180px"> If yes, enter the duration:</Text>
                         <Select
-                            placeholder="half leave"
                             isDisabled={isSabbaticalDisabled}
                         >
+                            <option value="option1">half leave</option>
                             <option value="option2">full leave</option>
                         </Select>
                         <Text>from</Text>
                         <Select
-                            placeholder="January"
                             isDisabled={isSabbaticalDisabled}
                         >
+                            <option value="option1">January</option>
                             <option value="option2">May</option>
                             <option value="option3">September</option>
                         </Select>
