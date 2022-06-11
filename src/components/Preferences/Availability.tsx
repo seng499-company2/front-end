@@ -7,6 +7,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import NumInput from "./NumInput";
 
 const Availability = () => {
     const [isReliefDisabled, setIsReliefDisabled] = useState(true);
@@ -14,12 +15,15 @@ const Availability = () => {
 
     return (
         <Box>
-            <Stack spacing={5} direction="column">
-                <HStack spacing={5}>
-                    <Text>Please check desired non-teaching semester(s):</Text>
-                    <Checkbox> Fall </Checkbox>
-                    <Checkbox> Spring </Checkbox>
-                    <Checkbox> Summer </Checkbox>
+            <Stack spacing={10} direction="column">
+                <HStack spacing={3}>
+                    <Text>Please select a number of desired courses per semester:</Text>
+                    <Text>Fall</Text>
+                    <NumInput id='fall'/>
+                    <Text>Spring</Text>
+                    <NumInput id='Spring'/>
+                    <Text>Summer</Text>
+                    <NumInput id='Summer'/>
                 </HStack>
                 <Stack spacing={1} direction="column">
                     <Checkbox
@@ -69,6 +73,17 @@ const Availability = () => {
                         </Select>
                     </HStack>
                 </Stack>
+                <HStack spacing={5}>
+                <Text>
+                            How many days a week would you like to teach?
+                        </Text>
+                        <NumInput id='days'/>
+                        <Checkbox>Mon</Checkbox>
+                        <Checkbox>Tues</Checkbox>
+                        <Checkbox>Wed</Checkbox>
+                        <Checkbox>Thurs</Checkbox>
+                        <Checkbox>Fri</Checkbox>
+                </HStack>
             </Stack>
         </Box>
     );
