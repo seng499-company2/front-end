@@ -47,7 +47,7 @@ const makeTableData = (courses) => {
         return {
             course: c,
             willingness: (
-                <Select defaultValue={Willingness.willing}>
+                <Select defaultValue={Willingness.willing} key={c+"-willingness"}>
                     <option value={Willingness.unwilling}>Unwilling</option>
                     <option value={Willingness.willing}>Willing</option>
                     <option value={Willingness.veryWilling}>
@@ -56,7 +56,7 @@ const makeTableData = (courses) => {
                 </Select>
             ),
             difficulty: (
-                <Select defaultValue={Difficulty.moderate}>
+                <Select defaultValue={Difficulty.moderate} key={c+"--difficulty"}>
                     <option value={Difficulty.difficult}>Difficult</option>
                     <option value={Difficulty.moderate}>Moderate</option>
                     <option value={Difficulty.easy}>Easy</option>

@@ -51,8 +51,6 @@ const C2Table = (props) => {
         }
     };
 
-    const filters = getFilters(columns, onFilter);
-
     // TODO: Slice rows for pages
     let pageRows = rows;
 
@@ -63,8 +61,8 @@ const C2Table = (props) => {
             </Table>
             <Table {...getTableProps()} variant="striped">
                 <Thead>
-                    {headerGroups.map((headerGroup) => (
-                        <Tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroups.map((headerGroup, i) => (
+                        <Tr {...headerGroup.getHeaderGroupProps()} key={i}>
                             {headerGroup.headers.map((column) => (
                                 // Add the sorting props to control sorting. For this example
                                 // we can add them into the header props
@@ -73,6 +71,7 @@ const C2Table = (props) => {
                                     {...column.getHeaderProps(
                                         column.getSortByToggleProps()
                                     )}
+                                    key={column.accessor + "-headers"}
                                 >
                                     <Flex alignItems="center">
                                         {column.render("Header")}
@@ -99,17 +98,42 @@ const C2Table = (props) => {
                             ))}
                         </Tr>
                     ))}
-
-                    <Tr>{filters}</Tr>
+                    {/*Add filters*/}
+                    <Tr>
+                        {columns.map((column, i) => (
+                            <Td key={column.accessor + "-filter"}>
+                                <InputGroup>
+                                    <Input
+                                        variant="filled"
+                                        isDisabled={column.disableFilterBy}
+                                        onChange={(event) =>
+                                            onFilter(
+                                                column.accessor,
+                                                event.target.value
+                                            )
+                                        }
+                                    />
+                                    <InputLeftElement>
+                                        <Icon
+                                            as={FaFilter}
+                                            ml={1}
+                                            w={4}
+                                            h={3}
+                                        />
+                                    </InputLeftElement>
+                                </InputGroup>
+                            </Td>
+                        ))}
+                    </Tr>
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
                     {pageRows.map((row, i) => {
                         prepareRow(row);
                         return (
-                            <Tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
+                            <Tr {...row.getRowProps()} key={i}>
+                                {row.cells.map((cell, i) => {
                                     return (
-                                        <Td {...cell.getCellProps()}>
+                                        <Td {...cell.getCellProps()} key={i}>
                                             {cell.render("Cell")}
                                         </Td>
                                     );
@@ -121,29 +145,6 @@ const C2Table = (props) => {
             </Table>
         </FormControl>
     );
-};
-
-const getFilters = (columns, onFilter) => {
-    return columns.map((column) => {
-        const [filterVal, setfilterVal] = useState("");
-
-        return (
-            <Td key={column.accessor + "-filter"}>
-                <InputGroup>
-                    <Input
-                        variant="filled"
-                        isDisabled={column.disableFilterBy}
-                        onChange={(event) =>
-                            onFilter(column.accessor, event.target.value)
-                        }
-                    />
-                    <InputLeftElement
-                        children={<Icon as={FaFilter} ml={1} w={4} h={3} />}
-                    />
-                </InputGroup>
-            </Td>
-        );
-    });
 };
 
 export default C2Table;
