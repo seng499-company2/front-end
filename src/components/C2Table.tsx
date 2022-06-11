@@ -13,7 +13,7 @@ import {
     InputGroup,
     InputLeftElement,
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import { useTable, useSortBy } from "react-table";
 
@@ -49,8 +49,6 @@ const C2Table = (props) => {
             );
             return;
         }
-
-        // console.log(column, val);
     };
 
     const filters = getFilters(columns, onFilter);
@@ -130,7 +128,7 @@ const getFilters = (columns, onFilter) => {
         const [filterVal, setfilterVal] = useState("");
 
         return (
-            <Td key={column.accessor+"-filter"}>
+            <Td key={column.accessor + "-filter"}>
                 <InputGroup>
                     <Input
                         variant="filled"
