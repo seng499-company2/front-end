@@ -18,7 +18,6 @@ const NumInput = (props) => {
             clampValueOnBlur={true}
             w="60px"
             id={id}
-            aria-label="ad"
         >
             <NumberInputField />
             <NumberInputStepper>
