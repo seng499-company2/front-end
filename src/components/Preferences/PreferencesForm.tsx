@@ -43,7 +43,7 @@ const PreferencesForm = (props) => {
                 <Form id="preferences-form">
                     <Heading as='h3' size='md' mb={5}>General Preferences</Heading>
                     <Availability />
-                    <Button type="submit">Submit</Button>
+                    <Button mt={5} type="submit">Submit</Button>
                 </Form>
             )}
         </Formik>
