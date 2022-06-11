@@ -1,14 +1,21 @@
-import { Box, Heading, Tabs, TabPanels, TabPanel, TabList, Tab } from "@chakra-ui/react";
+import {
+    Box,
+    Heading,
+    Tabs,
+    TabPanels,
+    TabPanel,
+    TabList,
+    Tab,
+} from "@chakra-ui/react";
 import Availability from "../components/Preferences/Availability";
 import Timetable from "../components/Preferences/ScheduleSelector";
-
 
 const Preferences = () => {
     return (
         <Box pt="1rem">
             <Heading>Prof Preferences</Heading>
-            <Availability/>
-            <Tabs variant='soft-rounded' colorScheme='green'>
+            <Availability />
+            <Tabs variant="soft-rounded" colorScheme="green">
                 <TabList>
                     <Tab>Fall</Tab>
                     <Tab>Summer</Tab>
@@ -16,18 +23,17 @@ const Preferences = () => {
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                    <Timetable/>
+                        <Timetable color="Blue" />
                     </TabPanel>
                     <TabPanel>
-                    <Timetable/>
+                        <Timetable color="Orange" />
                     </TabPanel>
                     <TabPanel>
-                    <Timetable/>
+                        <Timetable color="Pink" />
                     </TabPanel>
                 </TabPanels>
             </Tabs>
         </Box>
-        
     );
 };
 
