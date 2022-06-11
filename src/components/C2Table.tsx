@@ -32,10 +32,18 @@ const C2Table = (props) => {
         );
 
     const onFilter = (column, val) => {
-        // if e[column]
+        if (!val) {
+            setData(entries);
+            return;
+        }
+
         val = val.toLowerCase();
 
-        if (typeof data[0][column] !== "object") {
+        if (
+            data[0] &&
+            column in data[0] &&
+            typeof data[0][column] !== "object"
+        ) {
             setData(
                 entries.filter((e) => e[column].toLowerCase().includes(val))
             );
@@ -122,7 +130,7 @@ const getFilters = (columns, onFilter) => {
         const [filterVal, setfilterVal] = useState("");
 
         return (
-            <Td>
+            <Td key={column.accessor+"-filter"}>
                 <InputGroup>
                     <Input
                         variant="filled"
