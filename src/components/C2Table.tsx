@@ -102,26 +102,30 @@ const C2Table = (props) => {
                     <Tr>
                         {columns.map((column, i) => (
                             <Td key={column.accessor + "-filter"}>
-                                <InputGroup>
-                                    <Input
-                                        variant="filled"
-                                        isDisabled={column.disableFilterBy}
-                                        onChange={(event) =>
-                                            onFilter(
-                                                column.accessor,
-                                                event.target.value
-                                            )
-                                        }
-                                    />
-                                    <InputLeftElement>
-                                        <Icon
-                                            as={FaFilter}
-                                            ml={1}
-                                            w={4}
-                                            h={3}
+                                {column.disableFilterBy ? (
+                                    ""
+                                ) : (
+                                    <InputGroup>
+                                        <Input
+                                            variant="filled"
+                                            isDisabled={column.disableFilterBy}
+                                            onChange={(event) =>
+                                                onFilter(
+                                                    column.accessor,
+                                                    event.target.value
+                                                )
+                                            }
                                         />
-                                    </InputLeftElement>
-                                </InputGroup>
+                                        <InputLeftElement>
+                                            <Icon
+                                                as={FaFilter}
+                                                ml={1}
+                                                w={4}
+                                                h={3}
+                                            />
+                                        </InputLeftElement>
+                                    </InputGroup>
+                                )}
                             </Td>
                         ))}
                     </Tr>
