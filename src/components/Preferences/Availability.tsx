@@ -1,11 +1,4 @@
-import {
-    Box,
-    Checkbox,
-    HStack,
-    Select,
-    Stack,
-    Text,
-} from "@chakra-ui/react";
+import { Box, Checkbox, HStack, Select, Stack, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import NumInput from "./NumInput";
 
@@ -17,13 +10,15 @@ const Availability = () => {
         <Box>
             <Stack spacing={10} direction="column">
                 <HStack spacing={3}>
-                    <Text>Please select a number of desired courses per semester:</Text>
+                    <Text>
+                        Please select a number of desired courses per semester:
+                    </Text>
                     <Text>Fall</Text>
-                    <NumInput id='fall'/>
+                    <NumInput id="fall" />
                     <Text>Spring</Text>
-                    <NumInput id='Spring'/>
+                    <NumInput id="Spring" />
                     <Text>Summer</Text>
-                    <NumInput id='Summer'/>
+                    <NumInput id="Summer" />
                 </HStack>
                 <Stack spacing={1} direction="column">
                     <Checkbox
@@ -36,9 +31,7 @@ const Availability = () => {
                             If yes, enter how many courses you will be teaching
                             this year:
                         </Text>
-                        <Select
-                            isDisabled={isReliefDisabled}
-                        >
+                        <Select isDisabled={isReliefDisabled}>
                             <option value="option5">5 Courses</option>
                             <option value="option4">4 Courses</option>
                             <option value="option3">3 Courses</option>
@@ -57,16 +50,12 @@ const Availability = () => {
                     </Checkbox>
                     <HStack spacing={5}>
                         <Text minW="180px"> If yes, enter the duration:</Text>
-                        <Select
-                            isDisabled={isSabbaticalDisabled}
-                        >
+                        <Select isDisabled={isSabbaticalDisabled}>
                             <option value="option1">half leave</option>
                             <option value="option2">full leave</option>
                         </Select>
                         <Text>from</Text>
-                        <Select
-                            isDisabled={isSabbaticalDisabled}
-                        >
+                        <Select isDisabled={isSabbaticalDisabled}>
                             <option value="option1">January</option>
                             <option value="option2">May</option>
                             <option value="option3">September</option>
@@ -74,15 +63,13 @@ const Availability = () => {
                     </HStack>
                 </Stack>
                 <HStack spacing={5}>
-                <Text>
-                            How many days a week would you like to teach?
-                        </Text>
-                        <NumInput id='days'/>
-                        <Checkbox>Mon</Checkbox>
-                        <Checkbox>Tues</Checkbox>
-                        <Checkbox>Wed</Checkbox>
-                        <Checkbox>Thurs</Checkbox>
-                        <Checkbox>Fri</Checkbox>
+                    <Text>How many days a week would you like to teach?</Text>
+                    <NumInput id="days" />
+                    <Checkbox>Mon</Checkbox>
+                    <Checkbox>Tues</Checkbox>
+                    <Checkbox>Wed</Checkbox>
+                    <Checkbox>Thurs</Checkbox>
+                    <Checkbox>Fri</Checkbox>
                 </HStack>
             </Stack>
         </Box>
