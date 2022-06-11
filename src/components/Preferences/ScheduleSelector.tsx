@@ -1,25 +1,35 @@
 import React from "react";
 import ScheduleSelector from "react-schedule-selector";
 
-type colorType = { color: string };
-class Timetable extends React.Component<colorType> {
-    state = { schedule: [] };
+type PropsType = { color: string; semester: string };
+class Timetable extends React.Component<PropsType> {
+    state = { schedule: [], data: [], semester: this.props.semester };
     today = new Date();
     first = this.today.getDate() - this.today.getDay() + 1;
-    selectedColorDict = {
+    unselectedColorDict = {
         Blue: "rgba(162, 198, 248, 1)",
         Orange: "rgba(255, 165, 0)",
         Pink: "rgba(255, 182, 193)",
     };
-    unselectedColorDict = {
+    selectedColorDict = {
         Blue: "rgba(89, 154, 242, 1)",
         Orange: "rgba(255, 140, 0)",
         Pink: "rgba(255, 105, 180)",
     };
 
     handleChange = (newSchedule) => {
-        console.log(newSchedule);
-        this.setState({ schedule: newSchedule });
+        const arr = [];
+        newSchedule.forEach((element) => {
+            const time = {
+                day: element.getDay(),
+                time: element.getHours(),
+            };
+            arr.push(time);
+        });
+        this.setState({
+            schedule: newSchedule,
+            data: arr,
+        });
     };
 
     render() {
