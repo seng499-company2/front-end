@@ -21,7 +21,8 @@
         "react-dom": "^17.0.2",
         "react-icons": "^4.4.0",
         "react-schedule-selector": "^3.0.0",
-        "styled-components": "^5.3.5"
+        "styled-components": "^5.3.5",
+        "react-table": "^7.8.0"
     },
     "devDependencies": {
         "@types/node": "^14.6.0",

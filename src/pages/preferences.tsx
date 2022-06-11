@@ -10,6 +10,17 @@ import {
 } from "@chakra-ui/react";
 import Availability from "../components/Preferences/Availability";
 import Timetable from "../components/Preferences/ScheduleSelector";
+import CoursesPreferencesTable from "../components/Preferences/CoursesPreferencesTable";
+import GeneralPreferences from "../components/Preferences/GeneralPreferences";
+
+const courses = [
+    "CSC 225",
+    "CSC 226",
+    "ECE 260",
+    "ECE 310",
+    "SENG 265",
+    "SENG 310",
+];
 
 const Preferences = () => {
     return (
@@ -17,6 +28,8 @@ const Preferences = () => {
             <FormControl>
                 <Heading>Prof Preferences</Heading>
                 <Availability />
+                <GeneralPreferences />
+                <CoursesPreferencesTable courses={courses} />
                 <Tabs variant="soft-rounded" colorScheme="green">
                     <TabList>
                         <Tab>Fall</Tab>
