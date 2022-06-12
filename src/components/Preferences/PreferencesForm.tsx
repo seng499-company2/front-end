@@ -60,7 +60,7 @@ const PreferencesForm = (props) => {
                     <DividerHeading title="General Preferences" />
                     <Availability setFieldValue={setFieldValue} values={values} />
                     <DividerHeading title="Course Preferences" mt={20} />
-                    <CoursesPreferencesTable courses={courses} />
+                    <CoursesPreferencesTable courses={courses} setFieldValue={setFieldValue} />
                     <DividerHeading title="Schedule Preferences" mt={20} />
                     <ScheduleAvailability />
                     <Button mt={5} type="submit">Submit</Button>
