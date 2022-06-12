@@ -14,7 +14,7 @@ enum Difficulty {
 }
 
 const CoursesPreferencesTable = (props) => {
-    const { courses, setFieldValue } = props;
+    const { courses } = props;
 
     const columns = [
         {

@@ -1,12 +1,10 @@
 import {
-    Box,
     Checkbox,
     Select,
     VStack,
     HStack,
     Text,
     Stack,
-    Heading
 } from "@chakra-ui/react";
 import { useState } from "react";
 

@@ -1,65 +1,68 @@
 import {
-    Box,
     Checkbox,
     HStack,
     Select,
-    Stack,
     Text,
     FormControl,
     FormLabel,
     Flex,
     VStack,
-    NumberInput,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
-    NumberInputStepper,
-    NumberInputField,
 } from "@chakra-ui/react";
-import { Field, Form } from "formik";
-import { useState } from "react";
+import { Field } from "formik";
 import NumInput from "./NumInput";
 
 const Availability = (props) => {
     const { setFieldValue, values } = props;
-    const [isReliefDisabled, setIsReliefDisabled] = useState(true);
-    const [isSabbaticalDisabled, setIsSabbaticalDisabled] = useState(true);
 
     return (
-        <>
-            <VStack spacing={10} align='left'>
-                <FormControl >
-                    <FormLabel>Preferred Number of Teaching Courses per Semester</FormLabel>
-                    <HStack align='left'>
-                        <Text alignSelf='center' mb={0}>Fall</Text>
-                        <NumInput
-                            name="numCoursesPerSem.fall"
-                            max={5}
-                            min={0}
-                            onChange={v => setFieldValue("numCoursesPerSem.fall", v)}
-                        />
-                        <Text alignSelf='center' pl={10}>Spring</Text>
-                        <NumInput
-                            name="numCoursesPerSem.spring"
-                            max={5}
-                            min={0}
-                            onChange={v => setFieldValue("numCoursesPerSem.spring", v)}
-                        />
-                        <Text alignSelf='center' pl={10}>Summer</Text>
-                        <NumInput
-                            name="numCoursesPerSem.summer"
-                            max={5}
-                            min={0}
-                            onChange={v => setFieldValue("numCoursesPerSem.summer", v)}
-                        />
-                    </HStack>
-                </FormControl>
-                {/* <FormControl>
+        <VStack spacing={10} align="left">
+            <FormControl>
+                <FormLabel>
+                    Preferred Number of Teaching Courses per Semester
+                </FormLabel>
+                <HStack align="left">
+                    <Text alignSelf="center" mb={0}>
+                        Fall
+                    </Text>
+                    <NumInput
+                        name="numCoursesPerSem.fall"
+                        max={5}
+                        min={0}
+                        onChange={(v) =>
+                            setFieldValue("numCoursesPerSem.fall", v)
+                        }
+                    />
+                    <Text alignSelf="center" pl={10}>
+                        Spring
+                    </Text>
+                    <NumInput
+                        name="numCoursesPerSem.spring"
+                        max={5}
+                        min={0}
+                        onChange={(v) =>
+                            setFieldValue("numCoursesPerSem.spring", v)
+                        }
+                    />
+                    <Text alignSelf="center" pl={10}>
+                        Summer
+                    </Text>
+                    <NumInput
+                        name="numCoursesPerSem.summer"
+                        max={5}
+                        min={0}
+                        onChange={(v) =>
+                            setFieldValue("numCoursesPerSem.summer", v)
+                        }
+                    />
+                </HStack>
+            </FormControl>
+            {/* <FormControl>
                     <FormLabel>Select Relief Preferences</FormLabel>
                     <Field as={Checkbox} name="relief.value">
                         Taking relief
                     </Field>
                 </FormControl> */}
-                {/* <FormControl>
+            {/* <FormControl>
                     <HStack>
                         <FormLabel>If yes, How many courses are you teaching?</FormLabel>
                         <Field
@@ -77,13 +80,15 @@ const Availability = (props) => {
                         </Field>
                     </HStack>
                 </FormControl> */}
-                <FormControl>
-                    <FormLabel>Sabbatical Preferences</FormLabel>
-                    <Field as={Checkbox} name="sabbatical.value">
-                        Taking Sabbatical
-                    </Field>
+            <FormControl>
+                <FormLabel>Sabbatical Preferences</FormLabel>
+                <Field as={Checkbox} name="sabbatical.value">
+                    Taking Sabbatical
+                </Field>
 
-                    {values.sabbatical.value && (<><Text mt={5}>Sabbatical Length</Text>
+                {values.sabbatical.value && (
+                    <>
+                        <Text mt={5}>Sabbatical Length</Text>
                         <Field
                             as={Select}
                             name="sabbatical.duration"
@@ -103,40 +108,42 @@ const Availability = (props) => {
                             <option value="january">January</option>
                             <option value="may">May</option>
                             <option value="september">September</option>
-                        </Field></>)}
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Preferred Number of Teaching Days</FormLabel>
-                    <NumInput name="teachingDaysPerWeek.value"
-                        max={5}
-                        min={0}
-                        onChange={v => setFieldValue("teachingDaysPerWeek.value", v)} />
-                </FormControl>
-                <FormControl>
-                    <FormLabel>Preferred Teaching Days</FormLabel>
-                    <Flex direction='column'>
-
-                        <Field as={Checkbox} name="preferredDays.monday">
-                            Monday
                         </Field>
-                        <Field as={Checkbox} name="preferredDays.tuesday">
-                            Tuesday
-                        </Field>
-                        <Field as={Checkbox} name="preferredDays.wednesday">
-                            Wednesday
-                        </Field>
-                        <Field as={Checkbox} name="preferredDays.thursday">
-                            Thursday
-                        </Field>
-                        <Field as={Checkbox} name="preferredDays.friday">
-                            Friday
-                        </Field>
-                    </Flex>
-
-                </FormControl>
-            </VStack>
-
-        </>
+                    </>
+                )}
+            </FormControl>
+            <FormControl>
+                <FormLabel>Preferred Number of Teaching Days</FormLabel>
+                <NumInput
+                    name="teachingDaysPerWeek.value"
+                    max={5}
+                    min={0}
+                    onChange={(v) =>
+                        setFieldValue("teachingDaysPerWeek.value", v)
+                    }
+                />
+            </FormControl>
+            <FormControl>
+                <FormLabel>Preferred Teaching Days</FormLabel>
+                <Flex direction="column">
+                    <Field as={Checkbox} name="preferredDays.monday">
+                        Monday
+                    </Field>
+                    <Field as={Checkbox} name="preferredDays.tuesday">
+                        Tuesday
+                    </Field>
+                    <Field as={Checkbox} name="preferredDays.wednesday">
+                        Wednesday
+                    </Field>
+                    <Field as={Checkbox} name="preferredDays.thursday">
+                        Thursday
+                    </Field>
+                    <Field as={Checkbox} name="preferredDays.friday">
+                        Friday
+                    </Field>
+                </Flex>
+            </FormControl>
+        </VStack>
     );
 };
 

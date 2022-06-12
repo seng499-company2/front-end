@@ -1,9 +1,4 @@
-import {
-    Button,
-    Heading,
-    Divider,
-    Flex
-} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import Availability from "./Availability";
 import CoursesPreferencesTable from "./CoursesPreferencesTable";
@@ -20,7 +15,7 @@ const courses = [
 ];
 
 const PreferencesForm = (props) => {
-    const { handleSubmit } = props;
+    //const { handleSubmit } = props;
 
     return (
         <Formik
@@ -28,7 +23,7 @@ const PreferencesForm = (props) => {
                 numCoursesPerSem: {
                     fall: 0,
                     spring: 0,
-                    summer: 0
+                    summer: 0,
                 },
                 // relief: {
                 //     value: false,
@@ -37,7 +32,7 @@ const PreferencesForm = (props) => {
                 sabbatical: {
                     value: false,
                     duration: 0,
-                    fromMonth: 'january'
+                    fromMonth: "january",
                 },
                 teachingDaysPerWeek: {
                     value: 0,
@@ -47,8 +42,8 @@ const PreferencesForm = (props) => {
                     tuesday: false,
                     wednesday: false,
                     thursday: false,
-                    friday: false
-                }
+                    friday: false,
+                },
             }}
             onSubmit={(values) => {
                 //handleSubmit(values);
@@ -58,12 +53,20 @@ const PreferencesForm = (props) => {
             {({ errors, touched, values, setFieldValue }) => (
                 <Form id="preferences-form">
                     <DividerHeading title="General Preferences" />
-                    <Availability setFieldValue={setFieldValue} values={values} />
+                    <Availability
+                        setFieldValue={setFieldValue}
+                        values={values}
+                    />
                     <DividerHeading title="Course Preferences" mt={20} />
-                    <CoursesPreferencesTable courses={courses} setFieldValue={setFieldValue} />
+                    <CoursesPreferencesTable
+                        courses={courses}
+                        setFieldValue={setFieldValue}
+                    />
                     <DividerHeading title="Schedule Preferences" mt={20} />
                     <ScheduleAvailability />
-                    <Button mt={5} type="submit">Submit</Button>
+                    <Button mt={5} type="submit">
+                        Submit
+                    </Button>
                 </Form>
             )}
         </Formik>
