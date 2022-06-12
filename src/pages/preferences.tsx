@@ -1,6 +1,15 @@
-import { Box, Heading } from "@chakra-ui/react";
-
+import {
+    FormControl,
+    Box,
+    Heading,
+    Tabs,
+    TabPanels,
+    TabPanel,
+    TabList,
+    Tab,
+} from "@chakra-ui/react";
 import Availability from "../components/Preferences/Availability";
+import Timetable from "../components/Preferences/ScheduleSelector";
 import CoursesPreferencesTable from "../components/Preferences/CoursesPreferencesTable";
 import GeneralPreferences from "../components/Preferences/GeneralPreferences";
 
@@ -16,10 +25,30 @@ const courses = [
 const Preferences = () => {
     return (
         <Box pt="1rem">
-            <Heading>Prof Preferences</Heading>
-            <Availability />
-            <GeneralPreferences />
-            <CoursesPreferencesTable courses={courses} />
+            <FormControl>
+                <Heading>Prof Preferences</Heading>
+                <Availability />
+                <GeneralPreferences />
+                <CoursesPreferencesTable courses={courses} />
+                <Tabs variant="soft-rounded" colorScheme="green">
+                    <TabList>
+                        <Tab>Fall</Tab>
+                        <Tab>Summer</Tab>
+                        <Tab>Spring</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <Timetable color="Blue" semester="Fall" />
+                        </TabPanel>
+                        <TabPanel>
+                            <Timetable color="Orange" semester="Summer" />
+                        </TabPanel>
+                        <TabPanel>
+                            <Timetable color="Pink" semester="Spring" />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+            </FormControl>
         </Box>
     );
 };
