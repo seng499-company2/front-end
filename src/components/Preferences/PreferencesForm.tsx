@@ -25,35 +25,44 @@ const PreferencesForm = (props) => {
     return (
         <Formik
             initialValues={{
-                nonTeachingSem: {
-                    fall: false,
-                    spring: false,
-                    summer: false
+                numCoursesPerSem: {
+                    fall: 0,
+                    spring: 0,
+                    summer: 0
                 },
-                relief: {
-                    value: false,
-                    numCourses: 0,
-                },
+                // relief: {
+                //     value: false,
+                //     numCourses: 0,
+                // },
                 sabbatical: {
                     value: false,
                     duration: 0,
                     fromMonth: 'january'
                 },
-                courses: []
+                teachingDaysPerWeek: {
+                    value: 0,
+                },
+                preferredDays: {
+                    monday: false,
+                    tuesday: false,
+                    wednesday: false,
+                    thursday: false,
+                    friday: false
+                }
             }}
             onSubmit={(values) => {
                 //handleSubmit(values);
                 alert(JSON.stringify(values, null, 2));
             }}
         >
-            {({ errors, touched }) => (
+            {({ errors, touched, values, setFieldValue }) => (
                 <Form id="preferences-form">
                     <DividerHeading title="General Preferences" />
-                    <Availability />
+                    <Availability setFieldValue={setFieldValue} values={values} />
                     <DividerHeading title="Course Preferences" mt={20} />
-                    <CoursesPreferencesTable courses={courses} />
+                    {/* <CoursesPreferencesTable courses={courses} /> */}
                     <DividerHeading title="Schedule Preferences" mt={20} />
-                    <ScheduleAvailability />
+                    {/* <ScheduleAvailability /> */}
                     <Button mt={5} type="submit">Submit</Button>
                 </Form>
             )}
