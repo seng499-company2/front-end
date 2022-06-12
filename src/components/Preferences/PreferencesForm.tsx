@@ -7,6 +7,7 @@ import {
 import { Form, Formik } from "formik";
 import Availability from "./Availability";
 import CoursesPreferencesTable from "./CoursesPreferencesTable";
+import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 
 const courses = [
@@ -49,9 +50,10 @@ const PreferencesForm = (props) => {
                 <Form id="preferences-form">
                     <DividerHeading title="General Preferences" />
                     <Availability />
-                    <Flex mt={20} />
-                    <DividerHeading title="Course Preferences" />
+                    <DividerHeading title="Course Preferences" mt={20} />
                     <CoursesPreferencesTable courses={courses} />
+                    <DividerHeading title="Schedule Preferences" mt={20} />
+                    <ScheduleAvailability />
                     <Button mt={5} type="submit">Submit</Button>
                 </Form>
             )}

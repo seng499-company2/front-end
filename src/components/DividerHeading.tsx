@@ -4,10 +4,10 @@ import {
 } from "@chakra-ui/react";
 
 const DividerHeading = (props) => {
-    const { title } = props;
+    const { title, mt } = props;
     return (
         <>
-            <Heading as='h3' size='md' mb={1}>{title}</Heading>
+            <Heading as='h3' size='md' mb={1} mt={mt}>{title}</Heading>
             <Divider mb={5} />
         </>
     );
