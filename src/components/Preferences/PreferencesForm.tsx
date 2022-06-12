@@ -1,15 +1,22 @@
 import {
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Input,
-    VStack,
-    Checkbox,
     Button,
     Heading,
+    Divider,
+    Flex
 } from "@chakra-ui/react";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import Availability from "./Availability";
+import CoursesPreferencesTable from "./CoursesPreferencesTable";
+import DividerHeading from "../DividerHeading";
+
+const courses = [
+    "CSC 225",
+    "CSC 226",
+    "ECE 260",
+    "ECE 310",
+    "SENG 265",
+    "SENG 310",
+];
 
 const PreferencesForm = (props) => {
     const { handleSubmit } = props;
@@ -30,9 +37,8 @@ const PreferencesForm = (props) => {
                     value: false,
                     duration: 0,
                     fromMonth: 'january'
-                }
-
-
+                },
+                courses: []
             }}
             onSubmit={(values) => {
                 //handleSubmit(values);
@@ -41,8 +47,11 @@ const PreferencesForm = (props) => {
         >
             {({ errors, touched }) => (
                 <Form id="preferences-form">
-                    <Heading as='h3' size='md' mb={5}>General Preferences</Heading>
+                    <DividerHeading title="General Preferences" />
                     <Availability />
+                    <Flex mt={20} />
+                    <DividerHeading title="Course Preferences" />
+                    <CoursesPreferencesTable courses={courses} />
                     <Button mt={5} type="submit">Submit</Button>
                 </Form>
             )}
