@@ -71,7 +71,7 @@ const C2Table = (props) => {
                                     {...column.getHeaderProps(
                                         column.getSortByToggleProps()
                                     )}
-                                    key={column.accessor + "-headers"}
+                                    key={column.Header}
                                 >
                                     <Flex alignItems="center">
                                         {column.render("Header")}
@@ -100,8 +100,8 @@ const C2Table = (props) => {
                     ))}
                     {/*Add filters*/}
                     <Tr>
-                        {columns.map((column, i) => (
-                            <Td key={column.accessor + "-filter"}>
+                        {columns.map((column) => (
+                            <Td key={column.Header + "-filter"}>
                                 {column.disableFilterBy ? (
                                     ""
                                 ) : (
