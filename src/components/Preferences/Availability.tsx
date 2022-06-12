@@ -31,13 +31,7 @@ const Availability = () => {
                             If yes, enter how many courses you will be teaching
                             this year:
                         </Text>
-                        <Select isDisabled={isReliefDisabled}>
-                            <option value="option5">5 Courses</option>
-                            <option value="option4">4 Courses</option>
-                            <option value="option3">3 Courses</option>
-                            <option value="option2">2 Courses</option>
-                            <option value="option1">1 Course</option>
-                        </Select>
+                        <NumInput isDisabled={isReliefDisabled}/>
                     </HStack>
                 </Stack>
                 <Stack spacing={1} direction="column">
