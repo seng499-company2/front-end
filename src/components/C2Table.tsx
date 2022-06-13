@@ -61,6 +61,36 @@ const C2Table = (props) => {
             </Table>
             <Table {...getTableProps()} variant="striped">
                 <Thead>
+                    <Tr>
+                        {columns.map((column) => (
+                            <Td key={column.Header + "-filter"}>
+                                {column.disableFilterBy ? (
+                                    ""
+                                ) : (
+                                    <InputGroup>
+                                        <Input
+                                            variant="filled"
+                                            isDisabled={column.disableFilterBy}
+                                            onChange={(event) =>
+                                                onFilter(
+                                                    column.accessor,
+                                                    event.target.value
+                                                )
+                                            }
+                                        />
+                                        <InputLeftElement>
+                                            <Icon
+                                                as={FaFilter}
+                                                ml={1}
+                                                w={4}
+                                                h={3}
+                                            />
+                                        </InputLeftElement>
+                                    </InputGroup>
+                                )}
+                            </Td>
+                        ))}
+                    </Tr>
                     {headerGroups.map((headerGroup, i) => (
                         <Tr {...headerGroup.getHeaderGroupProps()} key={i}>
                             {headerGroup.headers.map((column) => (
@@ -99,36 +129,7 @@ const C2Table = (props) => {
                         </Tr>
                     ))}
                     {/*Add filters*/}
-                    <Tr>
-                        {columns.map((column) => (
-                            <Td key={column.Header + "-filter"}>
-                                {column.disableFilterBy ? (
-                                    ""
-                                ) : (
-                                    <InputGroup>
-                                        <Input
-                                            variant="filled"
-                                            isDisabled={column.disableFilterBy}
-                                            onChange={(event) =>
-                                                onFilter(
-                                                    column.accessor,
-                                                    event.target.value
-                                                )
-                                            }
-                                        />
-                                        <InputLeftElement>
-                                            <Icon
-                                                as={FaFilter}
-                                                ml={1}
-                                                w={4}
-                                                h={3}
-                                            />
-                                        </InputLeftElement>
-                                    </InputGroup>
-                                )}
-                            </Td>
-                        ))}
-                    </Tr>
+
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
                     {pageRows.map((row, i) => {
