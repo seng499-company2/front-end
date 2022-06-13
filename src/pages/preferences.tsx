@@ -1,11 +1,22 @@
-import { VStack, Heading } from "@chakra-ui/react";
-import GeneralPreferences from "../components/Preferences/GeneralPreferences";
+import { Box, Heading, VStack } from "@chakra-ui/react";
+import PreferencesForm from "../components/Preferences/PreferencesForm";
 
 const Preferences = () => {
     return (
-        <VStack spacing={5} align="flex-start">
-            <Heading>Prof Preferences</Heading>
-            <GeneralPreferences />
+        <VStack width="50%">
+            <Heading mr="auto" mb={5}>
+                Professor Preferences
+            </Heading>
+            <Box
+                width="100%"
+                pt="1rem"
+                bg="white"
+                padding={5}
+                borderRadius={10}
+                boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+            >
+                <PreferencesForm />
+            </Box>
         </VStack>
     );
 };
