@@ -1,72 +1,149 @@
-import { Box, Checkbox, HStack, Select, Stack, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import NumInput from "./NumInput";
+import {
+    Checkbox,
+    HStack,
+    Select,
+    Text,
+    FormControl,
+    FormLabel,
+    Flex,
+    VStack,
+} from "@chakra-ui/react";
+import { Field } from "formik";
+import NumInput from "../NumInput";
 
-const Availability = () => {
-    const [isReliefDisabled, setIsReliefDisabled] = useState(true);
-    const [isSabbaticalDisabled, setIsSabbaticalDisabled] = useState(true);
+const Availability = (props) => {
+    const { setFieldValue, values } = props;
 
     return (
-        <Box>
-            <Stack spacing={10} direction="column">
-                <HStack spacing={3}>
-                    <Text>
-                        Please select a number of desired courses per semester:
+        <VStack spacing={10} align="left">
+            <FormControl>
+                <FormLabel>
+                    Preferred Number of Teaching Courses per Semester
+                </FormLabel>
+                <HStack align="left">
+                    <Text alignSelf="center" mb={0}>
+                        Fall
                     </Text>
-                    <Text>Fall</Text>
-                    <NumInput id="fall" />
-                    <Text>Spring</Text>
-                    <NumInput id="Spring" />
-                    <Text>Summer</Text>
-                    <NumInput id="Summer" />
-                </HStack>
-                <Stack spacing={1} direction="column">
-                    <Checkbox
-                        onChange={() => setIsReliefDisabled(!isReliefDisabled)}
-                    >
-                        I am taking relief
-                    </Checkbox>
-                    <HStack>
-                        <Text minW="450px">
-                            If yes, enter how many courses you will be teaching
-                            this year:
-                        </Text>
-                        <NumInput isDisabled={isReliefDisabled}/>
-                    </HStack>
-                </Stack>
-                <Stack spacing={1} direction="column">
-                    <Checkbox
-                        onChange={(e) =>
-                            setIsSabbaticalDisabled(!isSabbaticalDisabled)
+                    <NumInput
+                        name="numCoursesPerSem.fall"
+                        max={5}
+                        min={0}
+                        onChange={(v) =>
+                            setFieldValue("numCoursesPerSem.fall", v)
                         }
-                    >
-                        I am on sabbatical
-                    </Checkbox>
-                    <HStack spacing={5}>
-                        <Text minW="180px"> If yes, enter the duration:</Text>
-                        <Select isDisabled={isSabbaticalDisabled}>
-                            <option value="option1">half leave</option>
-                            <option value="option2">full leave</option>
-                        </Select>
-                        <Text>from</Text>
-                        <Select isDisabled={isSabbaticalDisabled}>
-                            <option value="option1">January</option>
-                            <option value="option2">May</option>
-                            <option value="option3">September</option>
-                        </Select>
-                    </HStack>
-                </Stack>
-                <HStack spacing={5}>
-                    <Text>How many days a week would you like to teach?</Text>
-                    <NumInput id="days" />
-                    <Checkbox>Mon</Checkbox>
-                    <Checkbox>Tues</Checkbox>
-                    <Checkbox>Wed</Checkbox>
-                    <Checkbox>Thurs</Checkbox>
-                    <Checkbox>Fri</Checkbox>
+                    />
+                    <Text alignSelf="center" pl={10}>
+                        Spring
+                    </Text>
+                    <NumInput
+                        name="numCoursesPerSem.spring"
+                        max={5}
+                        min={0}
+                        onChange={(v) =>
+                            setFieldValue("numCoursesPerSem.spring", v)
+                        }
+                    />
+                    <Text alignSelf="center" pl={10}>
+                        Summer
+                    </Text>
+                    <NumInput
+                        name="numCoursesPerSem.summer"
+                        max={5}
+                        min={0}
+                        onChange={(v) =>
+                            setFieldValue("numCoursesPerSem.summer", v)
+                        }
+                    />
                 </HStack>
-            </Stack>
-        </Box>
+            </FormControl>
+            {/* <FormControl>
+                    <FormLabel>Select Relief Preferences</FormLabel>
+                    <Field as={Checkbox} name="relief.value">
+                        Taking relief
+                    </Field>
+                </FormControl> */}
+            {/* <FormControl>
+                    <HStack>
+                        <FormLabel>If yes, How many courses are you teaching?</FormLabel>
+                        <Field
+                            as={Select}
+                            name="relief.numCourses"
+                            type="name"
+                            colorScheme="primary"
+                            variant="filled"
+                        >
+                            <option value='5'>5 Courses</option>
+                            <option value="4">4 Courses</option>
+                            <option value="3">3 Courses</option>
+                            <option value="2">2 Courses</option>
+                            <option value="1">1 Course</option>
+                        </Field>
+                    </HStack>
+                </FormControl> */}
+            <FormControl>
+                <FormLabel>Sabbatical Preferences</FormLabel>
+                <Field as={Checkbox} name="sabbatical.value">
+                    Taking Sabbatical
+                </Field>
+
+                {values.sabbatical.value && (
+                    <>
+                        <Text mt={5}>Sabbatical Length</Text>
+                        <Field
+                            as={Select}
+                            name="sabbatical.duration"
+                            colorScheme="primary"
+                            variant="filled"
+                        >
+                            <option value="half">Half leave</option>
+                            <option value="full">Full leave</option>
+                        </Field>
+                        <Text mt={5}>Sabbatical Start Month</Text>
+                        <Field
+                            as={Select}
+                            name="sabbatical.fromMonth"
+                            colorScheme="primary"
+                            variant="filled"
+                        >
+                            <option value="january">January</option>
+                            <option value="may">May</option>
+                            <option value="september">September</option>
+                        </Field>
+                    </>
+                )}
+            </FormControl>
+            <FormControl>
+                <FormLabel>Preferred Number of Teaching Days</FormLabel>
+                <NumInput
+                    name="teachingDaysPerWeek.value"
+                    max={5}
+                    min={0}
+                    onChange={(v) =>
+                        setFieldValue("teachingDaysPerWeek.value", v)
+                    }
+                />
+            </FormControl>
+            <FormControl>
+                <FormLabel>Preferred Teaching Days</FormLabel>
+                <Flex direction="column">
+                    <Field as={Checkbox} name="preferredDays.monday">
+                        Monday
+                    </Field>
+                    <Field as={Checkbox} name="preferredDays.tuesday">
+                        Tuesday
+                    </Field>
+                    <Field as={Checkbox} name="preferredDays.wednesday">
+                        Wednesday
+                    </Field>
+                    <Field as={Checkbox} name="preferredDays.thursday">
+                        Thursday
+                    </Field>
+                    <Field as={Checkbox} name="preferredDays.friday">
+                        Friday
+                    </Field>
+                </Flex>
+            </FormControl>
+        </VStack>
     );
 };
 

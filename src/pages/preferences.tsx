@@ -1,55 +1,23 @@
-import {
-    FormControl,
-    Box,
-    Heading,
-    Tabs,
-    TabPanels,
-    TabPanel,
-    TabList,
-    Tab,
-} from "@chakra-ui/react";
-import Availability from "../components/Preferences/Availability";
-import Timetable from "../components/Preferences/ScheduleSelector";
-import CoursesPreferencesTable from "../components/Preferences/CoursesPreferencesTable";
-import GeneralPreferences from "../components/Preferences/GeneralPreferences";
-
-const courses = [
-    "CSC 225",
-    "CSC 226",
-    "ECE 260",
-    "ECE 310",
-    "SENG 265",
-    "SENG 310",
-];
+import { Box, Heading, VStack } from "@chakra-ui/react";
+import PreferencesForm from "../components/Preferences/PreferencesForm";
 
 const Preferences = () => {
     return (
-        <Box pt="1rem">
-            <FormControl>
-                <Heading>Prof Preferences</Heading>
-                <Availability />
-                <GeneralPreferences />
-                <CoursesPreferencesTable courses={courses} />
-                <Tabs variant="soft-rounded" colorScheme="green">
-                    <TabList>
-                        <Tab>Fall</Tab>
-                        <Tab>Summer</Tab>
-                        <Tab>Spring</Tab>
-                    </TabList>
-                    <TabPanels>
-                        <TabPanel>
-                            <Timetable color="Blue" semester="Fall" />
-                        </TabPanel>
-                        <TabPanel>
-                            <Timetable color="Orange" semester="Summer" />
-                        </TabPanel>
-                        <TabPanel>
-                            <Timetable color="Pink" semester="Spring" />
-                        </TabPanel>
-                    </TabPanels>
-                </Tabs>
-            </FormControl>
-        </Box>
+        <VStack width="50%">
+            <Heading mr="auto" mb={5}>
+                Professor Preferences
+            </Heading>
+            <Box
+                width="100%"
+                pt="1rem"
+                bg="white"
+                padding={5}
+                borderRadius={10}
+                boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+            >
+                <PreferencesForm />
+            </Box>
+        </VStack>
     );
 };
 

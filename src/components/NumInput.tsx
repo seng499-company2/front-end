@@ -7,18 +7,18 @@ import {
 } from "@chakra-ui/react";
 
 const NumInput = (props) => {
-    const { id, isDisabled } = props;
+    const { id, isDisabled, min, max, onChange } = props;
     return (
         <NumberInput
             allowMouseWheel
-            defaultValue={0}
-            max={5}
-            min={0}
+            max={max}
+            min={min}
             keepWithinRange={true}
-            clampValueOnBlur={true}
-            w="60px"
             id={id}
             isDisabled={isDisabled}
+            onChange={onChange}
+            defaultValue={0}
+            width={20}
         >
             <NumberInputField />
             <NumberInputStepper>
