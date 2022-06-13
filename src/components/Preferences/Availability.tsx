@@ -9,7 +9,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { Field } from "formik";
-import NumInput from "./NumInput";
+import NumInput from "../NumInput";
 
 const Availability = (props) => {
     const { setFieldValue, values } = props;
