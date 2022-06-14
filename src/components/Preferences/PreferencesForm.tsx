@@ -1,21 +1,22 @@
 import { Button } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import Availability from "./Availability";
-import CoursesPreferencesTable from "./CoursesPreferencesTable";
+import CoursesPreferencesTable, {
+    Difficulty,
+    Willingness,
+} from "./CoursesPreferencesTable";
 import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 
-const courses = [
-    "CSC 225",
-    "CSC 226",
-    "ECE 260",
-    "ECE 310",
-    "SENG 265",
-    "SENG 310",
-];
-
 const PreferencesForm = (props) => {
     //const { handleSubmit } = props;
+    const coursePreferencesInit = getCourses().reduce((obj, course) => {
+        obj[course] = {
+            willingness: Willingness.willing,
+            difficulty: Difficulty.moderate,
+        };
+        return obj;
+    }, {});
 
     return (
         <Formik
@@ -44,6 +45,7 @@ const PreferencesForm = (props) => {
                     thursday: false,
                     friday: false,
                 },
+                coursePreferences: coursePreferencesInit,
             }}
             onSubmit={(values) => {
                 //handleSubmit(values);
@@ -59,7 +61,7 @@ const PreferencesForm = (props) => {
                     />
                     <DividerHeading title="Course Preferences" mt={20} />
                     <CoursesPreferencesTable
-                        courses={courses}
+                        values={values}
                         setFieldValue={setFieldValue}
                     />
                     <DividerHeading title="Schedule Preferences" mt={20} />
@@ -71,6 +73,10 @@ const PreferencesForm = (props) => {
             )}
         </Formik>
     );
+};
+
+const getCourses = () => {
+    return ["CSC 225", "CSC 226", "ECE 260", "ECE 310", "SENG 265", "SENG 310"];
 };
 
 export default PreferencesForm;
