@@ -34,17 +34,30 @@ const Table = (props) => {
             return;
         }
 
+        const { accessor, filter } = column;
+
+        // process the filter value
+
         val = val.toLowerCase();
+
+        if (["true", "false"].includes(val)) {
+            // convert to boolean
+            val = val === "true";
+        }
 
         if (
             data[0] &&
-            column in data[0] &&
-            typeof data[0][column] !== "object"
+            accessor in data[0] &&
+            typeof data[0][accessor] !== "object"
         ) {
             setData(
-                entries.filter((e) => e[column].toLowerCase().includes(val))
+                entries.filter((e) => e[accessor].toLowerCase().includes(val))
             );
-            return;
+        } else if (typeof data[0][accessor] === "object") {
+            // assume it's a react component
+            setData(
+                entries.filter((e) => e[accessor].props[filter.key] === val)
+            );
         }
     };
 
@@ -71,7 +84,10 @@ const Table = (props) => {
                         ))}
                     </Tr>
                     {headerGroups.map((headerGroup, i) => (
-                        <Tr {...headerGroup.getHeaderGroupProps()} key={i}>
+                        <Tr
+                            {...headerGroup.getHeaderGroupProps()}
+                            key={`${headerGroup}-${i}`}
+                        >
                             {headerGroup.headers.map((column) => (
                                 // Add the sorting props to control sorting. For this example
                                 // we can add them into the header props
@@ -80,13 +96,13 @@ const Table = (props) => {
                                     {...column.getHeaderProps(
                                         column.getSortByToggleProps()
                                     )}
-                                    key={column.Header}
+                                    key={`${column.Header.toString()}-${i}`}
                                 >
                                     <Flex alignItems="center">
                                         {column.render("Header")}
                                         {/* Add a sort direction indicator */}
-                                        {column.isSorted ? (
-                                            column.isSortedDesc ? (
+                                        {column.isSorted &&
+                                            (column.isSortedDesc ? (
                                                 <ChevronDownIcon
                                                     ml={1}
                                                     w={4}
@@ -98,25 +114,27 @@ const Table = (props) => {
                                                     w={4}
                                                     h={4}
                                                 />
-                                            )
-                                        ) : (
-                                            ""
-                                        )}
+                                            ))}
                                     </Flex>
                                 </Th>
                             ))}
                         </Tr>
                     ))}
-                    {/*Add filters*/}
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
-                    {pageRows.map((row, i) => {
+                    {pageRows.map((row, rowIdx) => {
                         prepareRow(row);
                         return (
-                            <Tr {...row.getRowProps()} key={i}>
-                                {row.cells.map((cell, i) => {
+                            <Tr
+                                {...row.getRowProps()}
+                                key={`table-row-${rowIdx}`}
+                            >
+                                {row.cells.map((cell, cellIdx) => {
                                     return (
-                                        <Td {...cell.getCellProps()} key={i}>
+                                        <Td
+                                            {...cell.getCellProps()}
+                                            key={`table-row-${rowIdx}-${cellIdx}`}
+                                        >
                                             {cell.render("Cell")}
                                         </Td>
                                     );

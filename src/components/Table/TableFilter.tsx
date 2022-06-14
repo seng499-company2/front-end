@@ -11,7 +11,7 @@ export const TableFilter = ({ column, onFilter }) => {
     const placeholder = column.Header;
 
     const onChange = (e) => {
-        onFilter(column.accessor, e.target.value);
+        onFilter(column, e.target.value);
     };
 
     return (
@@ -33,8 +33,13 @@ export const TableFilter = ({ column, onFilter }) => {
                     placeholder={placeholder}
                     onChange={onChange}
                 >
-                    {column.filter.options.map((option: string) => (
-                        <option key={option}>{option}</option>
+                    {column.filter.options.map(({ label, value }) => (
+                        <option
+                            key={`${column.Header}-filter-${label}`}
+                            value={value}
+                        >
+                            {label}
+                        </option>
                     ))}
                 </Select>
             )}
