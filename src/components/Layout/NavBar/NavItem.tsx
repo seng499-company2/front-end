@@ -33,25 +33,13 @@ export const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
                 cursor="pointer"
                 _hover={{
                     bg: useColorModeValue("primary.200", "primary.300"),
-                    color: useColorModeValue("background.main", "gray.800"),
+                    color: "gray.800",
                 }}
                 bg={pathname === href ? "primary.500" : undefined}
                 color={pathname === href ? "white" : undefined}
                 {...rest}
             >
-                {icon && (
-                    <Icon
-                        mr="4"
-                        fontSize="16"
-                        _groupHover={{
-                            color: useColorModeValue(
-                                "background.main",
-                                "gray.800"
-                            ),
-                        }}
-                        as={icon}
-                    />
-                )}
+                {icon && <Icon mr="4" fontSize="16" as={icon} />}
                 {children}
             </Flex>
         </Link>
