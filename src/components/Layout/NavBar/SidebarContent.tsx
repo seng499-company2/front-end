@@ -3,10 +3,7 @@ import {
     BoxProps,
     CloseButton,
     Flex,
-    Select,
     useColorModeValue,
-    Editable,
-    Heading,
 } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import {
