@@ -1,21 +1,19 @@
 import {
     Box,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
 } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 
-import { CompleteStatusBadge } from "../components/CompleteStatusBadge";
 import AdminLayout from "../components/Layout/AdminLayout";
+import ProfessorsTable from "../components/Professors/ProfessorsTable";
 import SampleSidesheet from "../components/Sample/SampleSidesheet";
 
 const Professors = ({ professors }) => {
     const [open, setOpen] = useState(false);
+
+    const openDetails = (prof) => {
+        // can use prof values here (from backend)
+        setOpen(!open);
+    }
 
     const handleSubmit = (values) => {
         alert(JSON.stringify(values, null, 2));
@@ -24,7 +22,7 @@ const Professors = ({ professors }) => {
 
     return (
         <Box pt="1rem">
-            <TableContainer>
+            {/* <TableContainer>
                 <Table variant="striped">
                     <Thead>
                         <Tr>
@@ -49,7 +47,8 @@ const Professors = ({ professors }) => {
                         ))}
                     </Tbody>
                 </Table>
-            </TableContainer>
+            </TableContainer> */}
+            <ProfessorsTable professors={professors} openDetails={openDetails}/>
             <SampleSidesheet
                 isOpen={open}
                 onClose={() => setOpen(false)}
@@ -61,9 +60,9 @@ const Professors = ({ professors }) => {
 
 export const getServerSideProps = async () => {
     const professors = [
-        { id: 1, name: "Dave Dave", complete: true },
-        { id: 2, name: "Owen Wilson", complete: false },
-        { id: 3, name: "Gordo Ramso", complete: true },
+        { id: 1, name: "Dave Dave", type: "Teaching", complete: true },
+        { id: 2, name: "Owen Wilson", type: "Research", complete: false },
+        { id: 3, name: "Gordo Ramso", type: "Research", complete: true },
     ];
 
     // get from api
