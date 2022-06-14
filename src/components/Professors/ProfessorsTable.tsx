@@ -41,7 +41,6 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                                 variant="ghost"
                                 onClick={() => openDetails(prof)}
                             >
-                                {" "}
                                 <ChevronRightIcon ml={1} w={5} h={5} />{" "}
                             </Button>
                         ),
