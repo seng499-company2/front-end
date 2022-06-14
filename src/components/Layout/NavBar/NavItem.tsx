@@ -36,7 +36,7 @@ export const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
                     color: useColorModeValue("background.main", "gray.800"),
                 }}
                 bg={pathname === href ? "primary.500" : undefined}
-                color={pathname === href ? "primary.100" : undefined}
+                color={pathname === href ? "white" : undefined}
                 {...rest}
             >
                 {icon && (
