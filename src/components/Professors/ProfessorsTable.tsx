@@ -2,12 +2,12 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import { useMemo } from "react";
 
-import C2Table from "../C2Table";
+import Table from "../Table";
 import { CompleteStatusBadge } from "../CompleteStatusBadge";
 
 const ProfessorsTable = ({ professors, openDetails }) => {
     return (
-        <C2Table
+        <Table
             columns={[
                 {
                     Header: "Name",

@@ -1,25 +1,20 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
     FormControl,
-    Table,
+    Table as ChakraTable,
     Thead,
     Tbody,
     Tr,
     Th,
     Td,
     Flex,
-    Icon,
-    Input,
-    InputGroup,
-    InputLeftElement,
-    Select,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { FaFilter } from "react-icons/fa";
 import { useTable, useSortBy } from "react-table";
+
 import TableFilter from "./TableFilter";
 
-const C2Table = (props) => {
+const Table = (props) => {
     const { columns, entries } = props;
 
     const [data, setData] = useState(entries);
@@ -58,10 +53,10 @@ const C2Table = (props) => {
 
     return (
         <FormControl>
-            <Table {...getTableProps()}>
+            <ChakraTable {...getTableProps()}>
                 <Tbody {...getTableBodyProps()}></Tbody>
-            </Table>
-            <Table {...getTableProps()} variant="striped">
+            </ChakraTable>
+            <ChakraTable {...getTableProps()} variant="striped">
                 <Thead>
                     <Tr>
                         {columns.map((column) => (
@@ -130,9 +125,9 @@ const C2Table = (props) => {
                         );
                     })}
                 </Tbody>
-            </Table>
+            </ChakraTable>
         </FormControl>
     );
 };
 
-export default C2Table;
+export default Table;
