@@ -1,6 +1,4 @@
-import {
-    Box,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 
 import AdminLayout from "../components/Layout/AdminLayout";
@@ -13,7 +11,7 @@ const Professors = ({ professors }) => {
     const openDetails = (prof) => {
         // can use prof values here (from backend)
         setOpen(!open);
-    }
+    };
 
     const handleSubmit = (values) => {
         alert(JSON.stringify(values, null, 2));
@@ -22,7 +20,10 @@ const Professors = ({ professors }) => {
 
     return (
         <Box pt="1rem">
-            <ProfessorsTable professors={professors} openDetails={openDetails}/>
+            <ProfessorsTable
+                professors={professors}
+                openDetails={openDetails}
+            />
             <SampleSidesheet
                 isOpen={open}
                 onClose={() => setOpen(false)}
