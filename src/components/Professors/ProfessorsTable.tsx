@@ -21,13 +21,23 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                     accessor: "type",
                     filter: {
                         type: "dropdown",
-                        options: ["Teaching", "Research"],
+                        options: [
+                            { label: "Teaching", value: "Teaching" },
+                            { label: "Research", value: "Research" },
+                        ],
                     },
                 },
                 {
                     Header: "Form Completed",
                     accessor: "status",
-                    disableFilterBy: true,
+                    filter: {
+                        type: "dropdown",
+                        options: [
+                            { label: "Complete", value: true },
+                            { label: "Incomplete", value: false },
+                        ],
+                        key: "complete", // prop to filter by
+                    },
                 },
                 {
                     Header: "",
