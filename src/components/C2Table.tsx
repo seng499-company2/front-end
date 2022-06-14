@@ -12,10 +12,12 @@ import {
     Input,
     InputGroup,
     InputLeftElement,
+    Select,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import { useTable, useSortBy } from "react-table";
+import TableFilter from "./TableFilter";
 
 const C2Table = (props) => {
     const { columns, entries } = props;
@@ -64,29 +66,11 @@ const C2Table = (props) => {
                     <Tr>
                         {columns.map((column) => (
                             <Td key={column.Header + "-filter"}>
-                                {column.disableFilterBy ? (
-                                    ""
-                                ) : (
-                                    <InputGroup>
-                                        <Input
-                                            variant="filled"
-                                            isDisabled={column.disableFilterBy}
-                                            onChange={(event) =>
-                                                onFilter(
-                                                    column.accessor,
-                                                    event.target.value
-                                                )
-                                            }
-                                        />
-                                        <InputLeftElement>
-                                            <Icon
-                                                as={FaFilter}
-                                                ml={1}
-                                                w={4}
-                                                h={3}
-                                            />
-                                        </InputLeftElement>
-                                    </InputGroup>
+                                {!column.disableFilterBy && (
+                                    <TableFilter
+                                        column={column}
+                                        onFilter={onFilter}
+                                    />
                                 )}
                             </Td>
                         ))}
