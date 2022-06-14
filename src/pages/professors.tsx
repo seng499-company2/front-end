@@ -22,32 +22,6 @@ const Professors = ({ professors }) => {
 
     return (
         <Box pt="1rem">
-            {/* <TableContainer>
-                <Table variant="striped">
-                    <Thead>
-                        <Tr>
-                            <Th>Name</Th>
-                            <Th>Preferences</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {professors.map((course) => (
-                            <Tr
-                                cursor={"pointer"}
-                                key={course.id}
-                                onClick={() => setOpen(!open)}
-                            >
-                                <Td>{course.name}</Td>
-                                <Td>
-                                    <CompleteStatusBadge
-                                        complete={course.complete}
-                                    />
-                                </Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                </Table>
-            </TableContainer> */}
             <ProfessorsTable professors={professors} openDetails={openDetails}/>
             <SampleSidesheet
                 isOpen={open}
