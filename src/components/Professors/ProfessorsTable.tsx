@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
+import { useMemo } from "react";
 import C2Table from "../C2Table";
 import { CompleteStatusBadge } from "../CompleteStatusBadge";
 
@@ -27,17 +28,26 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                     disableFilterBy: true,
                 },
             ]}
-            entries={professors.map((prof) => ({
-                name: prof.name,
-                type: prof.type,
-                status: <CompleteStatusBadge complete={prof.complete} />,
-                details: (
-                    <Button variant="ghost" onClick={() => openDetails(prof)}>
-                        {" "}
-                        <ChevronRightIcon ml={1} w={5} h={5} />{" "}
-                    </Button>
-                ),
-            }))}
+            entries={useMemo(
+                () =>
+                    professors.map((prof) => ({
+                        name: prof.name,
+                        type: prof.type,
+                        status: (
+                            <CompleteStatusBadge complete={prof.complete} />
+                        ),
+                        details: (
+                            <Button
+                                variant="ghost"
+                                onClick={() => openDetails(prof)}
+                            >
+                                {" "}
+                                <ChevronRightIcon ml={1} w={5} h={5} />{" "}
+                            </Button>
+                        ),
+                    })),
+                [professors, openDetails]
+            )}
         />
     );
 };
