@@ -1,21 +1,19 @@
 import { Select } from "@chakra-ui/react";
 import C2Table from "../C2Table";
 
-enum Willingness {
+export enum Willingness {
     veryWilling = 2,
     willing = 1,
     unwilling = 0,
 }
 
-enum Difficulty {
+export enum Difficulty {
     difficult = 2,
     moderate = 1,
     easy = 0,
 }
 
-const CoursesPreferencesTable = (props) => {
-    const { courses } = props;
-
+const CoursesPreferencesTable = ({ values, setFieldValue }) => {
     const columns = [
         {
             Header: "Course",
@@ -35,20 +33,24 @@ const CoursesPreferencesTable = (props) => {
         },
     ];
 
-    // coursePreferences is dict with all the preferences
-    // {..., "CSC 225": {willingness: 1, difficulty: 0}}
-    const tableData = makeTableData(courses);
+    const tableData = makeTableData(values, setFieldValue);
 
     return <C2Table columns={columns} entries={tableData} />;
 };
 
-const makeTableData = (courses) => {
-    return courses.map((c) => {
+const makeTableData = (values, setFieldValue) => {
+    return Object.keys(values.coursePreferences).map((c) => {
         return {
             course: c,
             willingness: (
                 <Select
-                    defaultValue={Willingness.willing}
+                    defaultValue={values.coursePreferences[c].willingness}
+                    onChange={(v) =>
+                        setFieldValue(
+                            `coursePreferences.${c}.willingness`,
+                            Number(v.target.selectedOptions[0].value)
+                        )
+                    }
                     key={c + "-willingness"}
                 >
                     <option value={Willingness.unwilling}>Unwilling</option>
@@ -60,7 +62,13 @@ const makeTableData = (courses) => {
             ),
             difficulty: (
                 <Select
-                    defaultValue={Difficulty.moderate}
+                    defaultValue={values.coursePreferences[c].difficulty}
+                    onChange={(v) =>
+                        setFieldValue(
+                            `coursePreferences.${c}.difficulty`,
+                            Number(v.target.selectedOptions[0].value)
+                        )
+                    }
                     key={c + "--difficulty"}
                 >
                     <option value={Difficulty.difficult}>Difficult</option>
