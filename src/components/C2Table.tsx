@@ -129,7 +129,6 @@ const C2Table = (props) => {
                         </Tr>
                     ))}
                     {/*Add filters*/}
-
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
                     {pageRows.map((row, i) => {
