@@ -3,14 +3,14 @@ import { ReactElement } from "react";
 
 import AdminLayout from "../components/Layout/AdminLayout";
 
-const Index = () => (
+const Constraints = () => (
     <Box pt="1rem">
-        <Text>Home</Text>
+        <Text>Constraints</Text>
     </Box>
 );
 
-Index.getLayout = function getLayout(page: ReactElement) {
+Constraints.getLayout = function getLayout(page: ReactElement) {
     return <AdminLayout>{page}</AdminLayout>;
 };
 
-export default Index;
+export default Constraints;
