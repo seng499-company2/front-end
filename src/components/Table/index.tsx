@@ -1,23 +1,20 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
     FormControl,
-    Table,
+    Table as ChakraTable,
     Thead,
     Tbody,
     Tr,
     Th,
     Td,
     Flex,
-    Icon,
-    Input,
-    InputGroup,
-    InputLeftElement,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { FaFilter } from "react-icons/fa";
 import { useTable, useSortBy } from "react-table";
 
-const C2Table = (props) => {
+import TableFilter from "./TableFilter";
+
+const Table = (props) => {
     const { columns, entries } = props;
 
     const [data, setData] = useState(entries);
@@ -37,17 +34,30 @@ const C2Table = (props) => {
             return;
         }
 
+        const { accessor, filter } = column;
+
+        // process the filter value
+
         val = val.toLowerCase();
+
+        if (["true", "false"].includes(val)) {
+            // convert to boolean
+            val = val === "true";
+        }
 
         if (
             data[0] &&
-            column in data[0] &&
-            typeof data[0][column] !== "object"
+            accessor in data[0] &&
+            typeof data[0][accessor] !== "object"
         ) {
             setData(
-                entries.filter((e) => e[column].toLowerCase().includes(val))
+                entries.filter((e) => e[accessor].toLowerCase().includes(val))
             );
-            return;
+        } else if (typeof data[0][accessor] === "object") {
+            // assume it's a react component
+            setData(
+                entries.filter((e) => e[accessor].props[filter.key] === val)
+            );
         }
     };
 
@@ -56,43 +66,28 @@ const C2Table = (props) => {
 
     return (
         <FormControl>
-            <Table {...getTableProps()}>
+            <ChakraTable {...getTableProps()}>
                 <Tbody {...getTableBodyProps()}></Tbody>
-            </Table>
-            <Table {...getTableProps()} variant="striped">
+            </ChakraTable>
+            <ChakraTable {...getTableProps()} variant="striped">
                 <Thead>
                     <Tr>
                         {columns.map((column) => (
                             <Td key={column.Header + "-filter"}>
-                                {column.disableFilterBy ? (
-                                    ""
-                                ) : (
-                                    <InputGroup>
-                                        <Input
-                                            variant="filled"
-                                            isDisabled={column.disableFilterBy}
-                                            onChange={(event) =>
-                                                onFilter(
-                                                    column.accessor,
-                                                    event.target.value
-                                                )
-                                            }
-                                        />
-                                        <InputLeftElement>
-                                            <Icon
-                                                as={FaFilter}
-                                                ml={1}
-                                                w={4}
-                                                h={3}
-                                            />
-                                        </InputLeftElement>
-                                    </InputGroup>
+                                {!column.disableFilterBy && (
+                                    <TableFilter
+                                        column={column}
+                                        onFilter={onFilter}
+                                    />
                                 )}
                             </Td>
                         ))}
                     </Tr>
                     {headerGroups.map((headerGroup, i) => (
-                        <Tr {...headerGroup.getHeaderGroupProps()} key={i}>
+                        <Tr
+                            {...headerGroup.getHeaderGroupProps()}
+                            key={`${headerGroup}-${i}`}
+                        >
                             {headerGroup.headers.map((column) => (
                                 // Add the sorting props to control sorting. For this example
                                 // we can add them into the header props
@@ -101,13 +96,13 @@ const C2Table = (props) => {
                                     {...column.getHeaderProps(
                                         column.getSortByToggleProps()
                                     )}
-                                    key={column.Header}
+                                    key={`${column.Header.toString()}-${i}`}
                                 >
                                     <Flex alignItems="center">
                                         {column.render("Header")}
                                         {/* Add a sort direction indicator */}
-                                        {column.isSorted ? (
-                                            column.isSortedDesc ? (
+                                        {column.isSorted &&
+                                            (column.isSortedDesc ? (
                                                 <ChevronDownIcon
                                                     ml={1}
                                                     w={4}
@@ -119,25 +114,27 @@ const C2Table = (props) => {
                                                     w={4}
                                                     h={4}
                                                 />
-                                            )
-                                        ) : (
-                                            ""
-                                        )}
+                                            ))}
                                     </Flex>
                                 </Th>
                             ))}
                         </Tr>
                     ))}
-                    {/*Add filters*/}
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
-                    {pageRows.map((row, i) => {
+                    {pageRows.map((row, rowIdx) => {
                         prepareRow(row);
                         return (
-                            <Tr {...row.getRowProps()} key={i}>
-                                {row.cells.map((cell, i) => {
+                            <Tr
+                                {...row.getRowProps()}
+                                key={`table-row-${rowIdx}`}
+                            >
+                                {row.cells.map((cell, cellIdx) => {
                                     return (
-                                        <Td {...cell.getCellProps()} key={i}>
+                                        <Td
+                                            {...cell.getCellProps()}
+                                            key={`table-row-${rowIdx}-${cellIdx}`}
+                                        >
                                             {cell.render("Cell")}
                                         </Td>
                                     );
@@ -146,9 +143,9 @@ const C2Table = (props) => {
                         );
                     })}
                 </Tbody>
-            </Table>
+            </ChakraTable>
         </FormControl>
     );
 };
 
-export default C2Table;
+export default Table;

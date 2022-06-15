@@ -1,25 +1,43 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import { useMemo } from "react";
-import C2Table from "../C2Table";
+
+import Table from "../Table";
 import { CompleteStatusBadge } from "../CompleteStatusBadge";
 
 const ProfessorsTable = ({ professors, openDetails }) => {
     return (
-        <C2Table
+        <Table
             columns={[
                 {
                     Header: "Name",
                     accessor: "name",
+                    filter: {
+                        type: "text",
+                    },
                 },
                 {
                     Header: "Type",
                     accessor: "type",
+                    filter: {
+                        type: "dropdown",
+                        options: [
+                            { label: "Teaching", value: "Teaching" },
+                            { label: "Research", value: "Research" },
+                        ],
+                    },
                 },
                 {
                     Header: "Form Completed",
                     accessor: "status",
-                    disableFilterBy: true,
+                    filter: {
+                        type: "dropdown",
+                        options: [
+                            { label: "Complete", value: true },
+                            { label: "Incomplete", value: false },
+                        ],
+                        key: "complete", // prop to filter by
+                    },
                 },
                 {
                     Header: "",
