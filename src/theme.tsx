@@ -16,22 +16,47 @@ const theme = extendTheme(
         breakpoints,
         colors: {
             primary: {
-                50: "#e3f3ff",
-                100: "#c3d7f0",
-                200: "#9fbde0",
-                300: "#7ba2d1",
-                400: "#5687c2",
-                500: "#3d6ea9",
-                600: "#2d5584",
-                700: "#1f3d60",
-                800: "#0e253c",
-                900: "#000d1b",
+                "50": "#F0F5EF",
+                "100": "#D5E4D3",
+                "200": "#BAD3B6",
+                "300": "#9FC199",
+                "400": "#84B07D",
+                "500": "#689F60",
+                "600": "#547F4D",
+                "700": "#3F5F3A",
+                "800": "#2A3F27",
+                "900": "#152013",
             },
             secondary: {
-                main: "#DBE2EF",
+                main: "#B4CFB0",
+                dark: "#94B49F",
+            },
+            highlight: {
+                main: "#91818A",
             },
             background: {
                 main: "#F9F7F7",
+            },
+            //#F18F88
+        },
+        components: {
+            Select: {
+                // 6. We can overwrite defaultProps
+                defaultProps: {
+                    focusBorderColor: "primary.500",
+                },
+            },
+            Input: {
+                // 6. We can overwrite defaultProps
+                defaultProps: {
+                    focusBorderColor: "primary.500",
+                },
+            },
+            NumberInput: {
+                // 6. We can overwrite defaultProps
+                defaultProps: {
+                    focusBorderColor: "primary.500",
+                },
             },
         },
     },

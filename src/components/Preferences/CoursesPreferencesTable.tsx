@@ -1,6 +1,5 @@
 import { Select } from "@chakra-ui/react";
 import { useMemo } from "react";
-
 import Table from "../Table";
 
 export enum Willingness {
