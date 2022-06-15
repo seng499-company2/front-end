@@ -1,4 +1,10 @@
-import { Flex, FlexProps, Icon, Link } from "@chakra-ui/react";
+import {
+    Flex,
+    FlexProps,
+    Icon,
+    Link,
+    useColorModeValue,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ReactText } from "react";
 import { IconType } from "react-icons";
@@ -26,23 +32,14 @@ export const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
                 role="group"
                 cursor="pointer"
                 _hover={{
-                    bg: "primary.300",
-                    color: "white",
+                    bg: useColorModeValue("primary.200", "primary.300"),
+                    color: "gray.800",
                 }}
-                bg={pathname === href ? "primary.600" : undefined}
-                color={pathname === href ? "primary.50" : undefined}
+                bg={pathname === href ? "primary.500" : undefined}
+                color={pathname === href ? "white" : undefined}
                 {...rest}
             >
-                {icon && (
-                    <Icon
-                        mr="4"
-                        fontSize="16"
-                        _groupHover={{
-                            color: "white",
-                        }}
-                        as={icon}
-                    />
-                )}
+                {icon && <Icon mr="4" fontSize="16" as={icon} />}
                 {children}
             </Flex>
         </Link>

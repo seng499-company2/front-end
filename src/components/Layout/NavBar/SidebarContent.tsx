@@ -3,7 +3,6 @@ import {
     BoxProps,
     CloseButton,
     Flex,
-    Select,
     useColorModeValue,
 } from "@chakra-ui/react";
 import { IconType } from "react-icons";
@@ -39,7 +38,7 @@ export interface SidebarProps extends BoxProps {
 export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     return (
         <Box
-            bg={useColorModeValue("secondary.main", "primary.800")}
+            bg={useColorModeValue("background.main", "gray.700")}
             borderRight="1px"
             borderRightColor={useColorModeValue("gray.200", "gray.700")}
             w={{ base: "full", md: 60 }}
@@ -48,15 +47,12 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             {...rest}
         >
             <Flex
-                h="20"
                 alignItems="center"
                 mx="8"
                 justifyContent="space-between"
+                mt={15}
             >
-                <Select>
-                    <option>2022</option>
-                    <option>2023</option>
-                </Select>
+                {/* <Heading color="highlight.main" fontSize={70}>2022</Heading> */}
                 <CloseButton
                     display={{ base: "flex", md: "none" }}
                     onClick={onClose}

@@ -92,8 +92,9 @@ const Availability = (props) => {
                         <Field
                             as={Select}
                             name="sabbatical.duration"
-                            colorScheme="primary"
+                            colorScheme="primary.100"
                             variant="filled"
+                            focusBorderColor="primary.500"
                         >
                             <option value="half">Half leave</option>
                             <option value="full">Full leave</option>
