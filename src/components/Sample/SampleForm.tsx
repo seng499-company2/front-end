@@ -7,8 +7,10 @@ import {
     Checkbox,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+import useGetQuery from "../utils/useGetQuery";
 
 const SampleForm = (props) => {
+    const { data, isLoading, isError } = useGetQuery("/users");
     const { handleSubmit } = props;
 
     return (
@@ -25,6 +27,8 @@ const SampleForm = (props) => {
             {({ errors, touched }) => (
                 <Form id="sample-form">
                     <VStack spacing={4} align="flex-start">
+                        {isLoading && <p>Loading</p>}
+                        <p>{data?.data?.email}</p>
                         <FormControl>
                             <FormLabel htmlFor="name">Name</FormLabel>
                             <Field
