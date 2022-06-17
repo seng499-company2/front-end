@@ -2,7 +2,7 @@ import Sidesheet from "../Layout/Sidesheet";
 import SampleForm from "./SampleForm";
 
 export const SampleSidesheet = (props) => {
-    const { handleSubmit } = props;
+    const { handleSubmit, data } = props;
     return (
         <Sidesheet
             size="xl"
@@ -11,7 +11,7 @@ export const SampleSidesheet = (props) => {
             formId="sample-form"
             {...props}
         >
-            <SampleForm handleSubmit={handleSubmit} />
+            <SampleForm handleSubmit={handleSubmit} data={data} />
         </Sidesheet>
     );
 };

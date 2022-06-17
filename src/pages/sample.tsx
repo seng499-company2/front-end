@@ -3,17 +3,16 @@ import { useState } from "react";
 
 import SampleSidesheet from "../components/Sample/SampleSidesheet";
 import SamplePageHeader from "../components/Sample/SamplePageHeader";
-
-import { useSWRConfig } from "swr";
+import useGetQuery from "../components/utils/useGetQuery";
 
 const Sample = () => {
-    const { mutate } = useSWRConfig();
     const [open, setOpen] = useState(false);
+    const { data, isLoading, isError, refetch } = useGetQuery("/users");
 
     const handleSubmit = (values) => {
         alert(JSON.stringify(values, null, 2));
-        mutate("/users"); //refetches data when we know it has changed ie: post request
         setOpen(false);
+        refetch();
     };
 
     return (
@@ -24,6 +23,7 @@ const Sample = () => {
                 isOpen={open}
                 onClose={() => setOpen(false)}
                 handleSubmit={handleSubmit}
+                data={data}
             />
         </VStack>
     );
