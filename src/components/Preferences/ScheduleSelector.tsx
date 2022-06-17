@@ -1,9 +1,25 @@
 import React from "react";
 import ScheduleSelector from "react-schedule-selector";
 
-type PropsType = { color: string; semester: string };
+type PropsType = { color: string; semester: string; value: [] };
 class Timetable extends React.Component<PropsType> {
-    state = { schedule: [], data: [], semester: this.props.semester };
+    constructor(props) {
+        super(props);
+        const arr = [];
+        this.props.value.forEach((element) => {
+            // const time = {
+            //     day: element.getDay(),
+            //     time: element.getHours(),
+            // };
+            // arr.push(time);
+            console.log(element);
+        });
+        this.state = {
+            schedule: arr,
+            data: this.props.value,
+            semester: this.props.semester,
+        };
+    }
     today = new Date();
     first = this.today.getDate() - this.today.getDay() + 1;
     unselectedColorDict = {
