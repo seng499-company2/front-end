@@ -1,39 +1,35 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import ScheduleSelector from "react-schedule-selector";
 
-type PropsType = { color: string; semester: string; value: [] };
-class Timetable extends React.Component<PropsType> {
-    constructor(props) {
-        super(props);
-        const arr = [];
-        this.props.value.forEach((element) => {
-            // const time = {
-            //     day: element.getDay(),
-            //     time: element.getHours(),
-            // };
-            // arr.push(time);
-            console.log(element);
-        });
-        this.state = {
-            schedule: arr,
-            data: this.props.value,
-            semester: this.props.semester,
-        };
-    }
-    today = new Date();
-    first = this.today.getDate() - this.today.getDay() + 1;
-    unselectedColorDict = {
+const Timetable = (props) => {
+    const { color, semester, values, setFieldValue } = props;
+    const today = new Date();
+    const first = today.getDate() - today.getDay() + 1;
+
+    const arr = [];
+    values.forEach((element) => {
+        let date = new Date();
+        const day = first + element.day - 1;
+        date.setDate(day);
+        date.setHours(element.time, 0, 0);
+        arr.push(date);
+    });
+
+    const [schedule, setSchedule] = useState(arr);
+    const [data, setData] = useState(values);
+
+    const unselectedColorDict = {
         Blue: "rgba(162, 198, 248, 1)",
         Orange: "rgba(255, 165, 0)",
         Pink: "rgba(255, 182, 193)",
     };
-    selectedColorDict = {
+    const selectedColorDict = {
         Blue: "rgba(89, 154, 242, 1)",
         Orange: "rgba(255, 140, 0)",
         Pink: "rgba(255, 105, 180)",
     };
 
-    handleChange = (newSchedule) => {
+    function handleChange(newSchedule) {
         const arr = [];
         newSchedule.forEach((element) => {
             const time = {
@@ -42,28 +38,25 @@ class Timetable extends React.Component<PropsType> {
             };
             arr.push(time);
         });
-        this.setState({
-            schedule: newSchedule,
-            data: arr,
-        });
-    };
-
-    render() {
-        return (
-            <ScheduleSelector
-                selectedColor={this.selectedColorDict[this.props.color]}
-                unselectedColor={this.unselectedColorDict[this.props.color]}
-                selection={this.state.schedule}
-                numDays={5}
-                minTime={8}
-                maxTime={20}
-                hourlyChunks={1}
-                dateFormat={"dddd"}
-                startDate={new Date(this.today.setDate(this.first))}
-                onChange={this.handleChange}
-            />
-        );
+        setSchedule(newSchedule);
+        setData(arr);
+        setFieldValue("preferredTime.fall", arr);
     }
-}
+
+    return (
+        <ScheduleSelector
+            selectedColor={selectedColorDict[color]}
+            unselectedColor={unselectedColorDict[color]}
+            selection={schedule}
+            numDays={5}
+            minTime={8}
+            maxTime={20}
+            hourlyChunks={1}
+            dateFormat={"dddd"}
+            startDate={new Date(today.setDate(first))}
+            onChange={handleChange}
+        />
+    );
+};
 
 export default Timetable;

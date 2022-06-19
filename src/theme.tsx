@@ -27,6 +27,18 @@ const theme = extendTheme(
                 "800": "#2A3F27",
                 "900": "#152013",
             },
+            fall: {
+                light: "#a2c6f8",
+                dark: "#599af2",
+            },
+            summer: {
+                light: "#FFD580",
+                dark: "#FFA500",
+            },
+            spring: {
+                light: "#FFB6C1",
+                dark: "#FF69B4",
+            },
             secondary: {
                 main: "#B4CFB0",
                 dark: "#94B49F",

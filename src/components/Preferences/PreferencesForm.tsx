@@ -46,9 +46,9 @@ const PreferencesForm = (props) => {
                     friday: false,
                 },
                 preferredTime: {
-                    Fall: [],
-                    Summer: [],
-                    Spring: [],
+                    fall: [],
+                    summer: [],
+                    spring: [],
                 },
                 coursePreferences: coursePreferencesInit,
             }}
