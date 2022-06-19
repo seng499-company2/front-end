@@ -12,6 +12,15 @@ const ScheduleAvailability = (props) => {
         { day: 3, time: 10 },
         { day: 5, time: 10 },
     ];
+    const val2 = [
+        { day: 1, time: 8 },
+        { day: 1, time: 9 },
+        { day: 1, time: 10 },
+        { day: 3, time: 8 },
+        { day: 3, time: 9 },
+        { day: 3, time: 10 },
+        { day: 5, time: 10 },
+    ];
 
     return (
         <Tabs variant="soft-rounded" colorScheme="green">
@@ -24,30 +33,26 @@ const ScheduleAvailability = (props) => {
                 <TabPanel>
                     <Timetable
                         color="Blue"
-                        semester="Fall"
+                        semester="fall"
                         values={val}
-                        // value={values.preferredTime.fall}
                         setFieldValue={setFieldValue}
                     />
                 </TabPanel>
                 <TabPanel>
                     <Timetable
                         color="Orange"
-                        semester="Summer"
-                        values={values.preferredTime.summer}
-                        // onChange={(v) =>
-                        //     setFieldValue("preferredTime.summer", v)
-                        // }
+                        semester="summer"
+                        // values={values.preferredTime.summer}
+                        values={val2}
+                        setFieldValue={setFieldValue}
                     />
                 </TabPanel>
                 <TabPanel>
                     <Timetable
                         color="Pink"
-                        semester="Spring"
+                        semester="spring"
                         values={values.preferredTime.spring}
-                        // onChange={(v) =>
-                        //     setFieldValue("preferredTime.spring", v)
-                        // }
+                        setFieldValue={setFieldValue}
                     />
                 </TabPanel>
             </TabPanels>

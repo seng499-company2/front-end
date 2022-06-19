@@ -5,6 +5,9 @@ const Timetable = (props) => {
     const { color, semester, values, setFieldValue } = props;
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
+    const form_value = "preferredTime." + semester;
+    const bg_dark = semester + ".light";
+    const bg_light = semester + ".dark";
 
     const arr = [];
     values.forEach((element) => {
@@ -40,11 +43,13 @@ const Timetable = (props) => {
         });
         setSchedule(newSchedule);
         setData(arr);
-        setFieldValue("preferredTime.fall", arr);
+        setFieldValue(form_value, arr);
     }
 
     return (
         <ScheduleSelector
+            // selectedColor={bg_light}
+            // unselectedColor={bg_dark}
             selectedColor={selectedColorDict[color]}
             unselectedColor={unselectedColorDict[color]}
             selection={schedule}
