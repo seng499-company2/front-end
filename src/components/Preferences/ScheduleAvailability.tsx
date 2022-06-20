@@ -5,7 +5,7 @@ const ScheduleAvailability = (props) => {
     const { setFieldValue, values } = props;
 
     return (
-        <Tabs variant="soft-rounded" colorScheme="green">
+        <Tabs variant="soft-rounded" colorScheme="green" isLazy>
             <TabList>
                 <Tab>Fall</Tab>
                 <Tab>Summer</Tab>
@@ -14,7 +14,6 @@ const ScheduleAvailability = (props) => {
             <TabPanels>
                 <TabPanel>
                     <Timetable
-                        color="Blue"
                         semester="fall"
                         values={values.preferredTime.fall}
                         setFieldValue={setFieldValue}
@@ -22,7 +21,6 @@ const ScheduleAvailability = (props) => {
                 </TabPanel>
                 <TabPanel>
                     <Timetable
-                        color="Orange"
                         semester="summer"
                         values={values.preferredTime.summer}
                         setFieldValue={setFieldValue}
@@ -30,7 +28,6 @@ const ScheduleAvailability = (props) => {
                 </TabPanel>
                 <TabPanel>
                     <Timetable
-                        color="Pink"
                         semester="spring"
                         values={values.preferredTime.spring}
                         setFieldValue={setFieldValue}
