@@ -6,8 +6,6 @@ const Timetable = (props) => {
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
     const form_value = "preferredTime." + semester;
-    const bg_dark = semester + ".light";
-    const bg_light = semester + ".dark";
 
     const arr = [];
     values.forEach((element) => {
@@ -22,14 +20,14 @@ const Timetable = (props) => {
     const [data, setData] = useState(values);
 
     const unselectedColorDict = {
-        Blue: "rgba(162, 198, 248, 1)",
-        Orange: "rgba(255, 165, 0)",
-        Pink: "rgba(255, 182, 193)",
+        fall: "#a2c6f8",
+        spring: "#FFB6C1",
+        summer: "#FFD580",
     };
     const selectedColorDict = {
-        Blue: "rgba(89, 154, 242, 1)",
-        Orange: "rgba(255, 140, 0)",
-        Pink: "rgba(255, 105, 180)",
+        fall: "#599af2",
+        spring: "#FF69B4",
+        summer: "#FFA500",
     };
 
     function handleChange(newSchedule) {
@@ -48,10 +46,8 @@ const Timetable = (props) => {
 
     return (
         <ScheduleSelector
-            // selectedColor={bg_light}
-            // unselectedColor={bg_dark}
-            selectedColor={selectedColorDict[color]}
-            unselectedColor={unselectedColorDict[color]}
+            selectedColor={selectedColorDict[semester]}
+            unselectedColor={unselectedColorDict[semester]}
             selection={schedule}
             numDays={5}
             minTime={8}

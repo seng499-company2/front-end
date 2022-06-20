@@ -3,24 +3,6 @@ import Timetable from "./ScheduleSelector";
 
 const ScheduleAvailability = (props) => {
     const { setFieldValue, values } = props;
-    const val = [
-        { day: 1, time: 8 },
-        { day: 1, time: 9 },
-        { day: 1, time: 10 },
-        { day: 3, time: 8 },
-        { day: 3, time: 9 },
-        { day: 3, time: 10 },
-        { day: 5, time: 10 },
-    ];
-    const val2 = [
-        { day: 1, time: 8 },
-        { day: 1, time: 9 },
-        { day: 1, time: 10 },
-        { day: 3, time: 8 },
-        { day: 3, time: 9 },
-        { day: 3, time: 10 },
-        { day: 5, time: 10 },
-    ];
 
     return (
         <Tabs variant="soft-rounded" colorScheme="green">
@@ -34,7 +16,7 @@ const ScheduleAvailability = (props) => {
                     <Timetable
                         color="Blue"
                         semester="fall"
-                        values={val}
+                        values={values.preferredTime.fall}
                         setFieldValue={setFieldValue}
                     />
                 </TabPanel>
@@ -42,8 +24,7 @@ const ScheduleAvailability = (props) => {
                     <Timetable
                         color="Orange"
                         semester="summer"
-                        // values={values.preferredTime.summer}
-                        values={val2}
+                        values={values.preferredTime.summer}
                         setFieldValue={setFieldValue}
                     />
                 </TabPanel>
