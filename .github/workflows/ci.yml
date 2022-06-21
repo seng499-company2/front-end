@@ -12,9 +12,10 @@ jobs:
               with:
                   node-version: "16.x"
             - name: Install dependencies
-                run: npm ci
-            - name: Build
-                run: npm run build
+              run: npm ci
             - name: Lint
-                run: npm run lint
-            - name: Check
+              run: npm run lint
+            - name: Check for prettier errors
+              run: npm run check-format
+            - name: Build
+              run: npm run build
