@@ -3,8 +3,8 @@
     "scripts": {
         "dev": "next",
         "lint": "next lint",
-        "check-format": "prettier --check .",
-        "format": "prettier --write .",
+        "prettier": "prettier --write .",
+        "prettier:check": "prettier --check .",
         "build": "next build",
         "start": "next start"
     },
