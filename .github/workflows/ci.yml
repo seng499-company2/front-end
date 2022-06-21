@@ -3,7 +3,7 @@ name: ci
 on: push
 
 jobs:
-    build:
+    install:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
@@ -13,9 +13,23 @@ jobs:
                   node-version: "16.x"
             - name: Install dependencies
               run: npm ci
-            - name: Lint
-              run: npm run lint
-            - name: Check for prettier errors
-              run: npm run check-format
+                
+    build:
+        needs: install
+        runs-on: ubuntu-latest
+        steps:
             - name: Build
               run: npm run build
+    lint:
+        needs: install
+        runs-on: ubuntu-latest
+        steps:
+            - name: Lint
+              run: npm run lint
+
+    check-format:
+        needs: install
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check format
+              run: npm run check-format
