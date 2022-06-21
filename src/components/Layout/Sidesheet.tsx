@@ -11,15 +11,8 @@ import {
 import React from "react";
 
 const Sidesheet = (props) => {
-    const {
-        isOpen,
-        onClose,
-        title,
-        submitLabel,
-        onSubmit,
-        formId,
-        ...other
-    } = props;
+    const { isOpen, onClose, title, submitLabel, onSubmit, formId, ...other } =
+        props;
 
     return (
         <>
