@@ -2,6 +2,9 @@ name: ci
 
 on: push
 
+env:
+  cache-name: cache-node-modules
+
 jobs:
     install:
         runs-on: ubuntu-latest
@@ -11,19 +14,39 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: "16.x"
-            - name: Install dependencies
+            - name: Cache node modules
+              id: cache-npm
+              uses: actions/cache@v3
+              with:
+                # npm cache files are stored in `~/.npm` on Linux/macOS
+                path: ~/.npm
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+            - if: ${{ steps.cache-npm.outputs.cache-hit == 'false' }}
+              name: Install dependencies
               run: npm ci
-                
+
     build:
         needs: install
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/cache@v3
+              id: cache-npm
+              with:
+                path: ~/.npm
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
             - name: Build
               run: npm run build
+
     lint:
         needs: install
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/cache@v3
+              id: cache-npm
+              with:
+                path: ~/.npm
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
             - name: Lint
               run: npm run lint
 
@@ -31,5 +54,10 @@ jobs:
         needs: install
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/cache@v3
+              id: cache-npm
+              with:
+                path: ~/.npm
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
             - name: Check format
               run: npm run check-format
