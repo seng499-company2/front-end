@@ -1,12 +1,13 @@
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Table, Tbody, Td, Th, Thead, Tr, Text } from "@chakra-ui/react";
 
-const CoursesTable = ({ courses, setOpen }) => {
+const CoursesTable = ({ courses, toggleSideSheet }) => {
     return (
         <Table variant="striped">
             <Thead>
                 <Tr>
-                    <Th>Code</Th>
                     <Th>Name</Th>
+                    <Th>Professor Willing</Th>
+                    <Th>Offered In</Th>
                 </Tr>
             </Thead>
             <Tbody>
@@ -14,10 +15,16 @@ const CoursesTable = ({ courses, setOpen }) => {
                     <Tr
                         cursor={"pointer"}
                         key={course.id}
-                        onClick={() => setOpen(!open)}
+                        onClick={() => toggleSideSheet()}
                     >
-                        <Td>{course.code}</Td>
-                        <Td>{course.name}</Td>
+                        <Td>
+                            <Text as="u">{course.code} </Text>
+                            <Text fontSize="sm" as="i">
+                                {course.name}
+                            </Text>
+                        </Td>
+                        <Td>{course.willing}</Td>
+                        <Td>{course.offered}</Td>
                     </Tr>
                 ))}
             </Tbody>

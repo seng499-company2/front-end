@@ -22,10 +22,17 @@ const Courses = ({ courses }) => {
         setOpen(false);
     };
 
+    function toggleSideSheet() {
+        setOpen(!open);
+    }
+
     return (
         <Box pt="1rem">
             <TableContainer>
-                <CoursesTable courses={courses} setOpen={setOpen} />
+                <CoursesTable
+                    courses={courses}
+                    toggleSideSheet={toggleSideSheet}
+                />
             </TableContainer>
             <SampleSidesheet
                 isOpen={open}
@@ -38,9 +45,27 @@ const Courses = ({ courses }) => {
 
 export const getServerSideProps = async () => {
     const courses = [
-        { id: 1, code: "CSC 225", name: "Data Structures & Algorithms I" },
-        { id: 2, code: "CSC 226", name: "Data Structures & Algorithms II" },
-        { id: 3, code: "CSC 227", name: "Data Structures & Algorithms III" },
+        {
+            id: 1,
+            code: "CSC 225",
+            name: "Data Structures & Algorithms I",
+            willing: 3,
+            offered: ["summer", "fall"],
+        },
+        {
+            id: 2,
+            code: "CSC 226",
+            name: "Data Structures & Algorithms II",
+            willing: 1,
+            offered: ["summer", "fall"],
+        },
+        {
+            id: 3,
+            code: "CSC 227",
+            name: "Data Structures & Algorithms III",
+            willing: 0,
+            offered: ["summer"],
+        },
     ];
 
     // get from api
