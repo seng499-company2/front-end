@@ -12,6 +12,7 @@ import { ReactElement, useState } from "react";
 
 import AdminLayout from "../components/Layout/AdminLayout";
 import SampleSidesheet from "../components/Sample/SampleSidesheet";
+import CoursesTable from "../components/Courses/CoursesTable";
 
 const Courses = ({ courses }) => {
     const [open, setOpen] = useState(false);
@@ -24,26 +25,7 @@ const Courses = ({ courses }) => {
     return (
         <Box pt="1rem">
             <TableContainer>
-                <Table variant="striped">
-                    <Thead>
-                        <Tr>
-                            <Th>Code</Th>
-                            <Th>Name</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {courses.map((course) => (
-                            <Tr
-                                cursor={"pointer"}
-                                key={course.id}
-                                onClick={() => setOpen(!open)}
-                            >
-                                <Td>{course.code}</Td>
-                                <Td>{course.name}</Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                </Table>
+                <CoursesTable courses={courses} setOpen={setOpen} />
             </TableContainer>
             <SampleSidesheet
                 isOpen={open}
