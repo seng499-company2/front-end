@@ -1,5 +1,4 @@
 import {
-    Box,
     Button,
     Flex,
     Table,
@@ -26,10 +25,18 @@ const Courses = ({ courses }) => {
 
     return (
         <Flex flexDirection="column" pt="1rem">
-            <Button ml="auto" leftIcon={<FaPlus/>} onClick={() => setOpen(true)}>Add Course</Button>
-            <AddCourseSidesheet isOpen={open}
+            <Button
+                ml="auto"
+                leftIcon={<FaPlus />}
+                onClick={() => setOpen(true)}
+            >
+                Add Course
+            </Button>
+            <AddCourseSidesheet
+                isOpen={open}
                 onClose={() => setOpen(false)}
-                handleSubmit={handleSubmit}/>
+                handleSubmit={handleSubmit}
+            />
 
             <TableContainer>
                 <Table variant="striped">
