@@ -1,5 +1,7 @@
 import {
     Box,
+    Button,
+    Flex,
     Table,
     TableContainer,
     Tbody,
@@ -9,9 +11,10 @@ import {
     Tr,
 } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
+import { FaPlus } from "react-icons/fa";
 
 import AdminLayout from "../components/Layout/AdminLayout";
-import SampleSidesheet from "../components/Sample/SampleSidesheet";
+import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
 
 const Courses = ({ courses }) => {
     const [open, setOpen] = useState(false);
@@ -22,7 +25,12 @@ const Courses = ({ courses }) => {
     };
 
     return (
-        <Box pt="1rem">
+        <Flex flexDirection="column" pt="1rem">
+            <Button ml="auto" leftIcon={<FaPlus/>} onClick={() => setOpen(true)}>Add Course</Button>
+            <AddCourseSidesheet isOpen={open}
+                onClose={() => setOpen(false)}
+                handleSubmit={handleSubmit}/>
+
             <TableContainer>
                 <Table variant="striped">
                     <Thead>
@@ -45,12 +53,7 @@ const Courses = ({ courses }) => {
                     </Tbody>
                 </Table>
             </TableContainer>
-            <SampleSidesheet
-                isOpen={open}
-                onClose={() => setOpen(false)}
-                handleSubmit={handleSubmit}
-            />
-        </Box>
+        </Flex>
     );
 };
 
