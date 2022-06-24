@@ -5,7 +5,7 @@ import {
     Input,
     VStack,
     Textarea,
-    Select
+    Select,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 
@@ -18,7 +18,7 @@ const AddCourseForm = (props) => {
                 name: "",
                 department: "csc",
                 code: "",
-                description:"",
+                description: "",
             }}
             onSubmit={(values) => {
                 handleSubmit(values);
@@ -35,7 +35,7 @@ const AddCourseForm = (props) => {
                                 variant="filled"
                                 validate={(value) => {
                                     let error;
-                                    if (value.length <1) {
+                                    if (value.length < 1) {
                                         error = "Required";
                                     }
                                     return error;
@@ -43,17 +43,17 @@ const AddCourseForm = (props) => {
                             />
                             <FormErrorMessage>{errors.name}</FormErrorMessage>
                         </FormControl>
-                        <FormControl >
+                        <FormControl>
                             <FormLabel>Department</FormLabel>
                             <Field
-                            as={Select}
-                            name="department"
-                            variant="filled"
-                        >
-                            <option value="csc">CSC</option>
-                            <option value="ece">ECE</option>
-                            <option value="seng">SENG</option>
-                        </Field>
+                                as={Select}
+                                name="department"
+                                variant="filled"
+                            >
+                                <option value="csc">CSC</option>
+                                <option value="ece">ECE</option>
+                                <option value="seng">SENG</option>
+                            </Field>
                         </FormControl>
                         <FormControl isInvalid={errors.code && touched.code}>
                             <FormLabel>Course Code</FormLabel>
@@ -63,14 +63,18 @@ const AddCourseForm = (props) => {
                                 variant="filled"
                                 validate={(value) => {
                                     let error;
-                                    if (value?.length !== 3 && value?.length !== 4) {
+                                    if (
+                                        value?.length !== 3 &&
+                                        value?.length !== 4
+                                    ) {
                                         error = "Must be 3 or 4 characters";
                                     }
                                     return error;
                                 }}
                             />
                             <FormErrorMessage>{errors.code}</FormErrorMessage>
-                        </FormControl><FormControl>
+                        </FormControl>
+                        <FormControl>
                             <FormLabel>Course Description</FormLabel>
                             <Field
                                 as={Textarea}
@@ -78,7 +82,6 @@ const AddCourseForm = (props) => {
                                 variant="filled"
                             />
                         </FormControl>
-
                     </VStack>
                 </Form>
             )}

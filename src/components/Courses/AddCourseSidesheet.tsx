@@ -1,5 +1,4 @@
 import Sidesheet from "../Layout/Sidesheet";
-//import SampleForm from "./SampleForm";
 import AddCourseForm from "./AddCourseForm";
 
 export const AddCourseSidesheet = (props) => {
