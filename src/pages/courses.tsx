@@ -50,21 +50,21 @@ export const getServerSideProps = async () => {
             code: "CSC 225",
             name: "Data Structures & Algorithms I",
             willing: 3,
-            offered: ["summer", "fall"],
+            offered: ["Summer", "Fall"],
         },
         {
             id: 2,
             code: "CSC 226",
             name: "Data Structures & Algorithms II",
             willing: 1,
-            offered: ["summer", "fall"],
+            offered: ["Summer", "Fall"],
         },
         {
             id: 3,
             code: "CSC 227",
             name: "Data Structures & Algorithms III",
             willing: 0,
-            offered: ["summer"],
+            offered: ["Summer"],
         },
     ];
 

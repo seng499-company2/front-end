@@ -1,4 +1,13 @@
-import { Table, Tbody, Td, Th, Thead, Tr, Text } from "@chakra-ui/react";
+import {
+    Table,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
+    Text,
+    Divider,
+} from "@chakra-ui/react";
 
 const CoursesTable = ({ courses, toggleSideSheet }) => {
     return (
@@ -18,7 +27,8 @@ const CoursesTable = ({ courses, toggleSideSheet }) => {
                         onClick={() => toggleSideSheet()}
                     >
                         <Td>
-                            <Text as="u">{course.code} </Text>
+                            <Text as="b">{course.code} </Text>
+                            <Divider />
                             <Text fontSize="sm" as="i">
                                 {course.name}
                             </Text>
