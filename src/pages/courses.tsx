@@ -10,16 +10,18 @@ import {
 } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 
+import CourseSidesheet from "../components/Courses/Sidesheet";
 import AdminLayout from "../components/Layout/AdminLayout";
 import SampleSidesheet from "../components/Sample/SampleSidesheet";
 import CoursesTable from "../components/Courses/CoursesTable";
 
 const Courses = ({ courses }) => {
     const [open, setOpen] = useState(false);
+    const [course, setCourse] = useState({});
 
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values, null, 2));
-        setOpen(false);
+    const onClick = (course) => {
+        setOpen(true);
+        setCourse(course);
     };
 
     function toggleSideSheet() {
@@ -34,10 +36,10 @@ const Courses = ({ courses }) => {
                     toggleSideSheet={toggleSideSheet}
                 />
             </TableContainer>
-            <SampleSidesheet
+            <CourseSidesheet
                 isOpen={open}
                 onClose={() => setOpen(false)}
-                handleSubmit={handleSubmit}
+                course={course}
             />
         </Box>
     );
