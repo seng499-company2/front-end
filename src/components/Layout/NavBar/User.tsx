@@ -35,11 +35,10 @@ export const User = () => (
                         spacing="1px"
                         ml="2"
                     >
-                        <Text fontSize="sm" color={"gray.100"}>Owen Wilson</Text>
-                        <Text
-                            fontSize="xs"
-                            color={"gray.100"}
-                        >
+                        <Text fontSize="sm" color={"gray.100"}>
+                            Owen Wilson
+                        </Text>
+                        <Text fontSize="xs" color={"gray.100"}>
                             Admin
                         </Text>
                     </VStack>
