@@ -7,6 +7,7 @@ import {
     Tr,
     Text,
     Divider,
+    Tag,
 } from "@chakra-ui/react";
 
 const CoursesTable = ({ courses, toggleSideSheet }) => {
@@ -34,7 +35,11 @@ const CoursesTable = ({ courses, toggleSideSheet }) => {
                             </Text>
                         </Td>
                         <Td>{course.willing}</Td>
-                        <Td>{course.offered}</Td>
+                        <Td>
+                            {course.offered.map((semester) => (
+                                <Tag colorScheme="teal" mr={1}>{semester}</Tag>
+                            ))}
+                        </Td>
                     </Tr>
                 ))}
             </Tbody>
