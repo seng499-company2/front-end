@@ -12,15 +12,17 @@ import {
 import { ReactElement, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
+import CourseSidesheet from "../components/Courses/Sidesheet";
 import AdminLayout from "../components/Layout/AdminLayout";
 import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
 
 const Courses = ({ courses }) => {
     const [open, setOpen] = useState(false);
+    const [course, setCourse] = useState({});
 
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values, null, 2));
-        setOpen(false);
+    const onClick = (course) => {
+        setOpen(true);
+        setCourse(course);
     };
 
     return (
@@ -35,9 +37,8 @@ const Courses = ({ courses }) => {
             <AddCourseSidesheet
                 isOpen={open}
                 onClose={() => setOpen(false)}
-                handleSubmit={handleSubmit}
+                //handleSubmit={handleSubmit}
             />
-
             <TableContainer>
                 <Table variant="striped">
                     <Thead>
@@ -51,7 +52,7 @@ const Courses = ({ courses }) => {
                             <Tr
                                 cursor={"pointer"}
                                 key={course.id}
-                                onClick={() => setOpen(!open)}
+                                onClick={() => onClick(course)}
                             >
                                 <Td>{course.code}</Td>
                                 <Td>{course.name}</Td>
@@ -60,6 +61,11 @@ const Courses = ({ courses }) => {
                     </Tbody>
                 </Table>
             </TableContainer>
+            <CourseSidesheet
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                course={course}
+            />
         </Flex>
     );
 };

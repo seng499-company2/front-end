@@ -9,13 +9,14 @@ import {
 import { Field, Form, Formik } from "formik";
 
 const SampleForm = (props) => {
-    const { handleSubmit } = props;
+    const { handleSubmit, data } = props;
 
     return (
         <Formik
             initialValues={{
                 name: "",
                 email: "",
+                job: "",
                 rememberMe: false,
             }}
             onSubmit={(values) => {
@@ -36,7 +37,17 @@ const SampleForm = (props) => {
                                 variant="filled"
                             />
                         </FormControl>
-                        <FormControl isInvalid={errors.email && touched.email}>
+                        <FormControl>
+                            <FormLabel>Job</FormLabel>
+                            <Field
+                                as={Input}
+                                id="job"
+                                name="job"
+                                colorScheme="primary"
+                                variant="filled"
+                            />
+                        </FormControl>
+                        {/* <FormControl isInvalid={errors.email && touched.email}>
                             <FormLabel htmlFor="email">Email Address</FormLabel>
                             <Field
                                 as={Input}
@@ -53,7 +64,7 @@ const SampleForm = (props) => {
                                 }}
                             />
                             <FormErrorMessage>{errors.email}</FormErrorMessage>
-                        </FormControl>
+                        </FormControl> */}
                         <Field as={Checkbox} id="rememberMe" name="rememberMe">
                             Remember me?
                         </Field>
