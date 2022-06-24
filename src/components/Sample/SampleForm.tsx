@@ -26,7 +26,6 @@ const SampleForm = (props) => {
             {({ errors, touched }) => (
                 <Form id="sample-form">
                     <VStack spacing={4} align="flex-start">
-                        {<p>{data.data[0].email}</p>}
                         <FormControl>
                             <FormLabel htmlFor="name">Name</FormLabel>
                             <Field

@@ -3,8 +3,8 @@ import { useState } from "react";
 
 import SampleSidesheet from "../components/Sample/SampleSidesheet";
 import SamplePageHeader from "../components/Sample/SamplePageHeader";
-import useGetQuery from "../components/utils/useGetQuery";
-import usePostQuery from "../components/utils/usePostQuery";
+import useGetQuery from "../utils/useGetQuery";
+import usePostQuery from "../utils/usePostQuery";
 
 const Sample = () => {
     const [open, setOpen] = useState(false);
@@ -31,7 +31,6 @@ const Sample = () => {
                 isOpen={open}
                 onClose={() => setOpen(false)}
                 handleSubmit={handleSubmit}
-                data={data}
             />
         </VStack>
     );
