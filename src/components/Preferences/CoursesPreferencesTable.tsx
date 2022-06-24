@@ -15,7 +15,7 @@ export enum Difficulty {
     easy = 0,
 }
 
-const CoursesPreferencesTable = ({ values, setFieldValue }) => {
+const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
     const columns = [
         {
             Header: "Course",
@@ -52,6 +52,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue }) => {
                             )
                         }
                         key={c + "-willingness"}
+                        isDisabled={isDisabled}
                     >
                         <option value={Willingness.unwilling}>Unwilling</option>
                         <option value={Willingness.willing}>Willing</option>
@@ -70,6 +71,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue }) => {
                             )
                         }
                         key={c + "--difficulty"}
+                        isDisabled={isDisabled}
                     >
                         <option value={Difficulty.difficult}>Difficult</option>
                         <option value={Difficulty.moderate}>Moderate</option>

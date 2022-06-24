@@ -1,7 +1,7 @@
 import React from "react";
 import ScheduleSelector from "react-schedule-selector";
 
-type PropsType = { color: string; semester: string };
+type PropsType = { color: string; semester: string; isDisabled: boolean };
 class Timetable extends React.Component<PropsType> {
     state = { schedule: [], data: [], semester: this.props.semester };
     today = new Date();
@@ -45,6 +45,7 @@ class Timetable extends React.Component<PropsType> {
                 dateFormat={"dddd"}
                 startDate={new Date(this.today.setDate(this.first))}
                 onChange={this.handleChange}
+                isDisabled={this.props.isDisabled} //doesnt do anything
             />
         );
     }

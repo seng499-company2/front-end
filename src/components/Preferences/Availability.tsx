@@ -13,6 +13,7 @@ import NumInput from "../NumInput";
 
 const Availability = (props) => {
     const { setFieldValue, values } = props;
+    const isDisabled = props.isDisabled;
 
     return (
         <VStack spacing={10} align="left">
@@ -26,6 +27,7 @@ const Availability = (props) => {
                     </Text>
                     <NumInput
                         name="numCoursesPerSem.fall"
+                        isDisabled={isDisabled}
                         max={5}
                         min={0}
                         onChange={(v) =>
@@ -37,6 +39,7 @@ const Availability = (props) => {
                     </Text>
                     <NumInput
                         name="numCoursesPerSem.spring"
+                        isDisabled={isDisabled}
                         max={5}
                         min={0}
                         onChange={(v) =>
@@ -48,6 +51,7 @@ const Availability = (props) => {
                     </Text>
                     <NumInput
                         name="numCoursesPerSem.summer"
+                        isDisabled={isDisabled}
                         max={5}
                         min={0}
                         onChange={(v) =>
@@ -82,7 +86,7 @@ const Availability = (props) => {
                 </FormControl> */}
             <FormControl>
                 <FormLabel>Sabbatical Preferences</FormLabel>
-                <Field as={Checkbox} name="sabbatical.value">
+                <Field as={Checkbox} name="sabbatical.value" isDisabled={isDisabled}>
                     Taking Sabbatical
                 </Field>
 
@@ -92,6 +96,7 @@ const Availability = (props) => {
                         <Field
                             as={Select}
                             name="sabbatical.duration"
+                            isDisabled={isDisabled}
                             colorScheme="primary.100"
                             variant="filled"
                             focusBorderColor="primary.500"
@@ -103,6 +108,7 @@ const Availability = (props) => {
                         <Field
                             as={Select}
                             name="sabbatical.fromMonth"
+                            isDisabled={isDisabled}
                             colorScheme="primary"
                             variant="filled"
                         >
@@ -117,6 +123,7 @@ const Availability = (props) => {
                 <FormLabel>Preferred Number of Teaching Days</FormLabel>
                 <NumInput
                     name="teachingDaysPerWeek.value"
+                    isDisabled={isDisabled}
                     max={5}
                     min={0}
                     onChange={(v) =>
@@ -127,19 +134,19 @@ const Availability = (props) => {
             <FormControl>
                 <FormLabel>Preferred Teaching Days</FormLabel>
                 <Flex direction="column">
-                    <Field as={Checkbox} name="preferredDays.monday">
+                    <Field as={Checkbox} name="preferredDays.monday" isDisabled={isDisabled}>
                         Monday
                     </Field>
-                    <Field as={Checkbox} name="preferredDays.tuesday">
+                    <Field as={Checkbox} name="preferredDays.tuesday" isDisabled={isDisabled}>
                         Tuesday
                     </Field>
-                    <Field as={Checkbox} name="preferredDays.wednesday">
+                    <Field as={Checkbox} name="preferredDays.wednesday" isDisabled={isDisabled}>
                         Wednesday
                     </Field>
-                    <Field as={Checkbox} name="preferredDays.thursday">
+                    <Field as={Checkbox} name="preferredDays.thursday" isDisabled={isDisabled}>
                         Thursday
                     </Field>
-                    <Field as={Checkbox} name="preferredDays.friday">
+                    <Field as={Checkbox} name="preferredDays.friday" isDisabled={isDisabled}>
                         Friday
                     </Field>
                 </Flex>

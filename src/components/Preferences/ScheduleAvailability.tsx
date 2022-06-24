@@ -1,7 +1,7 @@
 import { TabList, Tabs, Tab, TabPanel, TabPanels } from "@chakra-ui/react";
 import Timetable from "./ScheduleSelector";
 
-const ScheduleAvailability = (props) => {
+const ScheduleAvailability = ({isDisabled}) => {
     //const { handleSubmit } = props;
 
     return (
@@ -13,13 +13,13 @@ const ScheduleAvailability = (props) => {
             </TabList>
             <TabPanels>
                 <TabPanel>
-                    <Timetable color="Blue" semester="Fall" />
+                    <Timetable color="Blue" semester="Fall" isDisabled={isDisabled} />
                 </TabPanel>
                 <TabPanel>
-                    <Timetable color="Orange" semester="Summer" />
+                    <Timetable color="Orange" semester="Summer" isDisabled={isDisabled}/>
                 </TabPanel>
                 <TabPanel>
-                    <Timetable color="Pink" semester="Spring" />
+                    <Timetable color="Pink" semester="Spring" isDisabled={isDisabled} />
                 </TabPanel>
             </TabPanels>
         </Tabs>
