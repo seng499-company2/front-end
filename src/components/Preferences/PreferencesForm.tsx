@@ -8,7 +8,7 @@ import CoursesPreferencesTable, {
 import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 
-const PreferencesForm = ({isDisabled}) => {
+const PreferencesForm = ({ isDisabled }) => {
     //const { handleSubmit } = props;
     const coursePreferencesInit = getCourses().reduce((obj, course) => {
         obj[course] = {
@@ -67,11 +67,12 @@ const PreferencesForm = ({isDisabled}) => {
                         isDisabled={isDisabled}
                     />
                     <DividerHeading title="Schedule Preferences" mt={20} />
-                    <ScheduleAvailability
-                    isDisabled={isDisabled} />
-                    {!isDisabled && (<Button mt={5} type="submit">
-                        Submit
-                        </Button>)}
+                    <ScheduleAvailability isDisabled={isDisabled} />
+                    {!isDisabled && (
+                        <Button mt={5} type="submit">
+                            Submit
+                        </Button>
+                    )}
                 </Form>
             )}
         </Formik>

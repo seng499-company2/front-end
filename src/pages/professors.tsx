@@ -14,7 +14,6 @@ const Professors = ({ professors }) => {
         setProf(prof);
     };
 
-
     return (
         <Box pt="1rem">
             <ProfessorsTable
@@ -32,9 +31,27 @@ const Professors = ({ professors }) => {
 
 export const getServerSideProps = async () => {
     const professors = [
-        { id: 1, name: "Dave Dave", type: "Teaching", complete: true, email: "dave@dave.ca" },
-        { id: 2, name: "Owen Wilson", type: "Research", complete: false, email: "owenwilson@wow.com" },
-        { id: 3, name: "Gordo Ramso", type: "Research", complete: true, email: "gr@hellsnightmare.uk" },
+        {
+            id: 1,
+            name: "Dave Dave",
+            type: "Teaching",
+            complete: true,
+            email: "dave@dave.ca",
+        },
+        {
+            id: 2,
+            name: "Owen Wilson",
+            type: "Research",
+            complete: false,
+            email: "owenwilson@wow.com",
+        },
+        {
+            id: 3,
+            name: "Gordo Ramso",
+            type: "Research",
+            complete: true,
+            email: "gr@hellsnightmare.uk",
+        },
     ];
 
     // get from api

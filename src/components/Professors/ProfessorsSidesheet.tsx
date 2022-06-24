@@ -1,8 +1,7 @@
 import Sidesheet from "../Layout/Sidesheet";
 import PreferencesForm from "../Preferences/PreferencesForm";
-export const ProfessorSidesheet = ({isOpen, onClose, professor}) => {
+export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
     return (
-
         <Sidesheet
             size="xl"
             title={professor.name}
@@ -11,9 +10,8 @@ export const ProfessorSidesheet = ({isOpen, onClose, professor}) => {
             formId="prof-form"
             isOpen={isOpen}
             onClose={onClose}
-        >  
-        <PreferencesForm 
-        isDisabled={true}/>
+        >
+            <PreferencesForm isDisabled={true} />
         </Sidesheet>
     );
 };

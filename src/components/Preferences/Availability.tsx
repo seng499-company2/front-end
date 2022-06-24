@@ -86,7 +86,11 @@ const Availability = (props) => {
                 </FormControl> */}
             <FormControl>
                 <FormLabel>Sabbatical Preferences</FormLabel>
-                <Field as={Checkbox} name="sabbatical.value" isDisabled={isDisabled}>
+                <Field
+                    as={Checkbox}
+                    name="sabbatical.value"
+                    isDisabled={isDisabled}
+                >
                     Taking Sabbatical
                 </Field>
 
@@ -134,19 +138,39 @@ const Availability = (props) => {
             <FormControl>
                 <FormLabel>Preferred Teaching Days</FormLabel>
                 <Flex direction="column">
-                    <Field as={Checkbox} name="preferredDays.monday" isDisabled={isDisabled}>
+                    <Field
+                        as={Checkbox}
+                        name="preferredDays.monday"
+                        isDisabled={isDisabled}
+                    >
                         Monday
                     </Field>
-                    <Field as={Checkbox} name="preferredDays.tuesday" isDisabled={isDisabled}>
+                    <Field
+                        as={Checkbox}
+                        name="preferredDays.tuesday"
+                        isDisabled={isDisabled}
+                    >
                         Tuesday
                     </Field>
-                    <Field as={Checkbox} name="preferredDays.wednesday" isDisabled={isDisabled}>
+                    <Field
+                        as={Checkbox}
+                        name="preferredDays.wednesday"
+                        isDisabled={isDisabled}
+                    >
                         Wednesday
                     </Field>
-                    <Field as={Checkbox} name="preferredDays.thursday" isDisabled={isDisabled}>
+                    <Field
+                        as={Checkbox}
+                        name="preferredDays.thursday"
+                        isDisabled={isDisabled}
+                    >
                         Thursday
                     </Field>
-                    <Field as={Checkbox} name="preferredDays.friday" isDisabled={isDisabled}>
+                    <Field
+                        as={Checkbox}
+                        name="preferredDays.friday"
+                        isDisabled={isDisabled}
+                    >
                         Friday
                     </Field>
                 </Flex>
