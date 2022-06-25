@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import ScheduleSelector from "react-schedule-selector";
 
 const Timetable = (props) => {
@@ -6,18 +6,17 @@ const Timetable = (props) => {
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
     const form_value = "preferredTime." + semester;
+    const datetime_arr = [];
 
-    const arr = [];
     values.forEach((element) => {
         let date = new Date();
         const day = first + element.day - 1;
         date.setDate(day);
         date.setHours(element.time, 0, 0);
-        arr.push(date);
+        datetime_arr.push(date);
     });
 
-    const [schedule, setSchedule] = useState(arr);
-    const [data, setData] = useState(values);
+    const [schedule, setSchedule] = useState(datetime_arr);
 
     const unselectedColorDict = {
         fall: "#a2c6f8",
@@ -31,17 +30,16 @@ const Timetable = (props) => {
     };
 
     function handleChange(newSchedule) {
-        const arr = [];
+        const json_arr = [];
         newSchedule.forEach((element) => {
             const time = {
                 day: element.getDay(),
                 time: element.getHours(),
             };
-            arr.push(time);
+            json_arr.push(time);
         });
         setSchedule(newSchedule);
-        setData(arr);
-        setFieldValue(form_value, arr);
+        setFieldValue(form_value, json_arr);
     }
 
     return (

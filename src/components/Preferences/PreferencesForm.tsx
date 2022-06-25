@@ -54,7 +54,6 @@ const PreferencesForm = (props) => {
             }}
             onSubmit={(values) => {
                 //handleSubmit(values);
-                console.log(JSON.stringify(values, null, 2));
                 alert(JSON.stringify(values, null, 2));
             }}
         >
