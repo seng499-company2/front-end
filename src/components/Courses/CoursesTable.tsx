@@ -1,7 +1,9 @@
-import { Text, Divider, Tag } from "@chakra-ui/react";
+import { Tag } from "@chakra-ui/react";
 import { useMemo } from "react";
 
 import Table from "../Table";
+import { CourseNameBox } from "./CourseNameBox";
+import { SemesterBadges } from "../SemesterBadges";
 
 
 const CoursesTable = ({ courses, toggleSideSheet }) => {
@@ -11,6 +13,8 @@ const CoursesTable = ({ courses, toggleSideSheet }) => {
         accessor: "name",
         filter: {
             type: "text",
+            key: "codeAndName",
+            filterType: "includes"
         },
     },
     {
@@ -20,7 +24,7 @@ const CoursesTable = ({ courses, toggleSideSheet }) => {
     },
     {
         Header: "Offered In",
-        accessor: "offeredIn",
+        accessor: "offered",
         filter: {
             type: "dropdown",
             options: [
@@ -28,6 +32,8 @@ const CoursesTable = ({ courses, toggleSideSheet }) => {
                 { label: "Spring", value: "spring" },
                 { label: "Summer", value: "summer" },
             ],
+            key: "semesterString",
+            filterType: "includes",
         },
     }];
 
@@ -35,19 +41,18 @@ const CoursesTable = ({ courses, toggleSideSheet }) => {
         return courses.map((course) => {
             return {
                 name: (
-                    <>
-                    <Text as="b">{course.code}</Text>
-                    <Divider />
-                    <Text fontSize="sm" as="i">
-                        {course.name}
-                    </Text>
-                    </>
+                    <CourseNameBox
+                        courseCode={course.code}
+                        courseName={course.name}
+                        codeAndName={course.code + course.name}
+                    />
                 ),
                 professorWilling: course.willing,
-                offeredIn: (
-                    course.offered.map((semester) => (
-                        <Tag colorScheme="teal" mr={1}>{semester}</Tag>
-                    ))
+                offered: (
+                    <SemesterBadges
+                        semesters={course.offered}
+                        semesterString={(course.offered.join().toLowerCase())}
+                    />
                 ),
             };
         });

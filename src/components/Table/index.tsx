@@ -45,9 +45,6 @@ const Table = (props) => {
             val = val === "true";
         }
 
-        console.log(val);
-        console.log(data);
-
         if (
             data[0] &&
             accessor in data[0] &&
@@ -58,9 +55,16 @@ const Table = (props) => {
             );
         } else if (typeof data[0][accessor] === "object") {
             // assume it's a react component
-            setData(
-                entries.filter((e) => e[accessor].props[filter.key] === val)
-            );
+            if(filter.filterType === "includes"){
+                setData(
+                    entries.filter((e) => e[accessor].props[filter.key].toLowerCase().includes(val))
+                );
+            }else{
+                // default is exact filter
+                setData(
+                    entries.filter((e) => e[accessor].props[filter.key] === val)
+                );
+            }
         }
     };
 

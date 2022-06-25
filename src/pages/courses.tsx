@@ -74,7 +74,7 @@ export const getServerSideProps = async () => {
             code: "CSC 226",
             name: "Data Structures & Algorithms II",
             willing: 1,
-            offered: ["Summer", "Fall"],
+            offered: ["Summer", "Fall", "Spring"],
         },
         {
             id: 3,
