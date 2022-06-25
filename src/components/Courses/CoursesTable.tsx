@@ -1,11 +1,12 @@
-import { Tag } from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import { Button } from "@chakra-ui/react";
 import { useMemo } from "react";
 
 import Table from "../Table";
 import { CourseNameBox } from "./CourseNameBox";
 import { SemesterBadges } from "../SemesterBadges";
 
-const CoursesTable = ({ courses, toggleSideSheet }) => {
+const CoursesTable = ({ courses, onClick }) => {
     const columns = [
         {
             Header: "Name",
@@ -33,6 +34,12 @@ const CoursesTable = ({ courses, toggleSideSheet }) => {
                 key: "semesterString",
             },
         },
+        {
+            Header: "",
+            accessor: "details",
+            disableSortBy: true,
+            disableFilterBy: true,
+        },
     ];
 
     const makeTableData = useMemo(() => {
@@ -51,6 +58,11 @@ const CoursesTable = ({ courses, toggleSideSheet }) => {
                         semesters={course.offered}
                         semesterString={course.offered.join().toLowerCase()}
                     />
+                ),
+                details: (
+                    <Button variant="ghost" onClick={() => onClick(course)}>
+                        <ChevronRightIcon ml={1} w={5} h={5} />
+                    </Button>
                 ),
             };
         });

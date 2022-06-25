@@ -27,10 +27,6 @@ const Courses = ({ courses }) => {
         setCourse(course);
     };
 
-    function toggleSideSheet() {
-        setOpen(!open);
-    }
-
     return (
         <Flex flexDirection="column" pt="1rem">
             <Button
@@ -46,10 +42,7 @@ const Courses = ({ courses }) => {
                 //handleSubmit={handleSubmit}
             />
             <TableContainer>
-                <CoursesTable
-                    courses={courses}
-                    toggleSideSheet={toggleSideSheet}
-                />
+                <CoursesTable courses={courses} onClick={onClick} />
             </TableContainer>
             <CourseSidesheet
                 isOpen={open}
