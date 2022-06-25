@@ -45,6 +45,11 @@ const PreferencesForm = (props) => {
                     thursday: false,
                     friday: false,
                 },
+                preferredTime: {
+                    fall: [],
+                    summer: [],
+                    spring: [],
+                },
                 coursePreferences: coursePreferencesInit,
             }}
             onSubmit={(values) => {
@@ -65,7 +70,10 @@ const PreferencesForm = (props) => {
                         setFieldValue={setFieldValue}
                     />
                     <DividerHeading title="Schedule Preferences" mt={20} />
-                    <ScheduleAvailability />
+                    <ScheduleAvailability
+                        values={values}
+                        setFieldValue={setFieldValue}
+                    />
                     <Button mt={5} type="submit">
                         Submit
                     </Button>
