@@ -1,54 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import ScheduleSelector from "react-schedule-selector";
 
-type PropsType = { color: string; semester: string; isDisabled: boolean };
-class Timetable extends React.Component<PropsType> {
-    state = { schedule: [], data: [], semester: this.props.semester };
-    today = new Date();
-    first = this.today.getDate() - this.today.getDay() + 1;
-    unselectedColorDict = {
-        Blue: "rgba(162, 198, 248, 1)",
-        Orange: "rgba(255, 165, 0)",
-        Pink: "rgba(255, 182, 193)",
+const Timetable = (props) => {
+    const { semester, values, setFieldValue, isDisabled } = props;
+    const today = new Date();
+    const first = today.getDate() - today.getDay() + 1;
+    const form_value = "preferredTime." + semester;
+    const datetime_arr = [];
+
+    values.forEach((element) => {
+        let date = new Date();
+        const day = first + element.day - 1;
+        date.setDate(day);
+        date.setHours(element.time, 0, 0);
+        datetime_arr.push(date);
+    });
+
+    const [schedule, setSchedule] = useState(datetime_arr);
+
+    const unselectedColorDict = {
+        fall: "#a2c6f8",
+        spring: "#FFB6C1",
+        summer: "#FFD580",
     };
-    selectedColorDict = {
-        Blue: "rgba(89, 154, 242, 1)",
-        Orange: "rgba(255, 140, 0)",
-        Pink: "rgba(255, 105, 180)",
+    const selectedColorDict = {
+        fall: "#599af2",
+        spring: "#FF69B4",
+        summer: "#FFA500",
     };
 
-    handleChange = (newSchedule) => {
-        const arr = [];
+    function handleChange(newSchedule) {
+        const json_arr = [];
         newSchedule.forEach((element) => {
             const time = {
                 day: element.getDay(),
                 time: element.getHours(),
             };
-            arr.push(time);
+            json_arr.push(time);
         });
-        this.setState({
-            schedule: newSchedule,
-            data: arr,
-        });
-    };
-
-    render() {
-        return (
-            <ScheduleSelector
-                selectedColor={this.selectedColorDict[this.props.color]}
-                unselectedColor={this.unselectedColorDict[this.props.color]}
-                selection={this.state.schedule}
-                numDays={5}
-                minTime={8}
-                maxTime={20}
-                hourlyChunks={1}
-                dateFormat={"dddd"}
-                startDate={new Date(this.today.setDate(this.first))}
-                onChange={this.handleChange}
-                isDisabled={this.props.isDisabled} //doesnt do anything
-            />
-        );
+        setSchedule(newSchedule);
+        setFieldValue(form_value, json_arr);
     }
-}
+
+    return (
+        <ScheduleSelector
+            selectedColor={selectedColorDict[semester]}
+            unselectedColor={unselectedColorDict[semester]}
+            selection={schedule}
+            numDays={5}
+            minTime={8}
+            maxTime={20}
+            hourlyChunks={1}
+            dateFormat={"dddd"}
+            startDate={new Date(today.setDate(first))}
+            onChange={handleChange}
+        />
+    );
+};
 
 export default Timetable;

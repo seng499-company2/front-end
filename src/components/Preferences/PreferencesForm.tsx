@@ -45,6 +45,11 @@ const PreferencesForm = ({ isDisabled }) => {
                     thursday: false,
                     friday: false,
                 },
+                preferredTime: {
+                    fall: [],
+                    summer: [],
+                    spring: [],
+                },
                 coursePreferences: coursePreferencesInit,
             }}
             onSubmit={(values) => {
@@ -67,12 +72,14 @@ const PreferencesForm = ({ isDisabled }) => {
                         isDisabled={isDisabled}
                     />
                     <DividerHeading title="Schedule Preferences" mt={20} />
-                    <ScheduleAvailability isDisabled={isDisabled} />
-                    {!isDisabled && (
-                        <Button mt={5} type="submit">
-                            Submit
-                        </Button>
-                    )}
+                    <ScheduleAvailability
+                        values={values}
+                        setFieldValue={setFieldValue}
+                        isDisabled={isDisabled}
+                    />
+                    <Button mt={5} type="submit">
+                        Submit
+                    </Button>
                 </Form>
             )}
         </Formik>
