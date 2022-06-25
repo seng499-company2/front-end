@@ -14,7 +14,6 @@ import { FaPlus } from "react-icons/fa";
 
 import CourseSidesheet from "../components/Courses/Sidesheet";
 import AdminLayout from "../components/Layout/AdminLayout";
-import SampleSidesheet from "../components/Sample/SampleSidesheet";
 import CoursesTable from "../components/Courses/CoursesTable";
 import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
 

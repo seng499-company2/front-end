@@ -66,7 +66,7 @@ const CoursesTable = ({ courses, onClick }) => {
                 ),
             };
         });
-    }, []);
+    }, [courses, onClick]);
 
     return <Table columns={columns} entries={makeTableData} />;
 };
