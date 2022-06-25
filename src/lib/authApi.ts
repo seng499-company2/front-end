@@ -6,11 +6,11 @@ export async function login(params: {
     username: string;
     password: string;
 }): Promise<User> {
+    const { username, password } = params;
     const response = await axios.post("http://localhost:8000/api/login/", {
-        body: { ...params },
+        username,
+        password,
     });
-
-    console.log({ response });
 
     return response.data;
 }
