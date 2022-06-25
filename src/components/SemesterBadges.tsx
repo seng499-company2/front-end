@@ -6,9 +6,11 @@ export const SemesterBadges = ({ semesters, ...other }) => {
         Spring: "orange",
         Summer: "pink",
     };
-    return semesters.map((semester) => (
-        <Tag colorScheme={colors[semester]} mr={1}>
-            {semester}
-        </Tag>
-    ));
+    return semesters.map((semester) => {
+        return (
+            <Tag colorScheme={colors[semester]} mr={1}>
+                {semester}
+            </Tag>
+        );
+    });
 };
