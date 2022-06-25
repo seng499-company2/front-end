@@ -45,6 +45,9 @@ const Table = (props) => {
             val = val === "true";
         }
 
+        console.log(val);
+        console.log(data);
+
         if (
             data[0] &&
             accessor in data[0] &&
