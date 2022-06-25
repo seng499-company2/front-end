@@ -5,10 +5,10 @@ export const SemesterBadges = ({ semesters, ...other }) => {
         Fall: "blue",
         Spring: "orange",
         Summer: "pink",
-    }
-    return (
-        semesters.map((semester) => (
-            <Tag colorScheme={colors[semester]} mr={1}>{semester}</Tag>
-        ))
-    );
+    };
+    return semesters.map((semester) => (
+        <Tag colorScheme={colors[semester]} mr={1}>
+            {semester}
+        </Tag>
+    ));
 };
