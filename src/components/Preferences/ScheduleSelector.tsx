@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
 
 const Timetable = (props) => {
@@ -45,10 +46,11 @@ const Timetable = (props) => {
     }
 
     return (
+        <Box opacity={isDisabled && 0.5} pointerEvents = {isDisabled ? "none" : "all"} >
         <ScheduleSelector
             selectedColor={selectedColorDict[semester]}
             unselectedColor={unselectedColorDict[semester]}
-            hoveredColor={unselectedColorDict[semester]}
+            hoveredColor={!isDisabled && unselectedColorDict[semester]}
             selection={schedule}
             numDays={5}
             minTime={8}
@@ -57,7 +59,10 @@ const Timetable = (props) => {
             dateFormat={"dddd"}
             startDate={new Date(today.setDate(first))}
             onChange={handleChange}
+            style
         />
+        </Box>
+        
     );
 };
 
