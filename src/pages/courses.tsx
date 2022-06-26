@@ -1,14 +1,4 @@
-import {
-    Button,
-    Flex,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
-} from "@chakra-ui/react";
+import { Button, Flex, TableContainer } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 

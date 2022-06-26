@@ -1,8 +1,13 @@
 import { Box, Text, Divider } from "@chakra-ui/react";
 
-export const CourseNameBox = ({ courseCode, courseName, ...other }) => {
+export const CourseNameBox = ({
+    courseCode,
+    courseName,
+    codeAndName,
+    ...other
+}) => {
     return (
-        <Box {...other}>
+        <Box>
             <Text as="b">{courseCode}</Text>
             <Divider />
             <Text fontSize="sm" as="i">
