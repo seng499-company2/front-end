@@ -30,7 +30,7 @@ const Timetable = (props) => {
     };
 
     function handleChange(newSchedule) {
-        if(!isDisabled) {
+        if (!isDisabled) {
             const json_arr = [];
             newSchedule.forEach((element) => {
                 const time = {
