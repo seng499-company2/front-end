@@ -26,10 +26,8 @@ const Sidesheet = (props) => {
 
     const drawerHeaderText = (
         <Box>
-            
             <Text fontSize="lg">{title}</Text>
-             {subTitle && <Text fontWeight="thin">{subTitle}</Text>}
-            
+            {subTitle && <Text fontWeight="thin">{subTitle}</Text>}
         </Box>
     );
 
