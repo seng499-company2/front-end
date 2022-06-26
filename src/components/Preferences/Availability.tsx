@@ -30,8 +30,9 @@ const Availability = (props) => {
                         isDisabled={isDisabled}
                         max={5}
                         min={0}
+                        defaultValue={values.numCoursesPerSem.fall}
                         onChange={(v) =>
-                            setFieldValue("numCoursesPerSem.fall", v)
+                           setFieldValue("numCoursesPerSem.fall", v)
                         }
                     />
                     <Text alignSelf="center" pl={10}>
@@ -42,6 +43,7 @@ const Availability = (props) => {
                         isDisabled={isDisabled}
                         max={5}
                         min={0}
+                        defaultValue={values.numCoursesPerSem.spring}
                         onChange={(v) =>
                             setFieldValue("numCoursesPerSem.spring", v)
                         }
@@ -54,6 +56,7 @@ const Availability = (props) => {
                         isDisabled={isDisabled}
                         max={5}
                         min={0}
+                        defaultValue={values.numCoursesPerSem.summer}
                         onChange={(v) =>
                             setFieldValue("numCoursesPerSem.summer", v)
                         }
@@ -90,6 +93,7 @@ const Availability = (props) => {
                     as={Checkbox}
                     name="sabbatical.value"
                     isDisabled={isDisabled}
+                    defaultChecked={values.sabbatical.value}
                 >
                     Taking Sabbatical
                 </Field>
@@ -104,6 +108,7 @@ const Availability = (props) => {
                             colorScheme="primary.100"
                             variant="filled"
                             focusBorderColor="primary.500"
+                            defaultValue={values.sabbatical.duration}
                         >
                             <option value="half">Half leave</option>
                             <option value="full">Full leave</option>
@@ -115,6 +120,7 @@ const Availability = (props) => {
                             isDisabled={isDisabled}
                             colorScheme="primary"
                             variant="filled"
+                            defaultValue={values.sabbatical.fromMonth}
                         >
                             <option value="january">January</option>
                             <option value="may">May</option>
@@ -128,6 +134,7 @@ const Availability = (props) => {
                 <NumInput
                     name="teachingDaysPerWeek.value"
                     isDisabled={isDisabled}
+                    defaultValue={values.teachingDaysPerWeek.value}
                     max={5}
                     min={0}
                     onChange={(v) =>
@@ -142,6 +149,7 @@ const Availability = (props) => {
                         as={Checkbox}
                         name="preferredDays.monday"
                         isDisabled={isDisabled}
+                        defaultChecked={values.preferredDays.monday}
                     >
                         Monday
                     </Field>
@@ -149,6 +157,7 @@ const Availability = (props) => {
                         as={Checkbox}
                         name="preferredDays.tuesday"
                         isDisabled={isDisabled}
+                        defaultChecked={values.preferredDays.tuesday}
                     >
                         Tuesday
                     </Field>
@@ -156,6 +165,7 @@ const Availability = (props) => {
                         as={Checkbox}
                         name="preferredDays.wednesday"
                         isDisabled={isDisabled}
+                        defaultChecked={values.preferredDays.wednesday}
                     >
                         Wednesday
                     </Field>
@@ -163,6 +173,7 @@ const Availability = (props) => {
                         as={Checkbox}
                         name="preferredDays.thursday"
                         isDisabled={isDisabled}
+                        defaultChecked={values.preferredDays.thursday}
                     >
                         Thursday
                     </Field>
@@ -170,6 +181,7 @@ const Availability = (props) => {
                         as={Checkbox}
                         name="preferredDays.friday"
                         isDisabled={isDisabled}
+                        defaultChecked={values.preferredDays.friday}
                     >
                         Friday
                     </Field>
