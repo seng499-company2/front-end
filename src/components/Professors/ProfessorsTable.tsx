@@ -37,6 +37,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                             { label: "Incomplete", value: false },
                         ],
                         key: "complete", // prop to filter by
+                        filterType: "exact",
                     },
                 },
                 {
