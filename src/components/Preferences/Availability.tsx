@@ -12,8 +12,7 @@ import { Field } from "formik";
 import NumInput from "../NumInput";
 
 const Availability = (props) => {
-    const { setFieldValue, values } = props;
-    const isDisabled = props.isDisabled;
+    const { setFieldValue, values, isDisabled } = props;
 
     return (
         <VStack spacing={10} align="left">
@@ -108,7 +107,6 @@ const Availability = (props) => {
                             colorScheme="primary.100"
                             variant="filled"
                             focusBorderColor="primary.500"
-                            defaultValue={values.sabbatical.duration}
                         >
                             <option value="half">Half leave</option>
                             <option value="full">Full leave</option>
@@ -120,7 +118,6 @@ const Availability = (props) => {
                             isDisabled={isDisabled}
                             colorScheme="primary"
                             variant="filled"
-                            defaultValue={values.sabbatical.fromMonth}
                         >
                             <option value="january">January</option>
                             <option value="may">May</option>

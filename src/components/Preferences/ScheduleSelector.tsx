@@ -1,22 +1,23 @@
 import React, { useState } from "react";
+import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
 
 const Timetable = (props) => {
-    const { semester, values, setFieldValue, isDisabled } = props;
+    const { semester, values, setFieldValue, isDisabled = false } = props;
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
-    const form_value = "preferredTime." + semester;
-    const datetime_arr = [];
+    const formValue = "preferredTime." + semester;
+    const datetimeArr = [];
 
     values.forEach((element) => {
         let date = new Date();
         const day = first + element.day - 1;
         date.setDate(day);
         date.setHours(element.time, 0, 0);
-        datetime_arr.push(date);
+        datetimeArr.push(date);
     });
 
-    const [schedule, setSchedule] = useState(datetime_arr);
+    const [schedule, setSchedule] = useState(datetimeArr);
 
     const unselectedColorDict = {
         fall: "#a2c6f8",
@@ -30,34 +31,41 @@ const Timetable = (props) => {
     };
 
     function handleChange(newSchedule) {
+        const jsonArr = [];
         if (!isDisabled) {
-            const json_arr = [];
             newSchedule.forEach((element) => {
                 const time = {
                     day: element.getDay(),
                     time: element.getHours(),
                 };
-                json_arr.push(time);
+                jsonArr.push(time);
             });
             setSchedule(newSchedule);
-            setFieldValue(form_value, json_arr);
+            setFieldValue(formValue, jsonArr);
         }
     }
 
     return (
-        <ScheduleSelector
-            selectedColor={selectedColorDict[semester]}
-            unselectedColor={unselectedColorDict[semester]}
-            hoveredColor={unselectedColorDict[semester]}
-            selection={schedule}
-            numDays={5}
-            minTime={8}
-            maxTime={20}
-            hourlyChunks={1}
-            dateFormat={"dddd"}
-            startDate={new Date(today.setDate(first))}
-            onChange={handleChange}
-        />
+        <Box
+            opacity={isDisabled && 0.5}
+            pointerEvents={isDisabled ? "none" : "all"}
+            cursor={isDisabled ? "not-allowed" : "grab"}
+        >
+            <ScheduleSelector
+                selectedColor={selectedColorDict[semester]}
+                unselectedColor={unselectedColorDict[semester]}
+                hoveredColor={unselectedColorDict[semester]}
+                selection={schedule}
+                numDays={5}
+                minTime={8}
+                maxTime={20}
+                hourlyChunks={1}
+                dateFormat={"dddd"}
+                startDate={new Date(today.setDate(first))}
+                onChange={handleChange}
+                style
+            />
+        </Box>
     );
 };
 

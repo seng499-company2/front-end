@@ -1,19 +1,10 @@
-import {
-    Button,
-    Flex,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
-} from "@chakra-ui/react";
+import { Button, Flex, TableContainer } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
 import CourseSidesheet from "../components/Courses/Sidesheet";
 import AdminLayout from "../components/Layout/AdminLayout";
+import CoursesTable from "../components/Courses/CoursesTable";
 import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
 
 const Courses = ({ courses }) => {
@@ -40,26 +31,7 @@ const Courses = ({ courses }) => {
                 //handleSubmit={handleSubmit}
             />
             <TableContainer>
-                <Table variant="striped">
-                    <Thead>
-                        <Tr>
-                            <Th>Code</Th>
-                            <Th>Name</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {courses.map((course) => (
-                            <Tr
-                                cursor={"pointer"}
-                                key={course.id}
-                                onClick={() => onClick(course)}
-                            >
-                                <Td>{course.code}</Td>
-                                <Td>{course.name}</Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                </Table>
+                <CoursesTable courses={courses} onClick={onClick} />
             </TableContainer>
             <CourseSidesheet
                 isOpen={open}
@@ -72,9 +44,27 @@ const Courses = ({ courses }) => {
 
 export const getServerSideProps = async () => {
     const courses = [
-        { id: 1, code: "CSC 225", name: "Data Structures & Algorithms I" },
-        { id: 2, code: "CSC 226", name: "Data Structures & Algorithms II" },
-        { id: 3, code: "CSC 227", name: "Data Structures & Algorithms III" },
+        {
+            id: 1,
+            code: "CSC 225",
+            name: "Data Structures & Algorithms I",
+            willing: 3,
+            offered: ["Summer", "Fall"],
+        },
+        {
+            id: 2,
+            code: "CSC 226",
+            name: "Data Structures & Algorithms II",
+            willing: 1,
+            offered: ["Summer", "Fall", "Spring"],
+        },
+        {
+            id: 3,
+            code: "CSC 227",
+            name: "Data Structures & Algorithms III",
+            willing: 0,
+            offered: ["Summer"],
+        },
     ];
 
     // get from api

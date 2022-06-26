@@ -44,20 +44,41 @@ const Table = (props) => {
             // convert to boolean
             val = val === "true";
         }
+        if (data.length == 0) {
+            return;
+        }
 
         if (
             data[0] &&
             accessor in data[0] &&
             typeof data[0][accessor] !== "object"
         ) {
-            setData(
-                entries.filter((e) => e[accessor].toLowerCase().includes(val))
-            );
+            if (filter.filterType === "exact") {
+                setData(entries.filter((e) => e[accessor] === val));
+            } else {
+                // default is includes filter
+                setData(
+                    entries.filter((e) =>
+                        e[accessor].toLowerCase().includes(val)
+                    )
+                );
+            }
         } else if (typeof data[0][accessor] === "object") {
             // assume it's a react component
-            setData(
-                entries.filter((e) => e[accessor].props[filter.key] === val)
-            );
+            if (filter.filterType === "exact") {
+                setData(
+                    entries.filter((e) => e[accessor].props[filter.key] === val)
+                );
+            } else {
+                // default is includes filter
+                setData(
+                    entries.filter((e) =>
+                        e[accessor].props[filter.key]
+                            .toLowerCase()
+                            .includes(val)
+                    )
+                );
+            }
         }
     };
 
