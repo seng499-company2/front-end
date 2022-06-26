@@ -14,7 +14,3 @@ export async function login(params: {
 
     return response.data;
 }
-
-export function logout(): void {
-    // delete token
-}
