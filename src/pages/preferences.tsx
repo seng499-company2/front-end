@@ -2,7 +2,7 @@ import { Box, Heading, VStack, useColorModeValue } from "@chakra-ui/react";
 import PreferencesForm from "../components/Preferences/PreferencesForm";
 import {
     Difficulty,
-    Willingness
+    Willingness,
 } from "../components/Preferences/CoursesPreferencesTable";
 
 const getCourses = () => {
@@ -17,39 +17,38 @@ const coursePreferencesInit = getCourses().reduce((obj, course) => {
     return obj;
 }, {});
 
-const initialValues = {              
-numCoursesPerSem: {
-    fall: 0,
-    spring: 0,
-    summer: 0,
-},
-// relief: {
-//     value: false,
-//     numCourses: 0,
-// },
-sabbatical: {
-    value: false,
-    duration: "half",
-    fromMonth: "january",
-},
-teachingDaysPerWeek: {
-    value: 0,
-},
-preferredDays: {
-    monday: false,
-    tuesday: false,
-    wednesday: false,
-    thursday: false,
-    friday: false,
-},
-preferredTime: {
-    fall: [],
-    summer: [],
-    spring: [],
-},
-coursePreferences: coursePreferencesInit
-
-}
+const initialValues = {
+    numCoursesPerSem: {
+        fall: 0,
+        spring: 0,
+        summer: 0,
+    },
+    // relief: {
+    //     value: false,
+    //     numCourses: 0,
+    // },
+    sabbatical: {
+        value: false,
+        duration: "half",
+        fromMonth: "january",
+    },
+    teachingDaysPerWeek: {
+        value: 0,
+    },
+    preferredDays: {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+    },
+    preferredTime: {
+        fall: [],
+        summer: [],
+        spring: [],
+    },
+    coursePreferences: coursePreferencesInit,
+};
 
 const Preferences = () => {
     return (
@@ -65,7 +64,10 @@ const Preferences = () => {
                 borderRadius={10}
                 boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
             >
-                <PreferencesForm isDisabled={false} initialValues={initialValues} />
+                <PreferencesForm
+                    isDisabled={false}
+                    initialValues={initialValues}
+                />
             </Box>
         </VStack>
     );

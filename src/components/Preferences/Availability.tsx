@@ -32,7 +32,7 @@ const Availability = (props) => {
                         min={0}
                         defaultValue={values.numCoursesPerSem.fall}
                         onChange={(v) =>
-                           setFieldValue("numCoursesPerSem.fall", v)
+                            setFieldValue("numCoursesPerSem.fall", v)
                         }
                     />
                     <Text alignSelf="center" pl={10}>
