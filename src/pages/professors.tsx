@@ -1,9 +1,11 @@
-import { Box } from "@chakra-ui/react";
+import { Flex, Button } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
+import { FaPlus } from "react-icons/fa";
 
 import AdminLayout from "../components/Layout/AdminLayout";
 import ProfessorsTable from "../components/Professors/ProfessorsTable";
 import ProfessorsSidesheet from "../components/Professors/ProfessorsSidesheet";
+import AddProfessorSidesheet from "../components/Professors/AddProfessorSidesheet";
 
 const Professors = ({ professors }) => {
     const [open, setOpen] = useState(false);
@@ -15,7 +17,19 @@ const Professors = ({ professors }) => {
     };
 
     return (
-        <Box pt="1rem">
+        <Flex flexDirection="column" pt="1rem">
+            <Button
+                ml="auto"
+                leftIcon={<FaPlus />}
+                onClick={() => setOpen(true)}
+            >
+                Add Professor
+            </Button>
+            <AddProfessorSidesheet
+                isOpen={open}
+                onClose={() => setOpen(false)}
+                //handleSubmit={handleSubmit}
+            />
             <ProfessorsTable
                 professors={professors}
                 openDetails={openDetails}
@@ -25,7 +39,7 @@ const Professors = ({ professors }) => {
                 onClose={() => setOpen(false)}
                 professor={prof}
             />
-        </Box>
+        </Flex>
     );
 };
 

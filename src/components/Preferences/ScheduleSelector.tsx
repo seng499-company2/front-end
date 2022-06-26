@@ -6,18 +6,18 @@ const Timetable = (props) => {
     const { semester, values, setFieldValue, isDisabled = false } = props;
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
-    const form_value = "preferredTime." + semester;
-    const datetime_arr = [];
+    const formValue = "preferredTime." + semester;
+    const datetimeArr = [];
 
     values.forEach((element) => {
         let date = new Date();
         const day = first + element.day - 1;
         date.setDate(day);
         date.setHours(element.time, 0, 0);
-        datetime_arr.push(date);
+        datetimeArr.push(date);
     });
 
-    const [schedule, setSchedule] = useState(datetime_arr);
+    const [schedule, setSchedule] = useState(datetimeArr);
 
     const unselectedColorDict = {
         fall: "#a2c6f8",
@@ -31,18 +31,18 @@ const Timetable = (props) => {
     };
 
     function handleChange(newSchedule) {
+        const jsonArr = [];
         if (!isDisabled) {
-            const json_arr = [];
-            newSchedule.forEach((element) => {
-                const time = {
-                    day: element.getDay(),
-                    time: element.getHours(),
-                };
-                json_arr.push(time);
-            });
-            setSchedule(newSchedule);
-            setFieldValue(form_value, json_arr);
-        }
+        newSchedule.forEach((element) => {
+            const time = {
+                day: element.getDay(),
+                time: element.getHours(),
+            };
+            jsonArr.push(time);
+        });
+        setSchedule(newSchedule);
+        setFieldValue(formValue, jsonArr);
+    }
     }
 
     return (
