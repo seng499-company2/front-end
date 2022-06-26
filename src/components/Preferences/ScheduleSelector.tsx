@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ScheduleSelector from "react-schedule-selector";
 
 const Timetable = (props) => {
-    const { semester, values, setFieldValue, isDisabled } = props;
+    const { semester, values, setFieldValue, isDisabled = false } = props;
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
     const form_value = "preferredTime." + semester;
