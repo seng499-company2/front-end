@@ -30,22 +30,25 @@ const Timetable = (props) => {
     };
 
     function handleChange(newSchedule) {
-        const json_arr = [];
-        newSchedule.forEach((element) => {
-            const time = {
-                day: element.getDay(),
-                time: element.getHours(),
-            };
-            json_arr.push(time);
-        });
-        setSchedule(newSchedule);
-        setFieldValue(form_value, json_arr);
+        if(!isDisabled) {
+            const json_arr = [];
+            newSchedule.forEach((element) => {
+                const time = {
+                    day: element.getDay(),
+                    time: element.getHours(),
+                };
+                json_arr.push(time);
+            });
+            setSchedule(newSchedule);
+            setFieldValue(form_value, json_arr);
+        }
     }
 
     return (
         <ScheduleSelector
             selectedColor={selectedColorDict[semester]}
             unselectedColor={unselectedColorDict[semester]}
+            hoveredColor={unselectedColorDict[semester]}
             selection={schedule}
             numDays={5}
             minTime={8}
