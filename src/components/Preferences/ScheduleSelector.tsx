@@ -50,7 +50,7 @@ const Timetable = (props) => {
         <ScheduleSelector
             selectedColor={selectedColorDict[semester]}
             unselectedColor={unselectedColorDict[semester]}
-            hoveredColor={!isDisabled && unselectedColorDict[semester]}
+           hoveredColor={unselectedColorDict[semester]}
             selection={schedule}
             numDays={5}
             minTime={8}
