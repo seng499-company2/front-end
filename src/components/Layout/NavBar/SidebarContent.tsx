@@ -24,11 +24,9 @@ interface LinkItemProps {
 
 // add links here
 const LinkItems: Array<LinkItemProps> = [
-    { name: "Home", href: "/", icon: FiHome },
     { name: "Schedules", href: "/schedules", icon: FiCalendar },
     { name: "Courses", href: "/courses", icon: FiBookOpen },
     { name: "Professors", href: "/professors", icon: FiUser },
-    { name: "Constraints", href: "/constraints", icon: FiSettings },
 ];
 
 export interface SidebarProps extends BoxProps {
