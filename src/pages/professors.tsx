@@ -8,11 +8,12 @@ import ProfessorsSidesheet from "../components/Professors/ProfessorsSidesheet";
 import AddProfessorSidesheet from "../components/Professors/AddProfessorSidesheet";
 
 const Professors = ({ professors }) => {
-    const [open, setOpen] = useState(false);
+    const [detailsIsOpen, setDetailsIsOpen] = useState(false);
+    const [addIsOpen, setAddIsOpen] = useState(false);
     const [prof, setProf] = useState({});
     const openDetails = (prof) => {
         // can use prof values here (from backend)
-        setOpen(!open);
+        setDetailsIsOpen(!open);
         setProf(prof);
     };
 
@@ -21,13 +22,13 @@ const Professors = ({ professors }) => {
             <Button
                 ml="auto"
                 leftIcon={<FaPlus />}
-                onClick={() => setOpen(true)}
+                onClick={() => setAddIsOpen(true)}
             >
                 Add Professor
             </Button>
             <AddProfessorSidesheet
-                isOpen={open}
-                onClose={() => setOpen(false)}
+                isOpen={addIsOpen}
+                onClose={() => setAddIsOpen(false)}
                 //handleSubmit={handleSubmit}
             />
             <ProfessorsTable
@@ -35,8 +36,8 @@ const Professors = ({ professors }) => {
                 openDetails={openDetails}
             />
             <ProfessorsSidesheet
-                isOpen={open}
-                onClose={() => setOpen(false)}
+                isOpen={detailsIsOpen}
+                onClose={() => setDetailsIsOpen(false)}
                 professor={prof}
             />
         </Flex>
