@@ -1,4 +1,5 @@
 import {
+    Box,
     Drawer,
     DrawerBody,
     DrawerFooter,
@@ -24,11 +25,12 @@ const Sidesheet = (props) => {
     } = props;
 
     const drawerHeaderText = (
-        <>
-            <Text fontSize="lg">
-                {title} {subTitle && <Text fontWeight="thin">{subTitle}</Text>}
-            </Text>
-        </>
+        <Box>
+            
+            <Text fontSize="lg">{title}</Text>
+             {subTitle && <Text fontWeight="thin">{subTitle}</Text>}
+            
+        </Box>
     );
 
     return (
