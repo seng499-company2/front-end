@@ -1,9 +1,5 @@
 import Sidesheet from "../Layout/Sidesheet";
 import PreferencesForm from "../Preferences/PreferencesForm";
-import {
-    Difficulty,
-    Willingness,
-} from "../Preferences/CoursesPreferencesTable";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
     const initialValues = {
