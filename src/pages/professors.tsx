@@ -13,7 +13,7 @@ const Professors = ({ professors }) => {
     const [prof, setProf] = useState({});
     const openDetails = (prof) => {
         // can use prof values here (from backend)
-        setDetailsIsOpen(!open);
+        setDetailsIsOpen(!detailsIsOpen);
         setProf(prof);
     };
 
