@@ -147,7 +147,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
             size="xl"
             title={professor.name}
             subTitle={professor.email}
-            submitLabel="Submit Form"
+            submitLabel="Edit"
             formId="prof-form"
             isOpen={isOpen}
             onClose={onClose}
