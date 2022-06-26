@@ -35,9 +35,11 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
                         setFieldValue={setFieldValue}
                         isDisabled={isDisabled}
                     />
-                    {!isDisabled && (<Button mt={5} type="submit">
-                        Submit
-                    </Button>)}
+                    {!isDisabled && (
+                        <Button mt={5} type="submit">
+                            Submit
+                        </Button>
+                    )}
                 </Form>
             )}
         </Formik>

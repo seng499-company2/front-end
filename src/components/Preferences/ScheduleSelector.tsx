@@ -33,36 +33,39 @@ const Timetable = (props) => {
     function handleChange(newSchedule) {
         const jsonArr = [];
         if (!isDisabled) {
-        newSchedule.forEach((element) => {
-            const time = {
-                day: element.getDay(),
-                time: element.getHours(),
-            };
-            jsonArr.push(time);
-        });
-        setSchedule(newSchedule);
-        setFieldValue(formValue, jsonArr);
-    }
+            newSchedule.forEach((element) => {
+                const time = {
+                    day: element.getDay(),
+                    time: element.getHours(),
+                };
+                jsonArr.push(time);
+            });
+            setSchedule(newSchedule);
+            setFieldValue(formValue, jsonArr);
+        }
     }
 
     return (
-        <Box opacity={isDisabled && 0.5} pointerEvents = {isDisabled ? "none" : "all"} >
-        <ScheduleSelector
-            selectedColor={selectedColorDict[semester]}
-            unselectedColor={unselectedColorDict[semester]}
-           hoveredColor={unselectedColorDict[semester]}
-            selection={schedule}
-            numDays={5}
-            minTime={8}
-            maxTime={20}
-            hourlyChunks={1}
-            dateFormat={"dddd"}
-            startDate={new Date(today.setDate(first))}
-            onChange={handleChange}
-            style
-        />
+        <Box
+            opacity={isDisabled && 0.5}
+            pointerEvents={isDisabled ? "none" : "all"}
+            cursor={isDisabled ? "not-allowed" : "grab"}
+        >
+            <ScheduleSelector
+                selectedColor={selectedColorDict[semester]}
+                unselectedColor={unselectedColorDict[semester]}
+                hoveredColor={unselectedColorDict[semester]}
+                selection={schedule}
+                numDays={5}
+                minTime={8}
+                maxTime={20}
+                hourlyChunks={1}
+                dateFormat={"dddd"}
+                startDate={new Date(today.setDate(first))}
+                onChange={handleChange}
+                style
+            />
         </Box>
-        
     );
 };
 
