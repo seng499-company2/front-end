@@ -25,9 +25,6 @@ export const User = () => (
                 <HStack>
                     <Avatar
                         size={"sm"}
-                        src={
-                            "https://media1.popsugar-assets.com/files/thumbor/90Y7vxSSuPCc03r3OBAFs-N3s5Y/73x206:2432x2565/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2020/05/18/282/n/1922398/3aa7081b5ec372b05414c5.46937023_/i/Owen-Wilson.jpg"
-                        }
                     />
                     <VStack
                         display={{ base: "none", md: "flex" }}
