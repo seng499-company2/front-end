@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 
 import theme from "../theme";
 import DefaultLayout from "../components/Layout/DefaultLayout";
+import { AuthProvider } from "../hooks/useAuth";
 
 type Page<P = {}> = NextPage<P> & {
     getLayout?: (page: ReactNode) => ReactNode;
@@ -22,7 +23,9 @@ function App({ Component, pageProps }: Props) {
 
     return (
         <ChakraProvider resetCSS theme={theme}>
-            {getLayout(<Component {...pageProps} />)}
+            <AuthProvider>
+                {getLayout(<Component {...pageProps} />)}
+            </AuthProvider>
         </ChakraProvider>
     );
 }
