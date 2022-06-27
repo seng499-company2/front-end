@@ -66,7 +66,8 @@ export function AuthProvider({
                 if (response.status === 200) {
                     setUser(response.data);
                     setIsLoading(false);
-                    router.push("/");
+                    // hacky fix - fix redirect to /
+                    router.push("/professors");
                 } else {
                     setIsLoading(false);
                     setIsError(true);
