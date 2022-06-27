@@ -20,11 +20,8 @@ interface UserJwtPayload {
  * it's valid or a response if it's not.
  */
 export function verifyAuth(request: NextRequest) {
-    console.log("verifyAuth");
-
     // skip if api call
     if (request.page.name.startsWith("/api")) {
-        console.log("skipping verifyAuth for api call");
         return;
     }
 
@@ -43,7 +40,6 @@ export function verifyAuth(request: NextRequest) {
     try {
         decoded = decodeJwt(token);
     } catch (e) {
-        console.log({ e });
         return redirect(request, "/login");
     }
 

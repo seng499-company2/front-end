@@ -68,12 +68,10 @@ export function AuthProvider({
                     setIsLoading(false);
                     router.push("/");
                 } else {
-                    console.log({ response });
                     setIsLoading(false);
                     setIsError(true);
                 }
             } catch (error) {
-                console.log({ error });
                 setIsLoading(false);
                 setIsError(true);
             }

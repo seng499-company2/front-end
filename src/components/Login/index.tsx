@@ -17,8 +17,6 @@ import useAuth from "src/hooks/useAuth";
 export const LoginCard = () => {
     const { login, isLoading, isError } = useAuth();
 
-    console.log({ LoginCardError: isError });
-
     return (
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
