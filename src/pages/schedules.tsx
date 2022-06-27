@@ -1,8 +1,8 @@
 import { Center, Button, Text, VStack } from "@chakra-ui/react";
 import { ReactElement } from "react";
 
-import AdminLayout from "../components/Layout/AdminLayout";
-import useGetQuery from "../utils/useGetQuery";
+import AdminLayout from "@components/Layout/AdminLayout";
+import useGetQuery from "@hooks/useGetQuery";
 
 const Schedules = ({ scheduledCourses }) => {
     const { data, isLoading, isError, execute } = useGetQuery(
