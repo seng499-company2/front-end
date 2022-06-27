@@ -81,12 +81,17 @@ export function AuthProvider({
 
     const logout = useCallback(async () => {
         // logout user with api call
-        const result = await axios.post("/api/logout");
+        let result;
+        try {
+            result = await axios.post("/api/logout");
+        } catch (error) {
+            setIsError(true);
+        }
         if (result.status === 200) {
             setUser(undefined);
             router.push("/login");
         } else {
-            setIsError(result.data);
+            setIsError(true);
         }
     }, [router]);
 

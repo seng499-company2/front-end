@@ -16,7 +16,8 @@
         "jsx": "preserve",
         "paths": {
             "@lib/*": ["src/lib/*"],
-            "@components/*": ["src/components/*"]
+            "@components/*": ["src/components/*"],
+            "@hooks/*": ["src/hooks/*"]
         },
         "incremental": true
     },

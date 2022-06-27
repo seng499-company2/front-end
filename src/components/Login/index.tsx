@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 
-import useAuth from "src/hooks/useAuth";
+import useAuth from "@hooks/useAuth";
 
 export const LoginCard = () => {
     const { login, isLoading, isError } = useAuth();

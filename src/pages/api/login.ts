@@ -12,11 +12,16 @@ export default async function handler(
 ) {
     const { username, password } = req.body;
 
-    const response = await axios.post(loginEndpoint, {
-        username,
-        password,
-    });
-
+    let response;
+    try {
+        response = await axios.post(loginEndpoint, {
+            username,
+            password,
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Login failed" });
+        return;
+    }
     const data = await response.data;
 
     // check for details because 200 is always returned

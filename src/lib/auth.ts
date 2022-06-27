@@ -1,7 +1,6 @@
 // eslint-disable-next-line @next/next/no-server-import-in-page
 import { NextRequest, NextResponse } from "next/server";
 import { decodeJwt } from "jose";
-import { serialize } from "cookie";
 
 import { USER_TOKEN } from "./constants";
 import redirect from "./redirect";

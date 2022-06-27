@@ -1,4 +1,4 @@
-import LoginCard from "../components/Login";
+import LoginCard from "@components/Login";
 
 export const Auth = () => {
     return <LoginCard />;
