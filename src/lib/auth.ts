@@ -19,6 +19,10 @@ interface UserJwtPayload {
  * it's valid or a response if it's not.
  */
 export function verifyAuth(request: NextRequest) {
+    if (!request.page || !request.page.name) {
+        return;
+    }
+
     // skip if api call
     if (request.page.name.startsWith("/api")) {
         return;
