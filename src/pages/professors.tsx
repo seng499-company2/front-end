@@ -1,69 +1,72 @@
-import {
-    Box,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
-} from "@chakra-ui/react";
+import { Flex, Button } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
+import { FaPlus } from "react-icons/fa";
 
-import { CompleteStatusBadge } from "../components/CompleteStatusBadge";
 import AdminLayout from "../components/Layout/AdminLayout";
-import SampleSidesheet from "../components/Sample/SampleSidesheet";
+import ProfessorsTable from "../components/Professors/ProfessorsTable";
+import ProfessorsSidesheet from "../components/Professors/ProfessorsSidesheet";
+import AddProfessorSidesheet from "../components/Professors/AddProfessorSidesheet";
 
 const Professors = ({ professors }) => {
-    const [open, setOpen] = useState(false);
-
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values, null, 2));
-        setOpen(false);
+    const [detailsIsOpen, setDetailsIsOpen] = useState(false);
+    const [addIsOpen, setAddIsOpen] = useState(false);
+    const [prof, setProf] = useState({});
+    const openDetails = (prof) => {
+        // can use prof values here (from backend)
+        setDetailsIsOpen(!detailsIsOpen);
+        setProf(prof);
     };
 
     return (
-        <Box pt="1rem">
-            <TableContainer>
-                <Table variant="striped">
-                    <Thead>
-                        <Tr>
-                            <Th>Name</Th>
-                            <Th>Preferences</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {professors.map((course) => (
-                            <Tr
-                                cursor={"pointer"}
-                                key={course.id}
-                                onClick={() => setOpen(!open)}
-                            >
-                                <Td>{course.name}</Td>
-                                <Td>
-                                    <CompleteStatusBadge
-                                        complete={course.complete}
-                                    />
-                                </Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                </Table>
-            </TableContainer>
-            <SampleSidesheet
-                isOpen={open}
-                onClose={() => setOpen(false)}
-                handleSubmit={handleSubmit}
+        <Flex flexDirection="column" pt="1rem">
+            <Button
+                ml="auto"
+                leftIcon={<FaPlus />}
+                onClick={() => setAddIsOpen(true)}
+            >
+                Add Professor
+            </Button>
+            <AddProfessorSidesheet
+                isOpen={addIsOpen}
+                onClose={() => setAddIsOpen(false)}
+                //handleSubmit={handleSubmit}
             />
-        </Box>
+            <ProfessorsTable
+                professors={professors}
+                openDetails={openDetails}
+            />
+            <ProfessorsSidesheet
+                isOpen={detailsIsOpen}
+                onClose={() => setDetailsIsOpen(false)}
+                professor={prof}
+            />
+        </Flex>
     );
 };
 
 export const getServerSideProps = async () => {
     const professors = [
-        { id: 1, name: "Dave Dave", complete: true },
-        { id: 2, name: "Owen Wilson", complete: false },
-        { id: 3, name: "Gordo Ramso", complete: true },
+        {
+            id: 1,
+            name: "Dave Dave",
+            type: "Teaching",
+            complete: true,
+            email: "dave@dave.ca",
+        },
+        {
+            id: 2,
+            name: "Owen Wilson",
+            type: "Research",
+            complete: false,
+            email: "owenwilson@wow.com",
+        },
+        {
+            id: 3,
+            name: "Gordo Ramso",
+            type: "Research",
+            complete: true,
+            email: "gr@hellsnightmare.uk",
+        },
     ];
 
     // get from api

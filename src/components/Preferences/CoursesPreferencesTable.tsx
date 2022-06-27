@@ -1,6 +1,7 @@
 import { Select } from "@chakra-ui/react";
 import { useMemo } from "react";
-import C2Table from "../C2Table";
+
+import Table from "../Table";
 
 export enum Willingness {
     veryWilling = 2,
@@ -14,11 +15,14 @@ export enum Difficulty {
     easy = 0,
 }
 
-const CoursesPreferencesTable = ({ values, setFieldValue }) => {
+const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
     const columns = [
         {
             Header: "Course",
             accessor: "course",
+            filter: {
+                type: "text",
+            },
         },
         {
             Header: "Willingness",
@@ -48,6 +52,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue }) => {
                             )
                         }
                         key={c + "-willingness"}
+                        isDisabled={isDisabled}
                     >
                         <option value={Willingness.unwilling}>Unwilling</option>
                         <option value={Willingness.willing}>Willing</option>
@@ -66,6 +71,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue }) => {
                             )
                         }
                         key={c + "--difficulty"}
+                        isDisabled={isDisabled}
                     >
                         <option value={Difficulty.difficult}>Difficult</option>
                         <option value={Difficulty.moderate}>Moderate</option>
@@ -74,9 +80,9 @@ const CoursesPreferencesTable = ({ values, setFieldValue }) => {
                 ),
             };
         });
-    }, [setFieldValue, values?.coursePreferences]);
+    }, [setFieldValue, values?.coursePreferences, isDisabled]);
 
-    return <C2Table columns={columns} entries={makeTableData} />;
+    return <Table columns={columns} entries={makeTableData} />;
 };
 
 export default CoursesPreferencesTable;

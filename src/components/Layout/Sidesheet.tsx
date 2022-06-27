@@ -1,4 +1,5 @@
 import {
+    Box,
     Drawer,
     DrawerBody,
     DrawerFooter,
@@ -7,6 +8,7 @@ import {
     DrawerContent,
     DrawerCloseButton,
     Button,
+    Text,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -15,11 +17,19 @@ const Sidesheet = (props) => {
         isOpen,
         onClose,
         title,
+        subTitle,
         submitLabel,
         onSubmit,
         formId,
         ...other
     } = props;
+
+    const drawerHeaderText = (
+        <Box>
+            <Text fontSize="lg">{title}</Text>
+            {subTitle && <Text fontWeight="thin">{subTitle}</Text>}
+        </Box>
+    );
 
     return (
         <>
@@ -32,7 +42,9 @@ const Sidesheet = (props) => {
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader borderBottomWidth="1px">{title}</DrawerHeader>
+                    <DrawerHeader borderBottomWidth="1px">
+                        {drawerHeaderText}
+                    </DrawerHeader>
 
                     <DrawerBody>{props.children}</DrawerBody>
 

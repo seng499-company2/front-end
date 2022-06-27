@@ -3,12 +3,22 @@ import { useState } from "react";
 
 import SampleSidesheet from "../components/Sample/SampleSidesheet";
 import SamplePageHeader from "../components/Sample/SamplePageHeader";
+import useGetQuery from "../hooks/useGetQuery";
+import usePostQuery from "../hooks/usePostQuery";
 
 const Sample = () => {
     const [open, setOpen] = useState(false);
+    // const { data, isLoading, isError } = useGetQuery("/users");
+    const {
+        data: pData,
+        isLoading: pLoading,
+        execute,
+    } = usePostQuery("/users");
 
     const handleSubmit = (values) => {
-        alert(JSON.stringify(values, null, 2));
+        execute({
+            data: values,
+        });
         setOpen(false);
     };
 

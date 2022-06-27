@@ -1,64 +1,71 @@
-import {
-    Box,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
-} from "@chakra-ui/react";
+import { Button, Flex, TableContainer } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
+import { FaPlus } from "react-icons/fa";
 
+import CourseSidesheet from "../components/Courses/Sidesheet";
 import AdminLayout from "../components/Layout/AdminLayout";
-import SampleSidesheet from "../components/Sample/SampleSidesheet";
+import CoursesTable from "../components/Courses/CoursesTable";
+import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
 
 const Courses = ({ courses }) => {
-    const [open, setOpen] = useState(false);
+    const [detailsIsOpen, setDetailsIsOpen] = useState(false);
+    const [addIsOpen, setAddIsOpen] = useState(false);
+    const [course, setCourse] = useState({});
 
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values, null, 2));
-        setOpen(false);
+    const onClick = (course) => {
+        setDetailsIsOpen(true);
+        setCourse(course);
     };
 
     return (
-        <Box pt="1rem">
-            <TableContainer>
-                <Table variant="striped">
-                    <Thead>
-                        <Tr>
-                            <Th>Code</Th>
-                            <Th>Name</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {courses.map((course) => (
-                            <Tr
-                                cursor={"pointer"}
-                                key={course.id}
-                                onClick={() => setOpen(!open)}
-                            >
-                                <Td>{course.code}</Td>
-                                <Td>{course.name}</Td>
-                            </Tr>
-                        ))}
-                    </Tbody>
-                </Table>
-            </TableContainer>
-            <SampleSidesheet
-                isOpen={open}
-                onClose={() => setOpen(false)}
-                handleSubmit={handleSubmit}
+        <Flex flexDirection="column" pt="1rem">
+            <Button
+                ml="auto"
+                leftIcon={<FaPlus />}
+                onClick={() => setAddIsOpen(true)}
+            >
+                Add Course
+            </Button>
+            <AddCourseSidesheet
+                isOpen={addIsOpen}
+                onClose={() => setAddIsOpen(false)}
+                //handleSubmit={handleSubmit}
             />
-        </Box>
+            <TableContainer>
+                <CoursesTable courses={courses} onClick={onClick} />
+            </TableContainer>
+            <CourseSidesheet
+                isOpen={detailsIsOpen}
+                onClose={() => setDetailsIsOpen(false)}
+                course={course}
+            />
+        </Flex>
     );
 };
 
 export const getServerSideProps = async () => {
     const courses = [
-        { id: 1, code: "CSC 225", name: "Data Structures & Algorithms I" },
-        { id: 2, code: "CSC 226", name: "Data Structures & Algorithms II" },
-        { id: 3, code: "CSC 227", name: "Data Structures & Algorithms III" },
+        {
+            id: 1,
+            code: "CSC 225",
+            name: "Data Structures & Algorithms I",
+            willing: 3,
+            offered: ["Summer", "Fall"],
+        },
+        {
+            id: 2,
+            code: "CSC 226",
+            name: "Data Structures & Algorithms II",
+            willing: 1,
+            offered: ["Summer", "Fall", "Spring"],
+        },
+        {
+            id: 3,
+            code: "CSC 227",
+            name: "Data Structures & Algorithms III",
+            willing: 0,
+            offered: ["Summer"],
+        },
     ];
 
     // get from api
