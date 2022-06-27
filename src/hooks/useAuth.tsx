@@ -7,9 +7,8 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 
-import { getCurrentUser } from "../lib/user";
 import { useRouter } from "next/router";
 
 export interface User {
@@ -19,7 +18,7 @@ export interface User {
 
 export interface AuthContextType {
     user: User;
-    error?: AxiosResponse<any>;
+    isError: boolean;
     isLoading: boolean;
     login: (username: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
@@ -33,12 +32,16 @@ export function AuthProvider({
     children: ReactNode;
 }): JSX.Element {
     const [user, setUser] = useState<User>();
-    const [error, setError] = useState<AxiosError<any> | null>();
+    const [isError, setIsError] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    if (error) setError(null);
+    useEffect(() => {
+        if (isError) setIsError(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoading]);
 
+    // TODO
     // useEffect(() => {
     //     // get current user with api call
     //     const getUser = async () => {
@@ -60,12 +63,19 @@ export function AuthProvider({
                         password,
                     }
                 );
-                setUser(response.data);
-                setIsLoading(false);
-                router.push("/");
+                if (response.status === 200) {
+                    setUser(response.data);
+                    setIsLoading(false);
+                    router.push("/");
+                } else {
+                    console.log({ response });
+                    setIsLoading(false);
+                    setIsError(true);
+                }
             } catch (error) {
+                console.log({ error });
                 setIsLoading(false);
-                setError(error);
+                setIsError(true);
             }
         },
         [router]
@@ -78,7 +88,7 @@ export function AuthProvider({
             setUser(undefined);
             router.push("/login");
         } else {
-            setError(result.data);
+            setIsError(result.data);
         }
     }, [router]);
 
@@ -90,10 +100,11 @@ export function AuthProvider({
                 role: user?.role,
             },
             isLoading,
+            isError,
             login,
             logout,
         }),
-        [user?.id, user?.role, isLoading, login, logout]
+        [user?.id, user?.role, isLoading, isError, login, logout]
     );
 
     return (

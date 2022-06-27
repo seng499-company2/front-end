@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { USER_TOKEN } from "@lib/constants";
 import { serialize } from "cookie";
 import axios from "axios";
+
+import { USER_TOKEN } from "@lib/constants";
 
 const loginEndpoint = "http://localhost:8000/api/login/";
 
@@ -9,7 +10,6 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    console.log("login handler");
     const { username, password } = req.body;
 
     const response = await axios.post(loginEndpoint, {
@@ -25,7 +25,6 @@ export default async function handler(
         return res.status(401).json(data);
     }
 
-    console.log("setting cookie");
     // set USER_TOKEN cookie
     res.setHeader(
         "Set-Cookie",

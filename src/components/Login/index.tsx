@@ -8,13 +8,16 @@ import {
     Heading,
     useColorModeValue,
     VStack,
+    Text,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 
 import useAuth from "src/hooks/useAuth";
 
 export const LoginCard = () => {
-    const { login, isLoading } = useAuth();
+    const { login, isLoading, isError } = useAuth();
+
+    console.log({ LoginCardError: isError });
 
     return (
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
@@ -55,6 +58,13 @@ export const LoginCard = () => {
                                         type="password"
                                     ></Field>
                                 </FormControl>
+                                {!isLoading && isError && (
+                                    <Box>
+                                        <Text color="red">
+                                            Incorrect credentials.
+                                        </Text>
+                                    </Box>
+                                )}
                                 <Button type="submit" isLoading={isLoading}>
                                     Sign in
                                 </Button>
