@@ -6,11 +6,9 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import router from "next/router";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
-import * as userApi from "../lib/userApi";
-import * as authApi from "../lib/authApi";
+import { getCurrentUser } from "../lib/user";
 
 export interface User {
     id: string;
@@ -19,10 +17,7 @@ export interface User {
 
 export interface AuthContextType {
     user: User;
-    loading: boolean;
     error?: AxiosResponse<any>;
-    login: (email: string, password: string) => void;
-    signUp: (email: string, name: string, password: string) => void;
     logout: () => void;
 }
 
@@ -34,56 +29,42 @@ export function AuthProvider({
     children: ReactNode;
 }): JSX.Element {
     const [user, setUser] = useState<User>();
-    const [error, setError] = useState<AxiosResponse<any> | null>();
-    const [loading, setLoading] = useState<boolean>(false);
-    const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
+    const [error, setError] = useState<AxiosError<any> | null>();
+
+    if (error) setError(null);
 
     useEffect(() => {
-        if (error) setError(null);
-    }, [error]);
+        // get current user with api call
+        const getUser = async () => {
+            const user = await getCurrentUser();
+            setUser(user);
+        };
 
-    useEffect(() => {
-        userApi
-            .getCurrentUser()
-            .then((newUser) => setUser(newUser))
-            .catch((_error) => {})
-            .finally(() => setLoadingInitial(false));
+        getUser();
     }, []);
 
-    function login(username: string, password: string) {
-        setLoading(true);
-
-        authApi
-            .login({ username, password })
-            .then((newUser) => {
-                setUser(newUser);
-                router.push("/");
-            })
-            .catch((newError) => setError(newError))
-            .finally(() => setLoading(false));
-    }
-
     function logout() {
-        authApi.logout();
+        // TODO remove token
+
+        // remove user from state
         setUser(undefined);
     }
 
     // Make the provider update only when it should
     const memoedValue = useMemo(
         () => ({
-            user,
-            loading,
-            error,
-            login,
+            user: {
+                id: user?.id,
+                role: user?.role,
+            },
             logout,
         }),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [user, loading, error]
+        [user?.id, user?.role]
     );
 
     return (
         <AuthContext.Provider value={memoedValue as AuthContextType}>
-            {!loadingInitial && children}
+            {children}
         </AuthContext.Provider>
     );
 }

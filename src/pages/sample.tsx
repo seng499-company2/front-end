@@ -3,8 +3,8 @@ import { useState } from "react";
 
 import SampleSidesheet from "../components/Sample/SampleSidesheet";
 import SamplePageHeader from "../components/Sample/SamplePageHeader";
-import useGetQuery from "../utils/useGetQuery";
-import usePostQuery from "../utils/usePostQuery";
+import useGetQuery from "../hooks/useGetQuery";
+import usePostQuery from "../hooks/usePostQuery";
 
 const Sample = () => {
     const [open, setOpen] = useState(false);
