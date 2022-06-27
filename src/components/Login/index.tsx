@@ -10,20 +10,11 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
-import { useRouter } from "next/router";
 
-import usePostQuery from "../../hooks/usePostQuery";
+import useAuth from "src/hooks/useAuth";
 
 export const LoginCard = () => {
-    const { data: user, isLoading, execute } = usePostQuery("/login/");
-    const router = useRouter();
-
-    if (user) {
-        console.log({ user });
-        // save user in localstorage
-        localStorage.setItem("token", user.token);
-        router.push("/");
-    }
+    const { login, isLoading } = useAuth();
 
     return (
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
@@ -41,10 +32,8 @@ export const LoginCard = () => {
                         username: "",
                         password: "",
                     }}
-                    onSubmit={(values) => {
-                        execute({
-                            data: values,
-                        });
+                    onSubmit={async ({ username, password }) => {
+                        await login(username, password);
                     }}
                 >
                     {({ errors, touched }) => (
