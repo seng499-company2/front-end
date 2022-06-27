@@ -51,19 +51,19 @@ const willingProfessorsColumns = [
 
 const scheduledSemesters = [
     {
-        semester: "fall",
+        semester: "Fall",
         classSize: "10",
         time: "MWF 10:00-11:15",
         professor: "John Doe",
     },
     {
-        semester: "spring",
+        semester: "Spring",
         classSize: "10",
         time: "MWF 10:00-11:15",
         professor: "John Doe",
     },
     {
-        semester: "summer",
+        semester: "Summer",
         classSize: "10",
         time: "MWF 10:00-11:15",
         professor: "John Doe",
