@@ -4,7 +4,6 @@ import {
     FormLabel,
     Input,
     VStack,
-    Textarea,
     Select,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";

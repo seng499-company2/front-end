@@ -8,11 +8,12 @@ import CoursesTable from "../components/Courses/CoursesTable";
 import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
 
 const Courses = ({ courses }) => {
-    const [open, setOpen] = useState(false);
+    const [detailsIsOpen, setDetailsIsOpen] = useState(false);
+    const [addIsOpen, setAddIsOpen] = useState(false);
     const [course, setCourse] = useState({});
 
     const onClick = (course) => {
-        setOpen(true);
+        setDetailsIsOpen(true);
         setCourse(course);
     };
 
@@ -21,21 +22,21 @@ const Courses = ({ courses }) => {
             <Button
                 ml="auto"
                 leftIcon={<FaPlus />}
-                onClick={() => setOpen(true)}
+                onClick={() => setAddIsOpen(true)}
             >
                 Add Course
             </Button>
             <AddCourseSidesheet
-                isOpen={open}
-                onClose={() => setOpen(false)}
+                isOpen={addIsOpen}
+                onClose={() => setAddIsOpen(false)}
                 //handleSubmit={handleSubmit}
             />
             <TableContainer>
                 <CoursesTable courses={courses} onClick={onClick} />
             </TableContainer>
             <CourseSidesheet
-                isOpen={open}
-                onClose={() => setOpen(false)}
+                isOpen={detailsIsOpen}
+                onClose={() => setDetailsIsOpen(false)}
                 course={course}
             />
         </Flex>
