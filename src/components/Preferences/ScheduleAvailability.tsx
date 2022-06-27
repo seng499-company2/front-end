@@ -2,7 +2,7 @@ import { TabList, Tabs, Tab, TabPanel, TabPanels } from "@chakra-ui/react";
 import Timetable from "./ScheduleSelector";
 
 const ScheduleAvailability = (props) => {
-    const { setFieldValue, values } = props;
+    const { setFieldValue, values, isDisabled = false } = props;
 
     return (
         <Tabs variant="soft-rounded" colorScheme="green" isLazy>
@@ -17,6 +17,7 @@ const ScheduleAvailability = (props) => {
                         semester="fall"
                         values={values.preferredTime.fall}
                         setFieldValue={setFieldValue}
+                        isDisabled={isDisabled}
                     />
                 </TabPanel>
                 <TabPanel>
@@ -24,6 +25,7 @@ const ScheduleAvailability = (props) => {
                         semester="summer"
                         values={values.preferredTime.summer}
                         setFieldValue={setFieldValue}
+                        isDisabled={isDisabled}
                     />
                 </TabPanel>
                 <TabPanel>
@@ -31,6 +33,7 @@ const ScheduleAvailability = (props) => {
                         semester="spring"
                         values={values.preferredTime.spring}
                         setFieldValue={setFieldValue}
+                        isDisabled={isDisabled}
                     />
                 </TabPanel>
             </TabPanels>

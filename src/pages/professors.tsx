@@ -4,19 +4,17 @@ import { FaPlus } from "react-icons/fa";
 
 import AdminLayout from "../components/Layout/AdminLayout";
 import ProfessorsTable from "../components/Professors/ProfessorsTable";
+import ProfessorsSidesheet from "../components/Professors/ProfessorsSidesheet";
 import AddProfessorSidesheet from "../components/Professors/AddProfessorSidesheet";
 
 const Professors = ({ professors }) => {
-    const [open, setOpen] = useState(false);
-
+    const [detailsIsOpen, setDetailsIsOpen] = useState(false);
+    const [addIsOpen, setAddIsOpen] = useState(false);
+    const [prof, setProf] = useState({});
     const openDetails = (prof) => {
         // can use prof values here (from backend)
-        setOpen(!open);
-    };
-
-    const handleSubmit = (values) => {
-        alert(JSON.stringify(values, null, 2));
-        setOpen(false);
+        setDetailsIsOpen(!detailsIsOpen);
+        setProf(prof);
     };
 
     return (
@@ -24,18 +22,23 @@ const Professors = ({ professors }) => {
             <Button
                 ml="auto"
                 leftIcon={<FaPlus />}
-                onClick={() => setOpen(true)}
+                onClick={() => setAddIsOpen(true)}
             >
                 Add Professor
             </Button>
             <AddProfessorSidesheet
-                isOpen={open}
-                onClose={() => setOpen(false)}
+                isOpen={addIsOpen}
+                onClose={() => setAddIsOpen(false)}
                 //handleSubmit={handleSubmit}
             />
             <ProfessorsTable
                 professors={professors}
                 openDetails={openDetails}
+            />
+            <ProfessorsSidesheet
+                isOpen={detailsIsOpen}
+                onClose={() => setDetailsIsOpen(false)}
+                professor={prof}
             />
         </Flex>
     );
@@ -43,9 +46,27 @@ const Professors = ({ professors }) => {
 
 export const getServerSideProps = async () => {
     const professors = [
-        { id: 1, name: "Dave Dave", type: "Teaching", complete: true },
-        { id: 2, name: "Owen Wilson", type: "Research", complete: false },
-        { id: 3, name: "Gordo Ramso", type: "Research", complete: true },
+        {
+            id: 1,
+            name: "Dave Dave",
+            type: "Teaching",
+            complete: true,
+            email: "dave@dave.ca",
+        },
+        {
+            id: 2,
+            name: "Owen Wilson",
+            type: "Research",
+            complete: false,
+            email: "owenwilson@wow.com",
+        },
+        {
+            id: 3,
+            name: "Gordo Ramso",
+            type: "Research",
+            complete: true,
+            email: "gr@hellsnightmare.uk",
+        },
     ];
 
     // get from api
