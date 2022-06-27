@@ -8,7 +8,7 @@ import usePostQuery from "../utils/usePostQuery";
 
 const Sample = () => {
     const [open, setOpen] = useState(false);
-    const { data, isLoading, isError, refetch } = useGetQuery("/users");
+    // const { data, isLoading, isError } = useGetQuery("/users");
     const {
         data: pData,
         isLoading: pLoading,
@@ -20,7 +20,6 @@ const Sample = () => {
             data: values,
         });
         setOpen(false);
-        refetch();
     };
 
     return (

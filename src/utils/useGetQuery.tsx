@@ -5,7 +5,7 @@ const backendUrl = "http://localhost:8000";
 // who needs env variables?
 // const backendUrl = "http://ec2-52-55-238-236.compute-1.amazonaws.com:8000"
 
-const useGetQuery = (route: string, { ...opts }: Options) => {
+const useGetQuery = (route: string, opts?: Options) => {
     const [{ data, loading, error }, execute] = useAxios(backendUrl + route, {
         ...opts,
     });
