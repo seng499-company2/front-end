@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 
 import AdminLayout from "@components/Layout/AdminLayout";
 import useGetQuery from "@hooks/useGetQuery";
+import ScheduleTable from "@components/Schedule/ScheduleTable";
 
 const Schedules = ({ scheduledCourses }) => {
     const { data, isLoading, isError, execute } = useGetQuery(
@@ -11,6 +12,10 @@ const Schedules = ({ scheduledCourses }) => {
             manual: true,
         }
     );
+
+    const onClick = (course) => {
+        // TODO: schedule sidesheet
+    };
 
     return (
         <Center height="50vh">
@@ -23,7 +28,7 @@ const Schedules = ({ scheduledCourses }) => {
                 >
                     Generate Schedule
                 </Button>
-                <Text>{data}</Text>
+                <ScheduleTable schedule={data} onClick={onClick} />
                 {isError && <Text color="red">Error</Text>}
             </VStack>
         </Center>
