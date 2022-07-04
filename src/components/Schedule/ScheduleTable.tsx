@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import Table from "../Table";
 import { CourseNameBox } from "src/components/Courses/CourseNameBox";
+import { CourseTimeBox } from "src/components/Schedule/CourseTimeBox";
 
 const ScheduleTable = ({ schedule, onClick }) => {
     if (!schedule) {
@@ -55,43 +56,8 @@ const ScheduleTable = ({ schedule, onClick }) => {
         },
     ];
 
-    // mock schedule
-    const mockSchedule = [
-        {
-            course: {
-                code: "CSC 225",
-                name: "Algorithms and Data Structures: I",
-            },
-            section: "A01",
-            instructor: "I.N. Structor",
-            time: "TuWF 8:30am - 9:20am",
-            capacity: "150",
-        },
-        {
-            course: { code: "SENG 275", name: "Software Testing" },
-            section: "A01",
-            instructor: "Jason Corless",
-            time: "TuWF 8:30am - 9:20am",
-            capacity: "200",
-        },
-        {
-            course: { code: "SENG 371", name: "Software Evolution" },
-            section: "A02",
-            instructor: "Jens Weber",
-            time: "TuWF 8:30am - 9:20am",
-            capacity: "50",
-        },
-        {
-            course: { code: "SENG 499", name: "Design Project II" },
-            section: "A01",
-            instructor: "Daniela Damian",
-            time: "TuWF 8:30am - 9:20am",
-            capacity: "80",
-        },
-    ];
-
     const makeTableData = useMemo(() => {
-        return mockSchedule.map((row) => {
+        return schedule.map((row) => {
             return {
                 course: (
                     <CourseNameBox
@@ -102,7 +68,7 @@ const ScheduleTable = ({ schedule, onClick }) => {
                 ),
                 section: row.section,
                 instructor: row.instructor,
-                time: row.time,
+                time: <CourseTimeBox courseTime={row.time} />,
                 capacity: row.capacity,
                 details: (
                     <Button variant="ghost" onClick={() => onClick(row)}>
