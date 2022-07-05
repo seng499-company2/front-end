@@ -11,6 +11,7 @@ const DaysBox = ({ selected }) => {
                     h="5"
                     color="white"
                     bg={selected.includes(index) ? "blue.500" : "gray.500"}
+                    key={index}
                 >
                     {day}
                 </Center>
@@ -21,14 +22,14 @@ const DaysBox = ({ selected }) => {
 
 export const CourseTimeBox = ({ courseTime, ...other }) => {
     return (
-        <Box>
+        <>
             {Object.entries(courseTime).map(([time, days]) => (
-                <>
+                <Box key={time}>
                     <Text as="em">{time}</Text>
                     <Divider />
                     <DaysBox selected={days} />
-                </>
+                </Box>
             ))}
-        </Box>
+        </>
     );
 };

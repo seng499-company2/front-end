@@ -6,8 +6,8 @@ import Table from "../Table";
 import { CourseNameBox } from "src/components/Courses/CourseNameBox";
 import { CourseTimeBox } from "src/components/Schedule/CourseTimeBox";
 
-const ScheduleTable = ({ schedule, onClick }) => {
-    if (!schedule) {
+const ScheduleTable = ({ schedule, generated, onClick }) => {
+    if (!generated) {
         return <></>;
     }
     const columns = [
