@@ -1,9 +1,9 @@
 import useAxios from "axios-hooks";
 
 const usePostQuery = (route: string) => {
-    const prefix = "https://reqres.in/api"; //testing endpoint, move to env
+    const prefix = "http://localhost:8000/api"; //testing endpoint, move to env
 
-    const [{ data, loading, error }, execute] = useAxios(
+    const [{ data, loading: isLoading, error: isError }, execute] = useAxios(
         {
             url: prefix + route,
             method: "POST",
@@ -11,7 +11,7 @@ const usePostQuery = (route: string) => {
         { manual: true }
     );
     // render data
-    return { data: data, isLoading: loading, isError: error, execute };
+    return { data, isLoading, isError, execute };
 };
 
 export default usePostQuery;

@@ -12,7 +12,7 @@ import { Field } from "formik";
 import NumInput from "../NumInput";
 
 const Availability = (props) => {
-    const { setFieldValue, values, isDisabled } = props;
+    const { setFieldValue, values, isDisabled = false } = props;
 
     return (
         <VStack spacing={10} align="left">

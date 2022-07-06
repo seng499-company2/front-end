@@ -80,7 +80,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                 ),
             };
         });
-    }, [setFieldValue, values?.coursePreferences]);
+    }, [setFieldValue, values?.coursePreferences, isDisabled]);
 
     return <Table columns={columns} entries={makeTableData} />;
 };
