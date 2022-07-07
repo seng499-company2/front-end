@@ -116,8 +116,6 @@ export function AuthProvider({
         ]
     );
 
-    console.log("AuthProvider render");
-
     return (
         <AuthContext.Provider value={memoedValue}>
             {children}
