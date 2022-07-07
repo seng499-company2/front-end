@@ -2,6 +2,7 @@ import axios from "axios";
 
 import { getToken } from "./auth";
 import { decodeJwt, JWTPayload } from "jose";
+import { API_URL } from "./constants";
 
 type UserPayload = JWTPayload & {
     email: string;
@@ -31,7 +32,7 @@ export async function getCurrentUser(): Promise<User> {
 
     let response;
     try {
-        response = await axios.get("http://localhost:8000/api/user/", {
+        response = await axios.get(`${API_URL}/user/`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
