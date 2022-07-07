@@ -5,7 +5,7 @@ module.exports = {
                 source: "/",
                 destination: "/professors",
                 basePath: false,
-                permanent: true,
+                permanent: false,
             },
         ];
     },
