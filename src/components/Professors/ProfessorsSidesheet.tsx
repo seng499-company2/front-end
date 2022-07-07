@@ -1,10 +1,10 @@
 import Sidesheet from "../Layout/Sidesheet";
-import { Button } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PreferencesForm from "../Preferences/PreferencesForm";
+import { useGetQuery, usePostQuery } from "@hooks/useRequest";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
-    const [isDisabled, Edit] = useState(true);
+    const [isEditing, setIsEditing] = useState(false);
 
     const initialValues = {
         //mock data
@@ -146,23 +146,51 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
             },
         },
     };
+
+    const onEdit = () => {
+        setIsEditing(true);
+    };
+
+    const onSubmit = () => {
+        setIsEditing(false);
+    };
+
+    const onCancel = () => {
+        setIsEditing(false);
+    };
+
+    // const {
+    //     data: getData,
+    //     isLoading: isGetLoading,
+    //     isError: isGetError,
+    // } = useGetQuery("/api/professor");
+    // const {
+    //     data: saveData,
+    //     execute,
+    //     isError: isSaveError,
+    //     isLoading: isDataSaving,
+    // } = usePostQuery("/api/professor");
+
     return (
         <Sidesheet
             size="xl"
             title={professor.name}
             subTitle={professor.email}
-            submitLabel="Edit"
-            formId="prof-form"
-            isOpen={isOpen}
+            onEdit={onEdit}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
             onClose={onClose}
+            formId="schedule-form"
+            isOpen={isOpen}
+            isEditing={isEditing}
+            //isLoading={isDataSaving}
+            isEditable
         >
             <PreferencesForm
-                isDisabled={isDisabled}
+                isDisabled={!isEditing}
                 initialValues={initialValues}
+                isProfessorPage={true}
             />
-            <Button mt={5} type="button" onClick={() => Edit(false)}>
-                Edit
-            </Button>
         </Sidesheet>
     );
 };

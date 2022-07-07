@@ -67,6 +67,7 @@ const Preferences = () => {
                 <PreferencesForm
                     isDisabled={false}
                     initialValues={initialValues}
+                    isProfessorPage={false}
                 />
             </Box>
         </VStack>

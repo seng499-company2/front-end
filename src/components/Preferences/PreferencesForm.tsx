@@ -5,8 +5,9 @@ import CoursesPreferencesTable from "./CoursesPreferencesTable";
 import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 
-const PreferencesForm = ({ isDisabled, initialValues }) => {
+const PreferencesForm = ({ isDisabled, initialValues, isProfessorPage }) => {
     //const { handleSubmit } = props;
+
     return (
         <Formik
             initialValues={initialValues}
@@ -35,7 +36,7 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
                         setFieldValue={setFieldValue}
                         isDisabled={isDisabled}
                     />
-                    {!isDisabled && (
+                    {!isProfessorPage && (
                         <Button mt={5} type="submit">
                             Submit
                         </Button>
