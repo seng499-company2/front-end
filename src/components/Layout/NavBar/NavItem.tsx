@@ -1,10 +1,5 @@
-import {
-    Flex,
-    FlexProps,
-    Icon,
-    Link,
-    useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, FlexProps, Icon, useColorModeValue } from "@chakra-ui/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactText } from "react";
 import { IconType } from "react-icons";
@@ -19,11 +14,7 @@ export const NavItem = ({ icon, href, children, ...rest }: NavItemProps) => {
     const { pathname } = useRouter();
 
     return (
-        <Link
-            href={href}
-            style={{ textDecoration: "none" }}
-            _focus={{ boxShadow: "none" }}
-        >
+        <Link href={href} style={{ textDecoration: "none" }}>
             <Flex
                 align="center"
                 p="4"
