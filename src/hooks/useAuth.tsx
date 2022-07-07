@@ -54,7 +54,7 @@ export function AuthProvider({
                     }
                 );
                 if (response.status === 200) {
-                    setUser(response.data);
+                    setUser(getUserClaims());
                     setIsLoading(false);
                     // hacky fix - fix redirect to /
                     router.push("/professors");
