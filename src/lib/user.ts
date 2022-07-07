@@ -53,6 +53,10 @@ export function getUserClaims(): User {
     // @ts-ignore
     const decoded: UserPayload = decodeJwt(token);
 
+    if (!decoded || decoded.exp < Date.now() / 1000) {
+        return undefined;
+    }
+
     return {
         id: decoded.user_id,
         firstName: decoded.first_name,
