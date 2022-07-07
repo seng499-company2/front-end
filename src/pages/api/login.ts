@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
 import axios from "axios";
 
-import { USER_TOKEN } from "@lib/constants";
+import { API_URL, USER_TOKEN } from "@lib/constants";
 
-const loginEndpoint = "http://localhost:8000/api/login/";
+const loginEndpoint = `${API_URL}/login/`;
 
 export default async function handler(
     req: NextApiRequest,

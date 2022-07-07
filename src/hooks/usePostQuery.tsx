@@ -1,7 +1,9 @@
 import useAxios from "axios-hooks";
 
+import { API_URL } from "@lib/constants";
+
 const usePostQuery = (route: string) => {
-    const prefix = "http://localhost:8000/api"; //testing endpoint, move to env
+    const prefix = API_URL; //testing endpoint, move to env
 
     const [{ data, loading: isLoading, error: isError }, execute] = useAxios(
         {
