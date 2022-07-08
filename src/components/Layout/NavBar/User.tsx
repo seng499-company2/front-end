@@ -17,11 +17,13 @@ import { FiChevronDown } from "react-icons/fi";
 
 import useAuth from "src/hooks/useAuth";
 
-export const User = () => {
+export const User = ({ hasProfile = true, textColor }) => {
     const { user, logout } = useAuth();
     const router = useRouter();
     const menuListBg = useColorModeValue("white", "gray.900");
     const menuListBorder = useColorModeValue("gray.200", "gray.700");
+
+    const tColor = textColor || "gray.100";
 
     const displayName = `${user.firstName} ${user.lastName}`;
     const displayRole = user.isAdmin ? "Admin" : "Professor";
@@ -42,10 +44,10 @@ export const User = () => {
                             spacing="1px"
                             ml="2"
                         >
-                            <Text fontSize="sm" color={"gray.100"}>
+                            <Text fontSize="sm" color={tColor}>
                                 {displayName}
                             </Text>
-                            <Text fontSize="xs" color={"gray.100"}>
+                            <Text fontSize="xs" color={tColor}>
                                 {displayRole}
                             </Text>
                         </VStack>
@@ -55,10 +57,14 @@ export const User = () => {
                     </HStack>
                 </MenuButton>
                 <MenuList bg={menuListBg} borderColor={menuListBorder}>
-                    <MenuItem onClick={() => router.push("/profile")}>
-                        Profile
-                    </MenuItem>
-                    <MenuDivider />
+                    {hasProfile && (
+                        <>
+                            <MenuItem onClick={() => router.push("/profile")}>
+                                Profile
+                            </MenuItem>
+                            <MenuDivider />
+                        </>
+                    )}
                     <MenuItem onClick={() => logout()}>Sign out</MenuItem>
                 </MenuList>
             </Menu>
