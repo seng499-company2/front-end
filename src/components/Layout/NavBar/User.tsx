@@ -17,7 +17,17 @@ import { FiChevronDown } from "react-icons/fi";
 
 import useAuth from "src/hooks/useAuth";
 
-export const User = ({ hasProfile = true, textColor }) => {
+interface UserProps {
+    hasProfile?: boolean;
+    textColor?: string;
+}
+
+const defaultProps = {
+    hasProfile: true,
+    textColor: null,
+};
+
+export const User = ({ hasProfile, textColor }: UserProps) => {
     const { user, logout } = useAuth();
     const router = useRouter();
     const menuListBg = useColorModeValue("white", "gray.900");
@@ -71,5 +81,7 @@ export const User = ({ hasProfile = true, textColor }) => {
         </Flex>
     );
 };
+
+User.defaultProps = defaultProps;
 
 export default User;
