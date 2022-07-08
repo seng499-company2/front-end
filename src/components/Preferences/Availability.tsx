@@ -128,61 +128,230 @@ const Availability = (props) => {
             </FormControl>
             <FormControl>
                 <FormLabel>Preferred Number of Teaching Days</FormLabel>
-                <NumInput
-                    name="teachingDaysPerWeek.value"
-                    isDisabled={isDisabled}
-                    defaultValue={values.teachingDaysPerWeek.value}
-                    max={5}
-                    min={0}
-                    onChange={(v) =>
-                        setFieldValue("teachingDaysPerWeek.value", v)
-                    }
-                />
+                <HStack align="left">
+                    <Text alignSelf="center">Fall</Text>
+                    <NumInput
+                        name="teachingDaysPerWeek.fall"
+                        isDisabled={
+                            isDisabled || values.numCoursesPerSem.fall == 0
+                        }
+                        max={5}
+                        min={0}
+                        defaultValue={values.teachingDaysPerWeek.fall}
+                        onChange={(v) =>
+                            setFieldValue("teachingDaysPerWeek.fall", v)
+                        }
+                    />
+                    <Text alignSelf="center" pl={10}>
+                        Spring
+                    </Text>
+                    <NumInput
+                        name="teachingDaysPerWeek.spring"
+                        isDisabled={
+                            isDisabled || values.numCoursesPerSem.spring == 0
+                        }
+                        max={5}
+                        min={0}
+                        defaultValue={values.teachingDaysPerWeek.spring}
+                        onChange={(v) =>
+                            //setFieldValue("teachingDaysPerWeek.spring", v);
+                            console.log(values.numCoursesPerSem.spring != 0)
+                        }
+                    />
+                    <Text alignSelf="center" pl={10}>
+                        Summer
+                    </Text>
+                    <NumInput
+                        name="teachingDaysPerWeek.summer"
+                        isDisabled={
+                            isDisabled || values.numCoursesPerSem.summer == 0
+                        }
+                        max={5}
+                        min={0}
+                        defaultValue={values.teachingDaysPerWeek.summer}
+                        onChange={(v) =>
+                            setFieldValue("teachingDaysPerWeek.summer", v)
+                        }
+                    />
+                </HStack>
             </FormControl>
             <FormControl>
                 <FormLabel>Preferred Teaching Days</FormLabel>
-                <Flex direction="column">
-                    <Field
-                        as={Checkbox}
-                        name="preferredDays.monday"
-                        isDisabled={isDisabled}
-                        defaultChecked={values.preferredDays.monday}
-                    >
-                        Monday
-                    </Field>
-                    <Field
-                        as={Checkbox}
-                        name="preferredDays.tuesday"
-                        isDisabled={isDisabled}
-                        defaultChecked={values.preferredDays.tuesday}
-                    >
-                        Tuesday
-                    </Field>
-                    <Field
-                        as={Checkbox}
-                        name="preferredDays.wednesday"
-                        isDisabled={isDisabled}
-                        defaultChecked={values.preferredDays.wednesday}
-                    >
-                        Wednesday
-                    </Field>
-                    <Field
-                        as={Checkbox}
-                        name="preferredDays.thursday"
-                        isDisabled={isDisabled}
-                        defaultChecked={values.preferredDays.thursday}
-                    >
-                        Thursday
-                    </Field>
-                    <Field
-                        as={Checkbox}
-                        name="preferredDays.friday"
-                        isDisabled={isDisabled}
-                        defaultChecked={values.preferredDays.friday}
-                    >
-                        Friday
-                    </Field>
-                </Flex>
+                <HStack align="left">
+                    <Flex direction="column">
+                        <Text>Fall</Text>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysFall.monday"
+                            isDisabled={
+                                isDisabled || values.numCoursesPerSem.fall == 0
+                            }
+                            defaultChecked={values.preferredDaysFall.monday}
+                        >
+                            Monday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysFall.tuesday"
+                            isDisabled={
+                                isDisabled || values.numCoursesPerSem.fall == 0
+                            }
+                            defaultChecked={values.preferredDaysFall.tuesday}
+                        >
+                            Tuesday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysFall.wednesday"
+                            isDisabled={
+                                isDisabled || values.numCoursesPerSem.fall == 0
+                            }
+                            defaultChecked={values.preferredDaysFall.wednesday}
+                        >
+                            Wednesday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysFall.thursday"
+                            isDisabled={
+                                isDisabled || values.numCoursesPerSem.fall == 0
+                            }
+                            defaultChecked={values.preferredDaysFall.thursday}
+                        >
+                            Thursday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysFall.friday"
+                            isDisabled={
+                                isDisabled || values.numCoursesPerSem.fall == 0
+                            }
+                            defaultChecked={values.preferredDaysFall.friday}
+                        >
+                            Friday
+                        </Field>
+                    </Flex>
+                    <Flex direction="column" pl={20}>
+                        <Text alignSelf="start">Spring</Text>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSpring.monday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.spring == 0
+                            }
+                            defaultChecked={values.preferredDaysSpring.monday}
+                        >
+                            Monday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSpring.tuesday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.spring == 0
+                            }
+                            defaultChecked={values.preferredDaysSpring.tuesday}
+                        >
+                            Tuesday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSpring.wednesday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.spring == 0
+                            }
+                            defaultChecked={
+                                values.preferredDaysSpring.wednesday
+                            }
+                        >
+                            Wednesday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSpring.thursday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.spring == 0
+                            }
+                            defaultChecked={values.preferredDaysSpring.thursday}
+                        >
+                            Thursday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSpring.friday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.spring == 0
+                            }
+                            defaultChecked={values.preferredDaysSpring.friday}
+                        >
+                            Friday
+                        </Field>
+                    </Flex>
+                    <Flex direction="column" pl={20}>
+                        <Text>Summer</Text>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSummer.monday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.summer == 0
+                            }
+                            defaultChecked={values.preferredDaysSummer.monday}
+                        >
+                            Monday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSummer.tuesday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.summer == 0
+                            }
+                            defaultChecked={values.preferredDaysSummer.tuesday}
+                        >
+                            Tuesday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSummer.wednesday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.summer == 0
+                            }
+                            defaultChecked={
+                                values.preferredDaysSummer.wednesday
+                            }
+                        >
+                            Wednesday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSummer.thursday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.summer == 0
+                            }
+                            defaultChecked={values.preferredDaysSummer.thursday}
+                        >
+                            Thursday
+                        </Field>
+                        <Field
+                            as={Checkbox}
+                            name="preferredDaysSummer.friday"
+                            isDisabled={
+                                isDisabled ||
+                                values.numCoursesPerSem.summer == 0
+                            }
+                            defaultChecked={values.preferredDaysSummer.friday}
+                        >
+                            Friday
+                        </Field>
+                    </Flex>
+                </HStack>
             </FormControl>
         </VStack>
     );
