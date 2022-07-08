@@ -2,9 +2,9 @@ import { Tag } from "@chakra-ui/react";
 
 export const SemesterBadges = ({ semesters, ...other }) => {
     const colors = {
-        Fall: "blue",
-        Spring: "orange",
-        Summer: "pink",
+        fall: "blue",
+        spring: "orange",
+        summer: "pink",
     };
     return semesters.map((semester) => {
         return (
