@@ -84,8 +84,11 @@ export function AuthProvider({
             setIsError(true);
         }
         if (result.status === 200) {
-            setUser(undefined);
-            router.push("/login");
+            if (await router.push("/login")) {
+                setUser(null);
+            } else {
+                setIsError(true);
+            }
         } else {
             setIsError(true);
         }
