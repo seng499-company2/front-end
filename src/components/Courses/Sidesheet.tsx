@@ -97,8 +97,8 @@ export const CourseSidesheet = ({ isOpen, onClose, course }) => {
     return (
         <Sidesheet
             size="xl"
-            title={course.code}
-            subTitle={course.name}
+            title={course.course_code}
+            subTitle={course.course_title}
             isOpen={isOpen}
             onClose={onClose}
         >
@@ -107,7 +107,7 @@ export const CourseSidesheet = ({ isOpen, onClose, course }) => {
                     <Text>Scheduled Semesters</Text>
                     <Table
                         columns={scheduleTableColumn}
-                        entries={scheduleTableEntries}
+                        data={scheduleTableEntries}
                     />
                 </Box>
 
@@ -117,7 +117,7 @@ export const CourseSidesheet = ({ isOpen, onClose, course }) => {
                     <Text>Willing Professors</Text>
                     <Table
                         columns={willingProfessorsColumns}
-                        entries={willingProfessorsEntries}
+                        data={willingProfessorsEntries}
                     />
                 </Box>
             </VStack>

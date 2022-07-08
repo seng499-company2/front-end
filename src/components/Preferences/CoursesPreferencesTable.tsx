@@ -82,7 +82,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
         });
     }, [setFieldValue, values?.coursePreferences, isDisabled]);
 
-    return <Table columns={columns} entries={makeTableData} />;
+    return <Table columns={columns} data={makeTableData} />;
 };
 
 export default CoursesPreferencesTable;
