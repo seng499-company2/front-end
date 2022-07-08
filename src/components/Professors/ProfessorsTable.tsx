@@ -47,7 +47,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                     disableFilterBy: true,
                 },
             ]}
-            entries={useMemo(
+            data={useMemo(
                 () =>
                     professors.map((prof) => ({
                         name: prof.name,

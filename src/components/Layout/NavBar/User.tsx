@@ -12,12 +12,19 @@ import {
     MenuItem,
     MenuDivider,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { FiChevronDown } from "react-icons/fi";
 
 import useAuth from "src/hooks/useAuth";
 
 export const User = () => {
-    const { logout } = useAuth();
+    const { user, logout } = useAuth();
+    const router = useRouter();
+    const menuListBg = useColorModeValue("white", "gray.900");
+    const menuListBorder = useColorModeValue("gray.200", "gray.700");
+
+    const displayName = `${user.firstName} ${user.lastName}`;
+    const displayRole = user.isAdmin ? "Admin" : "Professor";
 
     return (
         <Flex alignItems={"center"}>
@@ -36,10 +43,10 @@ export const User = () => {
                             ml="2"
                         >
                             <Text fontSize="sm" color={"gray.100"}>
-                                Owen Wilson
+                                {displayName}
                             </Text>
                             <Text fontSize="xs" color={"gray.100"}>
-                                Admin
+                                {displayRole}
                             </Text>
                         </VStack>
                         <Box display={{ base: "none", md: "flex" }}>
@@ -47,11 +54,10 @@ export const User = () => {
                         </Box>
                     </HStack>
                 </MenuButton>
-                <MenuList
-                    bg={useColorModeValue("white", "gray.900")}
-                    borderColor={useColorModeValue("gray.200", "gray.700")}
-                >
-                    <MenuItem>Profile</MenuItem>
+                <MenuList bg={menuListBg} borderColor={menuListBorder}>
+                    <MenuItem onClick={() => router.push("/profile")}>
+                        Profile
+                    </MenuItem>
                     <MenuDivider />
                     <MenuItem onClick={() => logout()}>Sign out</MenuItem>
                 </MenuList>
