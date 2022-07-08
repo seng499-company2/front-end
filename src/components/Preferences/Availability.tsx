@@ -154,8 +154,7 @@ const Availability = (props) => {
                         min={0}
                         defaultValue={values.teachingDaysPerWeek.spring}
                         onChange={(v) =>
-                            //setFieldValue("teachingDaysPerWeek.spring", v);
-                            console.log(values.numCoursesPerSem.spring != 0)
+                            setFieldValue("teachingDaysPerWeek.spring", v)
                         }
                     />
                     <Text alignSelf="center" pl={10}>
