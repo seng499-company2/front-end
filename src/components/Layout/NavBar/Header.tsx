@@ -8,7 +8,6 @@ import {
     Image,
 } from "@chakra-ui/react";
 import { FiMenu } from "react-icons/fi";
-import logo from "src/assets/uvic.jpg";
 
 import User from "./User";
 

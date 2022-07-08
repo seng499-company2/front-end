@@ -5,7 +5,6 @@ import {
     useColorModeValue,
     VStack,
     Image,
-    Link,
 } from "@chakra-ui/react";
 
 import useAuth from "@hooks/useAuth";
