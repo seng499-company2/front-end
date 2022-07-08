@@ -56,6 +56,7 @@ export function verifyAuth(request: NextRequest) {
 
 export const getToken = () => {
     // get token from cookies
+    
     const token = document.cookie
         .split(";")
         .find((cookie) => cookie.trim().startsWith(USER_TOKEN));
