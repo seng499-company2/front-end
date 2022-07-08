@@ -54,10 +54,15 @@ export function AuthProvider({
                     }
                 );
                 if (response.status === 200) {
-                    setUser(getUserClaims());
+                    const nUser = getUserClaims();
+                    setUser(nUser);
                     setIsLoading(false);
                     // hacky fix - fix redirect to /
-                    router.push("/professors");
+                    if (nUser.isAdmin) {
+                        router.push("/professors");
+                    } else {
+                        router.push("/preferences");
+                    }
                 } else {
                     setIsLoading(false);
                     setIsError(true);
