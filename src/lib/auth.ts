@@ -19,24 +19,20 @@ interface UserJwtPayload {
  * it's valid or a response if it's not.
  */
 export function verifyAuth(request: NextRequest) {
-    if (!request.page || !request.page.name) {
-        return;
-    }
-
     // skip if api call
-    if (request.page.name.startsWith("/api")) {
-        return;
+    if (request.nextUrl.pathname.startsWith("/api")) {
+        return NextResponse.next();
     }
 
     const token = request.cookies[USER_TOKEN];
 
-    if (!token && request.page.name !== "/login") {
+    if (!token && request.nextUrl.pathname !== "/login") {
         // redirect to login page
         return redirect(request, "/login");
     }
 
     if (!token) {
-        return;
+        return NextResponse.next();
     }
 
     let decoded;
@@ -46,7 +42,10 @@ export function verifyAuth(request: NextRequest) {
         return redirect(request, "/login");
     }
 
-    if (decoded.exp < Date.now() / 1000 && request.page.name !== "/login") {
+    if (
+        decoded.exp < Date.now() / 1000 &&
+        request.nextUrl.pathname !== "/login"
+    ) {
         // redirect to login page
         return redirect(request, "/login");
     }
@@ -55,8 +54,11 @@ export function verifyAuth(request: NextRequest) {
 }
 
 export const getToken = () => {
+    if (typeof window === "undefined") {
+        return;
+    }
+
     // get token from cookies
-    
     const token = document.cookie
         .split(";")
         .find((cookie) => cookie.trim().startsWith(USER_TOKEN));

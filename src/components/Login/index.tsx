@@ -41,7 +41,7 @@ export const LoginCard = () => {
                         <Form id="login-form">
                             <VStack spacing={4} align="flex-start">
                                 <FormControl>
-                                    <FormLabel>Email address</FormLabel>
+                                    <FormLabel>Netlink ID</FormLabel>
                                     <Field
                                         as={Input}
                                         name="username"

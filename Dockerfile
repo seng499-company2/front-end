@@ -6,8 +6,11 @@ RUN npm ci
 
 FROM node:lts-alpine AS builder
 ENV NODE_ENV=development
+ARG API_HOST
+ENV NEXT_PUBLIC_API_HOST=${API_HOST}
 WORKDIR /app
 COPY . .
+RUN echo "NEXT_PUBLIC_API_HOST=${NEXT_PUBLIC_API_HOST}" > .env
 RUN npm ci && NODE_ENV=production npm run build
 
 FROM node:lts-alpine AS production
