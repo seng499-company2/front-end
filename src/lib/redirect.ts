@@ -5,5 +5,5 @@ export default function redirect(req: NextRequest, destination: string) {
     const url = req.nextUrl;
 
     url.pathname = destination;
-    return NextResponse.redirect(url);
+    return NextResponse.rewrite(url);
 }
