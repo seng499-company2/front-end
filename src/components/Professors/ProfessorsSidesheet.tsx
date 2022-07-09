@@ -2,6 +2,17 @@ import Sidesheet from "../Layout/Sidesheet";
 import PreferencesForm from "../Preferences/PreferencesForm";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
+    const {
+        isPeng,
+        type,
+        complete,
+        firstName,
+        lastName,
+        isAdmin,
+        email,
+        username,
+    } = professor;
+
     const initialValues = {
         //mock data
         numCoursesPerSem: {
@@ -158,11 +169,14 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
             },
         },
     };
+
+    const isPengText = isPeng ? " | Peng" : "";
+
     return (
         <Sidesheet
             size="xl"
-            title={professor.name}
-            subTitle={professor.email}
+            title={`${firstName} ${lastName}`}
+            subTitle={`${email} | ${type}${isPengText}`}
             submitLabel="Edit"
             formId="prof-form"
             isOpen={isOpen}
@@ -172,24 +186,5 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         </Sidesheet>
     );
 };
-
-// export const getServerSideProps = async (id) => {
-//     const professors = [
-//         { id: 1, name: "Dave Dave", type: "Teaching", complete: true },
-//         { id: 2, name: "Owen Wilson", type: "Research", complete: false },
-//         { id: 3, name: "Gordo Ramso", type: "Research", complete: true },
-//     ];
-
-//     const prof = professors[id-1];
-
-//     // get from api
-//     // const professors = fetch(`${API_URL}/v1/professors`);
-
-//     return {
-//         props: {
-//             prof
-//         },
-//     };
-// };
 
 export default ProfessorSidesheet;

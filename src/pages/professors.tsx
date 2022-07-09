@@ -1,4 +1,4 @@
-import { Flex, Button } from "@chakra-ui/react";
+import { Flex, Button, CircularProgress, Center } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
@@ -6,6 +6,7 @@ import AdminLayout from "../components/Layout/AdminLayout";
 import ProfessorsTable from "../components/Professors/ProfessorsTable";
 import ProfessorsSidesheet from "../components/Professors/ProfessorsSidesheet";
 import AddProfessorSidesheet from "../components/Professors/AddProfessorSidesheet";
+import { useGetQuery, usePostQuery } from "@hooks/useRequest";
 
 const Professors = ({ professors }) => {
     const [detailsIsOpen, setDetailsIsOpen] = useState(false);
@@ -16,6 +17,14 @@ const Professors = ({ professors }) => {
         setDetailsIsOpen(!detailsIsOpen);
         setProf(prof);
     };
+    const { data, isLoading } = useGetQuery("/api/users");
+
+    if (isLoading)
+        return (
+            <Center height="50vh">
+                <CircularProgress isIndeterminate />
+            </Center>
+        );
 
     return (
         <Flex flexDirection="column" pt="1rem">
@@ -31,10 +40,7 @@ const Professors = ({ professors }) => {
                 onClose={() => setAddIsOpen(false)}
                 //handleSubmit={handleSubmit}
             />
-            <ProfessorsTable
-                professors={professors}
-                openDetails={openDetails}
-            />
+            <ProfessorsTable professors={data} openDetails={openDetails} />
             <ProfessorsSidesheet
                 isOpen={detailsIsOpen}
                 onClose={() => setDetailsIsOpen(false)}
@@ -42,41 +48,6 @@ const Professors = ({ professors }) => {
             />
         </Flex>
     );
-};
-
-export const getServerSideProps = async () => {
-    const professors = [
-        {
-            id: 1,
-            name: "Dave Dave",
-            type: "Teaching",
-            complete: true,
-            email: "dave@dave.ca",
-        },
-        {
-            id: 2,
-            name: "Owen Wilson",
-            type: "Research",
-            complete: false,
-            email: "owenwilson@wow.com",
-        },
-        {
-            id: 3,
-            name: "Gordo Ramso",
-            type: "Research",
-            complete: true,
-            email: "gr@hellsnightmare.uk",
-        },
-    ];
-
-    // get from api
-    // const professors = fetch(`${API_URL}/v1/professors`);
-
-    return {
-        props: {
-            professors,
-        },
-    };
 };
 
 Professors.getLayout = function getLayout(page: ReactElement) {
