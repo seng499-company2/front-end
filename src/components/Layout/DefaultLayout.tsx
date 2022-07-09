@@ -16,14 +16,7 @@ const DefaultLayout = ({ children }) => {
         <VStack bg={useColorModeValue("background.main", "gray.900")}>
             <HStack ml="auto" pt={5} pr={5}>
                 <DarkModeSwitch />
-                {/* <Box
-                    bg={useColorModeValue("primary.200", "gray.900")}
-                    borderRadius="10"
-                    pl="2"
-                    pr="2"
-                > */}
                 <User hasProfile={false} textColor={userTextColor} />
-                {/* </Box> */}
             </HStack>
 
             <Flex minH={"100vh"} justify={"center"} padding={10} width="100%">
