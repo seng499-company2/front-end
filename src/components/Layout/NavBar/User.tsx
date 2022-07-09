@@ -33,6 +33,10 @@ export const User = ({ hasProfile, textColor }: UserProps) => {
     const menuListBg = useColorModeValue("white", "gray.900");
     const menuListBorder = useColorModeValue("gray.200", "gray.700");
 
+    if (!user) {
+        return null;
+    }
+
     const tColor = textColor || "gray.100";
 
     const displayName = `${user.firstName} ${user.lastName}`;
