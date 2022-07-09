@@ -21,18 +21,23 @@ const Availability = (props) => {
                 defaultValue={values.numCoursesPerSem}
                 isDisabled={isDisabled}
             />
-            <Sabbatical
-                value={values.sabbatical.value}
-                isDisabled={isDisabled}
-            />
             <NumTeachingDays
-                values={values.teachingDaysPerWeek}
+                // also pass in numCoursesPerSem and nonTeachingSemester
+                values={{
+                    teachingDaysPerWeek: values.teachingDaysPerWeek,
+                    numCoursesPerSem: values.numCoursesPerSem,
+                    nonTeachingSemester: values.nonTeachingSemester,
+                }}
                 setFieldValue={setFieldValue}
                 isDisabled={isDisabled}
             />
             <PreferredDays
                 values={values.preferredDays}
                 setFieldValue={setFieldValue}
+                isDisabled={isDisabled}
+            />
+            <Sabbatical
+                value={values.sabbatical.value}
                 isDisabled={isDisabled}
             />
         </VStack>
