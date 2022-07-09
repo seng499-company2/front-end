@@ -23,13 +23,13 @@ interface PreferredDayOption extends OptionBase {
 }
 
 const preferredDayOptions: PreferredDayOption[] = [
+    { label: "TWF", value: "TWF" },
+    { label: "MTh", value: "MTh" },
     { label: "Monday", value: "M" },
     { label: "Tuesday", value: "T" },
     { label: "Wednesday", value: "W" },
     { label: "Thursday", value: "Th" },
     { label: "Friday", value: "F" },
-    { label: "TWF", value: "TWF" },
-    { label: "MTh", value: "MTh" },
 ];
 
 const PreferredDays = ({ setFieldValue, values, isDisabled = false }) => {
