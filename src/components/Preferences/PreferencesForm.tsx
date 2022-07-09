@@ -7,7 +7,12 @@ import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 import { usePostQuery } from "@hooks/useRequest";
 
-const PreferencesForm = ({ isDisabled, initialValues }) => {
+const PreferencesForm = ({
+    isDisabled,
+    isProfessorPage,
+    initialValues,
+    preferences,
+}) => {
     const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
 
     const onSubmit = async (data) => {
@@ -34,6 +39,8 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
                     teachingDaysPerWeek,
                 };
 
+                console.log({ preferences });
+
                 return (
                     <Form id="preferences-form">
                         <DividerHeading title="General Preferences" />
@@ -59,7 +66,7 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
                                 There was an error saving your preferences.
                             </Text>
                         )}
-                        {!isDisabled && (
+                        {!isProfessorPage && (
                             <Button
                                 type="submit"
                                 isDisabled={isDisabled}

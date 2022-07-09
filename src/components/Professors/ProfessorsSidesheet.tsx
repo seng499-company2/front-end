@@ -173,6 +173,8 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         },
     };
 
+    const { data } = useGetQuery(`/api/preferences/${username}`);
+
     const onEdit = () => {
         setIsEditing(true);
     };
@@ -206,6 +208,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
                 isDisabled={!isEditing}
                 initialValues={initialValues}
                 isProfessorPage={true}
+                preferences={data}
             />
         </Sidesheet>
     );
