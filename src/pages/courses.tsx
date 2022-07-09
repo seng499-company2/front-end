@@ -1,11 +1,16 @@
 import { Button, Flex, TableContainer } from "@chakra-ui/react";
 import { ReactElement, useCallback, useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import dynamic from "next/dynamic";
 
 import CourseSidesheet from "../components/Courses/Sidesheet";
 import AdminLayout from "../components/Layout/AdminLayout";
-import CoursesTable from "../components/Courses/CoursesTable";
 import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
+
+const DynamicCourseTable = dynamic(
+    () => import("../components/Courses/CoursesTable"),
+    { ssr: false }
+);
 
 const Courses = () => {
     const [detailsIsOpen, setDetailsIsOpen] = useState(false);
@@ -33,7 +38,7 @@ const Courses = () => {
                 //handleSubmit={handleSubmit}
             />
             <TableContainer>
-                <CoursesTable onClick={onClick} />
+                <DynamicCourseTable onClick={onClick} />
             </TableContainer>
             <CourseSidesheet
                 isOpen={detailsIsOpen}
