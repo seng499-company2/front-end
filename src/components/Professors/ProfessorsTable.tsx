@@ -49,21 +49,46 @@ const ProfessorsTable = ({ professors, openDetails }) => {
             ]}
             data={useMemo(
                 () =>
-                    professors.map((prof) => ({
-                        name: prof.name,
-                        type: prof.type,
-                        status: (
-                            <CompleteStatusBadge complete={prof.complete} />
-                        ),
-                        details: (
-                            <Button
-                                variant="ghost"
-                                onClick={() => openDetails(prof)}
-                            >
-                                <ChevronRightIcon ml={1} w={5} h={5} />
-                            </Button>
-                        ),
-                    })),
+                    professors?.map((prof) => {
+                        const {
+                            is_peng: isPeng,
+                            prof_type: profType,
+                            is_form_submitted: complete,
+                            user: {
+                                first_name: firstName,
+                                last_name: lastName,
+                                is_superuser: isAdmin,
+                                email,
+                                username,
+                            },
+                        } = prof;
+                        const type =
+                            profType === "TP" ? "Teaching" : "Research";
+                        return {
+                            name: firstName + " " + lastName,
+                            type: type,
+                            status: <CompleteStatusBadge complete={complete} />,
+                            details: (
+                                <Button
+                                    variant="ghost"
+                                    onClick={() =>
+                                        openDetails({
+                                            isPeng,
+                                            type,
+                                            complete,
+                                            firstName,
+                                            lastName,
+                                            isAdmin,
+                                            email,
+                                            username,
+                                        })
+                                    }
+                                >
+                                    <ChevronRightIcon ml={1} w={5} h={5} />
+                                </Button>
+                            ),
+                        };
+                    }),
                 [professors, openDetails]
             )}
         />

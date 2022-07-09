@@ -4,6 +4,16 @@ import PreferencesForm from "../Preferences/PreferencesForm";
 import { useGetQuery, usePostQuery } from "@hooks/useRequest";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
+    const {
+        isPeng,
+        type,
+        complete,
+        firstName,
+        lastName,
+        isAdmin,
+        email,
+        username,
+    } = professor;
     const [isEditing, setIsEditing] = useState(false);
 
     const initialValues = {
@@ -175,23 +185,13 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         setIsEditing(false);
     };
 
-    // const {
-    //     data: getData,
-    //     isLoading: isGetLoading,
-    //     isError: isGetError,
-    // } = useGetQuery("/api/professor");
-    // const {
-    //     data: saveData,
-    //     execute,
-    //     isError: isSaveError,
-    //     isLoading: isDataSaving,
-    // } = usePostQuery("/api/professor");
+    const isPengText = isPeng ? " | Peng" : "";
 
     return (
         <Sidesheet
             size="xl"
-            title={professor.name}
-            subTitle={professor.email}
+            title={`${firstName} ${lastName}`}
+            subTitle={`${email} | ${type}${isPengText}`}
             onEdit={onEdit}
             onSubmit={onSubmit}
             onCancel={onCancel}
@@ -210,24 +210,5 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         </Sidesheet>
     );
 };
-
-// export const getServerSideProps = async (id) => {
-//     const professors = [
-//         { id: 1, name: "Dave Dave", type: "Teaching", complete: true },
-//         { id: 2, name: "Owen Wilson", type: "Research", complete: false },
-//         { id: 3, name: "Gordo Ramso", type: "Research", complete: true },
-//     ];
-
-//     const prof = professors[id-1];
-
-//     // get from api
-//     // const professors = fetch(`${API_URL}/v1/professors`);
-
-//     return {
-//         props: {
-//             prof
-//         },
-//     };
-// };
 
 export default ProfessorSidesheet;
