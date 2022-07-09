@@ -4,47 +4,46 @@ import { useMemo } from "react";
 import Table from "../Table";
 
 export enum Willingness {
-    veryWilling = 2,
-    willing = 1,
-    unwilling = 0,
+    veryWilling = 3,
+    willing = 2,
+    unWilling = 1,
+    noSelection = 0,
 }
 
 export enum Difficulty {
-    difficult = 2,
-    moderate = 1,
-    easy = 0,
+    withEffort = 2,
+    able = 1,
+    noSelection = 0,
 }
 
-const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
-    const columns = [
-        {
-            Header: "Course",
-            accessor: "course",
-            filter: {
-                type: "text",
-            },
+const columns = [
+    {
+        Header: "Course",
+        accessor: "course",
+        filter: {
+            type: "text",
         },
-        {
-            Header: "Willingness",
-            accessor: "willingness",
-            disableSortBy: true,
-            disableFilterBy: true,
-        },
-        {
-            Header: "Difficulty",
-            accessor: "difficulty",
-            disableSortBy: true,
-            disableFilterBy: true,
-        },
-    ];
+    },
+    {
+        Header: "Willingness",
+        accessor: "willingness",
+        disableFilterBy: true,
+    },
+    {
+        Header: "Difficulty",
+        accessor: "difficulty",
+        disableFilterBy: true,
+    },
+];
 
+const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
     const makeTableData = useMemo(() => {
-        return Object.keys(values.coursePreferences).map((c) => {
+        return Object.keys(values).map((c) => {
             return {
                 course: c,
                 willingness: (
                     <Select
-                        defaultValue={values.coursePreferences[c].willingness}
+                        defaultValue={values[c].willingness}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.willingness`,
@@ -54,7 +53,10 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         key={c + "-willingness"}
                         isDisabled={isDisabled}
                     >
-                        <option value={Willingness.unwilling}>Unwilling</option>
+                        <option value={Willingness.noSelection}>
+                            No Selection
+                        </option>
+                        <option value={Willingness.unWilling}>Unwilling</option>
                         <option value={Willingness.willing}>Willing</option>
                         <option value={Willingness.veryWilling}>
                             Very Willing
@@ -63,7 +65,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                 ),
                 difficulty: (
                     <Select
-                        defaultValue={values.coursePreferences[c].difficulty}
+                        defaultValue={values[c].difficulty}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.difficulty`,
@@ -73,14 +75,18 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         key={c + "--difficulty"}
                         isDisabled={isDisabled}
                     >
-                        <option value={Difficulty.difficult}>Difficult</option>
-                        <option value={Difficulty.moderate}>Moderate</option>
-                        <option value={Difficulty.easy}>Easy</option>
+                        <option value={Difficulty.noSelection}>
+                            No Selection
+                        </option>
+                        <option value={Difficulty.able}>Able</option>
+                        <option value={Difficulty.withEffort}>
+                            With Effort
+                        </option>
                     </Select>
                 ),
             };
         });
-    }, [setFieldValue, values?.coursePreferences, isDisabled]);
+    }, [setFieldValue, values, isDisabled]);
 
     return <Table columns={columns} data={makeTableData} />;
 };

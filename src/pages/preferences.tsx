@@ -11,22 +11,19 @@ const getCourses = () => {
 
 const coursePreferencesInit = getCourses().reduce((obj, course) => {
     obj[course] = {
-        willingness: Willingness.willing,
-        difficulty: Difficulty.moderate,
+        willingness: Willingness.noSelection,
+        difficulty: Difficulty.noSelection,
     };
     return obj;
 }, {});
 
 const initialValues = {
+    nonTeachingSemester: "fall",
     numCoursesPerSem: {
         fall: 0,
         spring: 0,
         summer: 0,
     },
-    // relief: {
-    //     value: false,
-    //     numCourses: 0,
-    // },
     sabbatical: {
         value: false,
         duration: "half",
@@ -37,27 +34,7 @@ const initialValues = {
         spring: 0,
         summer: 0,
     },
-    preferredDaysFall: {
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-    },
-    preferredDaysSpring: {
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-    },
-    preferredDaysSummer: {
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-    },
+    preferredDays: [],
     preferredTime: {
         fall: [],
         summer: [],
