@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Flex,
     HStack,
@@ -6,17 +7,16 @@ import {
     VStack,
 } from "@chakra-ui/react";
 
-import useAuth from "@hooks/useAuth";
 import { DarkModeSwitch } from "./DarkModeSwitch";
+import User from "./NavBar/User";
 
 const DefaultLayout = ({ children }) => {
-    const { logout } = useAuth();
-
+    const userTextColor = useColorModeValue("gray.800", "gray.100");
     return (
         <VStack bg={useColorModeValue("background.main", "gray.900")}>
             <HStack ml="auto" pt={5} pr={5}>
                 <DarkModeSwitch />
-                <Button onClick={() => logout()}>Logout</Button>
+                <User hasProfile={false} textColor={userTextColor} />
             </HStack>
 
             <Flex minH={"100vh"} justify={"center"} padding={10} width="100%">

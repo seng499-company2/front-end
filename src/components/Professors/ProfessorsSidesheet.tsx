@@ -23,13 +23,29 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
             fromMonth: "january",
         },
         teachingDaysPerWeek: {
-            value: 2,
+            fall: 0,
+            spring: 2,
+            summer: 3,
         },
-        preferredDays: {
+        preferredDaysFall: {
+            monday: false,
+            tuesday: false,
+            wednesday: false,
+            thursday: false,
+            friday: false,
+        },
+        preferredDaysSpring: {
             monday: true,
             tuesday: false,
-            wednesday: true,
+            wednesday: false,
             thursday: true,
+            friday: false,
+        },
+        preferredDaysSummer: {
+            monday: true,
+            tuesday: true,
+            wednesday: true,
+            thursday: false,
             friday: false,
         },
         preferredTime: {
