@@ -79,7 +79,7 @@ const ScheduleTable = ({ schedule, generated, onClick }) => {
         });
     }, [schedule, onClick]);
 
-    return <Table columns={columns} entries={makeTableData} />;
+    return <Table columns={columns} data={makeTableData} />;
 };
 
 export default ScheduleTable;
