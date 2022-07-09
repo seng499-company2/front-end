@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 
 import Availability from "./Availability";
@@ -8,12 +8,11 @@ import DividerHeading from "../DividerHeading";
 import { usePostQuery } from "@hooks/useRequest";
 
 const PreferencesForm = ({ isDisabled, initialValues }) => {
-    const { execute } = usePostQuery("/api/preferences/");
+    const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
 
-    const onSubmit = async (values) => {
-        alert(JSON.stringify(values, null, 2));
-        console.log(values);
-        await execute(values);
+    const onSubmit = async (data) => {
+        console.log(data);
+        await execute({ data });
     };
 
     return (
@@ -55,9 +54,20 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
                             setFieldValue={setFieldValue}
                             isDisabled={isDisabled}
                         />
+                        {isError && (
+                            <Text fontSize="sm" color="red.500">
+                                There was an error saving your preferences.
+                            </Text>
+                        )}
                         {!isDisabled && (
-                            <Button mt={5} type="submit">
-                                Submit
+                            <Button
+                                type="submit"
+                                isDisabled={isDisabled}
+                                colorScheme={isError ? "red" : "primary"}
+                                isLoading={isLoading}
+                                mt={5}
+                            >
+                                {isError ? "Try Again" : "Submit"}
                             </Button>
                         )}
                     </Form>
