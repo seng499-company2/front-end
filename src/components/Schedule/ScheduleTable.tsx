@@ -7,9 +7,6 @@ import { CourseNameBox } from "src/components/Courses/CourseNameBox";
 import { CourseTimeBox } from "src/components/Schedule/CourseTimeBox";
 
 const ScheduleTable = ({ schedule, generated, onClick }) => {
-    if (!generated) {
-        return <></>;
-    }
     const columns = [
         {
             Header: "COURSE",
@@ -56,7 +53,8 @@ const ScheduleTable = ({ schedule, generated, onClick }) => {
         },
     ];
 
-    const makeTableData = useMemo(() => {
+    const data = useMemo(() => {
+        if (!generated || !schedule || schedule?.length === 0) return [];
         return schedule.map((row) => {
             return {
                 course: (
@@ -77,9 +75,9 @@ const ScheduleTable = ({ schedule, generated, onClick }) => {
                 ),
             };
         });
-    }, [schedule, onClick]);
+    }, [generated, schedule, onClick]);
 
-    return <Table columns={columns} data={makeTableData} />;
+    return <Table columns={columns} data={data} />;
 };
 
 export default ScheduleTable;

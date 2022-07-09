@@ -27,6 +27,7 @@ const Schedules = ({ scheduledCourses }) => {
                     <Button
                         onClick={() => {
                             execute();
+                            console.log(data);
                             if (!isError) {
                                 setGenerated(true);
                             }
@@ -41,7 +42,6 @@ const Schedules = ({ scheduledCourses }) => {
             <Select
                 onChange={(e) => {
                     setSemester(e.target.value);
-                    console.log(mockSchedule[semester]);
                 }}
                 display={generated ? null : "None"}
                 w="200px"
