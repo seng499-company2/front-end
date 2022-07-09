@@ -1,6 +1,13 @@
-import { Progress, Text } from "@chakra-ui/react";
+import {
+    Button,
+    HStack,
+    Progress,
+    Text,
+    useColorModeValue,
+} from "@chakra-ui/react";
 
 import { useGetQuery } from "@hooks/useRequest";
+import { FiRefreshCcw } from "react-icons/fi";
 import { Difficulty, Willingness } from "./CoursesPreferencesTable";
 import PreferencesForm from "./PreferencesForm";
 
@@ -43,16 +50,36 @@ const defaultInitialValues = {
 };
 
 const PreferencesFormWrapper = () => {
-    const { data, isError, isLoading } = useGetQuery("/api/preferences/");
+    const { data, isError, isLoading, execute } =
+        useGetQuery("/api/preferences/");
 
     const initialValues = data || defaultInitialValues;
+    const errorBgColor = useColorModeValue("red.100", "red.400");
+
     return (
         <>
             {isLoading && <Progress isIndeterminate />}
             {isError && (
-                <Text fontSize="sm" color="red.500">
-                    There was an error loading your preferences.
-                </Text>
+                <HStack
+                    spacing={4}
+                    bg={errorBgColor}
+                    borderRadius={"md"}
+                    justifyContent={"space-between"}
+                    mb={4}
+                    p={2}
+                >
+                    <Text fontSize="sm" colorScheme="primary">
+                        There was an error loading your preferences.
+                    </Text>
+                    <Button
+                        size="sm"
+                        colorScheme="red"
+                        onClick={() => execute()}
+                        leftIcon={<FiRefreshCcw />}
+                    >
+                        Try again
+                    </Button>
+                </HStack>
             )}
             <PreferencesForm
                 isDisabled={isLoading}
