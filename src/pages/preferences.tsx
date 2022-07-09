@@ -33,9 +33,25 @@ const initialValues = {
         fromMonth: "january",
     },
     teachingDaysPerWeek: {
-        value: 0,
+        fall: 0,
+        spring: 0,
+        summer: 0,
     },
-    preferredDays: {
+    preferredDaysFall: {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+    },
+    preferredDaysSpring: {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+    },
+    preferredDaysSummer: {
         monday: false,
         tuesday: false,
         wednesday: false,
