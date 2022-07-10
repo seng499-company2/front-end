@@ -6,13 +6,35 @@ import CoursesPreferencesTable from "./CoursesPreferencesTable";
 import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 import { usePostQuery } from "@hooks/useRequest";
+import useAuth from "@hooks/useAuth";
+
+// convert from our format to the the format backend wants
+function convertToBackendFormat(data) {
+    const backendData = {
+        professor: data.professor,
+        is_submitted: true,
+        taking_sabbatical: data.sabbatical.value,
+        sabbatical_length: data.sabbatical.duration,
+        sabbatical_start_month: +data.sabbatical.fromMonth,
+        preferred_times: data.preferredTime,
+        courses_preferences: data.coursePreferences,
+        preferred_non_teaching_semester: data.nonTeachingSemester,
+        preferred_courses_per_semester: data.numCoursesPerSem,
+        preferred_number_teaching_days: data.teachingDaysPerWeek,
+        preferred_course_day_spreads: data.preferredDays,
+    };
+    return backendData;
+}
 
 const PreferencesForm = ({ isDisabled, initialValues }) => {
+    const { user } = useAuth();
     const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
 
     const onSubmit = async (data) => {
         console.log(data);
-        await execute({ data });
+        await execute({
+            data: convertToBackendFormat({ ...data, professor: user.username }),
+        });
     };
 
     return (

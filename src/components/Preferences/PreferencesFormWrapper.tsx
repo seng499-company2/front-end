@@ -32,8 +32,8 @@ const defaultInitialValues = {
     },
     sabbatical: {
         value: false,
-        duration: "half",
-        fromMonth: "january",
+        duration: "HALF",
+        fromMonth: "1",
     },
     teachingDaysPerWeek: {
         fall: 0,

@@ -31,8 +31,8 @@ const Sabbatical = ({ value, isDisabled = false }) => {
                         variant="filled"
                         focusBorderColor="primary.500"
                     >
-                        <option value="half">Half leave</option>
-                        <option value="full">Full leave</option>
+                        <option value="HALF">Half leave</option>
+                        <option value="FULL">Full leave</option>
                     </Field>
                     <Text mt={5}>Sabbatical Start Month</Text>
                     <Field
@@ -42,9 +42,9 @@ const Sabbatical = ({ value, isDisabled = false }) => {
                         colorScheme="primary"
                         variant="filled"
                     >
-                        <option value="january">January</option>
-                        <option value="may">May</option>
-                        <option value="september">September</option>
+                        <option value="1">January</option>
+                        <option value="5">May</option>
+                        <option value="9">September</option>
                     </Field>
                 </>
             )}
