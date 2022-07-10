@@ -1,4 +1,6 @@
 import Sidesheet from "../Layout/Sidesheet";
+import { Button } from "@chakra-ui/react";
+import React, { useState } from "react";
 import PreferencesForm from "../Preferences/PreferencesForm";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
@@ -12,6 +14,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         email,
         username,
     } = professor;
+    const [isDisabled, Edit] = useState(true);
 
     const initialValues = {
         //mock data
@@ -182,7 +185,13 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
             isOpen={isOpen}
             onClose={onClose}
         >
-            <PreferencesForm isDisabled={true} initialValues={initialValues} />
+            <PreferencesForm
+                isDisabled={isDisabled}
+                initialValues={initialValues}
+            />
+            <Button mt={5} type="button" onClick={() => Edit(false)}>
+                Edit
+            </Button>
         </Sidesheet>
     );
 };
