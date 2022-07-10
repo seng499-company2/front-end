@@ -42,3 +42,16 @@ export const usePostQuery = (route: string) => {
     );
     return { data, isLoading, isError, execute };
 };
+
+export const useDeleteQuery = (route: string) => {
+    const prefix = API_HOST;
+
+    const [{ data, loading: isLoading, error: isError }, execute] = useAxios(
+        {
+            url: prefix + route,
+            method: "DELETE",
+        },
+        { manual: true }
+    );
+    return { data, isLoading, isError, execute };
+};
