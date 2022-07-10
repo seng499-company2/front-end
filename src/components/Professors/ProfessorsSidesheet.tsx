@@ -174,7 +174,6 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         },
     };
 
-    const isPengText = isPeng ? " | Peng" : "";
     const onEdit = () => {
         setIsEditing(true);
     };
@@ -187,17 +186,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         setIsEditing(false);
     };
 
-    // const {
-    //     data: getData,
-    //     isLoading: isGetLoading,
-    //     isError: isGetError,
-    // } = useGetQuery("/api/professor");
-    // const {
-    //     data: saveData,
-    //     execute,
-    //     isError: isSaveError,
-    //     isLoading: isDataSaving,
-    // } = usePostQuery("/api/professor");
+    const isPengText = isPeng ? " | Peng" : "";
 
     return (
         <Sidesheet
