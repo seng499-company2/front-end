@@ -102,6 +102,7 @@ const Schedules = ({ scheduledCourses }) => {
                 }}
                 display={generated ? null : "None"}
                 w="200px"
+                placeholder="Select Semester"
             >
                 <option value="fall">Fall</option>
                 <option value="spring">Spring</option>
