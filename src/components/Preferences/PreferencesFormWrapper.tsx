@@ -49,11 +49,31 @@ const defaultInitialValues = {
     coursePreferences: coursePreferencesInit,
 };
 
+function convertFromBackendFormat(data) {
+    const frontendData = {
+        sabbatical: {
+            value: data.taking_sabbatical,
+            duration: data.sabbatical_length,
+            fromMonth: data.sabbatical_start_month,
+        },
+        preferredTime: data.preferred_times,
+        coursePreferences: data.courses_preferences,
+        nonTeachingSemester: data.preferred_non_teaching_semester,
+        numCoursesPerSem: data.preferred_courses_per_semester,
+        teachingDaysPerWeek: data.preferred_number_teaching_days,
+        preferredDays: data.preferred_course_day_spreads,
+    };
+    return frontendData;
+}
+
 const PreferencesFormWrapper = () => {
     const { data, isError, isLoading, execute } =
         useGetQuery("/api/preferences/");
 
-    const initialValues = data || defaultInitialValues;
+    const initialValuesRaw = data || defaultInitialValues;
+    const initialValues = data
+        ? convertFromBackendFormat(initialValuesRaw)
+        : initialValuesRaw;
     const errorBgColor = useColorModeValue("red.100", "red.400");
 
     return (
