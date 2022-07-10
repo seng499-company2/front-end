@@ -18,6 +18,7 @@ const AddProfessorForm = (props) => {
     const onSubmit = async (data) => {
         console.log(data);
         await execute({ data });
+        handleSubmit(false);
     };
 
     return (
@@ -36,7 +37,6 @@ const AddProfessorForm = (props) => {
             }}
             onSubmit={(values) => {
                 onSubmit(values);
-                handleSubmit(false);
             }}
         >
             {({ errors, touched }) => (
