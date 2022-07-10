@@ -6,7 +6,7 @@ import Table from "../Table";
 import { CourseNameBox } from "src/components/Courses/CourseNameBox";
 import { CourseTimeBox } from "src/components/Schedule/CourseTimeBox";
 
-const ScheduleTable = ({ schedule, generated, onClick }) => {
+const ScheduleTable = ({ schedule, onClick }) => {
     const columns = [
         {
             Header: "COURSE",
@@ -29,8 +29,8 @@ const ScheduleTable = ({ schedule, generated, onClick }) => {
             disableSortBy: true,
         },
         {
-            Header: "INSTRUCTOR",
-            accessor: "instructor",
+            Header: "Professor",
+            accessor: "professor",
             filter: {
                 type: "text",
             },
@@ -54,7 +54,7 @@ const ScheduleTable = ({ schedule, generated, onClick }) => {
     ];
 
     const data = useMemo(() => {
-        if (!generated || !schedule || schedule?.length === 0) return [];
+        if (!schedule || schedule?.length === 0) return [];
         return schedule.map((row) => {
             return {
                 course: (
@@ -65,7 +65,7 @@ const ScheduleTable = ({ schedule, generated, onClick }) => {
                     />
                 ),
                 section: row.section,
-                instructor: row.instructor,
+                professor: row.professor,
                 time: <CourseTimeBox courseTime={row.time} />,
                 capacity: row.capacity,
                 details: (
@@ -75,9 +75,9 @@ const ScheduleTable = ({ schedule, generated, onClick }) => {
                 ),
             };
         });
-    }, [generated, schedule, onClick]);
+    }, [schedule, onClick]);
 
-    return <Table columns={columns} data={data} hide={!generated} />;
+    return <Table columns={columns} data={data} hide={!schedule} />;
 };
 
 export default ScheduleTable;
