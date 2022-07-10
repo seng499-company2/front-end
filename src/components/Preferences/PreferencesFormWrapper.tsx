@@ -148,9 +148,6 @@ const PreferencesFormWrapper = () => {
 
     const showForm = !isLoading && !isError;
 
-    console.log({ data });
-    console.log({ initialValues });
-
     return (
         <>
             {isLoading && (
