@@ -1,7 +1,9 @@
 import Sidesheet from "../Layout/Sidesheet";
 import React, { useState } from "react";
 import PreferencesForm from "../Preferences/PreferencesForm";
-import { useGetQuery } from "@hooks/useRequest";
+import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
+import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
+import { useToast, useDisclosure } from "@chakra-ui/react";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
     const {
@@ -14,9 +16,21 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         email,
         username,
     } = professor;
-    const [isEditing, setIsEditing] = useState(false);
 
-    const { data } = useGetQuery(`/api/preferences/${username}`);
+    const [isEditing, setIsEditing] = useState(false);
+    const {
+        isOpen: deleteOpen,
+        onOpen: deleteOnOpen,
+        onClose: deleteOnClose,
+    } = useDisclosure();
+    const toast = useToast();
+
+    const { data, execute } = useGetQuery(`/api/preferences/${username}`);
+    const { execute: executeDelete, isLoading: isDeleteLoading } =
+        useDeleteQuery(`/api/users/${username}/`);
+    const { execute: executeEdit, isLoading: isDataSaving } = usePostQuery(
+        `/api/preferences/${username}/`
+    );
 
     const onEdit = () => {
         setIsEditing(true);
@@ -30,31 +44,67 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
         setIsEditing(false);
     };
 
+    const onDelete = () => {
+        executeDelete()
+            .then((response) => {
+                execute();
+                toast({
+                    title: "Course Deleted",
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+                setIsEditing(false);
+                deleteOnClose();
+                onClose();
+            })
+            .catch((error) => {
+                toast({
+                    title: "Error: " + error.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+            });
+    };
+
     const isPengText = isPeng ? " | Peng" : "";
 
     return (
-        <Sidesheet
-            size="xl"
-            title={`${firstName} ${lastName}`}
-            subTitle={`${email} | ${type}${isPengText}`}
-            submitLabel="Edit"
-            formId="prof-form"
-            onEdit={onEdit}
-            onSubmit={onSubmit}
-            onCancel={onCancel}
-            onClose={onClose}
-            isOpen={isOpen}
-            isEditing={isEditing}
-            //isLoading={isDataSaving}
-            isEditable
-        >
-            <PreferencesForm
-                isDisabled={!isEditing}
-                initialValues={initialValues}
-                isProfessorPage={true}
-                preferences={data}
+        <>
+            <Sidesheet
+                size="xl"
+                title={`${firstName} ${lastName}`}
+                subTitle={`${email} | ${type}${isPengText}`}
+                submitLabel="Edit"
+                formId="prof-form"
+                onEdit={onEdit}
+                onSubmit={onSubmit}
+                onCancel={onCancel}
+                onDelete={deleteOnOpen}
+                onClose={onClose}
+                isOpen={isOpen}
+                isEditing={isEditing}
+                isLoading={isDataSaving}
+                isEditable
+            >
+                <PreferencesForm
+                    isDisabled={!isEditing}
+                    initialValues={initialValues}
+                    isProfessorPage={true}
+                    preferences={data}
+                />
+            </Sidesheet>
+            <DeleteConfirmation
+                isOpen={deleteOpen}
+                onClose={deleteOnClose}
+                onDelete={onDelete}
+                title={"Professor " + `${firstName} ${lastName}`}
+                isLoading={isDeleteLoading}
             />
-        </Sidesheet>
+        </>
     );
 };
 
@@ -67,6 +117,10 @@ const initialValues = {
         spring: 3,
         summer: 2,
     },
+    // relief: {
+    //     value: false,
+    //     numCourses: 0,
+    // },
     sabbatical: {
         value: true,
         duration: "half",

@@ -1,9 +1,8 @@
-import { useDisclosure } from "@chakra-ui/react";
 import Sidesheet from "../Layout/Sidesheet";
 import CourseForm from "./CourseForm";
 import { useState } from "react";
 import { usePostQuery, useDeleteQuery } from "@hooks/useRequest";
-import { useToast } from "@chakra-ui/react";
+import { useToast, useDisclosure } from "@chakra-ui/react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 
 export const CourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
@@ -107,7 +106,7 @@ export const CourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
             >
                 <CourseForm
                     data={course}
-                    handleSubmit={submitData}
+                    g={submitData}
                     disabled={!isEditing}
                 />
             </Sidesheet>
