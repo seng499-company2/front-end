@@ -5,12 +5,9 @@ import { useConst } from "@chakra-ui/react";
 import Table from "@components/Table";
 import { CourseNameBox } from "./CourseNameBox";
 import { SemesterBadges } from "../SemesterBadges";
-import { useGetQuery } from "@hooks/useRequest";
 
 const CoursesTable = (props) => {
-    const { onClick } = props;
-
-    const { data } = useGetQuery("/api/courses/");
+    const { onClick, data } = props;
 
     const columns = useConst([
         {
@@ -22,8 +19,22 @@ const CoursesTable = (props) => {
             },
         },
         {
-            Header: "Professor Willing",
-            accessor: "professorWilling",
+            Header: "Year Requirement",
+            accessor: "yearRequired",
+            filter: {
+                type: "dropdown",
+                options: [
+                    { label: "1st Year", value: "1" },
+                    { label: "2nd Year", value: "2" },
+                    { label: "3rd Year", value: "3" },
+                    { label: "4th Year", value: "4" },
+                ],
+                key: "yearRequired", //which prop to filter by
+            },
+        },
+        {
+            Header: "# of Sections",
+            accessor: "num_sections",
             disableFilterBy: true,
         },
         {
@@ -72,7 +83,8 @@ const CoursesTable = (props) => {
                         codeAndName={course?.course_code + course?.course_title}
                     />
                 ),
-                //professorWilling: course.willing, //not included in request data
+                yearRequired: course.yearRequired.toString(),
+                num_sections: course.num_sections.toString(),
                 offered: (
                     <SemesterBadges
                         semesters={formatSemester(course)}

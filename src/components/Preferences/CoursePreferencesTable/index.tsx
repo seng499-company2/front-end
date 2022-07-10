@@ -1,7 +1,8 @@
 import { Select } from "@chakra-ui/react";
 import { useMemo } from "react";
 
-import Table from "../Table";
+import Table from "@components/Table";
+import CoursePrefNameCell from "./CoursePrefNameCell";
 
 export enum Willingness {
     veryWilling = 3,
@@ -22,6 +23,7 @@ const columns = [
         accessor: "course",
         filter: {
             type: "text",
+            key: "name", // prop to filter by
         },
     },
     {
@@ -40,10 +42,10 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
     const makeTableData = useMemo(() => {
         return Object.keys(values).map((c) => {
             return {
-                course: c,
+                course: <CoursePrefNameCell name={c} />,
                 willingness: (
                     <Select
-                        defaultValue={values[c].willingness}
+                        value={values[c].willingness}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.willingness`,
@@ -65,7 +67,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                 ),
                 difficulty: (
                     <Select
-                        defaultValue={values[c].difficulty}
+                        value={values[c].difficulty}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.difficulty`,

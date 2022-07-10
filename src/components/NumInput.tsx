@@ -7,7 +7,15 @@ import {
 } from "@chakra-ui/react";
 
 const NumInput = (props) => {
-    const { id, isDisabled = false, min, max, onChange, defaultValue } = props;
+    const {
+        id,
+        isDisabled = false,
+        min,
+        max,
+        onChange,
+        defaultValue,
+        value,
+    } = props;
     return (
         <NumberInput
             allowMouseWheel
@@ -18,6 +26,7 @@ const NumInput = (props) => {
             isDisabled={isDisabled}
             onChange={onChange}
             defaultValue={defaultValue}
+            value={value}
             width={20}
         >
             <NumberInputField />

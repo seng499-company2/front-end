@@ -1,4 +1,4 @@
-import { Button, HStack } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 
 const EditButton = ({ onClick, ...other }) => (
     <Button onClick={onClick} colorScheme="blue" {...other}>
@@ -6,13 +6,19 @@ const EditButton = ({ onClick, ...other }) => (
     </Button>
 );
 const CancelButton = ({ onClick, ...other }) => (
-    <Button onClick={onClick} colorScheme="red" {...other}>
+    <Button onClick={onClick} colorScheme="red" ml="auto" {...other}>
         Cancel
     </Button>
 );
 const SubmitButton = ({ onClick, ...other }) => (
-    <Button onClick={onClick} {...other}>
+    <Button type="submit" onClick={onClick} {...other}>
         Save
+    </Button>
+);
+
+const DeleteButton = ({ onClick, ...other }) => (
+    <Button onClick={onClick} colorScheme="red" mr="auto" {...other}>
+        Delete
     </Button>
 );
 
@@ -22,17 +28,34 @@ export const SidesheetFooter = ({
     onEdit,
     onCancel,
     onSubmit,
+    formId,
+    onDelete,
+    isEditable,
 }) => {
     return (
-        <>
-            {isEditing ? (
-                <HStack gap={3}>
-                    <CancelButton onClick={onCancel} />
-                    <SubmitButton onClick={onSubmit} isLoading={isLoading} />
-                </HStack>
-            ) : (
-                <EditButton onClick={onEdit} />
+        <Flex direction="row" width="100%" gap={3}>
+            {isEditable && !isEditing && <DeleteButton onClick={onDelete} />}
+            {isEditable &&
+                (isEditing ? (
+                    <>
+                        <CancelButton onClick={onCancel} />
+                        <SubmitButton
+                            onClick={onSubmit}
+                            isLoading={isLoading}
+                            form={formId}
+                        />
+                    </>
+                ) : (
+                    <EditButton onClick={onEdit} />
+                ))}
+            {!isEditable && (
+                <SubmitButton
+                    onClick={onSubmit}
+                    isLoading={isLoading}
+                    form={formId}
+                    ml="auto"
+                />
             )}
-        </>
+        </Flex>
     );
 };

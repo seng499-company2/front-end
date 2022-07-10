@@ -1,6 +1,5 @@
 import { VStack } from "@chakra-ui/react";
 
-import NumTeachingDays from "./NumTeachingDays";
 import CoursesPerSemester from "./CoursesPerSem";
 import PreferredDays from "./CourseSpread";
 import Sabbatical from "./Sabbatical";
@@ -18,17 +17,10 @@ const Availability = (props) => {
             />
             <CoursesPerSemester
                 setFieldValue={setFieldValue}
-                defaultValue={values.numCoursesPerSem}
-                isDisabled={isDisabled}
-            />
-            <NumTeachingDays
-                // also pass in numCoursesPerSem and nonTeachingSemester
-                values={{
-                    teachingDaysPerWeek: values.teachingDaysPerWeek,
+                value={{
                     numCoursesPerSem: values.numCoursesPerSem,
                     nonTeachingSemester: values.nonTeachingSemester,
                 }}
-                setFieldValue={setFieldValue}
                 isDisabled={isDisabled}
             />
             <PreferredDays
@@ -36,10 +28,7 @@ const Availability = (props) => {
                 setFieldValue={setFieldValue}
                 isDisabled={isDisabled}
             />
-            <Sabbatical
-                value={values.sabbatical.value}
-                isDisabled={isDisabled}
-            />
+            <Sabbatical values={values.sabbatical} isDisabled={isDisabled} />
         </VStack>
     );
 };

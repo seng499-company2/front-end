@@ -43,7 +43,7 @@ const PreferredDays = ({ setFieldValue, values, isDisabled = false }) => {
             >
                 isMulti
                 isDisabled={isDisabled}
-                defaultValue={values?.map((v) => ({
+                value={values?.map((v) => ({
                     label: labels[v],
                     value: v,
                 }))}

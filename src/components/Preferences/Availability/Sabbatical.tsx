@@ -7,7 +7,8 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "formik";
 
-const Sabbatical = ({ value, isDisabled = false }) => {
+const Sabbatical = ({ values, isDisabled = false }) => {
+    const { value, duration, fromMonth } = values;
     return (
         <FormControl>
             <FormLabel>Sabbatical Preferences</FormLabel>
@@ -15,7 +16,7 @@ const Sabbatical = ({ value, isDisabled = false }) => {
                 as={Checkbox}
                 name="sabbatical.value"
                 isDisabled={isDisabled}
-                defaultChecked={value}
+                isChecked={value}
             >
                 Taking Sabbatical
             </Field>
@@ -30,9 +31,10 @@ const Sabbatical = ({ value, isDisabled = false }) => {
                         colorScheme="primary.100"
                         variant="filled"
                         focusBorderColor="primary.500"
+                        value={duration}
                     >
-                        <option value="half">Half leave</option>
-                        <option value="full">Full leave</option>
+                        <option value="HALF">Half leave</option>
+                        <option value="FULL">Full leave</option>
                     </Field>
                     <Text mt={5}>Sabbatical Start Month</Text>
                     <Field
@@ -41,10 +43,11 @@ const Sabbatical = ({ value, isDisabled = false }) => {
                         isDisabled={isDisabled}
                         colorScheme="primary"
                         variant="filled"
+                        value={fromMonth}
                     >
-                        <option value="january">January</option>
-                        <option value="may">May</option>
-                        <option value="september">September</option>
+                        <option value="1">January</option>
+                        <option value="5">May</option>
+                        <option value="9">September</option>
                     </Field>
                 </>
             )}

@@ -14,22 +14,32 @@ import { usePostQuery } from "@hooks/useRequest";
 
 const AddProfessorForm = (props) => {
     const { handleSubmit } = props;
+    const toast = useToast();
     const { isError, isLoading, execute } = usePostQuery("/api/users/");
-    const toast = useToast({
-        position: "bottom-right",
-        duration: 3000,
-        isClosable: true,
-        status: "success",
-    });
 
-    const onSubmit = async (data) => {
-        console.log(data);
-        await execute({ data });
-        toast({
-            title: "Success",
-            description: "Professor added successfully",
-        });
-        handleSubmit(false);
+    const onSubmit = (values) => {
+        execute({
+            data: values,
+        })
+            .then((response) => {
+                toast({
+                    title: "Professor Added Successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+                handleSubmit(false);
+            })
+            .catch((error) => {
+                toast({
+                    title: "Error: " + error.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+            });
     };
 
     return (
@@ -205,19 +215,6 @@ const AddProfessorForm = (props) => {
                             </FormErrorMessage>
                         </FormControl>
                     </VStack>
-                    {isError && (
-                        <Text fontSize="sm" color="red.500">
-                            There was an error creating professor.
-                        </Text>
-                    )}
-                    <Button
-                        type="submit"
-                        colorScheme={isError ? "red" : "primary"}
-                        isLoading={isLoading}
-                        mt={5}
-                    >
-                        {isError ? "Try Again" : "Submit"}
-                    </Button>
                 </Form>
             )}
         </Formik>

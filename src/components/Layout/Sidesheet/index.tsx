@@ -25,6 +25,7 @@ const Sidesheet = (props) => {
         isEditing,
         isLoading,
         formId,
+        onDelete,
         ...other
     } = props;
 
@@ -45,17 +46,18 @@ const Sidesheet = (props) => {
 
                     <DrawerBody>{props.children}</DrawerBody>
 
-                    {isEditable && (
-                        <DrawerFooter borderTopWidth="1px">
-                            <SidesheetFooter
-                                isEditing={isEditing}
-                                isLoading={isLoading}
-                                onCancel={onCancel}
-                                onEdit={onEdit}
-                                onSubmit={onSubmit}
-                            />
-                        </DrawerFooter>
-                    )}
+                    <DrawerFooter borderTopWidth="1px">
+                        <SidesheetFooter
+                            isEditing={isEditing}
+                            isLoading={isLoading}
+                            onCancel={onCancel}
+                            onEdit={onEdit}
+                            onSubmit={onSubmit}
+                            formId={formId}
+                            onDelete={onDelete}
+                            isEditable={isEditable}
+                        />
+                    </DrawerFooter>
                 </DrawerContent>
             </Drawer>
         </>
