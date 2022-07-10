@@ -104,7 +104,7 @@ function generateCoursePreferencesFromCodesIfNeeded(
 }
 
 function convertFromBackendFormat(data) {
-    const courseCodes = getCourses(); // data.course_codes;
+    const courseCodes = data.course_codes || getCourses();
     const frontendData = {
         sabbatical: {
             value: data.taking_sabbatical,
@@ -131,8 +131,14 @@ function convertFromBackendFormat(data) {
 }
 
 const PreferencesFormWrapper = () => {
-    const { data, isError, isLoading, execute } =
-        useGetQuery("/api/preferences/");
+    const { data, isError, isLoading, execute } = useGetQuery(
+        "/api/preferences/",
+        {
+            manual: false,
+            ssr: false,
+            useCache: false,
+        }
+    );
 
     const initialValuesRaw = data || defaultInitialValues;
     const initialValues = data
@@ -141,6 +147,9 @@ const PreferencesFormWrapper = () => {
     const errorBgColor = useColorModeValue("red.100", "red.400");
 
     const showForm = !isLoading && !isError;
+
+    console.log({ data });
+    console.log({ initialValues });
 
     return (
         <>
