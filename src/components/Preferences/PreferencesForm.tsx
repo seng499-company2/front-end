@@ -26,7 +26,12 @@ function convertToBackendFormat(data) {
     return backendData;
 }
 
-const PreferencesForm = ({ isDisabled, initialValues }) => {
+const PreferencesForm = ({
+    isDisabled,
+    initialValues,
+    isProfessorPage,
+    preferences,
+}) => {
     const { user } = useAuth();
     const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
     const toast = useToast({
@@ -72,6 +77,8 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
                     teachingDaysPerWeek,
                 };
 
+                console.log({ preferences });
+
                 return (
                     <Form id="preferences-form">
                         <DividerHeading title="General Preferences" />
@@ -97,7 +104,7 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
                                 There was an error saving your preferences.
                             </Text>
                         )}
-                        {!isDisabled && (
+                        {!isProfessorPage && (
                             <Button
                                 type="submit"
                                 isDisabled={isDisabled}
