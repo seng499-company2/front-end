@@ -3,7 +3,7 @@ import { ReactElement, useCallback, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import dynamic from "next/dynamic";
 
-import CourseSidesheet from "../components/Courses/Sidesheet";
+import EditCourseSidesheet from "../components/Courses/EditCourseSidesheet";
 import AdminLayout from "../components/Layout/AdminLayout";
 import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
 
@@ -40,7 +40,7 @@ const Courses = () => {
             <TableContainer>
                 <DynamicCourseTable onClick={onClick} />
             </TableContainer>
-            <CourseSidesheet
+            <EditCourseSidesheet
                 isOpen={detailsIsOpen}
                 onClose={() => setDetailsIsOpen(false)}
                 course={course}

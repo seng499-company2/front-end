@@ -1,5 +1,5 @@
 import Sidesheet from "../Layout/Sidesheet";
-import AddCourseForm from "./AddCourseForm";
+import CourseForm from "./CourseForm";
 
 export const AddCourseSidesheet = (props) => {
     const { handleSubmit } = props;
@@ -11,7 +11,7 @@ export const AddCourseSidesheet = (props) => {
             formId="add-course-form"
             {...props}
         >
-            <AddCourseForm handleSubmit={handleSubmit} />
+            <CourseForm handleSubmit={handleSubmit} />
         </Sidesheet>
     );
 };
