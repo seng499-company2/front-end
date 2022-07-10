@@ -49,7 +49,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
             .then((response) => {
                 execute();
                 toast({
-                    title: "Course Deleted",
+                    title: "Professor Deleted",
                     status: "warning",
                     duration: 5000,
                     isClosable: true,
