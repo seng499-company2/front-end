@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import EditCourseSidesheet from "../components/Courses/EditCourseSidesheet";
 import AdminLayout from "../components/Layout/AdminLayout";
 import AddCourseSidesheet from "../components/Courses/AddCourseSidesheet";
+import { useGetQuery } from "@hooks/useRequest";
 
 const DynamicCourseTable = dynamic(
     () => import("../components/Courses/CoursesTable"),
@@ -15,8 +16,9 @@ const DynamicCourseTable = dynamic(
 const Courses = () => {
     const [detailsIsOpen, setDetailsIsOpen] = useState(false);
     const [addIsOpen, setAddIsOpen] = useState(false);
-
     const [course, setCourse] = useState({});
+
+    const { data, isLoading, isError, execute } = useGetQuery("/api/courses/");
 
     const onClick = useCallback((data) => {
         setDetailsIsOpen(true);
@@ -35,15 +37,16 @@ const Courses = () => {
             <AddCourseSidesheet
                 isOpen={addIsOpen}
                 onClose={() => setAddIsOpen(false)}
-                //handleSubmit={handleSubmit}
+                refetch={execute}
             />
             <TableContainer>
-                <DynamicCourseTable onClick={onClick} />
+                <DynamicCourseTable onClick={onClick} data={data} />
             </TableContainer>
             <EditCourseSidesheet
                 isOpen={detailsIsOpen}
                 onClose={() => setDetailsIsOpen(false)}
                 course={course}
+                refetch={execute}
             />
         </Flex>
     );

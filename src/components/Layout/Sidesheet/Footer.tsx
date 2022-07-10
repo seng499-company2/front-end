@@ -6,7 +6,7 @@ const EditButton = ({ onClick, ...other }) => (
     </Button>
 );
 const CancelButton = ({ onClick, ...other }) => (
-    <Button onClick={onClick} colorScheme="red" {...other}>
+    <Button onClick={onClick} colorScheme="red" ml="auto" {...other}>
         Cancel
     </Button>
 );
@@ -17,7 +17,7 @@ const SubmitButton = ({ onClick, ...other }) => (
 );
 
 const DeleteButton = ({ onClick, ...other }) => (
-    <Button onClick={onClick} colorScheme="red" {...other} mr="auto">
+    <Button onClick={onClick} colorScheme="red" mr="auto" {...other}>
         Delete
     </Button>
 );
@@ -30,21 +30,31 @@ export const SidesheetFooter = ({
     onSubmit,
     formId,
     onDelete,
+    isEditable,
 }) => {
     return (
-        <Flex direction="row" width="100%">
-            <DeleteButton onClick={onDelete} />
-            {isEditing ? (
-                <>
-                    <CancelButton onClick={onCancel} />
-                    <SubmitButton
-                        onClick={onSubmit}
-                        isLoading={isLoading}
-                        form={formId}
-                    />
-                </>
-            ) : (
-                <EditButton onClick={onEdit} />
+        <Flex direction="row" width="100%" gap={3}>
+            {isEditable && !isEditing && <DeleteButton onClick={onDelete} />}
+            {isEditable &&
+                (isEditing ? (
+                    <>
+                        <CancelButton onClick={onCancel} />
+                        <SubmitButton
+                            onClick={onSubmit}
+                            isLoading={isLoading}
+                            form={formId}
+                        />
+                    </>
+                ) : (
+                    <EditButton onClick={onEdit} />
+                ))}
+            {!isEditable && (
+                <SubmitButton
+                    onClick={onSubmit}
+                    isLoading={isLoading}
+                    form={formId}
+                    ml="auto"
+                />
             )}
         </Flex>
     );

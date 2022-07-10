@@ -20,16 +20,16 @@ const AddCourseForm = (props) => {
             initialValues={{
                 course_code: data?.course_code,
                 course_title: data?.course_title,
-                num_sections: data?.num_sections,
-                yearRequired: data?.yearRequired,
+                num_sections: data?.num_sections || 1,
+                yearRequired: data?.yearRequired || 0,
                 pengRequired: {
-                    fall: data?.pengRequired.fall,
-                    spring: data?.pengRequired.spring,
-                    summer: data?.pengRequired.summer,
+                    fall: data?.pengRequired.fall || false,
+                    spring: data?.pengRequired.spring || false,
+                    summer: data?.pengRequired.summer || false,
                 },
-                fall_offering: data?.fall_offering,
-                spring_offering: data?.spring_offering,
-                summer_offering: data?.summer_offering,
+                fall_offering: data?.fall_offering || false,
+                spring_offering: data?.spring_offering || false,
+                summer_offering: data?.summer_offering || false,
             }}
             onSubmit={(values) => {
                 handleSubmit(values);
@@ -59,12 +59,12 @@ const AddCourseForm = (props) => {
                         </FormControl>
 
                         <FormControl isRequired={true}>
-                            <FormLabel>Number of Sections</FormLabel>
+                            <FormLabel>Year Required</FormLabel>
                             <NumInput
                                 name="yearRequired"
                                 max={4}
                                 min={0}
-                                defaultValue={0}
+                                defaultValue={data?.yearRequired || 0}
                                 onChange={(v) =>
                                     setFieldValue("yearRequired", v)
                                 }
@@ -77,7 +77,7 @@ const AddCourseForm = (props) => {
                                 name="num_sections"
                                 max={3}
                                 min={1}
-                                defaultValue={1}
+                                defaultValue={data?.num_sections || 1}
                                 onChange={(v) =>
                                     setFieldValue("num_sections", v)
                                 }

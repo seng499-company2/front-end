@@ -5,12 +5,9 @@ import { useConst } from "@chakra-ui/react";
 import Table from "@components/Table";
 import { CourseNameBox } from "./CourseNameBox";
 import { SemesterBadges } from "../SemesterBadges";
-import { useGetQuery } from "@hooks/useRequest";
 
 const CoursesTable = (props) => {
-    const { onClick } = props;
-
-    const { data } = useGetQuery("/api/courses/");
+    const { onClick, data } = props;
 
     const columns = useConst([
         {
