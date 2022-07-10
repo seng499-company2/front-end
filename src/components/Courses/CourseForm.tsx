@@ -16,8 +16,8 @@ const AddCourseForm = (props) => {
     return (
         <Formik
             initialValues={{
-                course_code: data?.course_code,
-                course_title: data?.course_title,
+                course_code: data?.course_code ?? "",
+                course_title: data?.course_title ?? "",
                 num_sections: data?.num_sections || 1,
                 yearRequired: data?.yearRequired || 0,
                 pengRequired: {
