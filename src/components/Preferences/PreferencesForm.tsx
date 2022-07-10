@@ -1,4 +1,4 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 
 import Availability from "./Availability";
@@ -29,11 +29,21 @@ function convertToBackendFormat(data) {
 const PreferencesForm = ({ isDisabled, initialValues }) => {
     const { user } = useAuth();
     const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
+    const toast = useToast({
+        position: "bottom-right",
+        duration: 5000,
+        isClosable: true,
+        status: "success",
+    });
 
     const onSubmit = async (data) => {
         console.log(data);
         await execute({
             data: convertToBackendFormat({ ...data, professor: user.username }),
+        });
+        toast({
+            title: "Preferences saved!",
+            description: "Your preferences have been saved.",
         });
     };
 
