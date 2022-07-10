@@ -95,37 +95,46 @@ function generateCoursePreferencesFromCodesIfNeeded(
             return obj;
         }, {});
 
-    console.log({
-        ...coursePreferences,
-        ...coursePreferencesWithDefaultValues,
-    });
-
     return { ...coursePreferences, ...coursePreferencesWithDefaultValues };
 }
 
 function convertFromBackendFormat(data) {
-    const courseCodes = data.course_codes || getCourses();
+    const {
+        course_codes,
+        resource: {
+            taking_sabbatical,
+            sabbatical_length,
+            sabbatical_start_month,
+            preferred_times,
+            courses_preferences,
+            preferred_non_teaching_semester,
+            preferred_courses_per_semester,
+            preferred_number_teaching_days,
+            preferred_course_day_spreads,
+        },
+    } = data;
+
     const frontendData = {
         sabbatical: {
-            value: data.taking_sabbatical,
-            duration: data.sabbatical_length,
-            fromMonth: data.sabbatical_start_month,
+            value: taking_sabbatical,
+            duration: sabbatical_length,
+            fromMonth: sabbatical_start_month,
         },
-        preferredTime: initTermsObjectIfNeeded(data.preferred_times ?? {}, []),
+        preferredTime: initTermsObjectIfNeeded(preferred_times ?? {}, []),
         coursePreferences: generateCoursePreferencesFromCodesIfNeeded(
-            data.courses_preferences,
-            courseCodes
+            courses_preferences,
+            course_codes
         ),
-        nonTeachingSemester: data.preferred_non_teaching_semester || "fall",
+        nonTeachingSemester: preferred_non_teaching_semester || "fall",
         numCoursesPerSem: initTermsObjectIfNeeded(
-            data.preferred_courses_per_semester ?? {},
+            preferred_courses_per_semester ?? {},
             0
         ),
         teachingDaysPerWeek: initTermsObjectIfNeeded(
-            data.preferred_number_teaching_days ?? {},
+            preferred_number_teaching_days ?? {},
             0
         ),
-        preferredDays: data.preferred_course_day_spreads,
+        preferredDays: preferred_course_day_spreads,
     };
     return frontendData;
 }

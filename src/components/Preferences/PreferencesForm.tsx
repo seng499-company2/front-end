@@ -37,9 +37,11 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
     });
 
     const onSubmit = async (data) => {
-        console.log(data);
         await execute({
-            data: convertToBackendFormat({ ...data, professor: user.username }),
+            data: convertToBackendFormat({
+                ...data,
+                professor: user.username,
+            }),
         });
         toast({
             title: "Preferences saved!",
