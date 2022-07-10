@@ -1,16 +1,22 @@
 import { Flex, Button } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import dynamic from "next/dynamic";
 
-import AdminLayout from "../components/Layout/AdminLayout";
-import ProfessorsTable from "../components/Professors/ProfessorsTable";
-import ProfessorsSidesheet from "../components/Professors/ProfessorsSidesheet";
-import AddProfessorSidesheet from "../components/Professors/AddProfessorSidesheet";
+import AdminLayout from "@components/Layout/AdminLayout";
+import ProfessorsSidesheet from "@components/Professors/ProfessorsSidesheet";
+import AddProfessorSidesheet from "@components/Professors/AddProfessorSidesheet";
 
-const Professors = ({ professors }) => {
+const DynamicProfessorsTableWrapper = dynamic(
+    () => import("@components/Professors/ProfessorsTableWrapper"),
+    { ssr: false }
+);
+
+const Professors = () => {
     const [detailsIsOpen, setDetailsIsOpen] = useState(false);
     const [addIsOpen, setAddIsOpen] = useState(false);
     const [prof, setProf] = useState({});
+
     const openDetails = (prof) => {
         // can use prof values here (from backend)
         setDetailsIsOpen(!detailsIsOpen);
@@ -31,10 +37,7 @@ const Professors = ({ professors }) => {
                 onClose={() => setAddIsOpen(false)}
                 handleSubmit={setAddIsOpen}
             />
-            <ProfessorsTable
-                professors={professors}
-                openDetails={openDetails}
-            />
+            <DynamicProfessorsTableWrapper openDetails={openDetails} />
             <ProfessorsSidesheet
                 isOpen={detailsIsOpen}
                 onClose={() => setDetailsIsOpen(false)}
@@ -42,41 +45,6 @@ const Professors = ({ professors }) => {
             />
         </Flex>
     );
-};
-
-export const getServerSideProps = async () => {
-    const professors = [
-        {
-            id: 1,
-            name: "Dave Dave",
-            type: "Teaching",
-            complete: true,
-            email: "dave@dave.ca",
-        },
-        {
-            id: 2,
-            name: "Owen Wilson",
-            type: "Research",
-            complete: false,
-            email: "owenwilson@wow.com",
-        },
-        {
-            id: 3,
-            name: "Gordo Ramso",
-            type: "Research",
-            complete: true,
-            email: "gr@hellsnightmare.uk",
-        },
-    ];
-
-    // get from api
-    // const professors = fetch(`${API_URL}/v1/professors`);
-
-    return {
-        props: {
-            professors,
-        },
-    };
 };
 
 Professors.getLayout = function getLayout(page: ReactElement) {
