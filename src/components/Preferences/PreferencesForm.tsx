@@ -9,9 +9,9 @@ import { usePostQuery } from "@hooks/useRequest";
 
 const PreferencesForm = ({
     isDisabled,
-    isProfessorPage,
+    isProfessorPage = false,
     initialValues,
-    preferences,
+    preferences = null,
 }) => {
     const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
 

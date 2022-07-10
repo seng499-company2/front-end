@@ -3,6 +3,16 @@ import { Text, FormControl, FormLabel, HStack } from "@chakra-ui/react";
 import NumInput from "@components/NumInput";
 
 const NumTeachingDays = ({ values, setFieldValue, isDisabled = false }) => {
+    const { teachingDaysPerWeek, numCoursesPerSem, nonTeachingSemester } =
+        values;
+    const termDisabled = {
+        fall: numCoursesPerSem.fall == 0 || nonTeachingSemester === "fall",
+        spring:
+            numCoursesPerSem.spring == 0 || nonTeachingSemester === "spring",
+        summer:
+            numCoursesPerSem.summer == 0 || nonTeachingSemester === "summer",
+    };
+
     return (
         <FormControl>
             <FormLabel>Preferred Number of Teaching Days</FormLabel>
@@ -10,10 +20,10 @@ const NumTeachingDays = ({ values, setFieldValue, isDisabled = false }) => {
                 <Text alignSelf="center">Fall</Text>
                 <NumInput
                     name="teachingDaysPerWeek.fall"
-                    isDisabled={isDisabled || values.fall == 0}
+                    isDisabled={isDisabled || termDisabled.fall}
                     max={5}
                     min={0}
-                    defaultValue={values.fall}
+                    defaultValue={teachingDaysPerWeek.fall}
                     onChange={(v) =>
                         setFieldValue("teachingDaysPerWeek.fall", v)
                     }
@@ -23,10 +33,10 @@ const NumTeachingDays = ({ values, setFieldValue, isDisabled = false }) => {
                 </Text>
                 <NumInput
                     name="teachingDaysPerWeek.spring"
-                    isDisabled={isDisabled || values.spring == 0}
+                    isDisabled={isDisabled || termDisabled.spring}
                     max={5}
                     min={0}
-                    defaultValue={values.spring}
+                    defaultValue={teachingDaysPerWeek.spring}
                     onChange={(v) =>
                         setFieldValue("teachingDaysPerWeek.spring", v)
                     }
@@ -36,10 +46,10 @@ const NumTeachingDays = ({ values, setFieldValue, isDisabled = false }) => {
                 </Text>
                 <NumInput
                     name="teachingDaysPerWeek.summer"
-                    isDisabled={isDisabled || values.summer == 0}
+                    isDisabled={isDisabled || termDisabled.summer}
                     max={5}
                     min={0}
-                    defaultValue={values.summer}
+                    defaultValue={teachingDaysPerWeek.summer}
                     onChange={(v) =>
                         setFieldValue("teachingDaysPerWeek.summer", v)
                     }

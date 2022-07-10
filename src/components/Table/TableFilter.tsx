@@ -24,7 +24,7 @@ export const TableFilter = ({ column, onFilter }) => {
                         onChange={onChange}
                     />
                     <InputLeftElement zIndex={"unset"}>
-                        <Icon as={FaFilter} ml={1} w={4} h={3} z={1} />
+                        <Icon as={FaFilter} ml={1} w={4} h={3} />
                     </InputLeftElement>
                 </InputGroup>
             ) : (

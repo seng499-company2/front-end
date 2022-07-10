@@ -62,27 +62,29 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                                 username,
                             },
                         } = prof;
+
                         const type =
                             profType === "TP" ? "Teaching" : "Research";
+
+                        const profDetails = {
+                            isPeng,
+                            type,
+                            complete,
+                            firstName,
+                            lastName,
+                            isAdmin,
+                            email,
+                            username,
+                        };
+
                         return {
-                            name: firstName + " " + lastName,
+                            name: `${firstName} ${lastName}`,
                             type: type,
                             status: <CompleteStatusBadge complete={complete} />,
                             details: (
                                 <Button
                                     variant="ghost"
-                                    onClick={() =>
-                                        openDetails({
-                                            isPeng,
-                                            type,
-                                            complete,
-                                            firstName,
-                                            lastName,
-                                            isAdmin,
-                                            email,
-                                            username,
-                                        })
-                                    }
+                                    onClick={() => openDetails(profDetails)}
                                 >
                                     <ChevronRightIcon ml={1} w={5} h={5} />
                                 </Button>
