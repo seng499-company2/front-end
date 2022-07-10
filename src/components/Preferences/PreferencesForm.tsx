@@ -2,7 +2,7 @@ import { Button, Text, useToast } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 
 import Availability from "./Availability";
-import CoursesPreferencesTable from "./CoursesPreferencesTable";
+import CoursesPreferencesTable from "./CoursePreferencesTable";
 import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 import { usePostQuery } from "@hooks/useRequest";

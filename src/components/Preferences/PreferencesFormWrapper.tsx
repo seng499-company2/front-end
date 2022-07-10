@@ -8,7 +8,7 @@ import {
 
 import { useGetQuery } from "@hooks/useRequest";
 import { FiRefreshCcw } from "react-icons/fi";
-import { Difficulty, Willingness } from "./CoursesPreferencesTable";
+import { Difficulty, Willingness } from "./CoursePreferencesTable";
 import PreferencesForm from "./PreferencesForm";
 
 const getCourses = () => {
@@ -61,7 +61,50 @@ function initTermsObjectIfNeeded(times, initVal) {
     return { ...times, ...timesWithKeys };
 }
 
+function generateCoursePreferencesFromCodesIfNeeded(
+    coursePreferences = {},
+    courseCodes = []
+) {
+    // if coursePreferences is empty, generate it from courseCodes
+    // default values are set to noSelection
+    // i.e. { CSC 225: { difficulty: Difficulty["noSelection"], willingness: Willingness["noSelection"] } }
+    // if coursePreferences is not empty for a course, it is not modified
+    if (Object.keys(coursePreferences).length === 0) {
+        return courseCodes.reduce((obj, course) => {
+            obj[course] = {
+                difficulty: Difficulty.noSelection,
+                willingness: Willingness.noSelection,
+            };
+            return obj;
+        }, {});
+    }
+
+    // check for courses that are not in coursePreferences
+    // if they are not in coursePreferences, set them to default values
+    const courseCodesInPreferences = Object.keys(coursePreferences);
+    const courseCodesNotInPreferences = courseCodes.filter(
+        (course) => !courseCodesInPreferences.includes(course)
+    );
+
+    const coursePreferencesWithDefaultValues =
+        courseCodesNotInPreferences.reduce((obj, course) => {
+            obj[course] = {
+                difficulty: Difficulty.noSelection,
+                willingness: Willingness.noSelection,
+            };
+            return obj;
+        }, {});
+
+    console.log({
+        ...coursePreferences,
+        ...coursePreferencesWithDefaultValues,
+    });
+
+    return { ...coursePreferences, ...coursePreferencesWithDefaultValues };
+}
+
 function convertFromBackendFormat(data) {
+    const courseCodes = getCourses(); // data.course_codes;
     const frontendData = {
         sabbatical: {
             value: data.taking_sabbatical,
@@ -69,7 +112,10 @@ function convertFromBackendFormat(data) {
             fromMonth: data.sabbatical_start_month,
         },
         preferredTime: initTermsObjectIfNeeded(data.preferred_times ?? {}, []),
-        coursePreferences: data.courses_preferences,
+        coursePreferences: generateCoursePreferencesFromCodesIfNeeded(
+            data.courses_preferences,
+            courseCodes
+        ),
         nonTeachingSemester: data.preferred_non_teaching_semester || "fall",
         numCoursesPerSem: initTermsObjectIfNeeded(
             data.preferred_courses_per_semester ?? {},
