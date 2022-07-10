@@ -53,7 +53,7 @@ const defaultInitialValues = {
 function initTermsObjectIfNeeded(times, initVal) {
     const keys = ["fall", "spring", "summer"];
     const timesWithKeys = keys.reduce((obj, key) => {
-        if (!times[key]) {
+        if (!(key in times)) {
             obj[key] = initVal;
         }
         return obj;
@@ -68,15 +68,15 @@ function convertFromBackendFormat(data) {
             duration: data.sabbatical_length,
             fromMonth: data.sabbatical_start_month,
         },
-        preferredTime: initTermsObjectIfNeeded(data.preferred_times, []),
+        preferredTime: initTermsObjectIfNeeded(data.preferred_times ?? {}, []),
         coursePreferences: data.courses_preferences,
         nonTeachingSemester: data.preferred_non_teaching_semester || "fall",
         numCoursesPerSem: initTermsObjectIfNeeded(
-            data.preferred_courses_per_semester,
+            data.preferred_courses_per_semester ?? {},
             0
         ),
         teachingDaysPerWeek: initTermsObjectIfNeeded(
-            data.preferred_number_teaching_days,
+            data.preferred_number_teaching_days ?? {},
             0
         ),
         preferredDays: data.preferred_course_day_spreads,
