@@ -46,13 +46,10 @@ export function AuthProvider({
         async (username: string, password: string) => {
             setIsLoading(true);
             try {
-                const response = await axios.post(
-                    "http://localhost:3000/api/login/",
-                    {
-                        username,
-                        password,
-                    }
-                );
+                const response = await axios.post("/api/login/", {
+                    username,
+                    password,
+                });
                 if (response.status === 200) {
                     const nUser = getUserClaims();
                     setUser(nUser);

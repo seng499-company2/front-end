@@ -1,4 +1,5 @@
 import { TabList, Tabs, Tab, TabPanel, TabPanels } from "@chakra-ui/react";
+import { useLayoutEffect } from "react";
 import Timetable from "./ScheduleSelector";
 
 const ScheduleAvailability = (props) => {
@@ -15,7 +16,7 @@ const ScheduleAvailability = (props) => {
                 <TabPanel>
                     <Timetable
                         semester="fall"
-                        values={values.preferredTime.fall}
+                        values={values.fall}
                         setFieldValue={setFieldValue}
                         isDisabled={isDisabled}
                     />
@@ -23,7 +24,7 @@ const ScheduleAvailability = (props) => {
                 <TabPanel>
                     <Timetable
                         semester="summer"
-                        values={values.preferredTime.summer}
+                        values={values.summer}
                         setFieldValue={setFieldValue}
                         isDisabled={isDisabled}
                     />
@@ -31,7 +32,7 @@ const ScheduleAvailability = (props) => {
                 <TabPanel>
                     <Timetable
                         semester="spring"
-                        values={values.preferredTime.spring}
+                        values={values.spring}
                         setFieldValue={setFieldValue}
                         isDisabled={isDisabled}
                     />
