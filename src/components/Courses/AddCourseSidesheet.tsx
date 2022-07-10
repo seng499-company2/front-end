@@ -15,7 +15,7 @@ export const AddCourseSidesheet = ({ isOpen, onClose, refetch }) => {
             .then((response) => {
                 refetch();
                 toast({
-                    title: "Course Added",
+                    title: "Course Added Successfully",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
