@@ -5,11 +5,32 @@ import {
     Input,
     VStack,
     Select,
+    Button,
+    Text,
+    useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+import { usePostQuery } from "@hooks/useRequest";
 
 const AddProfessorForm = (props) => {
     const { handleSubmit } = props;
+    const { isError, isLoading, execute } = usePostQuery("/api/users/");
+    const toast = useToast({
+        position: "bottom-right",
+        duration: 3000,
+        isClosable: true,
+        status: "success",
+    });
+
+    const onSubmit = async (data) => {
+        console.log(data);
+        await execute({ data });
+        toast({
+            title: "Success",
+            description: "Professor added successfully",
+        });
+        handleSubmit(false);
+    };
 
     return (
         <Formik
@@ -26,7 +47,7 @@ const AddProfessorForm = (props) => {
                 is_peng: false,
             }}
             onSubmit={(values) => {
-                handleSubmit(values);
+                onSubmit(values);
             }}
         >
             {({ errors, touched }) => (
@@ -184,6 +205,19 @@ const AddProfessorForm = (props) => {
                             </FormErrorMessage>
                         </FormControl>
                     </VStack>
+                    {isError && (
+                        <Text fontSize="sm" color="red.500">
+                            There was an error creating professor.
+                        </Text>
+                    )}
+                    <Button
+                        type="submit"
+                        colorScheme={isError ? "red" : "primary"}
+                        isLoading={isLoading}
+                        mt={5}
+                    >
+                        {isError ? "Try Again" : "Submit"}
+                    </Button>
                 </Form>
             )}
         </Formik>

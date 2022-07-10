@@ -1,5 +1,4 @@
 import Sidesheet from "../Layout/Sidesheet";
-import AddCourseForm from "./AddProfessorForm";
 import AddProfessorForm from "./AddProfessorForm";
 
 export const AddProfessorSidesheet = (props) => {
