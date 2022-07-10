@@ -29,7 +29,7 @@ const Professors = ({ professors }) => {
             <AddProfessorSidesheet
                 isOpen={addIsOpen}
                 onClose={() => setAddIsOpen(false)}
-                //handleSubmit={handleSubmit}
+                handleSubmit={setAddIsOpen}
             />
             <ProfessorsTable
                 professors={professors}
