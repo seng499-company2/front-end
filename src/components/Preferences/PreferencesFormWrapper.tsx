@@ -49,6 +49,18 @@ const defaultInitialValues = {
     coursePreferences: coursePreferencesInit,
 };
 
+// fills times with term keys if they are not present
+function initTermsObjectIfNeeded(times, initVal) {
+    const keys = ["fall", "spring", "summer"];
+    const timesWithKeys = keys.reduce((obj, key) => {
+        if (!times[key]) {
+            obj[key] = initVal;
+        }
+        return obj;
+    }, {});
+    return { ...times, ...timesWithKeys };
+}
+
 function convertFromBackendFormat(data) {
     const frontendData = {
         sabbatical: {
@@ -56,11 +68,17 @@ function convertFromBackendFormat(data) {
             duration: data.sabbatical_length,
             fromMonth: data.sabbatical_start_month,
         },
-        preferredTime: data.preferred_times,
+        preferredTime: initTermsObjectIfNeeded(data.preferred_times, []),
         coursePreferences: data.courses_preferences,
-        nonTeachingSemester: data.preferred_non_teaching_semester,
-        numCoursesPerSem: data.preferred_courses_per_semester,
-        teachingDaysPerWeek: data.preferred_number_teaching_days,
+        nonTeachingSemester: data.preferred_non_teaching_semester || "fall",
+        numCoursesPerSem: initTermsObjectIfNeeded(
+            data.preferred_courses_per_semester,
+            0
+        ),
+        teachingDaysPerWeek: initTermsObjectIfNeeded(
+            data.preferred_number_teaching_days,
+            0
+        ),
         preferredDays: data.preferred_course_day_spreads,
     };
     return frontendData;
