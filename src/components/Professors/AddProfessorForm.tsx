@@ -7,6 +7,7 @@ import {
     Select,
     Button,
     Text,
+    useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { usePostQuery } from "@hooks/useRequest";
@@ -14,10 +15,20 @@ import { usePostQuery } from "@hooks/useRequest";
 const AddProfessorForm = (props) => {
     const { handleSubmit } = props;
     const { isError, isLoading, execute } = usePostQuery("/api/users/");
+    const toast = useToast({
+        position: "bottom-right",
+        duration: 3000,
+        isClosable: true,
+        status: "success",
+    });
 
     const onSubmit = async (data) => {
         console.log(data);
         await execute({ data });
+        toast({
+            title: "Success",
+            description: "Professor added successfully",
+        });
         handleSubmit(false);
     };
 
