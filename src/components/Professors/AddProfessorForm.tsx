@@ -6,6 +6,7 @@ import {
     VStack,
     Select,
     Button,
+    Text,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { usePostQuery } from "@hooks/useRequest";
@@ -193,6 +194,11 @@ const AddProfessorForm = (props) => {
                             </FormErrorMessage>
                         </FormControl>
                     </VStack>
+                    {isError && (
+                        <Text fontSize="sm" color="red.500">
+                            There was an error creating professor.
+                        </Text>
+                    )}
                     <Button
                         type="submit"
                         colorScheme={isError ? "red" : "primary"}
