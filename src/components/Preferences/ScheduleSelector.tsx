@@ -42,8 +42,6 @@ const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
     const first = today.getDate() - today.getDay() + 1;
     const formValue = `preferredTime.${semester}`;
 
-    console.log(values.length);
-
     const [schedule, setSchedule] = useState(
         convertValuesToDatetime(values, first)
     );
@@ -57,18 +55,6 @@ const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
         },
         [setFieldValue, formValue, isDisabled]
     );
-
-    useEffect(() => {
-        const newSchedule = convertValuesToDatetime(values, first);
-        console.log("schedule length", newSchedule.length);
-
-        console.log("setting schedule");
-        setSchedule(newSchedule);
-    }, [values, first]);
-
-    if (schedule.length > 0) {
-        console.log(schedule);
-    }
 
     return (
         <Box

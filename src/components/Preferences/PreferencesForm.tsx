@@ -47,8 +47,6 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
         });
     };
 
-    console.log({ initialValues });
-
     return (
         <Formik
             enableReinitialize={true}
