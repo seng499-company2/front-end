@@ -1,10 +1,8 @@
 import {
     FormControl,
-    FormErrorMessage,
     FormLabel,
     Input,
     VStack,
-    Text,
     Flex,
     Checkbox,
 } from "@chakra-ui/react";

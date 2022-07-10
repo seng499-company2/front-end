@@ -1,4 +1,4 @@
-import { VStack, Text, Box, Divider, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import Sidesheet from "../Layout/Sidesheet";
 import CourseForm from "./CourseForm";
 import { useState } from "react";
