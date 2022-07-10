@@ -8,10 +8,8 @@ export const AddCourseSidesheet = ({ isOpen, onClose, refetch }) => {
 
     const { execute, isLoading: isDataSaving } = usePostQuery("/api/courses/");
 
-    const onDelete = () => {};
-
-    const submitData = async (values) => {
-        await execute({
+    const submitData = (values) => {
+        execute({
             data: values,
         })
             .then((response) => {
@@ -45,7 +43,6 @@ export const AddCourseSidesheet = ({ isOpen, onClose, refetch }) => {
             title="Add New Course"
             isOpen={isOpen}
             onClose={handleClose}
-            onDelete={onDelete}
             formId="edit-course-form"
             isLoading={isDataSaving}
         >

@@ -31,8 +31,8 @@ export const CourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
         onClose();
     };
 
-    const onDelete = async () => {
-        await executeDelete()
+    const onDelete = () => {
+        executeDelete()
             .then((response) => {
                 refetch();
                 toast({
@@ -57,8 +57,8 @@ export const CourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
             });
     };
 
-    const submitData = async (values) => {
-        await executeEdit({
+    const submitData = (values) => {
+        executeEdit({
             data: values,
         })
             .then((response) => {
