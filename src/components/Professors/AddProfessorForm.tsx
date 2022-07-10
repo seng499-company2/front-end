@@ -22,7 +22,6 @@ const AddProfessorForm = (props) => {
             data: values,
         })
             .then((response) => {
-                execute();
                 toast({
                     title: "Professor Added Successfully",
                     status: "success",
