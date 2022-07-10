@@ -7,7 +7,8 @@ import {
 } from "@chakra-ui/react";
 import { Field } from "formik";
 
-const Sabbatical = ({ value, isDisabled = false }) => {
+const Sabbatical = ({ values, isDisabled = false }) => {
+    const { value, duration, fromMonth } = values;
     return (
         <FormControl>
             <FormLabel>Sabbatical Preferences</FormLabel>
@@ -15,7 +16,7 @@ const Sabbatical = ({ value, isDisabled = false }) => {
                 as={Checkbox}
                 name="sabbatical.value"
                 isDisabled={isDisabled}
-                defaultChecked={value}
+                isChecked={value}
             >
                 Taking Sabbatical
             </Field>
@@ -30,6 +31,7 @@ const Sabbatical = ({ value, isDisabled = false }) => {
                         colorScheme="primary.100"
                         variant="filled"
                         focusBorderColor="primary.500"
+                        value={duration}
                     >
                         <option value="HALF">Half leave</option>
                         <option value="FULL">Full leave</option>
@@ -41,6 +43,7 @@ const Sabbatical = ({ value, isDisabled = false }) => {
                         isDisabled={isDisabled}
                         colorScheme="primary"
                         variant="filled"
+                        value={fromMonth}
                     >
                         <option value="1">January</option>
                         <option value="5">May</option>

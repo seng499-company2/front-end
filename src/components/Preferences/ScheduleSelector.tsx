@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
 
-const Timetable = (props) => {
-    const { semester, values, setFieldValue, isDisabled = false } = props;
-    const today = new Date();
-    const first = today.getDate() - today.getDay() + 1;
-    const formValue = "preferredTime." + semester;
+function convertValuesToDatetime(values, first) {
     const datetimeArr = [];
-
     values.forEach((element) => {
         let date = new Date();
         const day = first + element.day - 1;
@@ -16,33 +11,63 @@ const Timetable = (props) => {
         date.setHours(element.time, 0, 0);
         datetimeArr.push(date);
     });
+    return datetimeArr;
+}
 
-    const [schedule, setSchedule] = useState(datetimeArr);
+function convertToJsonArr(values) {
+    const jsonArr = [];
+    values.forEach((element) => {
+        const time = {
+            day: element.getDay(),
+            time: element.getHours(),
+        };
+        jsonArr.push(time);
+    });
+    return jsonArr;
+}
 
-    const unselectedColorDict = {
-        fall: "#a2c6f8",
-        spring: "#FFB6C1",
-        summer: "#FFD580",
-    };
-    const selectedColorDict = {
-        fall: "#599af2",
-        spring: "#FF69B4",
-        summer: "#FFA500",
-    };
+const unselectedColorDict = {
+    fall: "#a2c6f8",
+    spring: "#FFB6C1",
+    summer: "#FFD580",
+};
+const selectedColorDict = {
+    fall: "#599af2",
+    spring: "#FF69B4",
+    summer: "#FFA500",
+};
 
-    function handleChange(newSchedule) {
-        const jsonArr = [];
-        if (!isDisabled) {
-            newSchedule.forEach((element) => {
-                const time = {
-                    day: element.getDay(),
-                    time: element.getHours(),
-                };
-                jsonArr.push(time);
-            });
-            setSchedule(newSchedule);
-            setFieldValue(formValue, jsonArr);
-        }
+const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
+    const today = new Date();
+    const first = today.getDate() - today.getDay() + 1;
+    const formValue = `preferredTime.${semester}`;
+
+    console.log(values.length);
+
+    const [schedule, setSchedule] = useState(
+        convertValuesToDatetime(values, first)
+    );
+
+    const handleChange = useCallback(
+        (newSchedule) => {
+            if (!isDisabled) {
+                setSchedule(newSchedule);
+                setFieldValue(formValue, convertToJsonArr(newSchedule));
+            }
+        },
+        [setFieldValue, formValue, isDisabled]
+    );
+
+    useEffect(() => {
+        const newSchedule = convertValuesToDatetime(values, first);
+        console.log("schedule length", newSchedule.length);
+
+        console.log("setting schedule");
+        setSchedule(newSchedule);
+    }, [values, first]);
+
+    if (schedule.length > 0) {
+        console.log(schedule);
     }
 
     return (

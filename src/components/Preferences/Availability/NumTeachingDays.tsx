@@ -23,7 +23,7 @@ const NumTeachingDays = ({ values, setFieldValue, isDisabled = false }) => {
                     isDisabled={isDisabled || termDisabled.fall}
                     max={5}
                     min={0}
-                    defaultValue={teachingDaysPerWeek.fall}
+                    value={+teachingDaysPerWeek.fall}
                     onChange={(v) =>
                         setFieldValue("teachingDaysPerWeek.fall", v)
                     }
@@ -36,7 +36,7 @@ const NumTeachingDays = ({ values, setFieldValue, isDisabled = false }) => {
                     isDisabled={isDisabled || termDisabled.spring}
                     max={5}
                     min={0}
-                    defaultValue={teachingDaysPerWeek.spring}
+                    value={+teachingDaysPerWeek.spring}
                     onChange={(v) =>
                         setFieldValue("teachingDaysPerWeek.spring", v)
                     }
@@ -49,7 +49,7 @@ const NumTeachingDays = ({ values, setFieldValue, isDisabled = false }) => {
                     isDisabled={isDisabled || termDisabled.summer}
                     max={5}
                     min={0}
-                    defaultValue={teachingDaysPerWeek.summer}
+                    value={+teachingDaysPerWeek.summer}
                     onChange={(v) =>
                         setFieldValue("teachingDaysPerWeek.summer", v)
                     }

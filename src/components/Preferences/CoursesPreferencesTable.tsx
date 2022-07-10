@@ -43,7 +43,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                 course: c,
                 willingness: (
                     <Select
-                        defaultValue={values[c].willingness}
+                        value={values[c].willingness}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.willingness`,
@@ -65,7 +65,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                 ),
                 difficulty: (
                     <Select
-                        defaultValue={values[c].difficulty}
+                        value={values[c].difficulty}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.difficulty`,

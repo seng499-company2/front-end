@@ -47,8 +47,14 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
         });
     };
 
+    console.log({ initialValues });
+
     return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik
+            enableReinitialize={true}
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+        >
             {({ errors, touched, values, setFieldValue }) => {
                 const {
                     nonTeachingSemester,
@@ -82,7 +88,7 @@ const PreferencesForm = ({ isDisabled, initialValues }) => {
                         />
                         <DividerHeading title="Schedule Preferences" mt={20} />
                         <ScheduleAvailability
-                            values={values}
+                            values={values.preferredTime}
                             setFieldValue={setFieldValue}
                             isDisabled={isDisabled}
                         />

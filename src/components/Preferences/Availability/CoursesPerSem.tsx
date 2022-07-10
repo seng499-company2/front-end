@@ -21,7 +21,7 @@ const CoursesPerSemester = ({
                     isDisabled={isDisabled}
                     max={5}
                     min={0}
-                    defaultValue={defaultValue.fall}
+                    value={+defaultValue.fall}
                     onChange={(v) => setFieldValue("numCoursesPerSem.fall", v)}
                 />
                 <Text alignSelf="center" pl={10}>
@@ -32,7 +32,7 @@ const CoursesPerSemester = ({
                     isDisabled={isDisabled}
                     max={5}
                     min={0}
-                    defaultValue={defaultValue.spring}
+                    value={+defaultValue.spring}
                     onChange={(v) =>
                         setFieldValue("numCoursesPerSem.spring", v)
                     }
@@ -45,7 +45,7 @@ const CoursesPerSemester = ({
                     isDisabled={isDisabled}
                     max={5}
                     min={0}
-                    defaultValue={defaultValue.summer}
+                    value={+defaultValue.summer}
                     onChange={(v) =>
                         setFieldValue("numCoursesPerSem.summer", v)
                     }

@@ -76,9 +76,13 @@ const PreferencesFormWrapper = () => {
         : initialValuesRaw;
     const errorBgColor = useColorModeValue("red.100", "red.400");
 
+    const showForm = !isLoading && !isError;
+
     return (
         <>
-            {isLoading && <Progress isIndeterminate />}
+            {isLoading && (
+                <Progress isIndeterminate hasStripe size="lg" mb={4} />
+            )}
             {isError && (
                 <HStack
                     spacing={4}
@@ -101,10 +105,12 @@ const PreferencesFormWrapper = () => {
                     </Button>
                 </HStack>
             )}
-            <PreferencesForm
-                isDisabled={isLoading}
-                initialValues={initialValues}
-            />
+            {showForm && (
+                <PreferencesForm
+                    isDisabled={isLoading}
+                    initialValues={initialValues}
+                />
+            )}
         </>
     );
 };
