@@ -28,9 +28,9 @@ function convertToBackendFormat(data) {
 
 const PreferencesForm = ({
     isDisabled,
+    isProfessorPage = false,
     initialValues,
-    isProfessorPage,
-    preferences,
+    preferences = null,
 }) => {
     const { user } = useAuth();
     const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
