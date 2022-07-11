@@ -141,7 +141,7 @@ const Schedules = ({ scheduledCourses }) => {
             )}
             {isError && (
                 <Text fontSize="sm" color="red.500">
-                    There was an error while generating schedule.
+                    {isError.response.data}
                 </Text>
             )}
             <ScheduleTable schedule={schedule[semester]} onClick={onClick} />
