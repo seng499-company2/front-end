@@ -139,7 +139,7 @@ function convertFromBackendFormat(data) {
     return frontendData;
 }
 
-const AdminPreferences = ({ professor }) => {
+const AdminPreferences = ({ professor, isDisabled }) => {
     const { data, isError, isLoading, execute } = useGetQuery(
         "/api/preferences/" + professor.username + "/",
         {
@@ -186,8 +186,9 @@ const AdminPreferences = ({ professor }) => {
             )}
             {showForm && (
                 <PreferencesForm
-                    isDisabled={isLoading}
+                    isDisabled={isDisabled}
                     initialValues={initialValues}
+                    isProfessorPage={true}
                 />
             )}
         </>
