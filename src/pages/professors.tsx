@@ -1,9 +1,14 @@
 import { ReactElement } from "react";
 import AdminLayout from "@components/Layout/AdminLayout";
-import ProfessorPage from "@components/Professors/ProfessorPage";
+import dynamic from "next/dynamic";
+
+const DynamicProfessorPage = dynamic(
+    () => import("../components/Professors/ProfessorPage"),
+    { ssr: false }
+);
 
 const Professors = () => {
-    return <ProfessorPage />;
+    return <DynamicProfessorPage />;
 };
 
 Professors.getLayout = function getLayout(page: ReactElement) {
