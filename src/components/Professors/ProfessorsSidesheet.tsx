@@ -56,7 +56,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const onDelete = () => {
         executeDelete()
             .then((response) => {
-                execute();
+                refetch();
                 toast({
                     title: "Professor Deleted",
                     status: "warning",
