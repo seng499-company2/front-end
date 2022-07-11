@@ -10,7 +10,6 @@ import { useGetQuery } from "@hooks/useRequest";
 import { FiRefreshCcw } from "react-icons/fi";
 import { Difficulty, Willingness } from "./CoursePreferencesTable";
 import PreferencesForm from "./PreferencesForm";
-import useAuth from "@hooks/useAuth";
 
 const getCourses = () => {
     return ["CSC 225", "CSC 226", "ECE 260", "ECE 310", "SENG 265", "SENG 310"];
@@ -140,16 +139,15 @@ function convertFromBackendFormat(data) {
     return frontendData;
 }
 
-const PreferencesFormWrapper = () => {
+const AdminPreferences = ({ professor, isDisabled }) => {
     const { data, isError, isLoading, execute } = useGetQuery(
-        "/api/preferences/",
+        "/api/preferences/" + professor.username + "/",
         {
             manual: false,
             ssr: false,
             useCache: false,
         }
     );
-    const { user } = useAuth();
 
     const initialValuesRaw = data || defaultInitialValues;
     const initialValues = data
@@ -188,14 +186,15 @@ const PreferencesFormWrapper = () => {
             )}
             {showForm && (
                 <PreferencesForm
-                    isDisabled={isLoading}
+                    isDisabled={isDisabled}
                     initialValues={initialValues}
-                    endpoint={"/api/preferences/"}
-                    username={user.username}
+                    isProfessorPage={true}
+                    endpoint={"/api/preferences/" + professor.username + "/"}
+                    username={professor.username}
                 />
             )}
         </>
     );
 };
 
-export default PreferencesFormWrapper;
+export default AdminPreferences;

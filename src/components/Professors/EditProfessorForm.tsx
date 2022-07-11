@@ -12,10 +12,12 @@ import {
 import { Field, Form, Formik } from "formik";
 import { usePostQuery } from "@hooks/useRequest";
 
-const AddProfessorForm = (props) => {
-    const { handleSubmit, refetch } = props;
+const EditProfessorForm = (props) => {
+    const { professor, refetch, disabled } = props;
     const toast = useToast();
-    const { isError, isLoading, execute } = usePostQuery("/api/users/");
+    const { isError, isLoading, execute } = usePostQuery(
+        `/api/users/${professor.username}/`
+    );
 
     const onSubmit = (values) => {
         execute({
@@ -24,13 +26,12 @@ const AddProfessorForm = (props) => {
             .then((response) => {
                 refetch();
                 toast({
-                    title: "Professor Added Successfully",
+                    title: "Professor Edited Successfully",
                     status: "success",
                     duration: 5000,
                     isClosable: true,
                     position: "bottom-left",
                 });
-                handleSubmit(false);
             })
             .catch((error) => {
                 toast({
@@ -47,11 +48,10 @@ const AddProfessorForm = (props) => {
         <Formik
             initialValues={{
                 user: {
-                    username: "",
-                    password: "",
-                    first_name: "",
-                    last_name: "",
-                    email: "",
+                    username: professor.username,
+                    first_name: professor.firstName,
+                    last_name: professor.lastName,
+                    email: professor.email,
                     is_superuser: false,
                 },
                 prof_type: "TP",
@@ -62,72 +62,40 @@ const AddProfessorForm = (props) => {
             }}
         >
             {({ errors, touched }) => (
-                <Form id="add-professor-form">
+                <Form id="edit-professor-form">
                     <VStack spacing={4} align="flex-start">
-                        <FormControl
-                            isInvalid={
-                                errors?.user?.first_name &&
-                                touched?.user?.first_name
-                            }
-                        >
+                        <FormControl isRequired>
                             <FormLabel>First Name</FormLabel>
                             <Field
                                 as={Input}
                                 name="user.first_name"
                                 variant="filled"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
-                                    }
-                                    return error;
-                                }}
+                                disabled={disabled}
                             />
                             <FormErrorMessage>
                                 {errors?.user?.first_name}
                             </FormErrorMessage>
                         </FormControl>
-                        <FormControl
-                            isInvalid={
-                                errors?.user?.last_name &&
-                                touched?.user?.last_name
-                            }
-                        >
+                        <FormControl isRequired>
                             <FormLabel>Last Name</FormLabel>
                             <Field
                                 as={Input}
                                 name="user.last_name"
                                 variant="filled"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
-                                    }
-                                    return error;
-                                }}
+                                disabled={disabled}
                             />
                             <FormErrorMessage>
                                 {errors.user?.last_name}
                             </FormErrorMessage>
                         </FormControl>
-                        <FormControl
-                            isInvalid={
-                                errors.user?.email && touched.user?.email
-                            }
-                        >
+                        <FormControl>
                             <FormLabel>Email</FormLabel>
                             <Field
                                 as={Input}
                                 name="user.email"
                                 variant="filled"
                                 type="email"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
-                                    }
-                                    return error;
-                                }}
+                                disabled={disabled}
                             />
                             <FormErrorMessage>
                                 {errors.user?.email}
@@ -140,6 +108,7 @@ const AddProfessorForm = (props) => {
                                 name="user.is_superuser"
                                 variant="filled"
                                 type="email"
+                                disabled={disabled}
                             >
                                 <option value={0}>False</option>
                                 <option value={1}>True</option>
@@ -152,6 +121,7 @@ const AddProfessorForm = (props) => {
                                 name="is_peng"
                                 variant="filled"
                                 type="email"
+                                disabled={disabled}
                             >
                                 <option value={0}>False</option>
                                 <option value={1}>True</option>
@@ -163,57 +133,11 @@ const AddProfessorForm = (props) => {
                                 as={Select}
                                 name="prof_type"
                                 variant="filled"
+                                disabled={disabled}
                             >
                                 <option value="TP">Teaching Professor</option>
                                 <option value="RP">Research Professor</option>
                             </Field>
-                        </FormControl>
-                        <FormControl
-                            isInvalid={
-                                errors?.user?.username &&
-                                touched?.user?.username
-                            }
-                        >
-                            <FormLabel>Username</FormLabel>
-                            <Field
-                                as={Input}
-                                name="user.username"
-                                variant="filled"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
-                                    }
-                                    return error;
-                                }}
-                            />
-                            <FormErrorMessage>
-                                {errors?.user?.username}
-                            </FormErrorMessage>
-                        </FormControl>
-                        <FormControl
-                            isInvalid={
-                                errors?.user?.password &&
-                                touched?.user?.password
-                            }
-                        >
-                            <FormLabel>Password (For demo purposes)</FormLabel>
-                            <Field
-                                as={Input}
-                                name="user.password"
-                                variant="filled"
-                                type="password"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
-                                    }
-                                    return error;
-                                }}
-                            />
-                            <FormErrorMessage>
-                                {errors?.user?.username}
-                            </FormErrorMessage>
                         </FormControl>
                     </VStack>
                 </Form>
@@ -222,4 +146,4 @@ const AddProfessorForm = (props) => {
     );
 };
 
-export default AddProfessorForm;
+export default EditProfessorForm;

@@ -10,7 +10,9 @@ const ProfessorPage = () => {
     const [detailsIsOpen, setDetailsIsOpen] = useState(false);
     const [addIsOpen, setAddIsOpen] = useState(false);
     const [prof, setProf] = useState({});
-    const { data, isLoading, isError, execute } = useGetQuery("/api/users");
+    const { data, isLoading, isError, execute } = useGetQuery("/api/users", {
+        useCache: false,
+    });
 
     const openDetails = (prof) => {
         // can use prof values here (from backend)

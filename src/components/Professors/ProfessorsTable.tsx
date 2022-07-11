@@ -78,7 +78,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                         };
 
                         return {
-                            name: firstName + " " + lastName,
+                            name: `${firstName} ${lastName}`,
                             type: type,
                             status: <CompleteStatusBadge complete={complete} />,
                             details: (
