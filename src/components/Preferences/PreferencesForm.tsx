@@ -77,8 +77,6 @@ const PreferencesForm = ({
                     teachingDaysPerWeek,
                 };
 
-                console.log({ preferences });
-
                 return (
                     <Form id="preferences-form">
                         <DividerHeading title="General Preferences" />
