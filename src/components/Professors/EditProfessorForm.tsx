@@ -58,7 +58,6 @@ const EditProfessorForm = (props) => {
                 is_peng: false,
             }}
             onSubmit={(values) => {
-                console.log("On Submit Called");
                 onSubmit(values);
             }}
         >
