@@ -56,6 +56,7 @@ const Schedules = () => {
     const [semester, setSemester] = useState("fall");
     const [company, setCompany] = useState("2");
     const [useMockData, setUseMockData] = useState(false);
+
     const { data, isLoading, isError, execute } = useGetQuery(
         `/schedule/2022/FALL/${company}${
             useMockData ? "?use_mock_data=true" : ""
@@ -108,19 +109,23 @@ const Schedules = () => {
                     setSemester,
                     generated,
                     useMockData,
+                    company,
+                    execute,
                 }}
             />
             {/* TODO: ask Nanami about this Select */}
-            <Select
-                onChange={(e) => {
-                    setSemester(e.target.value);
-                }}
-                w="200px"
-            >
-                <option value="fall">Fall</option>
-                <option value="spring">Spring</option>
-                <option value="summer">Summer</option>
-            </Select>
+            {generated && (
+                <Select
+                    onChange={(e) => {
+                        setSemester(e.target.value);
+                    }}
+                    w="200px"
+                >
+                    <option value="fall">Fall</option>
+                    <option value="spring">Spring</option>
+                    <option value="summer">Summer</option>
+                </Select>
+            )}
             <Center height="50vh" display={generated ? "none" : null}>
                 <VStack gap={4}>
                     <Button
