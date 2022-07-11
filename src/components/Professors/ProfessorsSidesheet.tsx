@@ -1,5 +1,8 @@
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
+import AdminPreferences from "@components/Preferences/AdminPreferences";
+import PreferencesFormWrapper from "@components/Preferences/PreferencesFormWrapper";
 import Sidesheet from "../Layout/Sidesheet";
-import PreferencesForm from "../Preferences/PreferencesForm";
+import AddProfessorForm from "./AddProfessorForm";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const {
@@ -182,7 +185,20 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
             isOpen={isOpen}
             onClose={onClose}
         >
-            <PreferencesForm isDisabled={true} initialValues={initialValues} />
+            <Tabs size="md" variant="line">
+                <TabList>
+                    <Tab>Details</Tab>
+                    <Tab>Preferences</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <AddProfessorForm />
+                    </TabPanel>
+                    <TabPanel>
+                        <AdminPreferences professor={professor} />
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </Sidesheet>
     );
 };
