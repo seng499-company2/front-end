@@ -30,7 +30,6 @@ const PreferencesForm = ({
     isDisabled,
     isProfessorPage = false,
     initialValues,
-    preferences = null,
 }) => {
     const { user } = useAuth();
     const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
@@ -76,8 +75,6 @@ const PreferencesForm = ({
                     preferredDays,
                     teachingDaysPerWeek,
                 };
-
-                console.log({ preferences });
 
                 return (
                     <Form id="preferences-form">
