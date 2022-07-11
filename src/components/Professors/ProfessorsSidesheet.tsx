@@ -6,25 +6,21 @@ import {
     TabPanel,
     useToast,
     useDisclosure,
+    HStack,
+    Text,
 } from "@chakra-ui/react";
+import React, { useState } from "react";
+
 import AdminPreferences from "@components/Preferences/AdminPreferences";
 import Sidesheet from "../Layout/Sidesheet";
-import React, { useState } from "react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
-import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
+import { useDeleteQuery } from "@hooks/useRequest";
 import EditProfessorForm from "./EditProfessorForm";
+import { CompleteStatusBadge } from "@components/CompleteStatusBadge";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
-    const {
-        isPeng,
-        type,
-        complete,
-        firstName,
-        lastName,
-        isAdmin,
-        email,
-        username,
-    } = professor;
+    const { isPeng, type, firstName, lastName, email, username, complete } =
+        professor;
 
     const [tabIndex, setTabIndex] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
@@ -51,12 +47,6 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
         setIsEditing(false);
         setTabIndex(0);
     };
-
-    // const onSubmit = () => {
-    //     onClose();
-    //     setIsEditing(false);
-    //     setTabIndex(0);
-    // };
 
     const onDelete = () => {
         executeDelete()
@@ -97,7 +87,6 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 submitLabel="Edit"
                 formId={formArray[tabIndex]}
                 onEdit={onEdit}
-                //onSubmit={onSubmit}
                 onCancel={onCancel}
                 onDelete={deleteOnOpen}
                 onClose={handleClose}
@@ -114,7 +103,14 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 >
                     <TabList>
                         <Tab>Details</Tab>
-                        <Tab>Preferences</Tab>
+                        <Tab isDisabled={!complete}>
+                            <HStack gap={2}>
+                                <Text>Preferences</Text>
+                                {!complete && (
+                                    <CompleteStatusBadge complete={complete} />
+                                )}
+                            </HStack>
+                        </Tab>
                     </TabList>
                     <TabPanels>
                         <TabPanel>
