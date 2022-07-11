@@ -5,7 +5,7 @@ import { usePostQuery, useDeleteQuery } from "@hooks/useRequest";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 
-export const CourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
+export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
     const [isEditing, setIsEditing] = useState(false);
     const {
         isOpen: deleteOpen,
@@ -105,8 +105,8 @@ export const CourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
                 isEditable
             >
                 <CourseForm
+                    handleSubmit={submitData}
                     data={course}
-                    g={submitData}
                     disabled={!isEditing}
                 />
             </Sidesheet>
@@ -121,4 +121,4 @@ export const CourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
     );
 };
 
-export default CourseSidesheet;
+export default EditCourseSidesheet;
