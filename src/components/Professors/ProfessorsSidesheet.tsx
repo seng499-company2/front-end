@@ -1,13 +1,19 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
+import {
+    Tabs,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel,
+    useToast,
+    useDisclosure,
+} from "@chakra-ui/react";
 import AdminPreferences from "@components/Preferences/AdminPreferences";
-import PreferencesFormWrapper from "@components/Preferences/PreferencesFormWrapper";
 import Sidesheet from "../Layout/Sidesheet";
 import React, { useState } from "react";
-import PreferencesForm from "../Preferences/PreferencesForm";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
-import { useToast, useDisclosure } from "@chakra-ui/react";
 import EditProfessorForm from "./EditProfessorForm";
+import AddProfessorForm from "./AddProfessorForm";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const {
@@ -107,7 +113,10 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                             />
                         </TabPanel>
                         <TabPanel>
-                            <AdminPreferences professor={professor} />
+                            <AdminPreferences
+                                professor={professor}
+                                isDisabled={!isEditing || isDataSaving}
+                            />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
