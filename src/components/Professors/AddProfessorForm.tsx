@@ -197,7 +197,7 @@ const AddProfessorForm = (props) => {
                                 touched?.user?.password
                             }
                         >
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>Password (For demo purposes)</FormLabel>
                             <Field
                                 as={Input}
                                 name="user.password"

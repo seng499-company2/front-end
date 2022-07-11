@@ -65,72 +65,37 @@ const EditProfessorForm = (props) => {
             {({ errors, touched }) => (
                 <Form id="edit-professor-form">
                     <VStack spacing={4} align="flex-start">
-                        <FormControl
-                            isInvalid={
-                                errors?.user?.first_name &&
-                                touched?.user?.first_name
-                            }
-                        >
+                        <FormControl isRequired>
                             <FormLabel>First Name</FormLabel>
                             <Field
                                 as={Input}
                                 name="user.first_name"
                                 variant="filled"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
-                                    }
-                                    return error;
-                                }}
                                 disabled={disabled}
                             />
                             <FormErrorMessage>
                                 {errors?.user?.first_name}
                             </FormErrorMessage>
                         </FormControl>
-                        <FormControl
-                            isInvalid={
-                                errors?.user?.last_name &&
-                                touched?.user?.last_name
-                            }
-                        >
+                        <FormControl isRequired>
                             <FormLabel>Last Name</FormLabel>
                             <Field
                                 as={Input}
                                 name="user.last_name"
                                 variant="filled"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
-                                    }
-                                    return error;
-                                }}
                                 disabled={disabled}
                             />
                             <FormErrorMessage>
                                 {errors.user?.last_name}
                             </FormErrorMessage>
                         </FormControl>
-                        <FormControl
-                            isInvalid={
-                                errors.user?.email && touched.user?.email
-                            }
-                        >
+                        <FormControl>
                             <FormLabel>Email</FormLabel>
                             <Field
                                 as={Input}
                                 name="user.email"
                                 variant="filled"
                                 type="email"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
-                                    }
-                                    return error;
-                                }}
                                 disabled={disabled}
                             />
                             <FormErrorMessage>
