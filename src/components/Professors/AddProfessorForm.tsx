@@ -13,7 +13,7 @@ import { Field, Form, Formik } from "formik";
 import { usePostQuery } from "@hooks/useRequest";
 
 const AddProfessorForm = (props) => {
-    const { handleSubmit } = props;
+    const { handleSubmit, refetch } = props;
     const toast = useToast();
     const { isError, isLoading, execute } = usePostQuery("/api/users/");
 
@@ -22,6 +22,7 @@ const AddProfessorForm = (props) => {
             data: values,
         })
             .then((response) => {
+                refetch();
                 toast({
                     title: "Professor Added Successfully",
                     status: "success",
