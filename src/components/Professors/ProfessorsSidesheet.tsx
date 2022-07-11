@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
 import EditProfessorForm from "./EditProfessorForm";
-import AddProfessorForm from "./AddProfessorForm";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const {
@@ -41,6 +40,8 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const { execute: executeEdit, isLoading: isDataSaving } = usePostQuery(
         `/api/preferences/${username}/`
     );
+    const { execute: executeEditDetail, isLoading: isDetailSaving } =
+        usePostQuery(`/api/users/${username}/`);
 
     const onEdit = () => {
         setIsEditing(true);
@@ -109,7 +110,8 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                         <TabPanel>
                             <EditProfessorForm
                                 professor={professor}
-                                disabled={!isEditing}
+                                disabled={!isEditing || isDetailSaving}
+                                refetch={refetch}
                             />
                         </TabPanel>
                         <TabPanel>
