@@ -12,6 +12,7 @@ import Sidesheet from "../Layout/Sidesheet";
 import React, { useState } from "react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
+import EditProfessorForm from "./EditProfessorForm";
 import AddProfessorForm from "./AddProfessorForm";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
@@ -99,14 +100,17 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 isLoading={isDataSaving}
                 isEditable
             >
-                <Tabs size="md" variant="line">
+                <Tabs size="md" variant="line" isLazy>
                     <TabList>
                         <Tab>Details</Tab>
                         <Tab>Preferences</Tab>
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <AddProfessorForm />
+                            <EditProfessorForm
+                                professor={professor}
+                                disabled={!isEditing}
+                            />
                         </TabPanel>
                         <TabPanel>
                             <AdminPreferences
