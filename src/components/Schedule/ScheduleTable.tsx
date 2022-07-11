@@ -77,7 +77,13 @@ const ScheduleTable = ({ schedule, onClick }) => {
         });
     }, [schedule, onClick]);
 
-    return <Table columns={columns} data={data} hide={!schedule} />;
+    return (
+        <Table
+            columns={columns}
+            data={data}
+            hide={!schedule || schedule?.length === 0}
+        />
+    );
 };
 
 export default ScheduleTable;

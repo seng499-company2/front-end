@@ -1,5 +1,15 @@
-import { Center, Button, Text, VStack, Flex, Select } from "@chakra-ui/react";
+import {
+    Center,
+    Button,
+    Text,
+    VStack,
+    Flex,
+    Select,
+    Checkbox,
+} from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
+import { CircularProgress } from "@chakra-ui/progress";
+import { useTheme } from "@chakra-ui/system";
 
 import AdminLayout from "@components/Layout/AdminLayout";
 import ScheduleTable from "@components/Schedule/ScheduleTable";
@@ -48,15 +58,15 @@ const convertBackendDataToOurData = (backendData) => {
 };
 
 const Schedules = ({ scheduledCourses }) => {
+    const [generated, setGenerated] = useState(false);
+    const [semester, setSemester] = useState("fall");
+    const [company, setCompany] = useState("2");
     const { data, isLoading, isError, execute } = useGetQuery(
-        "/schedule/2022/FALL/2",
+        "/schedule/2022/FALL/" + company,
         {
             manual: true,
         }
     );
-
-    const [generated, setGenerated] = useState(false);
-    const [semester, setSemester] = useState("Fall");
 
     const onClick = (course) => {
         // TODO: show schedule sidesheet
@@ -80,6 +90,17 @@ const Schedules = ({ scheduledCourses }) => {
         ? convertData(data)
         : { fall: [], spring: [], summer: [] };
 
+    const {
+        colors: { primary },
+    } = useTheme();
+
+    if (isLoading)
+        return (
+            <Center height="50vh">
+                <CircularProgress color={primary[400]} isIndeterminate />
+            </Center>
+        );
+
     return (
         <Flex flexDirection="column" pt="1rem">
             <Center height="50vh" display={generated ? "none" : null}>
@@ -93,21 +114,36 @@ const Schedules = ({ scheduledCourses }) => {
                     >
                         Generate Schedule
                     </Button>
-                    {isError && <Text color="red">Error</Text>}
                 </VStack>
             </Center>
-            <Select
-                onChange={(e) => {
-                    setSemester(e.target.value);
-                }}
-                display={generated ? null : "None"}
-                w="200px"
-                placeholder="Select Semester"
-            >
-                <option value="fall">Fall</option>
-                <option value="spring">Spring</option>
-                <option value="summer">Summer</option>
-            </Select>
+            {!isError && (
+                <>
+                    <Checkbox
+                        display={!generated ? null : "None"}
+                        onChange={(e) => {
+                            setCompany(e.target.checked ? "1" : "2");
+                        }}
+                    >
+                        Use Company 1 Algorithm instead
+                    </Checkbox>
+                    <Select
+                        onChange={(e) => {
+                            setSemester(e.target.value);
+                        }}
+                        display={generated ? null : "None"}
+                        w="200px"
+                    >
+                        <option value="fall">Fall</option>
+                        <option value="spring">Spring</option>
+                        <option value="summer">Summer</option>
+                    </Select>
+                </>
+            )}
+            {isError && (
+                <Text fontSize="sm" color="red.500">
+                    There was an error while generating schedule.
+                </Text>
+            )}
             <ScheduleTable schedule={schedule[semester]} onClick={onClick} />
         </Flex>
     );
