@@ -7,7 +7,7 @@ import PreferencesForm from "../Preferences/PreferencesForm";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
 import { useToast, useDisclosure } from "@chakra-ui/react";
-import AddProfessorForm from "./AddProfessorForm";
+import EditProfessorForm from "./EditProfessorForm";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const {
@@ -94,14 +94,17 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 isLoading={isDataSaving}
                 isEditable
             >
-                <Tabs size="md" variant="line">
+                <Tabs size="md" variant="line" isLazy>
                     <TabList>
                         <Tab>Details</Tab>
                         <Tab>Preferences</Tab>
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <AddProfessorForm />
+                            <EditProfessorForm
+                                professor={professor}
+                                disabled={!isEditing}
+                            />
                         </TabPanel>
                         <TabPanel>
                             <AdminPreferences professor={professor} />
