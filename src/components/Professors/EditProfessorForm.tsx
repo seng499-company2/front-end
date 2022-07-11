@@ -14,33 +14,32 @@ import { usePostQuery } from "@hooks/useRequest";
 
 const EditProfessorForm = (props) => {
     const { professor, disabled } = props;
-    // const toast = useToast();
-    // const { isError, isLoading, execute } = usePostQuery("/api/users/");
+    const toast = useToast();
+    const { isError, isLoading, execute } = usePostQuery("/api/users/");
 
     const onSubmit = (values) => {
-        // execute({
-        //     data: values,
-        // })
-        //     .then((response) => {
-        //         refetch();
-        //         toast({
-        //             title: "Professor Edited Successfully",
-        //             status: "success",
-        //             duration: 5000,
-        //             isClosable: true,
-        //             position: "bottom-left",
-        //         });
-        //         handleSubmit(false);
-        //     })
-        //     .catch((error) => {
-        //         toast({
-        //             title: "Error: " + error.message,
-        //             status: "error",
-        //             duration: 9000,
-        //             isClosable: true,
-        //             position: "bottom-left",
-        //         });
-        //     });
+        execute({
+            data: values,
+        })
+            .then((response) => {
+                //refetch();
+                toast({
+                    title: "Professor Edited Successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+            })
+            .catch((error) => {
+                toast({
+                    title: "Error: " + error.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+            });
     };
 
     return (
@@ -60,7 +59,7 @@ const EditProfessorForm = (props) => {
             }}
         >
             {({ errors, touched }) => (
-                <Form id="add-professor-form">
+                <Form id="edit-professor-form">
                     <VStack spacing={4} align="flex-start">
                         <FormControl
                             isInvalid={
