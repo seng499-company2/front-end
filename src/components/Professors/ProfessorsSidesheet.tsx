@@ -47,7 +47,11 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     };
 
     const onSubmit = () => {
-        setIsEditing(false);
+        //@ts-ignore
+        //document.getElementById("preferences-form").submit();
+        //@ts-ignore
+        //document.getElementById("edit-professor-form").submit();
+        //setIsEditing(false);
     };
 
     const onCancel = () => {
@@ -82,6 +86,8 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
 
     const isPengText = isPeng ? " | Peng" : "";
 
+    const formId = ["preferences-form", "edit-professor-form"];
+
     return (
         <>
             <Sidesheet
@@ -89,7 +95,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 title={`${firstName} ${lastName}`}
                 subTitle={`${email} | ${type}${isPengText}`}
                 submitLabel="Edit"
-                formId="prof-form"
+                formId={["preferences-form", "edit-professor-form"]}
                 onEdit={onEdit}
                 onSubmit={onSubmit}
                 onCancel={onCancel}
@@ -100,7 +106,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 isLoading={isDataSaving}
                 isEditable
             >
-                <Tabs size="md" variant="line" isLazy>
+                <Tabs size="md" variant="line">
                     <TabList>
                         <Tab>Details</Tab>
                         <Tab>Preferences</Tab>
