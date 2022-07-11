@@ -1,11 +1,15 @@
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
+import AdminPreferences from "@components/Preferences/AdminPreferences";
+import PreferencesFormWrapper from "@components/Preferences/PreferencesFormWrapper";
 import Sidesheet from "../Layout/Sidesheet";
 import React, { useState } from "react";
 import PreferencesForm from "../Preferences/PreferencesForm";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
 import { useToast, useDisclosure } from "@chakra-ui/react";
+import AddProfessorForm from "./AddProfessorForm";
 
-export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
+export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const {
         isPeng,
         type,
@@ -90,12 +94,20 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
                 isLoading={isDataSaving}
                 isEditable
             >
-                <PreferencesForm
-                    isDisabled={!isEditing}
-                    initialValues={initialValues}
-                    isProfessorPage={true}
-                    preferences={data}
-                />
+                <Tabs size="md" variant="line">
+                    <TabList>
+                        <Tab>Details</Tab>
+                        <Tab>Preferences</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <AddProfessorForm />
+                        </TabPanel>
+                        <TabPanel>
+                            <AdminPreferences professor={professor} />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
             </Sidesheet>
             <DeleteConfirmation
                 isOpen={deleteOpen}

@@ -1,50 +1,16 @@
 import { Flex, Button, CircularProgress, Center } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { FaPlus } from "react-icons/fa";
+import AdminLayout from "@components/Layout/AdminLayout";
 import dynamic from "next/dynamic";
 
-import AdminLayout from "@components/Layout/AdminLayout";
-import ProfessorsSidesheet from "@components/Professors/ProfessorsSidesheet";
-import AddProfessorSidesheet from "@components/Professors/AddProfessorSidesheet";
-
-const DynamicProfessorsTableWrapper = dynamic(
-    () => import("@components/Professors/ProfessorsTableWrapper"),
+const DynamicProfessorPage = dynamic(
+    () => import("../components/Professors/ProfessorPage"),
     { ssr: false }
 );
 
 const Professors = () => {
-    const [detailsIsOpen, setDetailsIsOpen] = useState(false);
-    const [addIsOpen, setAddIsOpen] = useState(false);
-    const [prof, setProf] = useState({});
-
-    const openDetails = (prof) => {
-        // can use prof values here (from backend)
-        setDetailsIsOpen(!detailsIsOpen);
-        setProf(prof);
-    };
-
-    return (
-        <Flex flexDirection="column" pt="1rem">
-            <Button
-                ml="auto"
-                leftIcon={<FaPlus />}
-                onClick={() => setAddIsOpen(true)}
-            >
-                Add Professor
-            </Button>
-            <AddProfessorSidesheet
-                isOpen={addIsOpen}
-                onClose={() => setAddIsOpen(false)}
-                handleSubmit={setAddIsOpen}
-            />
-            <DynamicProfessorsTableWrapper openDetails={openDetails} />
-            <ProfessorsSidesheet
-                isOpen={detailsIsOpen}
-                onClose={() => setDetailsIsOpen(false)}
-                professor={prof}
-            />
-        </Flex>
-    );
+    return <DynamicProfessorPage />;
 };
 
 Professors.getLayout = function getLayout(page: ReactElement) {
