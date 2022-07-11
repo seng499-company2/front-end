@@ -2,15 +2,11 @@ import { VStack, Text, Button, useColorModeValue } from "@chakra-ui/react";
 import { FiRefreshCcw } from "react-icons/fi";
 
 const formatErrorText = (error: string) => {
-    if (!error) {
-        return "Something went wrong. Please adjust constraints and try again.";
+    if (error.includes("No schedule found")) {
+        return "No schedule found. Please adjust constraints and try again.";
     }
 
-    if (error === "ERROR WITH ALGORITHMS") {
-        return "Something went wrong with the algorithm. Please adjust constraints and try again.";
-    }
-
-    return error;
+    return "Something went wrong with the algorithm. Please adjust constraints and try again.";
 };
 
 const ErrorBox = ({ error, retry }) => {
