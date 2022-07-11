@@ -15,7 +15,7 @@ import { useTable, useSortBy } from "react-table";
 import TableFilter from "./TableFilter";
 
 const Table = (props) => {
-    const { columns, data } = props;
+    const { columns, data, hide = false } = props;
     const [tableFilter, setTableFilter] = useState({});
 
     const onFilterChange = useCallback(
@@ -91,7 +91,7 @@ const Table = (props) => {
     let pageRows = rows;
 
     return (
-        <FormControl>
+        <FormControl display={hide ? "none" : null}>
             <ChakraTable {...getTableProps()}>
                 <Tbody {...getTableBodyProps()}></Tbody>
             </ChakraTable>
