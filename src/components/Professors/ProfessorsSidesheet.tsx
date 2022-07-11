@@ -1,7 +1,7 @@
 import Sidesheet from "../Layout/Sidesheet";
 import PreferencesForm from "../Preferences/PreferencesForm";
 
-export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
+export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const {
         isPeng,
         type,

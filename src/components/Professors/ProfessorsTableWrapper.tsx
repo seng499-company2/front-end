@@ -8,8 +8,13 @@ import { useGetQuery } from "@hooks/useRequest";
 import { FiRefreshCw } from "react-icons/fi";
 import ProfessorsTable from "./ProfessorsTable";
 
-const ProfessorsTableWrapper = ({ openDetails }) => {
-    const { data, isLoading, isError, execute } = useGetQuery("/api/users");
+const ProfessorsTableWrapper = ({
+    openDetails,
+    data,
+    isLoading,
+    isError,
+    execute,
+}) => {
     const {
         colors: { primary },
     } = useTheme();
@@ -37,13 +42,6 @@ const ProfessorsTableWrapper = ({ openDetails }) => {
 
     return (
         <Box>
-            <Button
-                onClick={() => execute()}
-                leftIcon={<FiRefreshCw />}
-                size="sm"
-            >
-                Refresh
-            </Button>
             <ProfessorsTable professors={data} openDetails={openDetails} />
         </Box>
     );
