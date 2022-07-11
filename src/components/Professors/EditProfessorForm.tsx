@@ -48,6 +48,7 @@ const EditProfessorForm = (props) => {
         <Formik
             initialValues={{
                 user: {
+                    username: professor.username,
                     first_name: professor.firstName,
                     last_name: professor.lastName,
                     email: professor.email,
