@@ -72,7 +72,7 @@ const Schedules = ({ scheduledCourses }) => {
         // TODO: show schedule sidesheet
     };
 
-    const convertData = (data) => {
+    const convertData = (data: { [semester: string]: any[] }) => {
         const generatedSchedule = {};
         for (const [semester, scheduleArray] of Object.entries(data)) {
             if (!scheduleArray || scheduleArray?.length === 0) {
