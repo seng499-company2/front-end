@@ -1,12 +1,4 @@
-import {
-    Center,
-    Button,
-    Text,
-    VStack,
-    Flex,
-    Select,
-    Checkbox,
-} from "@chakra-ui/react";
+import { Center, Button, VStack, Flex, Select } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
 import { useTheme } from "@chakra-ui/system";
@@ -14,6 +6,8 @@ import { useTheme } from "@chakra-ui/system";
 import AdminLayout from "@components/Layout/AdminLayout";
 import ScheduleTable from "@components/Schedule/ScheduleTable";
 import { useGetQuery } from "@hooks/useRequest";
+import ErrorBox from "@components/Schedule/ErrorBox";
+import DeveloperSettings from "@components/Schedule/DeveloperSettings";
 
 const dayArr = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"];
 
@@ -57,18 +51,21 @@ const convertBackendDataToOurData = (backendData) => {
     return ourData;
 };
 
-const Schedules = ({ scheduledCourses }) => {
+const Schedules = () => {
     const [generated, setGenerated] = useState(false);
     const [semester, setSemester] = useState("fall");
     const [company, setCompany] = useState("2");
+    const [useMockData, setUseMockData] = useState(false);
     const { data, isLoading, isError, execute } = useGetQuery(
-        "/schedule/2022/FALL/" + company,
+        `/schedule/2022/FALL/${company}${
+            useMockData ? "?use_mock_data=true" : ""
+        }`,
         {
             manual: true,
         }
     );
 
-    const onClick = (course) => {
+    const onClick = (scheduledSection) => {
         // TODO: show schedule sidesheet
     };
 
@@ -102,7 +99,28 @@ const Schedules = ({ scheduledCourses }) => {
         );
 
     return (
-        <Flex flexDirection="column" pt="1rem">
+        <Flex flexDirection="column" pt="1rem" gap={8}>
+            <DeveloperSettings
+                {...{
+                    error: isError,
+                    setUseMockData,
+                    setCompany,
+                    setSemester,
+                    generated,
+                    useMockData,
+                }}
+            />
+            {/* TODO: ask Nanami about this Select */}
+            <Select
+                onChange={(e) => {
+                    setSemester(e.target.value);
+                }}
+                w="200px"
+            >
+                <option value="fall">Fall</option>
+                <option value="spring">Spring</option>
+                <option value="summer">Summer</option>
+            </Select>
             <Center height="50vh" display={generated ? "none" : null}>
                 <VStack gap={4}>
                     <Button
@@ -116,33 +134,9 @@ const Schedules = ({ scheduledCourses }) => {
                     </Button>
                 </VStack>
             </Center>
-            {!isError && (
-                <>
-                    <Checkbox
-                        display={!generated ? null : "None"}
-                        onChange={(e) => {
-                            setCompany(e.target.checked ? "1" : "2");
-                        }}
-                    >
-                        <Text as="u">Use Company 1 Algorithm instead</Text>
-                    </Checkbox>
-                    <Select
-                        onChange={(e) => {
-                            setSemester(e.target.value);
-                        }}
-                        display={generated ? null : "None"}
-                        w="200px"
-                    >
-                        <option value="fall">Fall</option>
-                        <option value="spring">Spring</option>
-                        <option value="summer">Summer</option>
-                    </Select>
-                </>
-            )}
+
             {isError && (
-                <Text fontSize="sm" color="red.500">
-                    {isError.response.data}
-                </Text>
+                <ErrorBox error={isError.response.data} retry={execute} />
             )}
             <ScheduleTable schedule={schedule[semester]} onClick={onClick} />
         </Flex>
