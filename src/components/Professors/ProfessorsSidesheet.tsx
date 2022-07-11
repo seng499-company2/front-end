@@ -13,7 +13,6 @@ import React, { useState } from "react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
 import EditProfessorForm from "./EditProfessorForm";
-import AddProfessorForm from "./AddProfessorForm";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const {
@@ -27,6 +26,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
         username,
     } = professor;
 
+    const [tabIndex, setTabIndex] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
     const {
         isOpen: deleteOpen,
@@ -35,12 +35,14 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     } = useDisclosure();
     const toast = useToast();
 
-    const { data, execute } = useGetQuery(`/api/preferences/${username}`);
     const { execute: executeDelete, isLoading: isDeleteLoading } =
         useDeleteQuery(`/api/users/${username}/`);
-    const { execute: executeEdit, isLoading: isDataSaving } = usePostQuery(
+    const { execute: executeEditPref, isLoading: isDataSaving } = usePostQuery(
         `/api/preferences/${username}/`
     );
+    const { execute: executeEditDetail, isLoading: isDetailSaving } =
+        usePostQuery(`/api/users/${username}/`);
+    const { isError, isLoading, execute } = usePostQuery("/api/users/");
 
     const onEdit = () => {
         setIsEditing(true);
@@ -56,6 +58,12 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
 
     const onCancel = () => {
         setIsEditing(false);
+    };
+
+    const handleClose = () => {
+        onClose();
+        setIsEditing(false);
+        setTabIndex(0);
     };
 
     const onDelete = () => {
@@ -84,9 +92,37 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
             });
     };
 
+    const onSubmitPreferences = (values) => {
+        console.log({ values });
+        executeEditPref({
+            data: values,
+        })
+            .then((response) => {
+                //refetch();
+                toast({
+                    title: "Professor Preferences Updated Successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+                onClose();
+            })
+            .catch((error) => {
+                toast({
+                    title: "Error: " + error.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+            });
+        setIsEditing(false);
+    };
+
     const isPengText = isPeng ? " | Peng" : "";
 
-    const formId = ["preferences-form", "edit-professor-form"];
+    const formArray = ["edit-professor-form", "preferences-form"];
 
     return (
         <>
@@ -95,18 +131,23 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 title={`${firstName} ${lastName}`}
                 subTitle={`${email} | ${type}${isPengText}`}
                 submitLabel="Edit"
-                formId={["preferences-form", "edit-professor-form"]}
+                formId={formArray[tabIndex]}
                 onEdit={onEdit}
-                onSubmit={onSubmit}
+                //onSubmit={onSubmitPreferences}
                 onCancel={onCancel}
                 onDelete={deleteOnOpen}
-                onClose={onClose}
+                onClose={handleClose}
                 isOpen={isOpen}
                 isEditing={isEditing}
                 isLoading={isDataSaving}
                 isEditable
             >
-                <Tabs size="md" variant="line">
+                <Tabs
+                    size="md"
+                    variant="line"
+                    onChange={(idx) => setTabIndex(idx)}
+                    isFitted
+                >
                     <TabList>
                         <Tab>Details</Tab>
                         <Tab>Preferences</Tab>
@@ -115,13 +156,15 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                         <TabPanel>
                             <EditProfessorForm
                                 professor={professor}
-                                disabled={!isEditing}
+                                disabled={!isEditing || isDetailSaving}
+                                refetch={refetch}
                             />
                         </TabPanel>
                         <TabPanel>
                             <AdminPreferences
                                 professor={professor}
                                 isDisabled={!isEditing || isDataSaving}
+                                //onSubmit={onSubmitPreferences}
                             />
                         </TabPanel>
                     </TabPanels>
@@ -139,160 +182,3 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
 };
 
 export default ProfessorSidesheet;
-
-const initialValues = {
-    //mock data
-    numCoursesPerSem: {
-        fall: 0,
-        spring: 3,
-        summer: 2,
-    },
-    // relief: {
-    //     value: false,
-    //     numCourses: 0,
-    // },
-    sabbatical: {
-        value: true,
-        duration: "half",
-        fromMonth: "january",
-    },
-    teachingDaysPerWeek: {
-        fall: 0,
-        spring: 2,
-        summer: 3,
-    },
-    preferredDaysFall: {
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-    },
-    preferredDaysSpring: {
-        monday: true,
-        tuesday: false,
-        wednesday: false,
-        thursday: true,
-        friday: false,
-    },
-    preferredDaysSummer: {
-        monday: true,
-        tuesday: true,
-        wednesday: true,
-        thursday: false,
-        friday: false,
-    },
-    preferredTime: {
-        fall: [
-            {
-                day: 1,
-                time: 8,
-            },
-            {
-                day: 1,
-                time: 9,
-            },
-            {
-                day: 1,
-                time: 10,
-            },
-            {
-                day: 1,
-                time: 11,
-            },
-            {
-                day: 1,
-                time: 12,
-            },
-            {
-                day: 4,
-                time: 8,
-            },
-            {
-                day: 4,
-                time: 9,
-            },
-            {
-                day: 4,
-                time: 10,
-            },
-            {
-                day: 4,
-                time: 11,
-            },
-            {
-                day: 4,
-                time: 12,
-            },
-        ],
-        summer: [
-            {
-                day: 1,
-                time: 12,
-            },
-            {
-                day: 1,
-                time: 13,
-            },
-            {
-                day: 1,
-                time: 14,
-            },
-            {
-                day: 1,
-                time: 15,
-            },
-            {
-                day: 1,
-                time: 16,
-            },
-            {
-                day: 4,
-                time: 12,
-            },
-            {
-                day: 4,
-                time: 13,
-            },
-            {
-                day: 4,
-                time: 14,
-            },
-            {
-                day: 4,
-                time: 15,
-            },
-            {
-                day: 4,
-                time: 16,
-            },
-        ],
-        spring: [],
-    },
-    coursePreferences: {
-        "CSC 225": {
-            willingness: 1,
-            difficulty: 2,
-        },
-        "CSC 226": {
-            willingness: 0,
-            difficulty: 0,
-        },
-        "ECE 260": {
-            willingness: 2,
-            difficulty: 2,
-        },
-        "ECE 310": {
-            willingness: 1,
-            difficulty: 0,
-        },
-        "SENG 265": {
-            willingness: 0,
-            difficulty: 1,
-        },
-        "SENG 310": {
-            willingness: 1,
-            difficulty: 2,
-        },
-    },
-};

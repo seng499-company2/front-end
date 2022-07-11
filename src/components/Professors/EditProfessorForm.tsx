@@ -13,16 +13,18 @@ import { Field, Form, Formik } from "formik";
 import { usePostQuery } from "@hooks/useRequest";
 
 const EditProfessorForm = (props) => {
-    const { professor, disabled } = props;
+    const { professor, refetch, disabled } = props;
     const toast = useToast();
-    const { isError, isLoading, execute } = usePostQuery("/api/users/");
+    const { isError, isLoading, execute } = usePostQuery(
+        `/api/users/${professor.username}/`
+    );
 
     const onSubmit = (values) => {
         execute({
             data: values,
         })
             .then((response) => {
-                //refetch();
+                refetch();
                 toast({
                     title: "Professor Edited Successfully",
                     status: "success",
@@ -55,6 +57,7 @@ const EditProfessorForm = (props) => {
                 is_peng: false,
             }}
             onSubmit={(values) => {
+                console.log("On Submit Called");
                 onSubmit(values);
             }}
         >
