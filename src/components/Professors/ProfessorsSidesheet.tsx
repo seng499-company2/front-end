@@ -55,6 +55,11 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
         setIsEditing(false);
     };
 
+    const handleClose = () => {
+        onClose();
+        setIsEditing(false);
+    };
+
     const onDelete = () => {
         executeDelete()
             .then((response) => {
@@ -95,7 +100,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 onSubmit={onSubmit}
                 onCancel={onCancel}
                 onDelete={deleteOnOpen}
-                onClose={onClose}
+                onClose={handleClose}
                 isOpen={isOpen}
                 isEditing={isEditing}
                 isLoading={isDataSaving}

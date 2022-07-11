@@ -124,7 +124,7 @@ const Schedules = ({ scheduledCourses }) => {
                             setCompany(e.target.checked ? "1" : "2");
                         }}
                     >
-                        Use Company 1 Algorithm instead
+                        <Text as="u">Use Company 1 Algorithm instead</Text>
                     </Checkbox>
                     <Select
                         onChange={(e) => {
