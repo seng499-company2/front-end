@@ -30,11 +30,13 @@ const PreferencesForm = ({
     isDisabled,
     isProfessorPage = false,
     initialValues,
+    endpoint,
+    username,
 }) => {
     const { user } = useAuth();
-    const { isError, isLoading, execute } = usePostQuery("/api/preferences/");
+    const { isError, isLoading, execute } = usePostQuery(endpoint);
     const toast = useToast({
-        position: "bottom-right",
+        position: "bottom-left",
         duration: 5000,
         isClosable: true,
         status: "success",
@@ -44,7 +46,7 @@ const PreferencesForm = ({
         await execute({
             data: convertToBackendFormat({
                 ...data,
-                professor: user.username,
+                professor: username,
             }),
         });
         toast({

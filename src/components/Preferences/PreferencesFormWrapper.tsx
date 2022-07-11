@@ -10,6 +10,7 @@ import { useGetQuery } from "@hooks/useRequest";
 import { FiRefreshCcw } from "react-icons/fi";
 import { Difficulty, Willingness } from "./CoursePreferencesTable";
 import PreferencesForm from "./PreferencesForm";
+import useAuth from "@hooks/useAuth";
 
 const getCourses = () => {
     return ["CSC 225", "CSC 226", "ECE 260", "ECE 310", "SENG 265", "SENG 310"];
@@ -148,6 +149,7 @@ const PreferencesFormWrapper = () => {
             useCache: false,
         }
     );
+    const { user } = useAuth();
 
     const initialValuesRaw = data || defaultInitialValues;
     const initialValues = data
@@ -188,6 +190,8 @@ const PreferencesFormWrapper = () => {
                 <PreferencesForm
                     isDisabled={isLoading}
                     initialValues={initialValues}
+                    endpoint={"/api/preferences/"}
+                    username={user.username}
                 />
             )}
         </>

@@ -189,6 +189,8 @@ const AdminPreferences = ({ professor, isDisabled }) => {
                     isDisabled={isDisabled}
                     initialValues={initialValues}
                     isProfessorPage={true}
+                    endpoint={"/api/preferences/" + professor.username + "/"}
+                    username={professor.username}
                 />
             )}
         </>

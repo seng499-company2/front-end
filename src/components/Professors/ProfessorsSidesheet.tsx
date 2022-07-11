@@ -37,23 +37,9 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
 
     const { execute: executeDelete, isLoading: isDeleteLoading } =
         useDeleteQuery(`/api/users/${username}/`);
-    const { execute: executeEditPref, isLoading: isDataSaving } = usePostQuery(
-        `/api/preferences/${username}/`
-    );
-    const { execute: executeEditDetail, isLoading: isDetailSaving } =
-        usePostQuery(`/api/users/${username}/`);
-    const { isError, isLoading, execute } = usePostQuery("/api/users/");
 
     const onEdit = () => {
         setIsEditing(true);
-    };
-
-    const onSubmit = () => {
-        //@ts-ignore
-        //document.getElementById("preferences-form").submit();
-        //@ts-ignore
-        //document.getElementById("edit-professor-form").submit();
-        //setIsEditing(false);
     };
 
     const onCancel = () => {
@@ -65,6 +51,12 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
         setIsEditing(false);
         setTabIndex(0);
     };
+
+    // const onSubmit = () => {
+    //     onClose();
+    //     setIsEditing(false);
+    //     setTabIndex(0);
+    // };
 
     const onDelete = () => {
         executeDelete()
@@ -92,34 +84,6 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
             });
     };
 
-    const onSubmitPreferences = (values) => {
-        console.log({ values });
-        executeEditPref({
-            data: values,
-        })
-            .then((response) => {
-                //refetch();
-                toast({
-                    title: "Professor Preferences Updated Successfully",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "bottom-left",
-                });
-                onClose();
-            })
-            .catch((error) => {
-                toast({
-                    title: "Error: " + error.message,
-                    status: "error",
-                    duration: 9000,
-                    isClosable: true,
-                    position: "bottom-left",
-                });
-            });
-        setIsEditing(false);
-    };
-
     const isPengText = isPeng ? " | Peng" : "";
 
     const formArray = ["edit-professor-form", "preferences-form"];
@@ -133,13 +97,13 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 submitLabel="Edit"
                 formId={formArray[tabIndex]}
                 onEdit={onEdit}
-                //onSubmit={onSubmitPreferences}
+                //onSubmit={onSubmit}
                 onCancel={onCancel}
                 onDelete={deleteOnOpen}
                 onClose={handleClose}
                 isOpen={isOpen}
                 isEditing={isEditing}
-                isLoading={isDataSaving}
+                isLoading={false}
                 isEditable
             >
                 <Tabs
@@ -156,15 +120,14 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                         <TabPanel>
                             <EditProfessorForm
                                 professor={professor}
-                                disabled={!isEditing || isDetailSaving}
+                                disabled={!isEditing}
                                 refetch={refetch}
                             />
                         </TabPanel>
                         <TabPanel>
                             <AdminPreferences
                                 professor={professor}
-                                isDisabled={!isEditing || isDataSaving}
-                                //onSubmit={onSubmitPreferences}
+                                isDisabled={!isEditing}
                             />
                         </TabPanel>
                     </TabPanels>
