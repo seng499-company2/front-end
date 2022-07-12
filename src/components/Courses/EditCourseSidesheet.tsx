@@ -36,7 +36,7 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
                 refetch();
                 toast({
                     title: "Course Deleted",
-                    status: "warning",
+                    status: "success",
                     duration: 5000,
                     isClosable: true,
                     position: "bottom-left",
@@ -67,7 +67,7 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
                     status: "success",
                     duration: 5000,
                     isClosable: true,
-                    position: "bottom-right",
+                    position: "bottom-left",
                 });
                 setIsEditing(false);
                 onClose();

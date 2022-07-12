@@ -54,7 +54,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 refetch();
                 toast({
                     title: "Professor Deleted",
-                    status: "warning",
+                    status: "success",
                     duration: 5000,
                     isClosable: true,
                     position: "bottom-left",
