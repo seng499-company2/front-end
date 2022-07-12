@@ -10,11 +10,7 @@ import React, {
 import axios from "axios";
 
 import { useRouter } from "next/router";
-
-export interface User {
-    id: string;
-    role: string;
-}
+import { getUserClaims, User } from "@lib/user";
 
 export interface AuthContextType {
     user: User;
@@ -31,7 +27,7 @@ export function AuthProvider({
 }: {
     children: ReactNode;
 }): JSX.Element {
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<User>(null);
     const [isError, setIsError] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
@@ -41,33 +37,29 @@ export function AuthProvider({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 
-    // TODO
-    // useEffect(() => {
-    //     // get current user with api call
-    //     const getUser = async () => {
-    //         const user = await getCurrentUser();
-    //         setUser(user);
-    //     };
-
-    //     getUser();
-    // }, []);
+    useEffect(() => {
+        const user = getUserClaims();
+        setUser(user);
+    }, []);
 
     const login = useCallback(
         async (username: string, password: string) => {
             setIsLoading(true);
             try {
-                const response = await axios.post(
-                    "http://localhost:3000/api/login/",
-                    {
-                        username,
-                        password,
-                    }
-                );
+                const response = await axios.post("/api/login/", {
+                    username,
+                    password,
+                });
                 if (response.status === 200) {
-                    setUser(response.data);
+                    const nUser = getUserClaims();
+                    setUser(nUser);
                     setIsLoading(false);
                     // hacky fix - fix redirect to /
-                    router.push("/professors");
+                    if (nUser.isAdmin) {
+                        router.push("/professors");
+                    } else {
+                        router.push("/preferences");
+                    }
                 } else {
                     setIsLoading(false);
                     setIsError(true);
@@ -89,30 +81,48 @@ export function AuthProvider({
             setIsError(true);
         }
         if (result.status === 200) {
-            setUser(undefined);
-            router.push("/login");
+            if (await router.push("/login")) {
+                setUser(null);
+            } else {
+                setIsError(true);
+            }
         } else {
             setIsError(true);
         }
     }, [router]);
 
     // Make the provider update only when it should
-    const memoedValue = useMemo(
+    const memoedValue = useMemo<AuthContextType>(
         () => ({
             user: {
                 id: user?.id,
-                role: user?.role,
+                firstName: user?.firstName,
+                lastName: user?.lastName,
+                isAdmin: user?.isAdmin,
+                email: user?.email,
+                username: user?.username,
             },
             isLoading,
             isError,
             login,
             logout,
         }),
-        [user?.id, user?.role, isLoading, isError, login, logout]
+        [
+            user?.id,
+            user?.email,
+            user?.firstName,
+            user?.isAdmin,
+            user?.lastName,
+            user?.username,
+            isLoading,
+            isError,
+            login,
+            logout,
+        ]
     );
 
     return (
-        <AuthContext.Provider value={memoedValue as AuthContextType}>
+        <AuthContext.Provider value={memoedValue}>
             {children}
         </AuthContext.Provider>
     );

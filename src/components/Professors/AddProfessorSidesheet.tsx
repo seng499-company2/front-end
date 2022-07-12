@@ -1,9 +1,8 @@
 import Sidesheet from "../Layout/Sidesheet";
-import AddCourseForm from "./AddProfessorForm";
 import AddProfessorForm from "./AddProfessorForm";
 
 export const AddProfessorSidesheet = (props) => {
-    const { handleSubmit } = props;
+    const { handleSubmit, refetch } = props;
     return (
         <Sidesheet
             size="xl"
@@ -12,7 +11,7 @@ export const AddProfessorSidesheet = (props) => {
             formId="add-professor-form"
             {...props}
         >
-            <AddProfessorForm handleSubmit={handleSubmit} />
+            <AddProfessorForm handleSubmit={handleSubmit} refetch={refetch} />
         </Sidesheet>
     );
 };

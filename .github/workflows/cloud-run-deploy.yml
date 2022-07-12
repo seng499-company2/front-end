@@ -11,6 +11,7 @@ env:
     CLOUD_RUN_REGION: us-west1
     # ref_name is branch name. so either main or dev
     REPO_NAME: seng499-c2-${{ github.ref_name }}
+    API_HOST: ${{ secrets.API_HOST }}
 
 jobs:
     build-and-deploy:
@@ -34,7 +35,7 @@ jobs:
                   gcloud --quiet auth configure-docker
             - name: Build and tag image
               run: |-
-                  docker build . --target production --tag "gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA"
+                  docker build . --target production --build-arg API_HOST=$API_HOST --tag "gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA"
             - name: Push image to GCR
               run: |-
                   docker push gcr.io/$CLOUD_RUN_PROJECT_ID/$REPO_NAME:$GITHUB_SHA

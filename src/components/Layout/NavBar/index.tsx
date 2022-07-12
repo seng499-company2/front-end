@@ -8,7 +8,7 @@ export default function NavBar({ children }: { children: ReactNode }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <Box transition="0.5s ease">
-            <Header onOpen={onOpen} />
+            <Header onOpen={onOpen} position="sticky" top={0} zIndex={10} />
             <SidebarContent
                 onClose={() => onClose}
                 display={{ base: "none", md: "block" }}

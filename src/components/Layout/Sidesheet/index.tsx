@@ -1,5 +1,4 @@
 import {
-    Box,
     Drawer,
     DrawerBody,
     DrawerFooter,
@@ -7,10 +6,11 @@ import {
     DrawerOverlay,
     DrawerContent,
     DrawerCloseButton,
-    Button,
-    Text,
 } from "@chakra-ui/react";
 import React from "react";
+
+import { SidesheetFooter } from "./Footer";
+import { SidesheetHeader } from "./Header";
 
 const Sidesheet = (props) => {
     const {
@@ -18,18 +18,16 @@ const Sidesheet = (props) => {
         onClose,
         title,
         subTitle,
-        submitLabel,
         onSubmit,
+        onEdit,
+        onCancel,
+        isEditable,
+        isEditing,
+        isLoading,
         formId,
+        onDelete,
         ...other
     } = props;
-
-    const drawerHeaderText = (
-        <Box>
-            <Text fontSize="lg">{title}</Text>
-            {subTitle && <Text fontWeight="thin">{subTitle}</Text>}
-        </Box>
-    );
 
     return (
         <>
@@ -43,22 +41,23 @@ const Sidesheet = (props) => {
                 <DrawerContent>
                     <DrawerCloseButton />
                     <DrawerHeader borderBottomWidth="1px">
-                        {drawerHeaderText}
+                        <SidesheetHeader title={title} subTitle={subTitle} />
                     </DrawerHeader>
 
                     <DrawerBody>{props.children}</DrawerBody>
 
-                    {submitLabel && (
-                        <DrawerFooter borderTopWidth="1px">
-                            <Button
-                                onClick={onSubmit}
-                                type="submit"
-                                form={formId}
-                            >
-                                {submitLabel}
-                            </Button>
-                        </DrawerFooter>
-                    )}
+                    <DrawerFooter borderTopWidth="1px">
+                        <SidesheetFooter
+                            isEditing={isEditing}
+                            isLoading={isLoading}
+                            onCancel={onCancel}
+                            onEdit={onEdit}
+                            onSubmit={onSubmit}
+                            formId={formId}
+                            onDelete={onDelete}
+                            isEditable={isEditable}
+                        />
+                    </DrawerFooter>
                 </DrawerContent>
             </Drawer>
         </>

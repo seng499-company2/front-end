@@ -1,179 +1,143 @@
-import Sidesheet from "../Layout/Sidesheet";
-import PreferencesForm from "../Preferences/PreferencesForm";
+import {
+    Tabs,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel,
+    useToast,
+    useDisclosure,
+    HStack,
+    Text,
+} from "@chakra-ui/react";
+import React, { useState } from "react";
 
-export const ProfessorSidesheet = ({ isOpen, onClose, professor }) => {
-    const initialValues = {
-        //mock data
-        numCoursesPerSem: {
-            fall: 0,
-            spring: 3,
-            summer: 2,
-        },
-        // relief: {
-        //     value: false,
-        //     numCourses: 0,
-        // },
-        sabbatical: {
-            value: true,
-            duration: "half",
-            fromMonth: "january",
-        },
-        teachingDaysPerWeek: {
-            value: 2,
-        },
-        preferredDays: {
-            monday: true,
-            tuesday: false,
-            wednesday: true,
-            thursday: true,
-            friday: false,
-        },
-        preferredTime: {
-            fall: [
-                {
-                    day: 1,
-                    time: 8,
-                },
-                {
-                    day: 1,
-                    time: 9,
-                },
-                {
-                    day: 1,
-                    time: 10,
-                },
-                {
-                    day: 1,
-                    time: 11,
-                },
-                {
-                    day: 1,
-                    time: 12,
-                },
-                {
-                    day: 4,
-                    time: 8,
-                },
-                {
-                    day: 4,
-                    time: 9,
-                },
-                {
-                    day: 4,
-                    time: 10,
-                },
-                {
-                    day: 4,
-                    time: 11,
-                },
-                {
-                    day: 4,
-                    time: 12,
-                },
-            ],
-            summer: [
-                {
-                    day: 1,
-                    time: 12,
-                },
-                {
-                    day: 1,
-                    time: 13,
-                },
-                {
-                    day: 1,
-                    time: 14,
-                },
-                {
-                    day: 1,
-                    time: 15,
-                },
-                {
-                    day: 1,
-                    time: 16,
-                },
-                {
-                    day: 4,
-                    time: 12,
-                },
-                {
-                    day: 4,
-                    time: 13,
-                },
-                {
-                    day: 4,
-                    time: 14,
-                },
-                {
-                    day: 4,
-                    time: 15,
-                },
-                {
-                    day: 4,
-                    time: 16,
-                },
-            ],
-            spring: [],
-        },
-        coursePreferences: {
-            "CSC 225": {
-                willingness: 1,
-                difficulty: 2,
-            },
-            "CSC 226": {
-                willingness: 0,
-                difficulty: 0,
-            },
-            "ECE 260": {
-                willingness: 2,
-                difficulty: 2,
-            },
-            "ECE 310": {
-                willingness: 1,
-                difficulty: 0,
-            },
-            "SENG 265": {
-                willingness: 0,
-                difficulty: 1,
-            },
-            "SENG 310": {
-                willingness: 1,
-                difficulty: 2,
-            },
-        },
+import AdminPreferences from "@components/Preferences/AdminPreferences";
+import Sidesheet from "../Layout/Sidesheet";
+import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
+import { useDeleteQuery } from "@hooks/useRequest";
+import EditProfessorForm from "./EditProfessorForm";
+import { CompleteStatusBadge } from "@components/CompleteStatusBadge";
+
+export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
+    const { isPeng, type, firstName, lastName, email, username, complete } =
+        professor;
+
+    const [tabIndex, setTabIndex] = useState(0);
+    const [isEditing, setIsEditing] = useState(false);
+    const {
+        isOpen: deleteOpen,
+        onOpen: deleteOnOpen,
+        onClose: deleteOnClose,
+    } = useDisclosure();
+    const toast = useToast();
+
+    const { execute: executeDelete, isLoading: isDeleteLoading } =
+        useDeleteQuery(`/api/users/${username}/`);
+
+    const onEdit = () => {
+        setIsEditing(true);
     };
+
+    const onCancel = () => {
+        setIsEditing(false);
+    };
+
+    const handleClose = () => {
+        onClose();
+        setIsEditing(false);
+        setTabIndex(0);
+    };
+
+    const onDelete = () => {
+        executeDelete()
+            .then((response) => {
+                refetch();
+                toast({
+                    title: "Professor Deleted",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+                setIsEditing(false);
+                deleteOnClose();
+                onClose();
+            })
+            .catch((error) => {
+                toast({
+                    title: "Error: " + error.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+            });
+    };
+
+    const isPengText = isPeng ? " | Peng" : "";
+
+    const formArray = ["edit-professor-form", "preferences-form"];
+
     return (
-        <Sidesheet
-            size="xl"
-            title={professor.name}
-            subTitle={professor.email}
-            submitLabel="Edit"
-            formId="prof-form"
-            isOpen={isOpen}
-            onClose={onClose}
-        >
-            <PreferencesForm isDisabled={true} initialValues={initialValues} />
-        </Sidesheet>
+        <>
+            <Sidesheet
+                size="xl"
+                title={`${firstName} ${lastName}`}
+                subTitle={`${email} | ${type}${isPengText}`}
+                submitLabel="Edit"
+                formId={formArray[tabIndex]}
+                onEdit={onEdit}
+                onCancel={onCancel}
+                onDelete={deleteOnOpen}
+                onClose={handleClose}
+                isOpen={isOpen}
+                isEditing={isEditing}
+                isLoading={false}
+                isEditable
+            >
+                <Tabs
+                    size="md"
+                    variant="line"
+                    onChange={(idx) => setTabIndex(idx)}
+                    isFitted
+                >
+                    <TabList>
+                        <Tab>Details</Tab>
+                        <Tab isDisabled={!complete}>
+                            <HStack gap={2}>
+                                <Text>Preferences</Text>
+                                {!complete && (
+                                    <CompleteStatusBadge complete={complete} />
+                                )}
+                            </HStack>
+                        </Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <EditProfessorForm
+                                professor={professor}
+                                disabled={!isEditing}
+                                refetch={refetch}
+                            />
+                        </TabPanel>
+                        <TabPanel>
+                            <AdminPreferences
+                                professor={professor}
+                                isDisabled={!isEditing}
+                            />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+            </Sidesheet>
+            <DeleteConfirmation
+                isOpen={deleteOpen}
+                onClose={deleteOnClose}
+                onDelete={onDelete}
+                title={"Professor " + `${firstName} ${lastName}`}
+                isLoading={isDeleteLoading}
+            />
+        </>
     );
 };
-
-// export const getServerSideProps = async (id) => {
-//     const professors = [
-//         { id: 1, name: "Dave Dave", type: "Teaching", complete: true },
-//         { id: 2, name: "Owen Wilson", type: "Research", complete: false },
-//         { id: 3, name: "Gordo Ramso", type: "Research", complete: true },
-//     ];
-
-//     const prof = professors[id-1];
-
-//     // get from api
-//     // const professors = fetch(`${API_URL}/v1/professors`);
-
-//     return {
-//         props: {
-//             prof
-//         },
-//     };
-// };
 
 export default ProfessorSidesheet;
