@@ -5,7 +5,7 @@ import * as dates from "date-arithmetic";
 import { Navigate } from "react-big-calendar";
 import TimeGrid from "react-big-calendar/lib/TimeGrid";
 
-export function MyWeek({
+export function AcademicWeek({
     date,
     localizer,
     max = localizer.endOf(new Date(), "day"),
@@ -14,7 +14,7 @@ export function MyWeek({
     ...props
 }) {
     const currRange = useMemo(
-        () => MyWeek.range(date, { localizer }),
+        () => AcademicWeek.range(date, { localizer }),
         [date, localizer]
     );
 
@@ -32,7 +32,7 @@ export function MyWeek({
     );
 }
 
-MyWeek.propTypes = {
+AcademicWeek.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
     localizer: PropTypes.object,
     max: PropTypes.instanceOf(Date),
@@ -40,33 +40,22 @@ MyWeek.propTypes = {
     scrollToTime: PropTypes.instanceOf(Date),
 };
 
-MyWeek.range = (date, { localizer }) => {
+AcademicWeek.range = (date, { localizer }) => {
     const start = date;
-    // range is from start of current week to end of the week (Monday to Friday)
-    // list of date objects
-
+    // startOf week is Sunday
     let startOfWeek = localizer.startOf(start, "week");
-    // add 1 day to start of week
+    // add 1 day to make it Monday
     startOfWeek = localizer.add(startOfWeek, 1, "day");
 
     const range = [];
     for (let i = 0; i < 5; i++) {
         range.push(dates.add(startOfWeek, i, "day"));
     }
-    // const end = dates.add(start, 3, "day");
-
-    // let current = start;
-    // const range = [];
-
-    // while (localizer.lte(current, end, "day")) {
-    //     range.push(current);
-    //     current = localizer.add(current, 1, "day");
-    // }
 
     return range;
 };
 
-MyWeek.navigate = (date, action, { localizer }) => {
+AcademicWeek.navigate = (date, action, { localizer }) => {
     switch (action) {
         case Navigate.PREVIOUS:
             return localizer.add(date, -3, "day");
@@ -79,6 +68,6 @@ MyWeek.navigate = (date, action, { localizer }) => {
     }
 };
 
-MyWeek.title = (date) => {
+AcademicWeek.title = (date) => {
     return `Week: ${date.toLocaleDateString()}`;
 };

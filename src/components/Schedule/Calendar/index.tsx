@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import { Calendar as ReactBigCalendar, Views } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
-import { MyWeek } from "@components/Schedule/Calendar/MyWeek";
+import { AcademicWeek } from "@components/Schedule/Calendar/AcademicWeek";
 import { generateColorHex } from "@lib/color";
 import {
     formatOnDropToast,
@@ -15,7 +15,7 @@ import {
     moveEvent,
 } from "@lib/calendar";
 
-const DnDCalendar = withDragAndDrop(ReactBigCalendar);
+const DnDCalendar = withDragAndDrop(ReactBigCalendar as any);
 
 interface CalendarEvent {
     start: Date;
@@ -91,7 +91,7 @@ const Calendar = ({ scheduledCourses }) => {
             eventPropGetter={eventPropGetter}
             //defaultDate={defaultDate}
             defaultView={Views.WEEK}
-            views={{ week: MyWeek, day: true }}
+            views={{ week: AcademicWeek, day: true }}
             min={min}
             max={max}
             step={10}
