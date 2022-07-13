@@ -14,16 +14,10 @@ import {
     initLocalizer,
     moveEvent,
 } from "@lib/calendar";
+import CalendarEvent, { ScheduledCourse } from "./CalendarEvent";
+import TimeSlotWrapper from "./TimeSlotWrapper";
 
 const DnDCalendar = withDragAndDrop(ReactBigCalendar as any);
-
-interface CalendarEvent {
-    start: Date;
-    end: Date;
-    title: string;
-    section: string;
-    id: string;
-}
 
 const Calendar = ({ scheduledCourses }) => {
     const toast = useToast({
@@ -33,7 +27,7 @@ const Calendar = ({ scheduledCourses }) => {
     });
 
     const now = new Date();
-    const [events, setEvents] = useState<CalendarEvent[]>(mockEvents);
+    const [events, setEvents] = useState<ScheduledCourse[]>(mockEvents);
 
     const onEventResize = (data) => {
         const {
@@ -66,7 +60,7 @@ const Calendar = ({ scheduledCourses }) => {
     const eventPropGetter = useCallback((event, _start, _end, _isSelected) => {
         return {
             style: {
-                backgroundColor: generateColorHex(event.title),
+                backgroundColor: generateColorHex(event.course?.code),
                 borderRadius: "10px",
                 color: "white",
                 border: "none",
@@ -89,7 +83,7 @@ const Calendar = ({ scheduledCourses }) => {
             onSelectEvent={onSelectEvent}
             localizer={localizer}
             eventPropGetter={eventPropGetter}
-            //defaultDate={defaultDate}
+            //defaultDate={defaultDate} // Year start? Term start?
             defaultView={Views.WEEK}
             views={{ week: AcademicWeek, day: true }}
             min={min}
@@ -97,6 +91,9 @@ const Calendar = ({ scheduledCourses }) => {
             step={10}
             resizable
             style={{ height: "80vh" }}
+            components={{
+                event: CalendarEvent,
+            }}
         />
     );
 };
@@ -107,183 +104,46 @@ const mockEvents = [
     {
         start: new Date("2022-07-12T15:30:00.000Z"),
         end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "CSC 225",
+        course: {
+            code: "CSC111",
+            title: "Fundamentals of Programming with Engineering Applications",
+        },
         section: "A01",
+        professor: "Kui Wu",
+        time: {
+            "08:30 - 09:20": [2, 3, 5],
+        },
+        capacity: 249,
         id: "CSC225-A01",
     },
     {
         start: new Date("2022-07-12T15:30:00.000Z"),
         end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "CSC 225",
+        course: {
+            code: "CSC111",
+            title: "Fundamentals of Programming with Engineering Applications",
+        },
         section: "A02",
+        professor: "Kui Wu",
+        time: {
+            "08:30 - 09:20": [2, 3, 5],
+        },
+        capacity: 249,
         id: "CSC225-A02",
     },
     {
         start: new Date("2022-07-12T15:30:00.000Z"),
         end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "CSC 226",
+        course: {
+            code: "CSC225",
+            title: "Programming with C++",
+        },
         section: "A01",
+        professor: "Kui Wu",
+        time: {
+            "08:30 - 09:20": [2, 3, 5],
+        },
+        capacity: 249,
         id: "CSC226-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "CSC 227",
-        section: "A01",
-        id: "CSC227-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "CSC 227",
-        section: "A02",
-        id: "CSC227-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "SENG 321",
-        section: "A01",
-        id: "SENG321-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "SENG 321",
-        section: "A02",
-        id: "SENG321-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "CSC 471",
-        section: "A01",
-        id: "CSC471-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "CSC 471",
-        section: "A02",
-        id: "CSC471-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "SENG 460",
-        section: "A01",
-        id: "SENG460-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "SENG 460",
-        section: "A02",
-        id: "SENG460-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 110",
-        section: "A01",
-        id: "ENGR110-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 110",
-        section: "A02",
-        id: "ENGR110-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 111",
-        section: "A01",
-        id: "ENGR111-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 111",
-        section: "A02",
-        id: "ENGR111-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 112",
-        section: "A01",
-        id: "ENGR112-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 112",
-        section: "A02",
-        id: "ENGR112-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 113",
-        section: "A01",
-        id: "ENGR113-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 113",
-        section: "A02",
-        id: "ENGR113-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 114",
-        section: "A01",
-        id: "ENGR114-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 114",
-        section: "A02",
-        id: "ENGR114-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 115",
-        section: "A01",
-        id: "ENGR115-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 115",
-        section: "A02",
-        id: "ENGR115-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 116",
-        section: "A01",
-        id: "ENGR116-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 116",
-        section: "A02",
-        id: "ENGR116-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        title: "ENGR 117",
-        section: "A01",
-        id: "ENGR117-A01",
     },
 ];

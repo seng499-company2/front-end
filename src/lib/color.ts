@@ -20,6 +20,9 @@ export const generateColorHex = (
     title: string,
     opts?: ColorHashOptions
 ): string => {
+    if (!title) {
+        return "";
+    }
     if (!opts) {
         // most common case
         return colorHashFunction.hex(title);

@@ -1,4 +1,12 @@
-import { Center, Flex, HStack, IconButton, Select } from "@chakra-ui/react";
+import {
+    Button,
+    Center,
+    Flex,
+    HStack,
+    IconButton,
+    Select,
+    Box,
+} from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
 import { useTheme } from "@chakra-ui/system";
@@ -55,56 +63,74 @@ const Schedules = () => {
 
     return (
         <Flex flexDirection="column" pt="1rem" gap={8}>
-            <HStack>
-                <DeveloperSettings
-                    {...{
-                        error: isError,
-                        setUseMockData,
-                        setCompany,
-                        setSemester,
-                        generated,
-                        useMockData,
-                        company,
-                        execute,
+            <HStack justifyContent={"space-between"}>
+                <HStack gap={4}>
+                    <DeveloperSettings
+                        {...{
+                            error: isError,
+                            setUseMockData,
+                            setCompany,
+                            setSemester,
+                            generated,
+                            useMockData,
+                            company,
+                            execute,
+                        }}
+                    />
+                    {generated && (
+                        <Select
+                            onChange={(e) => {
+                                setSemester(e.target.value);
+                            }}
+                            w="200px"
+                        >
+                            <option value="fall">Fall</option>
+                            <option value="spring">Spring</option>
+                            <option value="summer">Summer</option>
+                        </Select>
+                    )}
+                    <IconButton
+                        aria-label="Toggle schedule view"
+                        onClick={toggleScheduleView}
+                        maxW={100}
+                        icon={
+                            view === "calendar" ? <ImTable /> : <CalendarIcon />
+                        }
+                    />
+                </HStack>
+                <Button
+                    onClick={() => {
+                        execute();
+                        setGenerated(true);
                     }}
-                />
-                <IconButton
-                    aria-label="Toggle schedule view"
-                    onClick={toggleScheduleView}
-                    maxW={100}
-                    icon={view === "calendar" ? <ImTable /> : <CalendarIcon />}
-                />
+                    isLoading={isLoading}
+                    colorScheme="yellow"
+                >
+                    Re-generate Schedule
+                </Button>
             </HStack>
 
-            {generated && (
-                <Select
-                    onChange={(e) => {
-                        setSemester(e.target.value);
-                    }}
-                    w="200px"
-                >
-                    <option value="fall">Fall</option>
-                    <option value="spring">Spring</option>
-                    <option value="summer">Summer</option>
-                </Select>
-            )}
-            {/* <Center display={generated ? "none" : null}>
-                <VStack gap={4}>
-                    <Button
-                        onClick={() => {
-                            execute();
-                            setGenerated(true);
-                        }}
-                        isLoading={isLoading}
-                    >
-                        Generate Schedule
-                    </Button>
-                </VStack>
-            </Center> */}
+            {/* {!generated && (
+                <Center height="40vh">
+                    <Box>
+                        <Button
+                            onClick={() => {
+                                execute();
+                                setGenerated(true);
+                            }}
+                            isLoading={isLoading}
+                        >
+                            Generate Schedule
+                        </Button>
+                    </Box>
+                </Center>
+            )} */}
 
             {isError && (
                 <ErrorBox error={isError.response.data} retry={execute} />
             )}
+            {/* {generated && (
+                <> */}
             {view === "table" ? (
                 <ScheduleTable
                     schedule={schedule[semester]}
@@ -113,6 +139,8 @@ const Schedules = () => {
             ) : (
                 <Calendar scheduledCourses={schedule[semester]} />
             )}
+            {/* </>
+            )} */}
         </Flex>
     );
 };
