@@ -1,5 +1,12 @@
-import { Center, Button, VStack, Flex, Select } from "@chakra-ui/react";
-import { ReactElement, useState } from "react";
+import {
+    Center,
+    Button,
+    VStack,
+    Flex,
+    Select,
+    useDisclosure,
+} from "@chakra-ui/react";
+import { ReactElement, useCallback, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
 import { useTheme } from "@chakra-ui/system";
 
@@ -8,6 +15,7 @@ import ScheduleTable from "@components/Schedule/ScheduleTable";
 import { useGetQuery } from "@hooks/useRequest";
 import ErrorBox from "@components/Schedule/ErrorBox";
 import DeveloperSettings from "@components/Schedule/DeveloperSettings";
+import ScheduleSidesheet from "@components/Schedule/ScheduleSidesheet";
 
 const dayArr = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"];
 
@@ -55,6 +63,8 @@ const Schedules = () => {
     const [generated, setGenerated] = useState(false);
     const [semester, setSemester] = useState("fall");
     const [company, setCompany] = useState("2");
+    const [selectedSection, setSelectedSection] = useState({});
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const [useMockData, setUseMockData] = useState(false);
 
     const { data, isLoading, isError, execute } = useGetQuery(
@@ -66,9 +76,18 @@ const Schedules = () => {
         }
     );
 
-    const onClick = (scheduledSection) => {
-        // TODO: show schedule sidesheet
-    };
+    const onClick = useCallback(
+        (section) => {
+            setSelectedSection(section);
+            onOpen();
+        },
+        [onOpen]
+    );
+
+    const onSidesheetClose = useCallback(() => {
+        onClose();
+        setSelectedSection({});
+    }, [onClose]);
 
     const convertData = (data: { [semester: string]: any[] }) => {
         const generatedSchedule = {};
@@ -144,6 +163,12 @@ const Schedules = () => {
                 <ErrorBox error={isError.response.data} retry={execute} />
             )}
             <ScheduleTable schedule={schedule[semester]} onClick={onClick} />
+            <ScheduleSidesheet
+                isOpen={isOpen}
+                onClose={onSidesheetClose}
+                section={selectedSection}
+                refetch={execute}
+            />
         </Flex>
     );
 };
