@@ -2,6 +2,7 @@ import Sidesheet from "../Layout/Sidesheet";
 import { useState } from "react";
 import { usePostQuery } from "@hooks/useRequest";
 import { useToast, useDisclosure } from "@chakra-ui/react";
+import OtherSection from "./OtherSection";
 
 export const ScheduleSidesheet = ({ isOpen, onClose, section, refetch }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -40,11 +41,7 @@ export const ScheduleSidesheet = ({ isOpen, onClose, section, refetch }) => {
                 //isLoading={isDataSaving}
                 isEditable
             >
-                {/* <CourseForm
-                    handleSubmit={submitData}
-                    data={course}
-                    disabled={!isEditing}
-                /> */}
+                <OtherSection data={{}} />
             </Sidesheet>
         </>
     );
