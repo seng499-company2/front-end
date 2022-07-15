@@ -1,8 +1,17 @@
-import { convertToEvents, Schedule } from "@lib/convert";
+import { convertToEvents } from "@lib/convert";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+    Schedule,
+    ScheduledCourse,
+    ScheduledCourseEvent,
+    Semester,
+} from "src/types/calendar";
 import { useWeekStart } from "./useWeekStart";
 
-export const useEvents = (rawSchedule, semester) => {
+export const useEvents = (
+    rawSchedule: ScheduledCourse[],
+    semester: Semester
+) => {
     let { weekStart } = useWeekStart();
     // add 7 days to weekStart
     // OR figure out how to disable current day styling on table
@@ -28,15 +37,54 @@ export const useEvents = (rawSchedule, semester) => {
         summer: [],
     });
 
+    const [filteredEvents, setFilteredEvents] = useState<Schedule>({
+        fall: [],
+        spring: [],
+        summer: [],
+    });
+
     useEffect(() => {
-        setEvents(convertInitialEvents(rawSchedule, semester, weekStartFuture));
+        const allEvents = convertInitialEvents(
+            rawSchedule,
+            semester,
+            weekStartFuture
+        );
+        setEvents(allEvents);
+        setFilteredEvents(allEvents);
     }, [convertInitialEvents, rawSchedule, semester, weekStartFuture]);
 
-    // const filterEvents = useCallback((filterFunc, semester) => {
-    //     setEvents((prevEvents) => {
-    //         return prevEvents[semester].filter(filterFunc);
-    //     });
-    // }, []);
+    // TODO fix this broken filter logic
+    // cant combine filters
+    const filterEvents = useCallback(
+        (column, value) => {
+            if (column.id === "course") {
+                const newEvents = {
+                    ...events,
+                    [semester]: events[semester].filter(
+                        (event: ScheduledCourseEvent) => {
+                            return event.course.course.code
+                                .toLowerCase()
+                                .includes(value);
+                        }
+                    ),
+                };
+                setFilteredEvents(newEvents);
+            } else if (column.id === "professor") {
+                const newEvents = {
+                    ...events,
+                    [semester]: events[semester].filter(
+                        (event: ScheduledCourseEvent) => {
+                            return event.course.section.professor.name
+                                .toLowerCase()
+                                .includes(value);
+                        }
+                    ),
+                };
+                setFilteredEvents(newEvents);
+            }
+        },
+        [events, semester]
+    );
 
-    return { events, setEvents }; //, filterEvents };
+    return { events: filteredEvents, setEvents, filterEvents };
 };

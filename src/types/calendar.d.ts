@@ -1,6 +1,7 @@
-// TODO extract types out of this file
+type Semester = "fall" | "spring" | "summer";
+
 type PEngRequired = {
-    [key in "fall" | "spring" | "summer"]: boolean;
+    [key in Semester]: boolean;
 };
 
 interface Course {
@@ -21,6 +22,8 @@ interface TimeSlot {
 }
 
 interface Section {
+    id?: number;
+    display?: string;
     capacity: number;
     professor: Professor;
     timeSlots: TimeSlot[];
@@ -28,7 +31,7 @@ interface Section {
 
 interface ScheduledCourse {
     course: Course;
-    section: string;
+    section: Section;
     sections: Section[];
 }
 
@@ -46,7 +49,14 @@ type ScheduleCourseEventChange = {
     resourceId: string | number;
 };
 
+type Schedule = {
+    fall: ScheduledCourseEvent[];
+    spring: ScheduledCourseEvent[];
+    summer: ScheduledCourseEvent[];
+};
+
 export {
+    Semester,
     PEngRequired,
     Course,
     Professor,
@@ -55,4 +65,5 @@ export {
     ScheduledCourse,
     ScheduledCourseEvent,
     ScheduleCourseEventChange,
+    Schedule,
 };

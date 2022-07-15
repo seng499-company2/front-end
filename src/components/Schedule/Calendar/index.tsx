@@ -18,13 +18,25 @@ import { useEvents } from "@hooks/useEvents";
 import { useCalendarRange } from "@hooks/useCalendarRange";
 import Toolbar from "./Toolbar";
 import WeekHeader from "./WeekHeader";
-import TableFilter from "@components/Table/TableFilter";
 import { ScheduleCourseEventChange } from "src/types/calendar";
+
+function withEventFilter(Component, onFilter) {
+    return function EventFilter(props) {
+        return (
+            <Component
+                {...{
+                    onFilter,
+                }}
+                {...props}
+            />
+        );
+    };
+}
 
 const DnDCalendar = withDragAndDrop(ReactBigCalendar as any);
 
 const Calendar = ({ schedule, semester }) => {
-    const { events, setEvents } = useEvents(schedule, semester);
+    const { events, setEvents, filterEvents } = useEvents(schedule, semester);
     const { min, max } = useCalendarRange();
 
     const toast = useToast({
@@ -41,7 +53,7 @@ const Calendar = ({ schedule, semester }) => {
                 id,
                 course: {
                     course: { code, title },
-                    section,
+                    section: { display: section },
                 },
             },
         } = data;
@@ -61,7 +73,7 @@ const Calendar = ({ schedule, semester }) => {
                 id,
                 course: {
                     course: { code, title },
-                    section,
+                    section: { display: section },
                 },
             },
         } = data;
@@ -92,15 +104,6 @@ const Calendar = ({ schedule, semester }) => {
 
     return (
         <>
-            {/* <TableFilter
-                column={{ Header: "Course Code", filter: { type: "text" } }}
-                onFilter={(_column, value) =>
-                    filterEvents(
-                        (event) => event.course.course.code.includes(value),
-                        semester
-                    )
-                }
-            /> */}
             <DnDCalendar
                 events={events[semester]}
                 onEventDrop={onEventDrop as any}
@@ -118,7 +121,7 @@ const Calendar = ({ schedule, semester }) => {
                 style={{ height: "81vh" }}
                 components={{
                     event: CalendarEvent as any,
-                    toolbar: Toolbar,
+                    toolbar: withEventFilter(Toolbar, filterEvents),
                     week: {
                         header: WeekHeader,
                     },

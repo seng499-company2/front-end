@@ -1,11 +1,5 @@
-import { ScheduledCourse, ScheduledCourseEvent } from "src/types/calendar";
+import { Schedule, ScheduledCourse } from "src/types/calendar";
 import { formatSectionNum } from "./format";
-
-export type Schedule = {
-    fall: ScheduledCourse[] | ScheduledCourseEvent[];
-    spring: ScheduledCourse[] | ScheduledCourseEvent[];
-    summer: ScheduledCourse[] | ScheduledCourseEvent[];
-};
 
 export const DAY_ENUM = {
     MONDAY: 1,
@@ -105,12 +99,20 @@ export const convertToEvents = (
                                 parseInt(timeRange[1].split(":")[0], 10),
                                 parseInt(timeRange[1].split(":")[1], 10)
                             );
+                            const sections = course.sections.map(
+                                (section, i) => ({
+                                    ...section,
+                                    id: sectionIdx,
+                                    display: formatSectionNum(+i + 1),
+                                })
+                            );
                             const event = {
                                 start: startTime,
                                 end: endTime,
                                 course: {
                                     ...course,
-                                    section: formatSectionNum(+sectionIdx + 1),
+                                    sections,
+                                    section: sections[sectionIdx],
                                 },
                                 id: `${course.course.code}-${sectionIdx}-${section.professor.id}-${i}-${semester}`,
                             };
