@@ -6,7 +6,7 @@ import {
     Select,
     useDisclosure,
 } from "@chakra-ui/react";
-import { ReactElement, useCallback, useState } from "react";
+import { ReactElement, useCallback, useMemo, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
 import { useTheme } from "@chakra-ui/system";
 
@@ -22,9 +22,9 @@ const dayArr = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"];
 // convert backend data to our data format per course
 const convertBackendDataToOurData = (backendData) => {
     const { course, sections } = backendData;
-    const { code, title } = course;
+    const { code, title, yearRequired } = course;
 
-    const ourData = sections.map((section, idx) => {
+    let ourData = sections.map((section, idx) => {
         const {
             capacity,
             professor: { name },
@@ -48,11 +48,21 @@ const convertBackendDataToOurData = (backendData) => {
         const sectionId = `A${sectionIdx < 10 ? `0${sectionIdx}` : sectionIdx}`;
 
         return {
-            course: { code, title },
             section: sectionId,
             professor: name,
             time,
             capacity,
+        };
+    });
+
+    //include data on other section for sidesheet. It does replicate data but seemed better than looping through all data again to find other sections
+    ourData = ourData.map((thisSection) => {
+        return {
+            course: { code, title, yearRequired },
+            otherSections: ourData.filter(
+                (sec) => sec.section !== thisSection.section
+            ),
+            ...thisSection,
         };
     });
 
@@ -103,9 +113,13 @@ const Schedules = () => {
         return generatedSchedule;
     };
 
-    const schedule = data
-        ? convertData(data)
-        : { fall: [], spring: [], summer: [] };
+    const schedule = useMemo(() => {
+        if (!data) {
+            return { fall: [], spring: [], summer: [] };
+        } else {
+            return convertData(data);
+        }
+    }, [data]);
 
     const {
         colors: { primary },

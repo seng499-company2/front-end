@@ -1,8 +1,9 @@
 import Sidesheet from "../Layout/Sidesheet";
 import { useState } from "react";
 import { usePostQuery } from "@hooks/useRequest";
-import { useToast, useDisclosure } from "@chakra-ui/react";
+import { useToast, useDisclosure, Heading } from "@chakra-ui/react";
 import OtherSection from "./OtherSection";
+import EditDaysControl from "./EditDaysControl";
 
 export const ScheduleSidesheet = ({ isOpen, onClose, section, refetch }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -41,7 +42,17 @@ export const ScheduleSidesheet = ({ isOpen, onClose, section, refetch }) => {
                 //isLoading={isDataSaving}
                 isEditable
             >
-                <OtherSection data={{}} />
+                <Heading size="sm" mb={5}>
+                    Section Details
+                </Heading>
+                <EditDaysControl />
+
+                <Heading size="sm" mb={5}>
+                    Other Sections Current Semester
+                </Heading>
+                {section?.otherSections?.map((section) => (
+                    <OtherSection key={section.section} data={section} />
+                ))}
             </Sidesheet>
         </>
     );
