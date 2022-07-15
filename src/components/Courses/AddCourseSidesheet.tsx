@@ -34,16 +34,13 @@ export const AddCourseSidesheet = ({ isOpen, onClose, refetch }) => {
             });
     };
 
-    const handleClose = () => {
-        onClose();
-    };
     return (
         <Sidesheet
             size="xl"
             title="Add New Course"
             isOpen={isOpen}
-            onClose={handleClose}
-            formId="edit-course-form"
+            onClose={onClose}
+            formId="add-course-form"
             isLoading={isDataSaving}
         >
             <CourseForm handleSubmit={submitData} />

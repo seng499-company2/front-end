@@ -32,7 +32,6 @@ const ProfessorPage = () => {
             <AddProfessorSidesheet
                 isOpen={addIsOpen}
                 onClose={() => setAddIsOpen(false)}
-                handleSubmit={setAddIsOpen}
                 refetch={execute}
             />
             <ProfessorsTableWrapper
