@@ -49,6 +49,7 @@ export const User = ({ hasProfile, textColor }: UserProps) => {
                     py={2}
                     transition="all 0.3s"
                     _focus={{ boxShadow: "none" }}
+                    color="white"
                 >
                     <HStack>
                         <Avatar size={"sm"} />
