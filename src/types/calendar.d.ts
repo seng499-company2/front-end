@@ -39,6 +39,13 @@ type ScheduledCourseEvent = {
     id: string;
 } & Event;
 
+type ScheduleCourseEventChange = {
+    start: Date;
+    end: Date;
+    event: ScheduleCourseEvent;
+    resourceId: string | number;
+};
+
 export {
     PEngRequired,
     Course,
@@ -47,4 +54,5 @@ export {
     Section,
     ScheduledCourse,
     ScheduledCourseEvent,
+    ScheduleCourseEventChange,
 };

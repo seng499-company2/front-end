@@ -19,6 +19,7 @@ import { useCalendarRange } from "@hooks/useCalendarRange";
 import Toolbar from "./Toolbar";
 import WeekHeader from "./WeekHeader";
 import TableFilter from "@components/Table/TableFilter";
+import { ScheduleCourseEventChange } from "src/types/calendar";
 
 const DnDCalendar = withDragAndDrop(ReactBigCalendar as any);
 
@@ -32,7 +33,7 @@ const Calendar = ({ schedule, semester }) => {
         isClosable: true,
     });
 
-    const onEventResize = (data) => {
+    const onEventResize = (data: ScheduleCourseEventChange) => {
         const {
             start: newStart,
             end: newEnd,
@@ -46,7 +47,7 @@ const Calendar = ({ schedule, semester }) => {
         toast(formatOnResizeToast({ title, section, newStart, newEnd }));
     };
 
-    const onEventDrop = (data) => {
+    const onEventDrop = (data: ScheduleCourseEventChange) => {
         const {
             start: newStart,
             end: newEnd,
@@ -90,8 +91,8 @@ const Calendar = ({ schedule, semester }) => {
             /> */}
             <DnDCalendar
                 events={events[semester]}
-                onEventDrop={onEventDrop}
-                onEventResize={onEventResize}
+                onEventDrop={onEventDrop as any}
+                onEventResize={onEventResize as any}
                 onSelectEvent={onSelectEvent}
                 localizer={localizer}
                 eventPropGetter={eventPropGetter}
