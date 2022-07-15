@@ -11,7 +11,7 @@ const ProfessorPage = () => {
     const [addIsOpen, setAddIsOpen] = useState(false);
     const [prof, setProf] = useState({});
 
-    const { data, isLoading, isError, execute } = useGetQuery("/api/users", {
+    const { data, isLoading, isError, execute } = useGetQuery(`/api/users`, {
         useCache: false,
     });
 

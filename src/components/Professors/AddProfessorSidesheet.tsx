@@ -6,7 +6,7 @@ import { usePostQuery } from "@hooks/useRequest";
 export const AddProfessorSidesheet = ({ isOpen, onClose, refetch }) => {
     const toast = useToast();
 
-    const { execute, isLoading: isDataSaving } = usePostQuery("/api/users/");
+    const { execute, isLoading: isDataSaving } = usePostQuery(`/api/users/`);
 
     const submitData = (values) => {
         execute({

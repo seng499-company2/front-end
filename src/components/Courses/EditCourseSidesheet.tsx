@@ -15,11 +15,11 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
     const toast = useToast();
 
     const { execute: executeEdit, isLoading: isDataSaving } = usePostQuery(
-        "/api/course/" + course.course_code + "/"
+        `/api/course/${course.course_code}/`
     );
 
     const { execute: executeDelete, isLoading: isDeleteLoading } =
-        useDeleteQuery("/api/course/" + course.course_code + "/");
+        useDeleteQuery(`/api/course/${course.course_code}/`);
 
     const onEdit = () => {
         setIsEditing(true);

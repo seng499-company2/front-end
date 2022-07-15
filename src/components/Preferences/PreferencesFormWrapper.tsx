@@ -142,7 +142,7 @@ function convertFromBackendFormat(data) {
 
 const PreferencesFormWrapper = () => {
     const { data, isError, isLoading, execute } = useGetQuery(
-        "/api/preferences/",
+        `/api/preferences/`,
         {
             manual: false,
             ssr: false,

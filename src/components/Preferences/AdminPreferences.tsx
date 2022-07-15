@@ -141,7 +141,7 @@ function convertFromBackendFormat(data) {
 
 const AdminPreferences = ({ professor, isDisabled }) => {
     const { data, isError, isLoading, execute } = useGetQuery(
-        "/api/preferences/" + professor.username + "/",
+        `/api/preferences/${professor.username}/`,
         {
             manual: false,
             ssr: false,

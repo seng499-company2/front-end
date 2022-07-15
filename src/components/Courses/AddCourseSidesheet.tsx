@@ -6,7 +6,7 @@ import { useToast } from "@chakra-ui/react";
 export const AddCourseSidesheet = ({ isOpen, onClose, refetch }) => {
     const toast = useToast();
 
-    const { execute, isLoading: isDataSaving } = usePostQuery("/api/courses/");
+    const { execute, isLoading: isDataSaving } = usePostQuery(`/api/courses/`);
 
     const submitData = (values) => {
         execute({

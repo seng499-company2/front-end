@@ -12,7 +12,7 @@ const CoursePage = () => {
     const [addIsOpen, setAddIsOpen] = useState(false);
     const [course, setCourse] = useState({});
 
-    const { data, isLoading, isError, execute } = useGetQuery("/api/courses/");
+    const { data, isLoading, isError, execute } = useGetQuery(`/api/courses/`);
 
     const onClick = useCallback((data) => {
         setDetailsIsOpen(true);
