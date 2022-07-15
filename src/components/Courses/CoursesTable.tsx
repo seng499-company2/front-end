@@ -81,30 +81,28 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
         return semArray;
     };
 
-    if (isLoading)
-        return (
-            <Center height="50vh">
-                <CircularProgress color={primary[400]} isIndeterminate />
-            </Center>
-        );
-
-    if (isError)
-        return (
-            <Center>
-                <VStack gap={4}>
-                    <Text fontSize="xl" color="red">
-                        Error fetching data
-                    </Text>
-                    <Button colorScheme={"red"} onClick={() => execute()}>
-                        Try again
-                    </Button>
-                </VStack>
-            </Center>
-        );
-
     const makeTableData = useMemo(() => {
         if (!data || data?.length === 0) return [];
+        if (isLoading)
+            return (
+                <Center height="50vh">
+                    <CircularProgress color={primary[400]} isIndeterminate />
+                </Center>
+            );
 
+        if (isError)
+            return (
+                <Center>
+                    <VStack gap={4}>
+                        <Text fontSize="xl" color="red">
+                            Error fetching data
+                        </Text>
+                        <Button colorScheme={"red"} onClick={() => execute()}>
+                            Try again
+                        </Button>
+                    </VStack>
+                </Center>
+            );
         return data.map((course) => {
             return {
                 name: (

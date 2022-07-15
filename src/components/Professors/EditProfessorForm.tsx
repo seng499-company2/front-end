@@ -5,12 +5,8 @@ import {
     Input,
     VStack,
     Select,
-    Button,
-    Text,
-    useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import { usePostQuery } from "@hooks/useRequest";
 
 const EditProfessorForm = (props) => {
     const { handleSubmit, professor, disabled } = props;
