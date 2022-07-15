@@ -27,7 +27,6 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
 
     const onCancel = () => {
         setIsEditing(false);
-        onClose();
     };
 
     const onDelete = () => {
@@ -94,12 +93,12 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
                 size="xl"
                 title={course.course_code}
                 subTitle={course.course_title}
+                formId="edit-course-form"
                 isOpen={isOpen}
                 onClose={handleClose}
                 onEdit={onEdit}
                 onCancel={onCancel}
                 onDelete={deleteOnOpen}
-                formId="edit-course-form"
                 isEditing={isEditing}
                 isLoading={isDataSaving}
                 isEditable
