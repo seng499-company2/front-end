@@ -1,16 +1,12 @@
 import { Box, Text } from "@chakra-ui/react";
+import { formatDateWeekday } from "@lib/format";
 
 const WeekHeader = (props) => {
     const { date } = props;
-    // format date to EEEE
-    const formatDate = (date) => {
-        return date.toLocaleDateString("en-US", {
-            weekday: "long",
-        });
-    };
+
     return (
         <Box>
-            <Text>{formatDate(date)}</Text>
+            <Text>{formatDateWeekday(date)}</Text>
         </Box>
     );
 };

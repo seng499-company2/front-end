@@ -1,6 +1,6 @@
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useColorModeValue, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Calendar as ReactBigCalendar, Views } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
@@ -18,14 +18,13 @@ import { useEvents } from "@hooks/useEvents";
 import { useCalendarRange } from "@hooks/useCalendarRange";
 import Toolbar from "./Toolbar";
 import WeekHeader from "./WeekHeader";
+import TableFilter from "@components/Table/TableFilter";
 
 const DnDCalendar = withDragAndDrop(ReactBigCalendar as any);
 
 const Calendar = ({ schedule, semester }) => {
     const { events, setEvents } = useEvents(schedule, semester);
     const { min, max } = useCalendarRange();
-
-    const bgColor = useColorModeValue("gray.100", "gray.200");
 
     const toast = useToast({
         position: "bottom-left",
@@ -79,32 +78,40 @@ const Calendar = ({ schedule, semester }) => {
     const localizer = initLocalizer();
 
     return (
-        <DnDCalendar
-            events={events[semester]}
-            onEventDrop={onEventDrop}
-            onEventResize={onEventResize}
-            onSelectEvent={onSelectEvent}
-            localizer={localizer}
-            eventPropGetter={eventPropGetter}
-            defaultView={Views.WEEK}
-            defaultDate={min}
-            views={{ week: AcademicWeek, day: true }}
-            min={min}
-            max={max}
-            step={10}
-            resizable
-            style={{ height: "80vh" }}
-            slotPropGetter={(date) => ({
-                style: { backgroundColor: bgColor },
-            })}
-            components={{
-                event: CalendarEvent as any,
-                toolbar: Toolbar,
-                week: {
-                    header: WeekHeader,
-                },
-            }}
-        />
+        <>
+            {/* <TableFilter
+                column={{ Header: "Course Code", filter: { type: "text" } }}
+                onFilter={(_column, value) =>
+                    filterEvents(
+                        (event) => event.course.course.code.includes(value),
+                        semester
+                    )
+                }
+            /> */}
+            <DnDCalendar
+                events={events[semester]}
+                onEventDrop={onEventDrop}
+                onEventResize={onEventResize}
+                onSelectEvent={onSelectEvent}
+                localizer={localizer}
+                eventPropGetter={eventPropGetter}
+                defaultView={Views.WEEK}
+                defaultDate={min}
+                views={{ week: AcademicWeek, day: true }}
+                min={min}
+                max={max}
+                step={10}
+                resizable
+                style={{ height: "80vh" }}
+                components={{
+                    event: CalendarEvent as any,
+                    toolbar: Toolbar,
+                    week: {
+                        header: WeekHeader,
+                    },
+                }}
+            />
+        </>
     );
 };
 

@@ -158,3 +158,10 @@ export const formatSectionNum = (sectionNum: number): string => {
     const sectionId = `A${sectionIdx < 10 ? `0${sectionIdx}` : sectionIdx}`;
     return sectionId;
 };
+
+// format date to EEEE
+export const formatDateWeekday = (date) => {
+    return date.toLocaleDateString("en-US", {
+        weekday: "long",
+    });
+};
