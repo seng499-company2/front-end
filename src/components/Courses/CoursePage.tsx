@@ -12,7 +12,7 @@ const CoursePage = () => {
     const [addIsOpen, setAddIsOpen] = useState(false);
     const [course, setCourse] = useState({});
 
-    const { data, execute } = useGetQuery("/api/courses/");
+    const { data, isLoading, isError, execute } = useGetQuery("/api/courses/");
 
     const onClick = useCallback((data) => {
         setDetailsIsOpen(true);
@@ -34,7 +34,13 @@ const CoursePage = () => {
                 refetch={execute}
             />
             <TableContainer>
-                <CoursesTable onClick={onClick} data={data} />
+                <CoursesTable
+                    onClick={onClick}
+                    data={data}
+                    execute={execute}
+                    isLoading={isLoading}
+                    isError={isError}
+                />
             </TableContainer>
             <EditCourseSidesheet
                 isOpen={detailsIsOpen}
