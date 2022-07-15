@@ -22,12 +22,12 @@ export const initLocalizer = () => {
 };
 
 export const formatOnDropToast = ({
-    title,
+    code,
     section,
     newStart,
     newEnd,
 }): any => ({
-    title: `${title} - ${section}`,
+    title: `${code} - ${section}`,
     description: `Rescheduled to ${format(newStart, "EEEE h:mm a")} - ${format(
         newEnd,
         "h:mm a"
@@ -36,12 +36,12 @@ export const formatOnDropToast = ({
 });
 
 export const formatOnResizeToast = ({
-    title,
+    code,
     section,
     newStart,
     newEnd,
 }): any => ({
-    title: `${title} - ${section}`,
+    title: `${code} - ${section}`,
     description: `Rescheduled to ${format(newStart, "h:mm a")} - ${format(
         newEnd,
         "h:mm a"

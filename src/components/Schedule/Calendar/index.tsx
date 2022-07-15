@@ -37,28 +37,40 @@ const Calendar = ({ schedule, semester }) => {
         const {
             start: newStart,
             end: newEnd,
-            event: { id, title, section },
+            event: {
+                id,
+                course: {
+                    course: { code, title },
+                    section,
+                },
+            },
         } = data;
 
         // TODO update event in backend
 
         // update event in state
         setEvents(moveEvent(id, newStart, newEnd, semester));
-        toast(formatOnResizeToast({ title, section, newStart, newEnd }));
+        toast(formatOnResizeToast({ code, section, newStart, newEnd }));
     };
 
     const onEventDrop = (data: ScheduleCourseEventChange) => {
         const {
             start: newStart,
             end: newEnd,
-            event: { title, section, id },
+            event: {
+                id,
+                course: {
+                    course: { code, title },
+                    section,
+                },
+            },
         } = data;
 
         // TODO update event in backend
 
         // update event in state
         setEvents(moveEvent(id, newStart, newEnd, semester));
-        toast(formatOnDropToast({ title, section, newStart, newEnd }));
+        toast(formatOnDropToast({ code, section, newStart, newEnd }));
     };
 
     const eventPropGetter = useCallback((event, _start, _end, _isSelected) => {
@@ -103,7 +115,7 @@ const Calendar = ({ schedule, semester }) => {
                 max={max}
                 step={10}
                 resizable
-                style={{ height: "80vh" }}
+                style={{ height: "81vh" }}
                 components={{
                     event: CalendarEvent as any,
                     toolbar: Toolbar,

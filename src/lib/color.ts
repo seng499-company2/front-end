@@ -7,7 +7,7 @@ import ColorHash from "color-hash";
 const colorHashFunction = new ColorHash({
     lightness: [0.35, 0.5, 0.65],
     hue: [
-        { min: 0, max: 60 }, // remove this line if colors are too brown
+        { min: 10, max: 20 }, // remove this line if colors are too brown
         { min: 30, max: 90 },
         { min: 180, max: 210 },
         { min: 270, max: 285 },

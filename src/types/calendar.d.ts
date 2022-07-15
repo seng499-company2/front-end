@@ -42,7 +42,7 @@ type ScheduledCourseEvent = {
 type ScheduleCourseEventChange = {
     start: Date;
     end: Date;
-    event: ScheduleCourseEvent;
+    event: ScheduledCourseEvent;
     resourceId: string | number;
 };
 
