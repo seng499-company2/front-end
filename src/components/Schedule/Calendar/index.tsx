@@ -1,18 +1,12 @@
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useToast } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Calendar as ReactBigCalendar, Views } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
 import { AcademicWeek } from "@components/Schedule/Calendar/Week";
 import { generateColorHex } from "@lib/color";
-import {
-    formatOnDropToast,
-    formatOnResizeToast,
-    initLocalizer,
-    moveEvent,
-} from "@lib/calendar";
+import { initLocalizer } from "@lib/calendar";
 import CalendarEvent from "./CalendarEvent";
 import { useEvents } from "@hooks/useEvents";
 import { useCalendarRange } from "@hooks/useCalendarRange";
@@ -36,53 +30,29 @@ function withEventFilter(Component, onFilter) {
 const DnDCalendar = withDragAndDrop(ReactBigCalendar as any);
 
 const Calendar = ({ schedule, semester }) => {
-    const { events, setEvents, filterEvents } = useEvents(schedule, semester);
+    const { events, moveEvent, onFilterChange } = useEvents(schedule, semester);
     const { min, max } = useCalendarRange();
-
-    const toast = useToast({
-        position: "bottom-left",
-        duration: 5000,
-        isClosable: true,
-    });
 
     const onEventResize = (data: ScheduleCourseEventChange) => {
         const {
             start: newStart,
             end: newEnd,
-            event: {
-                id,
-                course: {
-                    course: { code, title },
-                    section: { display: section },
-                },
-            },
+            event: { id },
         } = data;
 
-        // TODO update event in backend
-
         // update event in state
-        setEvents(moveEvent(id, newStart, newEnd, semester));
-        toast(formatOnResizeToast({ code, section, newStart, newEnd }));
+        moveEvent(id, newStart, newEnd, semester, "resize");
     };
 
     const onEventDrop = (data: ScheduleCourseEventChange) => {
         const {
             start: newStart,
             end: newEnd,
-            event: {
-                id,
-                course: {
-                    course: { code, title },
-                    section: { display: section },
-                },
-            },
+            event: { id },
         } = data;
 
-        // TODO update event in backend
-
         // update event in state
-        setEvents(moveEvent(id, newStart, newEnd, semester));
-        toast(formatOnDropToast({ code, section, newStart, newEnd }));
+        moveEvent(id, newStart, newEnd, semester, "drop");
     };
 
     const eventPropGetter = useCallback((event, _start, _end, _isSelected) => {
@@ -121,7 +91,7 @@ const Calendar = ({ schedule, semester }) => {
                 style={{ height: "81vh" }}
                 components={{
                     event: CalendarEvent as any,
-                    toolbar: withEventFilter(Toolbar, filterEvents),
+                    toolbar: withEventFilter(Toolbar, onFilterChange),
                     week: {
                         header: WeekHeader,
                     },

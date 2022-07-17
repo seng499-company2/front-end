@@ -1,7 +1,6 @@
 import { Box, HStack, SimpleGrid, Skeleton, VStack } from "@chakra-ui/react";
 
 const LimitedSkeleton = (props) => {
-    console.log(props);
     return <Skeleton startColor="gray.300" endColor="gray.500" {...props} />;
 };
 

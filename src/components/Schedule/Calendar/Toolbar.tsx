@@ -37,7 +37,7 @@ const Toolbar = (props) => {
                 <TableFilter
                     column={{
                         Header: "Course Code",
-                        id: "course",
+                        accessor: "course",
                         filter: { type: "text" },
                     }}
                     onFilter={(column, value) => {
@@ -48,7 +48,7 @@ const Toolbar = (props) => {
                 <TableFilter
                     column={{
                         Header: "Professor",
-                        id: "professor",
+                        accessor: "professor",
                         filter: { type: "text" },
                     }}
                     onFilter={(column, value) => {

@@ -1,4 +1,3 @@
-import { ScheduledCourseEvent } from "src/types/calendar";
 import { dateFnsLocalizer } from "react-big-calendar";
 
 import format from "date-fns/format";
@@ -6,6 +5,8 @@ import enUS from "date-fns/locale/en-US";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
+
+import { ScheduledCourseEvent } from "src/types/calendar";
 
 const locales = {
     "en-US": enUS,
@@ -75,7 +76,7 @@ export const generateCalendarRange = (
     return { min, max };
 };
 
-export const moveEvent = (
+const moveEvent = (
     id: string | number,
     newStart: Date,
     newEnd: Date,

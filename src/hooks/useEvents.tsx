@@ -1,20 +1,34 @@
+import { useToast } from "@chakra-ui/react";
+import { formatOnDropToast, formatOnResizeToast } from "@lib/calendar";
 import { convertToEvents } from "@lib/convert";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
 import {
     Schedule,
     ScheduledCourse,
     ScheduledCourseEvent,
     Semester,
 } from "src/types/calendar";
+import useCalendarFilter from "./useCalendarFilter";
 import { useWeekStart } from "./useWeekStart";
 
 export const useEvents = (
     rawSchedule: ScheduledCourse[],
     semester: Semester
 ) => {
-    let { weekStart } = useWeekStart();
-    // add 7 days to weekStart
-    // OR figure out how to disable current day styling on table
+    const { weekStart } = useWeekStart();
+    const rawToast = useToast({
+        position: "bottom-left",
+        duration: 5000,
+        isClosable: true,
+    });
+    const toast = useCallback(
+        (message) => {
+            rawToast(message);
+        },
+        [rawToast]
+    );
+    // add 7 days to weekStart  OR figure out how to disable current day styling on table
     const weekStartFuture = useMemo(
         () =>
             new Date(
@@ -24,67 +38,62 @@ export const useEvents = (
             ),
         [weekStart]
     );
-
     const convertInitialEvents = useCallback(convertToEvents, [
         rawSchedule,
         semester,
         weekStartFuture,
     ]);
 
-    const [events, setEvents] = useState<Schedule>({
-        fall: [],
-        spring: [],
-        summer: [],
-    });
+    const dataRef = useRef(
+        convertInitialEvents(rawSchedule, semester, weekStartFuture)
+    );
 
-    const [filteredEvents, setFilteredEvents] = useState<Schedule>({
-        fall: [],
-        spring: [],
-        summer: [],
-    });
+    const [events, setEvents] = useState<Schedule>(dataRef.current);
 
     useEffect(() => {
-        const allEvents = convertInitialEvents(
+        const initEvents = convertInitialEvents(
             rawSchedule,
             semester,
             weekStartFuture
         );
-        setEvents(allEvents);
-        setFilteredEvents(allEvents);
+        setEvents(initEvents);
+        dataRef.current = initEvents;
     }, [convertInitialEvents, rawSchedule, semester, weekStartFuture]);
 
-    // TODO fix this broken filter logic
-    // cant combine filters
-    const filterEvents = useCallback(
-        (column, value) => {
-            if (column.id === "course") {
+    const moveEvent = useCallback(
+        (id, newStart, newEnd, semester, toastData) => {
+            const { type, code, section } = toastData;
+
+            setEvents((prevEvents) => {
                 const newEvents = {
-                    ...events,
-                    [semester]: events[semester].filter(
+                    ...prevEvents,
+                    [semester]: prevEvents[semester].map(
                         (event: ScheduledCourseEvent) => {
-                            return event.course.course.code
-                                .toLowerCase()
-                                .includes(value);
+                            if (event.id === id) {
+                                // update start and end times
+                                return {
+                                    ...event,
+                                    start: newStart,
+                                    end: newEnd,
+                                };
+                            }
+                            return event;
                         }
                     ),
                 };
-                setFilteredEvents(newEvents);
-            } else if (column.id === "professor") {
-                const newEvents = {
-                    ...events,
-                    [semester]: events[semester].filter(
-                        (event: ScheduledCourseEvent) => {
-                            return event.course.section.professor.name
-                                .toLowerCase()
-                                .includes(value);
-                        }
-                    ),
-                };
-                setFilteredEvents(newEvents);
+                dataRef.current = newEvents;
+                return newEvents;
+            });
+            if (type === "drop") {
+                toast(formatOnDropToast({ code, section, newStart, newEnd }));
+            } else {
+                toast(formatOnResizeToast({ code, section, newStart, newEnd }));
             }
         },
-        [events, semester]
+        [toast]
     );
 
-    return { events: filteredEvents, setEvents, filterEvents };
+    const { filteredData, onFilterChange } = useCalendarFilter(dataRef.current);
+
+    return { events: filteredData, moveEvent, onFilterChange };
 };
