@@ -13,7 +13,6 @@ import { useCalendarRange } from "@hooks/useCalendarRange";
 import Toolbar from "./Toolbar";
 import WeekHeader from "./WeekHeader";
 import { ScheduleCourseEventChange } from "src/types/calendar";
-import { useColorMode } from "@chakra-ui/react";
 
 function withEventFilter(Component, onFilter) {
     return function EventFilter(props) {
@@ -109,7 +108,7 @@ const Calendar = ({ schedule, semester }) => {
                 max={max}
                 step={10}
                 resizable
-                style={{ height: "81vh" }}
+                style={{ height: "77vh" }}
                 components={{
                     event: CalendarEvent as any,
                     toolbar: withEventFilter(Toolbar, onFilterChange),

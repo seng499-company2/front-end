@@ -148,7 +148,7 @@ const Schedules = () => {
             {isError && (
                 <ErrorBox error={isError.response.data} retry={execute} />
             )}
-            {generated && (
+            {!isError && generated && (
                 <>
                     {isCalendar ? (
                         <Calendar schedule={data} semester={semester} />
