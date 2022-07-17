@@ -81,7 +81,10 @@ export const useEvents = (
                         }
                     ),
                 };
+
                 dataRef.current = newEvents;
+                localStorage.setItem("schedule", JSON.stringify(newEvents));
+
                 return newEvents;
             });
             if (type === "drop") {
