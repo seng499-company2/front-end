@@ -78,10 +78,10 @@ const Calendar = ({ schedule, semester }) => {
     const eventPropGetter = useCallback((event, _start, _end, _isSelected) => {
         return {
             style: {
-                backgroundColor: generateColorHex(event.course?.course?.code),
+                backgroundColor: generateColorHex(event.details?.course?.code),
                 borderRadius: "10px",
                 color: "white",
-                border: "none",
+                borderColor: "white",
             },
         };
     }, []);

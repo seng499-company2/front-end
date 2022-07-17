@@ -43,7 +43,7 @@ const useCalendarFilter = (data) => {
             Object.keys(data).forEach((semester) => {
                 newData[semester] = newData[semester].filter((e) => {
                     const eF = {
-                        course: e.course.course.code,
+                        course: e.details.course.code,
                         professor: e.course.section.professor.name,
                     };
                     const filterVal = filterObj.value;

@@ -10,8 +10,8 @@ interface CalendarEventProps {
 const CalendarEvent: React.FC<CalendarEventProps> = (props) => {
     return (
         <Box>
-            <Text>{props.event.course.course.code}</Text>
-            <Text>{props.event.course.section.display}</Text>
+            <Text>{props.event.details.course.code}</Text>
+            <Text>{props.event.details.section.display}</Text>
         </Box>
     );
 };

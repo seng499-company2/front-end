@@ -36,7 +36,7 @@ interface ScheduledCourse {
 }
 
 type ScheduledCourseEvent = {
-    course: ScheduledCourse;
+    details: ScheduledCourse;
     start: Date;
     end: Date;
     id: string;

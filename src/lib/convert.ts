@@ -109,7 +109,7 @@ export const convertToEvents = (
                             const event = {
                                 start: startTime,
                                 end: endTime,
-                                course: {
+                                details: {
                                     ...course,
                                     sections,
                                     section: sections[sectionIdx],
