@@ -39,7 +39,7 @@ const Calendar = ({ schedule, semester }) => {
             end: newEnd,
             event: {
                 id,
-                course: {
+                details: {
                     course: { code },
                     section: { display },
                 },
@@ -60,7 +60,7 @@ const Calendar = ({ schedule, semester }) => {
             end: newEnd,
             event: {
                 id,
-                course: {
+                details: {
                     course: { code },
                     section: { display },
                 },

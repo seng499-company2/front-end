@@ -1,14 +1,23 @@
 type Semester = "fall" | "spring" | "summer";
 
-type PEngRequired = {
+type PEngRequiredRaw = {
     [key in Semester]: boolean;
 };
 
-interface Course {
+type PEngRequiredList = Semester[];
+
+interface BaseCourse {
     title: string;
     code: string;
     yearRequired: number;
-    pengRequired: PEngRequired;
+}
+
+interface RawCourse extends BaseCourse {
+    pengRequired: PEngRequiredRaw;
+}
+
+interface EventCourse extends BaseCourse {
+    pengRequired: PEngRequiredList;
 }
 
 interface Professor {
@@ -22,51 +31,73 @@ interface TimeSlot {
 }
 
 interface Section {
-    id?: number;
-    display?: string;
     capacity: number;
     professor: Professor;
     timeSlots: TimeSlot[];
 }
 
-interface ScheduledCourse {
-    course: Course;
+interface EventSection extends Section {
+    id: number;
+    display: string;
+}
+
+interface BaseScheduledCourse {
     section: Section;
     sections: Section[];
 }
 
-type ScheduledCourseEvent = {
-    details: ScheduledCourse;
+interface RawScheduledCourse extends BaseScheduledCourse {
+    course: RawCourse;
+}
+
+interface EventScheduledCourse extends BaseScheduledCourse {
+    section: EventSection;
+    course: EventCourse;
+}
+
+type ScheduleEvent = {
+    details: EventScheduledCourse;
     start: Date;
     end: Date;
     id: string;
-} & Event;
+};
 
 type ScheduleCourseEventChange = {
     start: Date;
     end: Date;
-    event: ScheduledCourseEvent;
+    event: ScheduleEvent;
     resourceId: string | number;
 };
 
-type Schedule = {
-    fall: ScheduledCourseEvent[];
-    spring: ScheduledCourseEvent[];
-    summer: ScheduledCourseEvent[];
+type YearSchedule = {
+    fall: RawScheduledCourse[];
+    spring: RawScheduledCourse[];
+    summer: RawScheduledCourse[];
+};
+
+type CalendarYearSchedule = {
+    fall: ScheduleEvent[];
+    spring: ScheduleEvent[];
+    summer: ScheduleEvent[];
 };
 
 type ScheduleView = "calendar" | "table";
 
 export {
     Semester,
-    PEngRequired,
-    Course,
+    PEngRequiredRaw,
+    PEngRequiredList,
+    RawCourse,
+    EventCourse,
     Professor,
     TimeSlot,
     Section,
-    ScheduledCourse,
-    ScheduledCourseEvent,
+    EventSection,
+    EventScheduledCourse,
+    RawScheduledCourse,
+    ScheduleEvent,
     ScheduleCourseEventChange,
-    Schedule,
+    YearSchedule,
+    CalendarYearSchedule,
     ScheduleView,
 };

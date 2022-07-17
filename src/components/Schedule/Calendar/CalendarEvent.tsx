@@ -1,8 +1,8 @@
 import { Box, Text } from "@chakra-ui/react";
-import { ScheduledCourseEvent } from "src/types/calendar";
+import { ScheduleEvent } from "src/types/calendar";
 
 interface CalendarEventProps {
-    event: ScheduledCourseEvent;
+    event: ScheduleEvent;
     title?: string;
 }
 

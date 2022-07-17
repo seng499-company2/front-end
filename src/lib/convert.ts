@@ -1,5 +1,12 @@
-import { Schedule, ScheduledCourse } from "src/types/calendar";
-import { formatSectionNum } from "./format";
+import {
+    CalendarYearSchedule,
+    EventSection,
+    PEngRequiredList,
+    ScheduleEvent,
+    Semester,
+    YearSchedule,
+} from "src/types/calendar";
+import { formatInitEventTimes, formatSectionNum } from "./format";
 
 export const DAY_ENUM = {
     MONDAY: 1,
@@ -9,11 +16,11 @@ export const DAY_ENUM = {
     FRIDAY: 5,
 };
 
-const semesters = ["fall", "spring", "summer"];
+const semesters: Semester[] = ["fall", "spring", "summer"];
 
 export const convertScheduleData = (data: {
     [semester: string]: any[];
-}): Schedule => {
+}): YearSchedule => {
     const generatedSchedule = { fall: [], spring: [], summer: [] };
 
     if (!data) {
@@ -68,12 +75,11 @@ export const convertBackendDataToOurData = (backendData) => {
     return ourData;
 };
 
-// TODO fix this output
-export const convertToEvents = (
-    data: ScheduledCourse[],
+export const convertRawToEvents = (
+    data: YearSchedule,
     semester: string,
     firstDate: Date
-): Schedule => {
+): CalendarYearSchedule => {
     const events = { fall: [], spring: [], summer: [] };
 
     if (!data) {
@@ -88,29 +94,38 @@ export const convertToEvents = (
                     // schedule for each day in current week
                     for (let i = 1; i < 6; i++) {
                         if (DAY_ENUM[dayOfWeek] === i) {
-                            const startTime = new Date(firstDate);
-                            startTime.setDate(firstDate.getDate() + i);
-                            startTime.setHours(
-                                parseInt(timeRange[0].split(":")[0], 10),
-                                parseInt(timeRange[0].split(":")[1], 10)
+                            const { startTime, endTime } = formatInitEventTimes(
+                                firstDate,
+                                i,
+                                timeRange
                             );
-                            const endTime = new Date(startTime);
-                            endTime.setHours(
-                                parseInt(timeRange[1].split(":")[0], 10),
-                                parseInt(timeRange[1].split(":")[1], 10)
-                            );
-                            const sections = course.sections.map(
-                                (section, i) => ({
+
+                            const sections: EventSection[] =
+                                course.sections.map((section, i) => ({
                                     ...section,
-                                    id: sectionIdx,
+                                    id: +sectionIdx,
                                     display: formatSectionNum(+i + 1),
-                                })
-                            );
-                            const event = {
+                                }));
+
+                            const pengRequiredList: PEngRequiredList =
+                                Object.entries(
+                                    course.course.pengRequired
+                                ).reduce(
+                                    (prev, [s, v]) => (v ? [...prev, s] : prev),
+                                    []
+                                );
+
+                            const event: ScheduleEvent = {
                                 start: startTime,
                                 end: endTime,
                                 details: {
-                                    ...course,
+                                    course: {
+                                        code: course.course.code,
+                                        title: course.course.title,
+                                        yearRequired:
+                                            course.course.yearRequired,
+                                        pengRequired: pengRequiredList,
+                                    },
                                     sections,
                                     section: sections[sectionIdx],
                                 },

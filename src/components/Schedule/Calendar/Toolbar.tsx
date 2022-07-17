@@ -56,6 +56,25 @@ const Toolbar = (props) => {
                     }}
                     w={"10rem"}
                 />
+                <TableFilter
+                    column={{
+                        Header: "Year Required",
+                        accessor: "yearRequired",
+                        filter: {
+                            type: "dropdown",
+                            options: [
+                                { label: "1", value: "1" },
+                                { label: "2", value: "2" },
+                                { label: "3", value: "3" },
+                                { label: "4", value: "4" },
+                            ],
+                        },
+                    }}
+                    onFilter={(column, value) => {
+                        onFilter(column, +value);
+                    }}
+                    w={"10rem"}
+                />
             </HStack>
 
             {!isWeek && (

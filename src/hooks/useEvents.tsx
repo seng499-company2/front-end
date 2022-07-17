@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import { formatOnDropToast, formatOnResizeToast } from "@lib/calendar";
-import { convertToEvents } from "@lib/convert";
+import { convertRawToEvents } from "@lib/convert";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
@@ -38,7 +38,7 @@ export const useEvents = (
             ),
         [weekStart]
     );
-    const convertInitialEvents = useCallback(convertToEvents, [
+    const convertInitialEvents = useCallback(convertRawToEvents, [
         rawSchedule,
         semester,
         weekStartFuture,

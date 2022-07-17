@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 
-type FilterType = "exact" | "includes" | "text";
+type FilterType = "exact" | "includes" | "text" | "dropdown";
 
 interface CalendarFilter {
     [key: string]: {
@@ -44,10 +44,12 @@ const useCalendarFilter = (data) => {
                 newData[semester] = newData[semester].filter((e) => {
                     const eF = {
                         course: e.details.course.code,
-                        professor: e.course.section.professor.name,
+                        professor: e.details.section.professor.name,
+                        yearRequired: e.details.course.yearRequired,
+                        pengRequired: e.details.course.pengRequired,
                     };
                     const filterVal = filterObj.value;
-                    if (filterObj.filter.type === "exact") {
+                    if (filterObj.filter.type === "dropdown") {
                         return filterVal === eF[columnName];
                     } else {
                         // default is includes filter

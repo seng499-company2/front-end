@@ -165,3 +165,23 @@ export const formatDateWeekday = (date) => {
         weekday: "long",
     });
 };
+
+export const formatInitEventTimes = (
+    firstDate: Date,
+    index: number,
+    timeRange: string[]
+) => {
+    const startTime = new Date(firstDate);
+    startTime.setDate(firstDate.getDate() + index);
+    startTime.setHours(
+        parseInt(timeRange[0].split(":")[0], 10),
+        parseInt(timeRange[0].split(":")[1], 10)
+    );
+    const endTime = new Date(startTime);
+    endTime.setHours(
+        parseInt(timeRange[1].split(":")[0], 10),
+        parseInt(timeRange[1].split(":")[1], 10)
+    );
+
+    return { startTime, endTime };
+};
