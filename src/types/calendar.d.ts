@@ -55,6 +55,8 @@ type Schedule = {
     summer: ScheduledCourseEvent[];
 };
 
+type ScheduleView = "calendar" | "table";
+
 export {
     Semester,
     PEngRequired,
@@ -66,4 +68,5 @@ export {
     ScheduledCourseEvent,
     ScheduleCourseEventChange,
     Schedule,
+    ScheduleView,
 };

@@ -6,7 +6,7 @@ export const useCalendarRange = (
     inputNow?: Date,
     opts?: CalendarRangeOptions
 ) => {
-    const { now } = useWeekStart();
+    const { now } = useWeekStart(inputNow);
     // add 1 week to now
     // OR figure out how to disable current day styling on table
     const start = useMemo(() => {

@@ -37,22 +37,42 @@ const Calendar = ({ schedule, semester }) => {
         const {
             start: newStart,
             end: newEnd,
-            event: { id },
+            event: {
+                id,
+                course: {
+                    course: { code },
+                    section: { display },
+                },
+            },
         } = data;
 
         // update event in state
-        moveEvent(id, newStart, newEnd, semester, "resize");
+        moveEvent(id, newStart, newEnd, semester, {
+            type: "resize",
+            code,
+            section: display,
+        });
     };
 
     const onEventDrop = (data: ScheduleCourseEventChange) => {
         const {
             start: newStart,
             end: newEnd,
-            event: { id },
+            event: {
+                id,
+                course: {
+                    course: { code },
+                    section: { display },
+                },
+            },
         } = data;
 
         // update event in state
-        moveEvent(id, newStart, newEnd, semester, "drop");
+        moveEvent(id, newStart, newEnd, semester, {
+            type: "drop",
+            code,
+            section: display,
+        });
     };
 
     const eventPropGetter = useCallback((event, _start, _end, _isSelected) => {

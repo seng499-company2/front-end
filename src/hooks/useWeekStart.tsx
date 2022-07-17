@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 
-export const useWeekStart = () => {
+export const useWeekStart = (input?: Date) => {
     const now = useMemo(() => {
-        return new Date();
-    }, []);
+        return input ?? new Date();
+    }, [input]);
 
     const weekStart = useMemo(() => {
         return new Date(

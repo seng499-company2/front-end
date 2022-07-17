@@ -21,13 +21,14 @@ import ErrorBox from "@components/Schedule/ErrorBox";
 import DeveloperSettings from "@components/Schedule/DeveloperSettings";
 import Calendar from "@components/Schedule/Calendar";
 import { convertScheduleData } from "@lib/convert";
+import { ScheduleView, Semester } from "src/types/calendar";
 
 const Schedules = () => {
     const [generated, setGenerated] = useState(false);
-    const [semester, setSemester] = useState("fall");
+    const [semester, setSemester] = useState<Semester>("fall");
     const [company, setCompany] = useState("2");
     const [useMockData, setUseMockData] = useState(false);
-    const [view, setView] = useState<"calendar" | "table">("table");
+    const [view, setView] = useState<ScheduleView>("calendar");
 
     const { data, isLoading, isError, execute } = useGetQuery(
         `/schedule/2022/FALL/${company}${
@@ -63,6 +64,8 @@ const Schedules = () => {
             </Center>
         );
 
+    const isCalendar = view === "calendar";
+
     return (
         <Flex flexDirection="column" pt="1rem" gap={8}>
             <HStack justifyContent={"space-between"}>
@@ -82,7 +85,7 @@ const Schedules = () => {
                     {generated && (
                         <Select
                             onChange={(e) => {
-                                setSemester(e.target.value);
+                                setSemester(e.target.value as Semester);
                             }}
                             w="200px"
                         >
@@ -95,7 +98,7 @@ const Schedules = () => {
                         maxW={100}
                         placement="right"
                         label={`Change to ${
-                            view === "calendar" ? "Table" : "Calendar"
+                            isCalendar ? "Table" : "Calendar"
                         } view`}
                         aria-label="Toggle schedule view"
                     >
@@ -147,13 +150,13 @@ const Schedules = () => {
             )}
             {generated && (
                 <>
-                    {view === "table" ? (
+                    {isCalendar ? (
+                        <Calendar schedule={data} semester={semester} />
+                    ) : (
                         <ScheduleTable
                             schedule={tableSchedule[semester]}
                             onClick={onClick}
                         />
-                    ) : (
-                        <Calendar schedule={data} semester={semester} />
                     )}
                 </>
             )}
