@@ -1,12 +1,19 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 import { formatDateWeekday } from "@lib/format";
 
 const WeekHeader = (props) => {
     const { date } = props;
+    const textHoverColor = useColorModeValue("primary.500", "primary.300");
 
     return (
         <Box>
-            <Text>{formatDateWeekday(date)}</Text>
+            <Text
+                _hover={{
+                    color: textHoverColor,
+                }}
+            >
+                {formatDateWeekday(date)}
+            </Text>
         </Box>
     );
 };
