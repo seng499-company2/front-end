@@ -6,6 +6,7 @@ import {
     IconButton,
     Select,
     Box,
+    Tooltip,
 } from "@chakra-ui/react";
 import { ReactElement, useMemo, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
@@ -90,14 +91,26 @@ const Schedules = () => {
                             <option value="summer">Summer</option>
                         </Select>
                     )}
-                    <IconButton
-                        aria-label="Toggle schedule view"
-                        onClick={toggleScheduleView}
+                    <Tooltip
                         maxW={100}
-                        icon={
-                            view === "calendar" ? <ImTable /> : <CalendarIcon />
-                        }
-                    />
+                        placement="right"
+                        label={`Change to ${
+                            view === "calendar" ? "Table" : "Calendar"
+                        } view`}
+                        aria-label="Toggle schedule view"
+                    >
+                        <IconButton
+                            aria-label="Toggle schedule view"
+                            onClick={toggleScheduleView}
+                            icon={
+                                view === "calendar" ? (
+                                    <ImTable />
+                                ) : (
+                                    <CalendarIcon />
+                                )
+                            }
+                        />
+                    </Tooltip>
                 </HStack>
                 {generated && (
                     <Button
