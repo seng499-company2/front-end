@@ -43,6 +43,9 @@ function convertToJsonArr(values) {
     values.forEach((element) => {
         const day = dayList[element.getDay()];
         const list = dayTime[day];
+        if (typeof list === "undefined") {
+            return;
+        }
         list.push([element.getHours() + ":00", element.getHours() + 1 + ":00"]);
     });
     return dayTime;
