@@ -14,16 +14,22 @@ function convertValuesToDatetime(values, first) {
     return datetimeArr;
 }
 
+const dayList = ["", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", ""];
 function convertToJsonArr(values) {
-    const jsonArr = [];
+    const dayTime = {
+        monday: [],
+        tuesday: [],
+        wenesday: [],
+        thursday: [],
+        friday: []
+    };
     values.forEach((element) => {
-        const time = {
-            day: element.getDay(),
-            time: element.getHours(),
-        };
-        jsonArr.push(time);
+        const day = dayList[element.getDay()];
+        const list = dayTime[day];
+        list.push([element.getHours(), element.getHours()+1]);
     });
-    return jsonArr;
+    console.log(dayTime);
+    return dayTime;
 }
 
 const unselectedColorDict = {
