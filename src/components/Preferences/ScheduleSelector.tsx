@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
-import { elementDragControls } from "framer-motion/types/gestures/drag/VisualElementDragControls";
 
 const dayList = [
     "sunday",
