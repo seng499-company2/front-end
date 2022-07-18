@@ -27,7 +27,6 @@ function convertValuesToDatetime(values, first) {
             date.setHours(time[0].substring(0, 2), 0, 0);
             datetimeArr.push(date);
         });
-        console.log(datetimeArr);
     });
     return datetimeArr;
 }
