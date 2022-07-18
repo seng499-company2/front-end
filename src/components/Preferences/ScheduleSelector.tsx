@@ -1,34 +1,50 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
+import { elementDragControls } from "framer-motion/types/gestures/drag/VisualElementDragControls";
+
+const dayList = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+];
 
 function convertValuesToDatetime(values, first) {
     const datetimeArr = [];
-    values.forEach((element) => {
-        let date = new Date();
-        const day = first + element.day - 1;
-        date.setDate(day);
-        date.setHours(element.time, 0, 0);
-        datetimeArr.push(date);
+    const start = new Date();
+    dayList.forEach((day, index) => {
+        if (!values[day]) {
+            return;
+        }
+        values[day].forEach((time) => {
+            let date = new Date();
+            date.setDate(first + index - 1);
+            // only need the hours part
+            date.setHours(time[0].substring(0, 2), 0, 0);
+            datetimeArr.push(date);
+        });
+        console.log(datetimeArr);
     });
     return datetimeArr;
 }
 
-const dayList = ["", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", ""];
 function convertToJsonArr(values) {
     const dayTime = {
         monday: [],
         tuesday: [],
-        wenesday: [],
+        wednesday: [],
         thursday: [],
-        friday: []
+        friday: [],
     };
     values.forEach((element) => {
         const day = dayList[element.getDay()];
         const list = dayTime[day];
-        list.push([element.getHours(), element.getHours()+1]);
+        list.push([element.getHours() + ":00", element.getHours() + 1 + ":00"]);
     });
-    console.log(dayTime);
     return dayTime;
 }
 
