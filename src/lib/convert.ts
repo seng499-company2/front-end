@@ -2,7 +2,9 @@ import {
     CalendarYearSchedule,
     EventSection,
     PEngRequiredList,
+    PEngRequiredRaw,
     ScheduleEvent,
+    Section,
     Semester,
     YearSchedule,
 } from "src/types/calendar";
@@ -140,4 +142,46 @@ export const convertRawToEvents = (
     }
 
     return events;
+};
+
+export const convertEventsToRaw = (
+    events: CalendarYearSchedule
+): YearSchedule => {
+    const raw: YearSchedule = { fall: [], spring: [], summer: [] };
+
+    for (const [semester, eventsArray] of Object.entries(events)) {
+        raw[semester] = eventsArray.map((event) => {
+            const {
+                details: { course, sections, section },
+            } = event;
+
+            const { code, title, yearRequired } = course;
+
+            const pengRequired: PEngRequiredRaw = Object.entries(
+                course.pengRequired
+            ).reduce((prev, [s, v]) => (v ? { ...prev, [s]: true } : prev), {
+                fall: false,
+                spring: false,
+                summer: false,
+            });
+
+            const sectionList: Section[] = sections.map((section) => ({
+                capacity: section.capacity,
+                professor: section.professor,
+                timeSlots: section.timeSlots,
+            }));
+
+            return {
+                course: { code, title, yearRequired, pengRequired },
+                sections: sectionList,
+                section: {
+                    capacity: section.capacity,
+                    professor: section.professor,
+                    timeSlots: section.timeSlots,
+                },
+            };
+        });
+    }
+
+    return raw;
 };

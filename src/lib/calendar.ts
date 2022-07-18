@@ -1,3 +1,4 @@
+import { ScheduleEvent } from "src/types/calendar";
 import { dateFnsLocalizer } from "react-big-calendar";
 
 import format from "date-fns/format";
@@ -5,8 +6,6 @@ import enUS from "date-fns/locale/en-US";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
-
-import { ScheduledCourseEvent } from "src/types/calendar";
 
 const locales = {
     "en-US": enUS,
@@ -63,13 +62,14 @@ export const generateCalendarRange = (
 ) => {
     // min and max are the start and end times of the day
     // min should be 8:00am and max should be 8:00pm by default
-
+    // min should be on Monday of following week by default
     const { minHour, maxHour, minMinute, maxMinute } = opts || {};
 
     const min = new Date(date.getTime());
     min.setHours(minHour ?? 8);
     min.setMinutes(minMinute ?? 0);
     const max = new Date(date.getTime());
+    max.setDate(max.getDate() + 5);
     max.setHours(maxHour ?? 20);
     max.setMinutes(maxMinute ?? 0);
 
@@ -86,15 +86,13 @@ const moveEvent = (
     return (prevEvents) => {
         return {
             ...prevEvents,
-            [semester]: prevEvents[semester].map(
-                (event: ScheduledCourseEvent) => {
-                    if (event.id === id) {
-                        // update start and end times
-                        return { ...event, start: newStart, end: newEnd };
-                    }
-                    return event;
+            [semester]: prevEvents[semester].map((event: ScheduleEvent) => {
+                if (event.id === id) {
+                    // update start and end times
+                    return { ...event, start: newStart, end: newEnd };
                 }
-            ),
+                return event;
+            }),
         };
     };
 };

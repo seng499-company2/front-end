@@ -70,7 +70,7 @@ const Schedules = () => {
         <Flex flexDirection="column" pt="1rem" gap={8}>
             <HStack justifyContent={"space-between"}>
                 <HStack gap={4}>
-                    <DeveloperSettings
+                    {/* <DeveloperSettings
                         {...{
                             error: isError,
                             setUseMockData,
@@ -81,7 +81,7 @@ const Schedules = () => {
                             company,
                             execute,
                         }}
-                    />
+                    /> */}
                     {generated && (
                         <Select
                             onChange={(e) => {

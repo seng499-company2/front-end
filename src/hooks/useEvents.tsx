@@ -4,18 +4,15 @@ import { convertRawToEvents } from "@lib/convert";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
-    Schedule,
-    ScheduledCourse,
-    ScheduledCourseEvent,
+    CalendarYearSchedule,
+    ScheduleEvent,
     Semester,
+    YearSchedule,
 } from "src/types/calendar";
 import useCalendarFilter from "./useCalendarFilter";
 import { useWeekStart } from "./useWeekStart";
 
-export const useEvents = (
-    rawSchedule: ScheduledCourse[],
-    semester: Semester
-) => {
+export const useEvents = (rawSchedule: YearSchedule, semester: Semester) => {
     const { weekStart } = useWeekStart();
     const rawToast = useToast({
         position: "bottom-left",
@@ -48,7 +45,7 @@ export const useEvents = (
         convertInitialEvents(rawSchedule, semester, weekStartFuture)
     );
 
-    const [events, setEvents] = useState<Schedule>(dataRef.current);
+    const [events, setEvents] = useState<CalendarYearSchedule>(dataRef.current);
 
     useEffect(() => {
         const initEvents = convertInitialEvents(
@@ -68,7 +65,7 @@ export const useEvents = (
                 const newEvents = {
                     ...prevEvents,
                     [semester]: prevEvents[semester].map(
-                        (event: ScheduledCourseEvent) => {
+                        (event: ScheduleEvent) => {
                             if (event.id === id) {
                                 // update start and end times
                                 return {
@@ -83,7 +80,10 @@ export const useEvents = (
                 };
 
                 dataRef.current = newEvents;
-                localStorage.setItem("schedule", JSON.stringify(newEvents));
+                // localStorage.setItem(
+                //     "schedule",
+                //     JSON.stringify(convertEventsToRaw(newEvents))
+                // );
 
                 return newEvents;
             });
