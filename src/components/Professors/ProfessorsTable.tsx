@@ -47,7 +47,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                         type: "dropdown",
                         options: [
                             { label: "Yes", value: "Yes" },
-                            { label: "No", value: "No" },
+                            { label: "No", value: " " },
                         ],
                         filterType: "exact",
                     },
@@ -93,7 +93,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                             name: `${firstName} ${lastName}`,
                             type: type,
                             status: <CompleteStatusBadge complete={complete} />,
-                            is_peng: isPeng ? "Yes" : "No",
+                            is_peng: isPeng ? "Yes" : " ",
                             details: (
                                 <Button
                                     variant="ghost"
