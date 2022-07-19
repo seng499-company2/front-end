@@ -41,6 +41,18 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                     },
                 },
                 {
+                    Header: "PEng",
+                    accessor: "is_peng",
+                    filter: {
+                        type: "dropdown",
+                        options: [
+                            { label: "Yes", value: "Yes" },
+                            { label: "No", value: "No" },
+                        ],
+                        filterType: "exact",
+                    },
+                },
+                {
                     Header: "",
                     accessor: "details",
                     disableSortBy: true,
@@ -81,6 +93,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                             name: `${firstName} ${lastName}`,
                             type: type,
                             status: <CompleteStatusBadge complete={complete} />,
+                            is_peng: isPeng ? "Yes" : "No",
                             details: (
                                 <Button
                                     variant="ghost"

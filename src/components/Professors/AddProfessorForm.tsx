@@ -56,6 +56,7 @@ const AddProfessorForm = (props) => {
                 },
                 prof_type: "TP",
                 is_peng: false,
+                is_form_submitted: false,
             }}
             onSubmit={(values) => {
                 onSubmit(values);
