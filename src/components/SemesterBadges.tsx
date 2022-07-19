@@ -1,10 +1,10 @@
 import { Tag } from "@chakra-ui/react";
 
-export const SemesterBadges = ({ semesters, ...other }) => {
+export const SemesterBadges = ({ semesters, useColor = true, ...other }) => {
     const colors = {
-        fall: "blue",
-        spring: "orange",
-        summer: "pink",
+        fall: useColor ? "blue" : "gray",
+        spring: useColor ? "orange" : "gray",
+        summer: useColor ? "pink" : "gray",
     };
     return semesters.map((semester) => {
         return (
