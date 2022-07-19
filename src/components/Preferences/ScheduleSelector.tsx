@@ -50,13 +50,13 @@ function convertToJsonArr(values) {
 
 const unselectedColorDict = {
     fall: "#a2c6f8",
-    spring: "#FFB6C1",
-    summer: "#FFD580",
+    spring: "#FFE6E6",
+    summer: "#FEBA4F",
 };
 const selectedColorDict = {
     fall: "#599af2",
-    spring: "#FF69B4",
-    summer: "#FFA500",
+    spring: "#E4AEC5",
+    summer: "#F5761A",
 };
 
 const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
