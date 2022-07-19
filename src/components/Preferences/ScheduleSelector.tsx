@@ -14,7 +14,6 @@ const dayList = [
 
 function convertValuesToDatetime(values, first) {
     const datetimeArr = [];
-    const start = new Date();
     dayList.forEach((day, index) => {
         if (!values[day]) {
             return;
