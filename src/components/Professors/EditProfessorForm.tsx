@@ -23,6 +23,7 @@ const EditProfessorForm = (props) => {
                 },
                 prof_type: "TP",
                 is_peng: false,
+                is_form_submitted: professor.complete,
             }}
             onSubmit={(values) => {
                 handleSubmit(values);
