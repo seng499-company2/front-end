@@ -3,9 +3,6 @@ import { FormControl, FormLabel, HStack, Text } from "@chakra-ui/react";
 import NumInput from "@components/NumInput";
 
 const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
-    const fallDisabled = isDisabled || value.nonTeachingSemester === "fall";
-    const springDisabled = isDisabled || value.nonTeachingSemester === "spring";
-    const summerDisabled = isDisabled || value.nonTeachingSemester === "summer";
     return (
         <FormControl>
             <FormLabel>
@@ -17,10 +14,10 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.fall"
-                    isDisabled={fallDisabled}
+                    isDisabled={isDisabled}
                     max={5}
                     min={0}
-                    value={fallDisabled ? 0 : +value.numCoursesPerSem.fall} //help
+                    value={+value.numCoursesPerSem.fall}
                     onChange={(v) => setFieldValue("numCoursesPerSem.fall", v)}
                 />
                 <Text alignSelf="center" pl={10}>
@@ -28,7 +25,7 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.spring"
-                    isDisabled={springDisabled}
+                    isDisabled={isDisabled}
                     max={5}
                     min={0}
                     value={+value.numCoursesPerSem.spring}
@@ -41,7 +38,7 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.summer"
-                    isDisabled={summerDisabled}
+                    isDisabled={isDisabled}
                     max={5}
                     min={0}
                     value={+value.numCoursesPerSem.summer}

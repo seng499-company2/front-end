@@ -17,7 +17,7 @@ const CoursePage = () => {
     const onClick = useCallback((data) => {
         setDetailsIsOpen(true);
         setCourse(data);
-    }, []); //todo
+    }, []);
 
     return (
         <Flex flexDirection="column" pt="1rem">
