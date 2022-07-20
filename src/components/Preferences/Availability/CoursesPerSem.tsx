@@ -14,7 +14,9 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.fall"
-                    isDisabled={isDisabled}
+                    isDisabled={
+                        isDisabled || value.nonTeachingSemester === "fall"
+                    }
                     max={5}
                     min={0}
                     value={+value.numCoursesPerSem.fall}
@@ -25,7 +27,9 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.spring"
-                    isDisabled={isDisabled}
+                    isDisabled={
+                        isDisabled || value.nonTeachingSemester === "spring"
+                    }
                     max={5}
                     min={0}
                     value={+value.numCoursesPerSem.spring}
@@ -38,7 +42,9 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.summer"
-                    isDisabled={isDisabled}
+                    isDisabled={
+                        isDisabled || value.nonTeachingSemester === "summer"
+                    }
                     max={5}
                     min={0}
                     value={+value.numCoursesPerSem.summer}
