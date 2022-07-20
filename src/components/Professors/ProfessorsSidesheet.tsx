@@ -17,6 +17,7 @@ import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import { useDeleteQuery, usePostQuery } from "@hooks/useRequest";
 import EditProfessorForm from "./EditProfessorForm";
 import { CompleteStatusBadge } from "@components/CompleteStatusBadge";
+import { convertToBackendPreferencesFormat } from "../../lib/format";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const { isPeng, type, firstName, lastName, email, username, complete } =
@@ -31,9 +32,14 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     } = useDisclosure();
     const toast = useToast();
 
-    const { execute: executeEdit, isLoading: isDataSaving } = usePostQuery(
-        `/api/users/${professor.username}/`
-    );
+    const { execute: executeEditDetails, isLoading: isDetailsDataSaving } =
+        usePostQuery(`/api/users/${username}/`);
+
+    const {
+        execute: executeEditPreferences,
+        isLoading: isPreferencesDataSaving,
+        isError: isPreferencesError,
+    } = usePostQuery(`/api/preferences/${username}/`);
 
     const { execute: executeDelete, isLoading: isDeleteLoading } =
         useDeleteQuery(`/api/users/${username}/`);
@@ -72,8 +78,8 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
             });
     };
 
-    const submitData = (values) => {
-        executeEdit({
+    const submitDetailsData = (values) => {
+        executeEditDetails({
             data: values,
         })
             .then((response) => {
@@ -105,9 +111,38 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
         setTabIndex(0);
     };
 
+    const submitPreferencesData = (data) => {
+        executeEditPreferences({
+            data: convertToBackendPreferencesFormat({
+                ...data,
+                professor: username,
+            }),
+        })
+            .then((response) => {
+                toast({
+                    title: "Preferences Edited Successfully",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+                setIsEditing(false);
+                onClose();
+            })
+            .catch((error) => {
+                toast({
+                    title: "Error: " + error.message,
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    position: "bottom-left",
+                });
+            });
+    };
+
     const isPengText = isPeng ? " | Peng" : "";
 
-    const formArray = ["edit-professor-form", "edit-preferences-form"];
+    const formArray = ["edit-professor-form", "preferences-form"];
 
     return (
         <>
@@ -122,7 +157,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 onCancel={onCancel}
                 onDelete={deleteOnOpen}
                 isEditing={isEditing}
-                isLoading={isDataSaving}
+                isLoading={isDetailsDataSaving || isPreferencesDataSaving}
                 isEditable
             >
                 <Tabs
@@ -145,7 +180,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                     <TabPanels>
                         <TabPanel>
                             <EditProfessorForm
-                                handleSubmit={submitData}
+                                handleSubmit={submitDetailsData}
                                 professor={professor}
                                 disabled={!isEditing}
                             />
@@ -154,6 +189,9 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                             <AdminPreferences
                                 professor={professor}
                                 isDisabled={!isEditing}
+                                handleSubmit={submitPreferencesData}
+                                isPostLoading={isPreferencesDataSaving}
+                                isPostError={isPreferencesError}
                             />
                         </TabPanel>
                     </TabPanels>

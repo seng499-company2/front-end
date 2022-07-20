@@ -8,9 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 
-const EditProfessorForm = (props) => {
-    const { handleSubmit, professor, disabled } = props;
-
+const EditProfessorForm = ({ handleSubmit, professor, disabled }) => {
     return (
         <Formik
             initialValues={{
