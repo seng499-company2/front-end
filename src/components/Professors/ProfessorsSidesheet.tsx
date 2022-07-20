@@ -17,7 +17,7 @@ import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import { useDeleteQuery, usePostQuery } from "@hooks/useRequest";
 import EditProfessorForm from "./EditProfessorForm";
 import { CompleteStatusBadge } from "@components/CompleteStatusBadge";
-import { convertToBackendPreferencesFormat } from "../../lib/format";
+import { convertToBackendPreferencesFormat } from "@lib/format";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const { isPeng, type, firstName, lastName, email, username, complete } =
@@ -38,7 +38,6 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const {
         execute: executeEditPreferences,
         isLoading: isPreferencesDataSaving,
-        isError: isPreferencesError,
     } = usePostQuery(`/api/preferences/${username}/`);
 
     const { execute: executeDelete, isLoading: isDeleteLoading } =
@@ -141,7 +140,6 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     };
 
     const isPengText = isPeng ? " | Peng" : "";
-
     const formArray = ["edit-professor-form", "preferences-form"];
 
     return (
@@ -190,8 +188,6 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                                 professor={professor}
                                 isDisabled={!isEditing}
                                 handleSubmit={submitPreferencesData}
-                                isPostLoading={isPreferencesDataSaving}
-                                isPostError={isPreferencesError}
                             />
                         </TabPanel>
                     </TabPanels>
@@ -201,7 +197,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 isOpen={deleteOpen}
                 onClose={deleteOnClose}
                 onDelete={onDelete}
-                title={"Professor " + `${firstName} ${lastName}`}
+                title={`professor ${firstName} ${lastName}`}
                 isLoading={isDeleteLoading}
             />
         </>

@@ -6,16 +6,14 @@ import CoursesPreferencesTable from "./CoursePreferencesTable";
 import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 
-// convert from our format to the the format backend wants
-
 const PreferencesForm = (props) => {
     const {
         isDisabled,
         isProfessorPage = false,
         initialValues,
         handleSubmit,
-        isError,
-        isLoading,
+        isError = false,
+        isLoading = false,
     } = props;
     return (
         <Formik

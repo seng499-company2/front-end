@@ -11,13 +11,7 @@ import { FiRefreshCcw } from "react-icons/fi";
 import PreferencesForm from "./PreferencesForm";
 import { convertFromBackendFormat } from "@lib/format";
 
-const AdminPreferences = ({
-    professor,
-    isDisabled,
-    handleSubmit,
-    isPostLoading,
-    isPostError,
-}) => {
+const AdminPreferences = ({ professor, isDisabled, handleSubmit }) => {
     const { data, isError, isLoading, execute } = useGetQuery(
         `/api/preferences/${professor.username}/`,
         {
@@ -45,7 +39,7 @@ const AdminPreferences = ({
                     p={2}
                 >
                     <Text fontSize="sm" colorScheme="primary">
-                        There was an error loading your preferences.
+                        There was an error loading preferences.
                     </Text>
                     <Button
                         size="sm"
@@ -63,10 +57,6 @@ const AdminPreferences = ({
                     initialValues={initialValues}
                     isProfessorPage={true}
                     handleSubmit={handleSubmit}
-                    isError={isPostError}
-                    isLoading={isPostLoading}
-                    //endpoint={"/api/preferences/" + professor.username + "/"}
-                    //username={professor.username}
                 />
             )}
         </>
