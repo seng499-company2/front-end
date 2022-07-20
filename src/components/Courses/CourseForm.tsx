@@ -10,7 +10,9 @@ import { Field, Form, Formik } from "formik";
 import NumInput from "@components/NumInput";
 import { SemesterBadges } from "@components/SemesterBadges";
 
-const AddCourseForm = ({ handleSubmit, data, disabled }) => {
+const AddCourseForm = (props) => {
+    const { handleSubmit, data, disabled } = props;
+
     return (
         <Formik
             initialValues={{
