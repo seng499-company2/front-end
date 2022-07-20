@@ -1,5 +1,6 @@
 import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 import { createBreakpoints } from "@chakra-ui/theme-tools";
+import { FaBluetooth } from "react-icons/fa";
 
 const fonts = { mono: `'Menlo', monospace` };
 
@@ -56,6 +57,31 @@ const theme = extendTheme(
                 // 6. We can overwrite defaultProps
                 defaultProps: {
                     focusBorderColor: "primary.500",
+                },
+            },
+            Button: {
+                variants: {
+                    days: {
+                        _hover: {
+                            _disabled: {
+                                bgColor: "gray.400",
+                            },
+                            bgColor: "blue.600",
+                        },
+                        backgroundColor: "gray.400",
+                        _active: {
+                            bg: "blue.500",
+                            _disabled: { bgColor: "blue.500" },
+                        },
+                        _disabled: {
+                            opacity: 0.8,
+                            cursor: "auto",
+                        },
+
+                        height: "22px",
+                        width: "20px",
+                        color: "white",
+                    },
                 },
             },
         },
