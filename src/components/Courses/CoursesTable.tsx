@@ -51,6 +51,19 @@ const CoursesTable = (props) => {
             },
         },
         {
+            Header: "PEng Required",
+            accessor: "pengRequired",
+            filter: {
+                type: "dropdown",
+                options: [
+                    { label: "Fall", value: "fall" },
+                    { label: "Spring", value: "spring" },
+                    { label: "Summer", value: "summer" },
+                ],
+                key: "pengString",
+            },
+        },
+        {
             Header: "",
             accessor: "details",
             disableSortBy: true,
@@ -72,6 +85,16 @@ const CoursesTable = (props) => {
         return semArray;
     };
 
+    const formatPEngSemester = (dict) => {
+        const pengArray = [];
+        for (const [key, value] of Object.entries(dict)) {
+            if (value) {
+                pengArray.push(key);
+            }
+        }
+        return pengArray;
+    };
+
     const makeTableData = useMemo(() => {
         if (!data || data?.length === 0) return [];
         return data.map((course) => {
@@ -89,6 +112,15 @@ const CoursesTable = (props) => {
                     <SemesterBadges
                         semesters={formatSemester(course)}
                         semesterString={formatSemester(course).toString()}
+                    />
+                ),
+                pengRequired: (
+                    <SemesterBadges
+                        semesters={formatPEngSemester(course.pengRequired)}
+                        useColor={false}
+                        semesterString={formatPEngSemester(
+                            course.pengRequired
+                        ).toString()}
                     />
                 ),
                 details: (
