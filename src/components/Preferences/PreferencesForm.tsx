@@ -6,15 +6,14 @@ import CoursesPreferencesTable from "./CoursePreferencesTable";
 import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
 
-const PreferencesForm = (props) => {
-    const {
-        isDisabled,
-        isProfessorPage = false,
-        initialValues,
-        handleSubmit,
-        isError = false,
-        isLoading = false,
-    } = props;
+const PreferencesForm = ({
+    isDisabled,
+    isProfessorPage = false,
+    initialValues,
+    handleSubmit,
+    isError = false,
+    isLoading = false,
+}) => {
     return (
         <Formik
             enableReinitialize={true}
