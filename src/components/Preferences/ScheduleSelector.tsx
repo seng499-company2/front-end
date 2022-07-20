@@ -2,28 +2,50 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
 
+const dayList = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+];
+
 function convertValuesToDatetime(values, first) {
     const datetimeArr = [];
-    values.forEach((element) => {
-        let date = new Date();
-        const day = first + element.day - 1;
-        date.setDate(day);
-        date.setHours(element.time, 0, 0);
-        datetimeArr.push(date);
+    dayList.forEach((day, index) => {
+        if (!values[day]) {
+            return;
+        }
+        values[day].forEach((time) => {
+            let date = new Date();
+            date.setDate(first + index - 1);
+            // only need the hours part
+            date.setHours(time[0].substring(0, 2), 0, 0);
+            datetimeArr.push(date);
+        });
     });
     return datetimeArr;
 }
 
 function convertToJsonArr(values) {
-    const jsonArr = [];
+    const dayTime = {
+        monday: [],
+        tuesday: [],
+        wednesday: [],
+        thursday: [],
+        friday: [],
+    };
     values.forEach((element) => {
-        const time = {
-            day: element.getDay(),
-            time: element.getHours(),
-        };
-        jsonArr.push(time);
+        const day = dayList[element.getDay()];
+        const list = dayTime[day];
+        if (typeof list === "undefined") {
+            return;
+        }
+        list.push([element.getHours() + ":00", element.getHours() + 1 + ":00"]);
     });
-    return jsonArr;
+    return dayTime;
 }
 
 const unselectedColorDict = {
