@@ -89,6 +89,7 @@ const ScheduleTable = ({ schedule }) => {
             columns={columns}
             data={data}
             hide={!schedule || schedule?.length === 0}
+            itemsPerPage={25}
         />
     );
 };
