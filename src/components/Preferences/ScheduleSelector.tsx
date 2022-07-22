@@ -22,7 +22,7 @@ function convertValuesToDatetime(values, first) {
             let date = new Date();
             date.setDate(first + index - 1);
             // only need the hours part
-            date.setHours(time[0].substring(0, 2), 0, 0);
+            date.setHours(time[0].split(":")[0], 0, 0);
             datetimeArr.push(date);
         });
     });
