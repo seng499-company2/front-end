@@ -1,13 +1,22 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Button } from "@chakra-ui/react";
+import {
+    Button,
+    Center,
+    CircularProgress,
+    Text,
+    useTheme,
+    VStack,
+} from "@chakra-ui/react";
 import { useMemo } from "react";
 import { useConst } from "@chakra-ui/react";
 import Table from "@components/Table";
 import { CourseNameBox } from "./CourseNameBox";
 import { SemesterBadges } from "../SemesterBadges";
 
-const CoursesTable = (props) => {
-    const { onClick, data } = props;
+const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
+    const {
+        colors: { primary },
+    } = useTheme();
 
     const columns = useConst([
         {
@@ -97,6 +106,26 @@ const CoursesTable = (props) => {
 
     const makeTableData = useMemo(() => {
         if (!data || data?.length === 0) return [];
+        if (isLoading)
+            return (
+                <Center height="50vh">
+                    <CircularProgress color={primary[400]} isIndeterminate />
+                </Center>
+            );
+
+        if (isError)
+            return (
+                <Center>
+                    <VStack gap={4}>
+                        <Text fontSize="xl" color="red">
+                            Error fetching data
+                        </Text>
+                        <Button colorScheme={"red"} onClick={() => execute()}>
+                            Try again
+                        </Button>
+                    </VStack>
+                </Center>
+            );
         return data.map((course) => {
             return {
                 name: (

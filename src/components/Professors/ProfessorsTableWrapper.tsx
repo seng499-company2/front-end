@@ -3,9 +3,6 @@ import { Box, Center, VStack } from "@chakra-ui/layout";
 import { CircularProgress } from "@chakra-ui/progress";
 import { Text } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/system";
-
-import { useGetQuery } from "@hooks/useRequest";
-import { FiRefreshCw } from "react-icons/fi";
 import ProfessorsTable from "./ProfessorsTable";
 
 const ProfessorsTableWrapper = ({
