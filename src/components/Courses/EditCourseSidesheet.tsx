@@ -1,6 +1,7 @@
 import Sidesheet from "../Layout/Sidesheet";
 import CourseForm from "./CourseForm";
 import { useState } from "react";
+
 import { usePostQuery, useDeleteQuery } from "@hooks/useRequest";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
@@ -87,13 +88,15 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
         setIsEditing(false);
     };
 
+    const formId = "edit-course-form";
+
     return (
         <>
             <Sidesheet
                 size="xl"
                 title={course.course_code}
                 subTitle={course.course_title}
-                formId="edit-course-form"
+                formId={formId}
                 isOpen={isOpen}
                 onClose={handleClose}
                 onEdit={onEdit}
@@ -107,6 +110,7 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
                     handleSubmit={submitData}
                     data={course}
                     disabled={!isEditing}
+                    formId={formId}
                 />
             </Sidesheet>
             <DeleteConfirmation

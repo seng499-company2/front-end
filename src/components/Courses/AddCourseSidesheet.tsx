@@ -1,5 +1,6 @@
 import Sidesheet from "../Layout/Sidesheet";
 import CourseForm from "./CourseForm";
+
 import { usePostQuery } from "@hooks/useRequest";
 import { useToast } from "@chakra-ui/react";
 
@@ -34,16 +35,18 @@ export const AddCourseSidesheet = ({ isOpen, onClose, refetch }) => {
             });
     };
 
+    const formId = "add-course-form";
+
     return (
         <Sidesheet
             size="xl"
             title="Add New Course"
             isOpen={isOpen}
             onClose={onClose}
-            formId="add-course-form"
+            formId={formId}
             isLoading={isDataSaving}
         >
-            <CourseForm handleSubmit={submitData} />
+            <CourseForm handleSubmit={submitData} formId={formId} />
         </Sidesheet>
     );
 };
