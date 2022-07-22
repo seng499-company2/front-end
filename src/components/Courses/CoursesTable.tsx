@@ -1,13 +1,22 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Button } from "@chakra-ui/react";
+import {
+    Button,
+    Center,
+    CircularProgress,
+    Text,
+    useTheme,
+    VStack,
+} from "@chakra-ui/react";
 import { useMemo } from "react";
 import { useConst } from "@chakra-ui/react";
 import Table from "@components/Table";
 import { CourseNameBox } from "./CourseNameBox";
 import { SemesterBadges } from "../SemesterBadges";
 
-const CoursesTable = (props) => {
-    const { onClick, data } = props;
+const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
+    const {
+        colors: { primary },
+    } = useTheme();
 
     const columns = useConst([
         {
@@ -51,6 +60,19 @@ const CoursesTable = (props) => {
             },
         },
         {
+            Header: "PEng Required",
+            accessor: "pengRequired",
+            filter: {
+                type: "dropdown",
+                options: [
+                    { label: "Fall", value: "fall" },
+                    { label: "Spring", value: "spring" },
+                    { label: "Summer", value: "summer" },
+                ],
+                key: "pengString",
+            },
+        },
+        {
             Header: "",
             accessor: "details",
             disableSortBy: true,
@@ -72,8 +94,38 @@ const CoursesTable = (props) => {
         return semArray;
     };
 
+    const formatPEngSemester = (dict) => {
+        const pengArray = [];
+        for (const [key, value] of Object.entries(dict)) {
+            if (value) {
+                pengArray.push(key);
+            }
+        }
+        return pengArray;
+    };
+
     const makeTableData = useMemo(() => {
         if (!data || data?.length === 0) return [];
+        if (isLoading)
+            return (
+                <Center height="50vh">
+                    <CircularProgress color={primary[400]} isIndeterminate />
+                </Center>
+            );
+
+        if (isError)
+            return (
+                <Center>
+                    <VStack gap={4}>
+                        <Text fontSize="xl" color="red">
+                            Error fetching data
+                        </Text>
+                        <Button colorScheme={"red"} onClick={() => execute()}>
+                            Try again
+                        </Button>
+                    </VStack>
+                </Center>
+            );
         return data.map((course) => {
             return {
                 name: (
@@ -89,6 +141,15 @@ const CoursesTable = (props) => {
                     <SemesterBadges
                         semesters={formatSemester(course)}
                         semesterString={formatSemester(course).toString()}
+                    />
+                ),
+                pengRequired: (
+                    <SemesterBadges
+                        semesters={formatPEngSemester(course.pengRequired)}
+                        useColor={false}
+                        semesterString={formatPEngSemester(
+                            course.pengRequired
+                        ).toString()}
                     />
                 ),
                 details: (

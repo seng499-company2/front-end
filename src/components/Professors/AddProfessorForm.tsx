@@ -5,44 +5,10 @@ import {
     Input,
     VStack,
     Select,
-    Button,
-    Text,
-    useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import { usePostQuery } from "@hooks/useRequest";
 
-const AddProfessorForm = (props) => {
-    const { handleSubmit, refetch } = props;
-    const toast = useToast();
-    const { isError, isLoading, execute } = usePostQuery("/api/users/");
-
-    const onSubmit = (values) => {
-        execute({
-            data: values,
-        })
-            .then((response) => {
-                refetch();
-                toast({
-                    title: "Professor Added Successfully",
-                    status: "success",
-                    duration: 5000,
-                    isClosable: true,
-                    position: "bottom-left",
-                });
-                handleSubmit(false);
-            })
-            .catch((error) => {
-                toast({
-                    title: "Error: " + error.message,
-                    status: "error",
-                    duration: 9000,
-                    isClosable: true,
-                    position: "bottom-left",
-                });
-            });
-    };
-
+const AddProfessorForm = ({ handleSubmit }) => {
     return (
         <Formik
             initialValues={{
@@ -56,9 +22,10 @@ const AddProfessorForm = (props) => {
                 },
                 prof_type: "TP",
                 is_peng: false,
+                is_form_submitted: false,
             }}
             onSubmit={(values) => {
-                onSubmit(values);
+                handleSubmit(values);
             }}
         >
             {({ errors, touched }) => (

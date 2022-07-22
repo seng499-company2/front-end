@@ -6,7 +6,7 @@ const ScheduleAvailability = (props) => {
     const { setFieldValue, values, isDisabled = false } = props;
 
     return (
-        <Tabs variant="soft-rounded" colorScheme="green" isLazy>
+        <Tabs variant="solid-rounded" colorScheme="green" isLazy>
             <TabList>
                 <Tab>Fall</Tab>
                 <Tab>Summer</Tab>
