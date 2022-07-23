@@ -10,9 +10,9 @@ const CancelButton = ({ onClick, ...other }) => (
         Cancel
     </Button>
 );
-const SubmitButton = ({ onClick, ...other }) => (
+const SubmitButton = ({ onClick, msg, ...other }) => (
     <Button type="submit" onClick={onClick} {...other}>
-        Save
+        Save {msg}
     </Button>
 );
 
@@ -31,6 +31,7 @@ export const SidesheetFooter = ({
     formId,
     onDelete,
     isEditable,
+    saveMsg,
 }) => {
     return (
         <Flex direction="row" width="100%" gap={3}>
@@ -43,6 +44,7 @@ export const SidesheetFooter = ({
                             onClick={onSubmit}
                             isLoading={isLoading}
                             form={formId}
+                            msg={saveMsg}
                         />
                     </>
                 ) : (
@@ -54,6 +56,7 @@ export const SidesheetFooter = ({
                     isLoading={isLoading}
                     form={formId}
                     ml="auto"
+                    msg={saveMsg}
                 />
             )}
         </Flex>

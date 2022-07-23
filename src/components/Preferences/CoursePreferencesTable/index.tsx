@@ -55,9 +55,6 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         key={c + "-willingness"}
                         isDisabled={isDisabled}
                     >
-                        <option value={Willingness.noSelection}>
-                            No Selection
-                        </option>
                         <option value={Willingness.unWilling}>Unwilling</option>
                         <option value={Willingness.willing}>Willing</option>
                         <option value={Willingness.veryWilling}>
@@ -77,13 +74,10 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         key={c + "--difficulty"}
                         isDisabled={isDisabled}
                     >
-                        <option value={Difficulty.noSelection}>
-                            No Selection
-                        </option>
-                        <option value={Difficulty.able}>Able</option>
                         <option value={Difficulty.withEffort}>
                             With Effort
                         </option>
+                        <option value={Difficulty.able}>Able</option>
                     </Select>
                 ),
             };
