@@ -1,4 +1,5 @@
-import { Button, Flex, TableContainer } from "@chakra-ui/react";
+import { Button, Flex, TableContainer, Center, Text } from "@chakra-ui/react";
+import { CircularProgress } from "@chakra-ui/progress";
 import { useCallback, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
@@ -18,6 +19,16 @@ const CoursePage = () => {
         setDetailsIsOpen(true);
         setCourse(data);
     }, []);
+
+    if (isLoading)
+        return (
+            <Center height="50vh">
+                <CircularProgress color="primary.400" isIndeterminate />
+                <Text ml={2} color="primary.700" fontSize="xl">
+                    Loading Courses Table
+                </Text>
+            </Center>
+        );
 
     return (
         <Flex flexDirection="column" pt="1rem">
