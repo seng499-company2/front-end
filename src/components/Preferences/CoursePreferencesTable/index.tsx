@@ -75,6 +75,9 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         isDisabled={isDisabled}
                     >
                         <option value={Difficulty.withEffort}>
+                            Not Quailified
+                        </option>
+                        <option value={Difficulty.withEffort}>
                             With Effort
                         </option>
                         <option value={Difficulty.able}>Able</option>
