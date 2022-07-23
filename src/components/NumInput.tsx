@@ -27,7 +27,7 @@ const NumInput = (props) => {
             onChange={onChange}
             defaultValue={defaultValue}
             value={value}
-            width={20}
+            width={100}
         >
             <NumberInputField />
             <NumberInputStepper>

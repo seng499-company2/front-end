@@ -8,7 +8,10 @@ const OtherSection = ({ data }) => {
             bg={useColorModeValue("primary.200", "primary.700")}
             borderRadius={10}
             padding={2}
-            boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+            _hover={{
+                boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+                cursor: "pointer",
+            }}
         >
             <Text fontSize="large" as="b">
                 {data.section}
