@@ -7,11 +7,12 @@ import {
     Checkbox,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+
 import NumInput from "@components/NumInput";
 import { SemesterBadges } from "@components/SemesterBadges";
 
-const AddCourseForm = (props) => {
-    const { handleSubmit, data, disabled } = props;
+const CourseForm = (props) => {
+    const { handleSubmit, data, disabled, formId } = props;
 
     return (
         <Formik
@@ -34,7 +35,7 @@ const AddCourseForm = (props) => {
             }}
         >
             {({ setFieldValue }) => (
-                <Form id="edit-course-form">
+                <Form id={formId}>
                     <VStack spacing={4} align="flex-start">
                         {!data && (
                             <FormControl isRequired={true}>
@@ -147,4 +148,4 @@ const AddCourseForm = (props) => {
     );
 };
 
-export default AddCourseForm;
+export default CourseForm;
