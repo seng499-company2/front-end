@@ -1,7 +1,6 @@
-import { Center, Button, VStack, Flex, Select } from "@chakra-ui/react";
+import { Center, Button, VStack, Flex, Select, Text } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
-import { useTheme } from "@chakra-ui/system";
 
 import AdminLayout from "@components/Layout/AdminLayout";
 import ScheduleTable from "@components/Schedule/ScheduleTable";
@@ -88,14 +87,13 @@ const Schedules = () => {
         ? convertData(data)
         : { fall: [], spring: [], summer: [] };
 
-    const {
-        colors: { primary },
-    } = useTheme();
-
     if (isLoading)
         return (
             <Center height="50vh">
-                <CircularProgress color={primary[400]} isIndeterminate />
+                <CircularProgress color="primary.400" isIndeterminate />
+                <Text ml={2} color="primary.700" fontSize="xl">
+                    Generating Schedule
+                </Text>
             </Center>
         );
 

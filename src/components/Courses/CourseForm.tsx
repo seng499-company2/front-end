@@ -20,7 +20,7 @@ const CourseForm = (props) => {
                 course_code: data?.course_code ?? "",
                 course_title: data?.course_title ?? "",
                 num_sections: data?.num_sections || 1,
-                yearRequired: data?.yearRequired || 0,
+                yearRequired: data?.yearRequired || 1,
                 pengRequired: {
                     fall: data?.pengRequired.fall || false,
                     spring: data?.pengRequired.spring || false,
@@ -62,8 +62,8 @@ const CourseForm = (props) => {
                             <NumInput
                                 name="yearRequired"
                                 max={4}
-                                min={0}
-                                defaultValue={data?.yearRequired || 0}
+                                min={1}
+                                defaultValue={data?.yearRequired || 1}
                                 onChange={(v) =>
                                     setFieldValue("yearRequired", v)
                                 }
