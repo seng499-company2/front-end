@@ -1,3 +1,4 @@
+import "../styles.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { AppProps } from "next/app";

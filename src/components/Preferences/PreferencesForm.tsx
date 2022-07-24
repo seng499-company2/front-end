@@ -24,6 +24,7 @@ const PreferencesForm = (props) => {
             }}
         >
             {({ errors, touched, values, setFieldValue }) => {
+                console.log(values);
                 const {
                     nonTeachingSemester,
                     numCoursesPerSem,

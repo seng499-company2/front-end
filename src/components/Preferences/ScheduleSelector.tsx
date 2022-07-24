@@ -77,6 +77,8 @@ const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
     const first = today.getDate() - today.getDay() + 1;
     const formValue = `preferredTime.${semester}`;
 
+    console.log("Timetable values: ", values);
+
     const [schedule, setSchedule] = useState(
         convertValuesToDatetime(values, first)
     );
