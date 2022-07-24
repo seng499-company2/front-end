@@ -9,8 +9,8 @@ const getCourses = () => {
 
 const coursePreferencesInit = getCourses().reduce((obj, course) => {
     obj[course] = {
-        willingness: Willingness.noSelection,
-        difficulty: Difficulty.noSelection,
+        willingness: Willingness.notQualified,
+        difficulty: Difficulty.notQualified,
     };
     return obj;
 }, {});
@@ -46,14 +46,14 @@ function generateCoursePreferencesFromCodesIfNeeded(
     courseCodes = []
 ) {
     // if coursePreferences is empty, generate it from courseCodes
-    // default values are set to noSelection
-    // i.e. { CSC 225: { difficulty: Difficulty["noSelection"], willingness: Willingness["noSelection"] } }
+    // default values are set to notQualified
+    // i.e. { CSC 225: { difficulty: Difficulty["notQualified"], willingness: Willingness["notQualified"] } }
     // if coursePreferences is not empty for a course, it is not modified
     if (Object.keys(coursePreferences).length === 0) {
         return courseCodes.reduce((obj, course) => {
             obj[course] = {
-                difficulty: Difficulty.noSelection,
-                willingness: Willingness.noSelection,
+                difficulty: Difficulty.notQualified,
+                willingness: Willingness.notQualified,
             };
             return obj;
         }, {});
@@ -69,8 +69,8 @@ function generateCoursePreferencesFromCodesIfNeeded(
     const coursePreferencesWithDefaultValues =
         courseCodesNotInPreferences.reduce((obj, course) => {
             obj[course] = {
-                difficulty: Difficulty.noSelection,
-                willingness: Willingness.noSelection,
+                difficulty: Difficulty.notQualified,
+                willingness: Willingness.notQualified,
             };
             return obj;
         }, {});
