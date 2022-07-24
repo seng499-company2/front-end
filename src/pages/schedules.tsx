@@ -1,60 +1,24 @@
-import { Center, Button, VStack, Flex, Select, Text } from "@chakra-ui/react";
+import { Center, Flex, HStack, IconButton, Select } from "@chakra-ui/react";
 import { ReactElement, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
+import { useTheme } from "@chakra-ui/system";
+import { ImTable } from "react-icons/im";
+import { CalendarIcon } from "@chakra-ui/icons";
 
-import AdminLayout from "@components/Layout/AdminLayout";
 import ScheduleTable from "@components/Schedule/ScheduleTable";
+import AdminLayout from "@components/Layout/AdminLayout";
 import { useGetQuery } from "@hooks/useRequest";
 import ErrorBox from "@components/Schedule/ErrorBox";
 import DeveloperSettings from "@components/Schedule/DeveloperSettings";
-
-const dayArr = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"];
-
-// convert backend data to our data format per course
-const convertBackendDataToOurData = (backendData) => {
-    const { course, sections } = backendData;
-    const { code, title } = course;
-
-    const ourData = sections.map((section, idx) => {
-        const {
-            capacity,
-            professor: { name },
-            timeSlots,
-        } = section;
-
-        const time = timeSlots.reduce((acc, timeSlot) => {
-            const { dayOfWeek, timeRange } = timeSlot;
-            const [startTime, endTime] = timeRange;
-            const timeString = `${startTime} - ${endTime}`;
-
-            const timeArray = acc[timeString] || [];
-            timeArray.push(dayArr.indexOf(dayOfWeek) + 1);
-            acc[timeString] = timeArray;
-
-            return acc;
-        }, {});
-
-        // convert section idx to A01, A02, A03, ..., A20, ...
-        const sectionIdx = idx + 1;
-        const sectionId = `A${sectionIdx < 10 ? `0${sectionIdx}` : sectionIdx}`;
-
-        return {
-            course: { code, title },
-            section: sectionId,
-            professor: name,
-            time,
-            capacity,
-        };
-    });
-
-    return ourData;
-};
+import Calendar from "@components/Schedule/Calendar";
+import { convertScheduleData } from "@lib/convert";
 
 const Schedules = () => {
     const [generated, setGenerated] = useState(false);
     const [semester, setSemester] = useState("fall");
     const [company, setCompany] = useState("2");
     const [useMockData, setUseMockData] = useState(false);
+    const [view, setView] = useState<"calendar" | "table">("calendar");
 
     const { data, isLoading, isError, execute } = useGetQuery(
         `/schedule/2022/FALL/${company}${
@@ -69,22 +33,14 @@ const Schedules = () => {
         // TODO: show schedule sidesheet
     };
 
-    const convertData = (data: { [semester: string]: any[] }) => {
-        const generatedSchedule = {};
-        for (const [semester, scheduleArray] of Object.entries(data)) {
-            if (!scheduleArray || scheduleArray?.length === 0) {
-                generatedSchedule[semester] = [];
-            } else {
-                generatedSchedule[semester] = scheduleArray.flatMap((course) =>
-                    convertBackendDataToOurData(course)
-                );
-            }
-        }
-        return generatedSchedule;
+    const toggleScheduleView = () => {
+        setView((prevView) => {
+            return prevView === "calendar" ? "table" : "calendar";
+        });
     };
 
     const schedule = data
-        ? convertData(data)
+        ? convertScheduleData(data)
         : { fall: [], spring: [], summer: [] };
 
     if (isLoading)
@@ -99,19 +55,27 @@ const Schedules = () => {
 
     return (
         <Flex flexDirection="column" pt="1rem" gap={8}>
-            <DeveloperSettings
-                {...{
-                    error: isError,
-                    setUseMockData,
-                    setCompany,
-                    setSemester,
-                    generated,
-                    useMockData,
-                    company,
-                    execute,
-                }}
-            />
-            {/* TODO: ask Nanami about this Select */}
+            <HStack>
+                <DeveloperSettings
+                    {...{
+                        error: isError,
+                        setUseMockData,
+                        setCompany,
+                        setSemester,
+                        generated,
+                        useMockData,
+                        company,
+                        execute,
+                    }}
+                />
+                <IconButton
+                    aria-label="Toggle schedule view"
+                    onClick={toggleScheduleView}
+                    maxW={100}
+                    icon={view === "calendar" ? <ImTable /> : <CalendarIcon />}
+                />
+            </HStack>
+
             {generated && (
                 <Select
                     onChange={(e) => {
@@ -124,7 +88,7 @@ const Schedules = () => {
                     <option value="summer">Summer</option>
                 </Select>
             )}
-            <Center height="50vh" display={generated ? "none" : null}>
+            {/* <Center display={generated ? "none" : null}>
                 <VStack gap={4}>
                     <Button
                         onClick={() => {
@@ -136,12 +100,19 @@ const Schedules = () => {
                         Generate Schedule
                     </Button>
                 </VStack>
-            </Center>
+            </Center> */}
 
             {isError && (
                 <ErrorBox error={isError.response.data} retry={execute} />
             )}
-            <ScheduleTable schedule={schedule[semester]} onClick={onClick} />
+            {view === "table" ? (
+                <ScheduleTable
+                    schedule={schedule[semester]}
+                    onClick={onClick}
+                />
+            ) : (
+                <Calendar scheduledCourses={schedule[semester]} />
+            )}
         </Flex>
     );
 };
