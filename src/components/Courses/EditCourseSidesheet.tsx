@@ -2,7 +2,7 @@ import Sidesheet from "../Layout/Sidesheet";
 import CourseForm from "./CourseForm";
 import { useState } from "react";
 
-import { usePostQuery, useDeleteQuery } from "@hooks/useRequest";
+import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 
@@ -14,6 +14,15 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
         onClose: deleteOnClose,
     } = useDisclosure();
     const toast = useToast();
+
+    const { data, isLoading, isError, execute } = useGetQuery(
+        `/courses/?course_code=${course.course_code}/`,
+        {
+            useCache: false,
+        }
+    );
+
+    console.log(data);
 
     const { execute: executeEdit, isLoading: isDataSaving } = usePostQuery(
         `/api/course/${course.course_code}/`
