@@ -8,6 +8,7 @@ import {
     Select,
     Box,
     Tooltip,
+    VStack,
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
@@ -36,8 +37,6 @@ const Schedules = () => {
         generateSchedule,
     } = useSchedule();
 
-    console.log("Schedules");
-
     const onClick = (scheduledSection) => {
         // TODO: show schedule sidesheet
     };
@@ -64,21 +63,26 @@ const Schedules = () => {
         );
 
     const isCalendar = view === "calendar";
-    console.log(lastGeneratedDate);
-    console.log(schedule);
+
+    const lastGenerated = lastGeneratedDate
+        ? new Date(lastGeneratedDate)
+        : null;
 
     return (
-        <Flex flexDirection="column" pt="1rem" gap={8}>
+        <Flex flexDirection="column" gap={8}>
             {/* display small last generated date */}
-            {lastGeneratedDate && (
-                <Text fontSize="sm" color="gray.500">
-                    Last generated:{" "}
-                    {new Date(lastGeneratedDate)?.toLocaleDateString("en-US")}
-                </Text>
-            )}
-            <HStack justifyContent={"space-between"}>
-                <HStack gap={4}>
-                    {/* <DeveloperSettings
+            <VStack gap={0} alignItems="stretch">
+                {lastGenerated && (
+                    <Tooltip label={`${lastGenerated.toLocaleString()}`}>
+                        <Text fontSize="sm" color="gray.500" alignSelf={"end"}>
+                            Last generated:{" "}
+                            {lastGenerated?.toLocaleDateString("en-US")}
+                        </Text>
+                    </Tooltip>
+                )}
+                <HStack justifyContent={"space-between"}>
+                    <HStack gap={4}>
+                        {/* <DeveloperSettings
                         {...{
                             error: isError,
                             setUseMockData,
@@ -90,53 +94,56 @@ const Schedules = () => {
                             execute,
                         }}
                     /> */}
-                    {generated && (
-                        <Select
-                            onChange={(e) => {
-                                setSemester(e.target.value as Semester);
-                            }}
-                            w="200px"
-                        >
-                            <option value="fall">Fall</option>
-                            <option value="spring">Spring</option>
-                            <option value="summer">Summer</option>
-                        </Select>
-                    )}
-                    <Tooltip
-                        maxW={100}
-                        placement="right"
-                        label={`Change to ${
-                            isCalendar ? "Table" : "Calendar"
-                        } view`}
-                        aria-label="Toggle schedule view"
-                    >
-                        <IconButton
+                        {generated && (
+                            <Select
+                                onChange={(e) => {
+                                    setSemester(e.target.value as Semester);
+                                }}
+                                w="200px"
+                            >
+                                <option value="fall">Fall</option>
+                                <option value="spring">Spring</option>
+                                <option value="summer">Summer</option>
+                            </Select>
+                        )}
+                        <Tooltip
+                            maxW={100}
+                            placement="right"
+                            label={`Change to ${
+                                isCalendar ? "Table" : "Calendar"
+                            } view`}
                             aria-label="Toggle schedule view"
-                            onClick={toggleScheduleView}
-                            variant="ghost"
-                            size="lg"
-                            icon={
-                                view === "calendar" ? (
-                                    <ImTable />
-                                ) : (
-                                    <CalendarIcon />
-                                )
-                            }
-                        />
-                    </Tooltip>
+                        >
+                            <IconButton
+                                aria-label="Toggle schedule view"
+                                onClick={toggleScheduleView}
+                                variant="ghost"
+                                size="lg"
+                                icon={
+                                    view === "calendar" ? (
+                                        <ImTable />
+                                    ) : (
+                                        <CalendarIcon />
+                                    )
+                                }
+                            />
+                        </Tooltip>
+                    </HStack>
+                    {generated && (
+                        <Box>
+                            <Button
+                                onClick={() => {
+                                    generateSchedule();
+                                }}
+                                isLoading={isLoading}
+                                colorScheme="red"
+                            >
+                                Re-generate Schedule
+                            </Button>
+                        </Box>
+                    )}
                 </HStack>
-                {generated && (
-                    <Button
-                        onClick={() => {
-                            generateSchedule();
-                        }}
-                        isLoading={isLoading}
-                        colorScheme="red"
-                    >
-                        Re-generate Schedule
-                    </Button>
-                )}
-            </HStack>
+            </VStack>
 
             {!generated && (
                 <Center height="40vh">
