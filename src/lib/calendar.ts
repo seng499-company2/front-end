@@ -1,3 +1,4 @@
+import { ScheduledCourseEvent } from "src/types/calendar";
 import { dateFnsLocalizer } from "react-big-calendar";
 
 import format from "date-fns/format";
@@ -77,14 +78,22 @@ export const generateCalendarRange = (
 export const moveEvent = (
     id: string | number,
     newStart: Date,
-    newEnd: Date
+    newEnd: Date,
+    semester: "fall" | "spring" | "summer"
 ) => {
+    // find event by id in semester
     return (prevEvents) => {
-        return prevEvents.map((event) => {
-            if (event.id === id) {
-                return { ...event, start: newStart, end: newEnd };
-            }
-            return event;
-        });
+        return {
+            ...prevEvents,
+            [semester]: prevEvents[semester].map(
+                (event: ScheduledCourseEvent) => {
+                    if (event.id === id) {
+                        // update start and end times
+                        return { ...event, start: newStart, end: newEnd };
+                    }
+                    return event;
+                }
+            ),
+        };
     };
 };

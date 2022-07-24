@@ -1,7 +1,7 @@
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useToast } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { Calendar as ReactBigCalendar, Views } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 
@@ -10,24 +10,24 @@ import { generateColorHex } from "@lib/color";
 import {
     formatOnDropToast,
     formatOnResizeToast,
-    generateCalendarRange,
     initLocalizer,
     moveEvent,
 } from "@lib/calendar";
-import CalendarEvent, { ScheduledCourse } from "./CalendarEvent";
-import TimeSlotWrapper from "./TimeSlotWrapper";
+import CalendarEvent from "./CalendarEvent";
+import { useEvents } from "@hooks/useEvents";
+import { useCalendarRange } from "@hooks/useCalendarRange";
 
 const DnDCalendar = withDragAndDrop(ReactBigCalendar as any);
 
-const Calendar = ({ scheduledCourses }) => {
+const Calendar = ({ schedule, semester }) => {
+    const { events, setEvents } = useEvents(schedule, semester);
+    const { min, max } = useCalendarRange();
+
     const toast = useToast({
         position: "bottom-left",
         duration: 5000,
         isClosable: true,
     });
-
-    const now = new Date();
-    const [events, setEvents] = useState<ScheduledCourse[]>(mockEvents);
 
     const onEventResize = (data) => {
         const {
@@ -39,7 +39,7 @@ const Calendar = ({ scheduledCourses }) => {
         // TODO update event in backend
 
         // update event in state
-        setEvents(moveEvent(id, newStart, newEnd));
+        setEvents(moveEvent(id, newStart, newEnd, semester));
         toast(formatOnResizeToast({ title, section, newStart, newEnd }));
     };
 
@@ -53,14 +53,14 @@ const Calendar = ({ scheduledCourses }) => {
         // TODO update event in backend
 
         // update event in state
-        setEvents(moveEvent(id, newStart, newEnd));
+        setEvents(moveEvent(id, newStart, newEnd, semester));
         toast(formatOnDropToast({ title, section, newStart, newEnd }));
     };
 
     const eventPropGetter = useCallback((event, _start, _end, _isSelected) => {
         return {
             style: {
-                backgroundColor: generateColorHex(event.course?.code),
+                backgroundColor: generateColorHex(event.course?.course?.code),
                 borderRadius: "10px",
                 color: "white",
                 border: "none",
@@ -73,17 +73,15 @@ const Calendar = ({ scheduledCourses }) => {
     };
 
     const localizer = initLocalizer();
-    const { min, max } = generateCalendarRange(now);
 
     return (
         <DnDCalendar
-            events={events}
+            events={events[semester]}
             onEventDrop={onEventDrop}
             onEventResize={onEventResize}
             onSelectEvent={onSelectEvent}
             localizer={localizer}
             eventPropGetter={eventPropGetter}
-            //defaultDate={defaultDate} // Year start? Term start?
             defaultView={Views.WEEK}
             views={{ week: AcademicWeek, day: true }}
             min={min}
@@ -92,58 +90,10 @@ const Calendar = ({ scheduledCourses }) => {
             resizable
             style={{ height: "80vh" }}
             components={{
-                event: CalendarEvent,
+                event: CalendarEvent as any,
             }}
         />
     );
 };
 
 export default Calendar;
-
-const mockEvents = [
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        course: {
-            code: "CSC111",
-            title: "Fundamentals of Programming with Engineering Applications",
-        },
-        section: "A01",
-        professor: "Kui Wu",
-        time: {
-            "08:30 - 09:20": [2, 3, 5],
-        },
-        capacity: 249,
-        id: "CSC225-A01",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        course: {
-            code: "CSC111",
-            title: "Fundamentals of Programming with Engineering Applications",
-        },
-        section: "A02",
-        professor: "Kui Wu",
-        time: {
-            "08:30 - 09:20": [2, 3, 5],
-        },
-        capacity: 249,
-        id: "CSC225-A02",
-    },
-    {
-        start: new Date("2022-07-12T15:30:00.000Z"),
-        end: new Date("2022-07-12T16:20:00.000Z"),
-        course: {
-            code: "CSC225",
-            title: "Programming with C++",
-        },
-        section: "A01",
-        professor: "Kui Wu",
-        time: {
-            "08:30 - 09:20": [2, 3, 5],
-        },
-        capacity: 249,
-        id: "CSC226-A01",
-    },
-];

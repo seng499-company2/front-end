@@ -152,3 +152,9 @@ export function convertToBackendPreferencesFormat(data) {
     };
     return backendData;
 }
+export const formatSectionNum = (sectionNum: number): string => {
+    // convert section idx to A01, A02, A03, ..., A20, ...
+    const sectionIdx = sectionNum;
+    const sectionId = `A${sectionIdx < 10 ? `0${sectionIdx}` : sectionIdx}`;
+    return sectionId;
+};

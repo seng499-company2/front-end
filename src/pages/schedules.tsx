@@ -7,7 +7,7 @@ import {
     Select,
     Box,
 } from "@chakra-ui/react";
-import { ReactElement, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
 import { useTheme } from "@chakra-ui/system";
 import { ImTable } from "react-icons/im";
@@ -26,7 +26,7 @@ const Schedules = () => {
     const [semester, setSemester] = useState("fall");
     const [company, setCompany] = useState("2");
     const [useMockData, setUseMockData] = useState(false);
-    const [view, setView] = useState<"calendar" | "table">("calendar");
+    const [view, setView] = useState<"calendar" | "table">("table");
 
     const { data, isLoading, isError, execute } = useGetQuery(
         `/schedule/2022/FALL/${company}${
@@ -34,6 +34,7 @@ const Schedules = () => {
         }`,
         {
             manual: true,
+            ssr: false,
         }
     );
 
@@ -47,9 +48,9 @@ const Schedules = () => {
         });
     };
 
-    const schedule = data
-        ? convertScheduleData(data)
-        : { fall: [], spring: [], summer: [] };
+    const tableSchedule = useMemo(() => {
+        return convertScheduleData(data);
+    }, [data]);
 
     if (isLoading)
         return (
@@ -98,19 +99,21 @@ const Schedules = () => {
                         }
                     />
                 </HStack>
-                <Button
-                    onClick={() => {
-                        execute();
-                        setGenerated(true);
-                    }}
-                    isLoading={isLoading}
-                    colorScheme="yellow"
-                >
-                    Re-generate Schedule
-                </Button>
+                {generated && (
+                    <Button
+                        onClick={() => {
+                            execute();
+                            setGenerated(true);
+                        }}
+                        isLoading={isLoading}
+                        colorScheme="red"
+                    >
+                        Re-generate Schedule
+                    </Button>
+                )}
             </HStack>
 
-            {/* {!generated && (
+            {!generated && (
                 <Center height="40vh">
                     <Box>
                         <Button
@@ -124,23 +127,23 @@ const Schedules = () => {
                         </Button>
                     </Box>
                 </Center>
-            )} */}
+            )}
 
             {isError && (
                 <ErrorBox error={isError.response.data} retry={execute} />
             )}
-            {/* {generated && (
-                <> */}
-            {view === "table" ? (
-                <ScheduleTable
-                    schedule={schedule[semester]}
-                    onClick={onClick}
-                />
-            ) : (
-                <Calendar scheduledCourses={schedule[semester]} />
+            {generated && (
+                <>
+                    {view === "table" ? (
+                        <ScheduleTable
+                            schedule={tableSchedule[semester]}
+                            onClick={onClick}
+                        />
+                    ) : (
+                        <Calendar schedule={data} semester={semester} />
+                    )}
+                </>
             )}
-            {/* </>
-            )} */}
         </Flex>
     );
 };

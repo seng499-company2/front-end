@@ -21,10 +21,14 @@ const DaysBox = ({ selected }) => {
 };
 
 export const CourseTimeBox = ({ courseTime, ...other }) => {
+    if (!courseTime) {
+        return null;
+    }
+
     return (
         <>
             {Object.entries(courseTime).map(([time, days]) => (
-                <Box key={time}>
+                <Box key={time} {...other}>
                     <Text as="em">{time}</Text>
                     <Divider />
                     <DaysBox selected={days} />
