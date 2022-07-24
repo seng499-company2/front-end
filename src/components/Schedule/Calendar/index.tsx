@@ -7,7 +7,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { AcademicWeek } from "@components/Schedule/Calendar/Week";
 import { generateColorHex } from "@lib/color";
 import { initLocalizer } from "@lib/calendar";
-import CalendarEvent from "./CalendarEvent";
+import CalendarEvent from "./Event";
 import { useEvents } from "@hooks/useEvents";
 import { useCalendarRange } from "@hooks/useCalendarRange";
 import Toolbar from "./Toolbar";

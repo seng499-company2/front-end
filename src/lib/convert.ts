@@ -3,10 +3,11 @@ import {
     EventSection,
     PEngRequiredList,
     PEngRequiredRaw,
+    RawSchedule,
     ScheduleEvent,
     Section,
     Semester,
-    YearSchedule,
+    TableSchedule,
 } from "src/types/calendar";
 import { formatInitEventTimes, formatSectionNum } from "./format";
 
@@ -20,9 +21,9 @@ export const DAY_ENUM = {
 
 const semesters: Semester[] = ["fall", "spring", "summer"];
 
-export const convertScheduleData = (data: {
+export const convertRawToTableSchedule = (data: {
     [semester: string]: any[];
-}): YearSchedule => {
+}): TableSchedule => {
     const generatedSchedule = { fall: [], spring: [], summer: [] };
 
     if (!data) {
@@ -34,7 +35,7 @@ export const convertScheduleData = (data: {
             generatedSchedule[semester] = [];
         } else {
             generatedSchedule[semester] = scheduleArray.flatMap((course) =>
-                convertBackendDataToOurData(course)
+                convertRawToTableScheduledCourse(course)
             );
         }
     }
@@ -42,7 +43,7 @@ export const convertScheduleData = (data: {
 };
 
 // convert backend data to our data format per course
-export const convertBackendDataToOurData = (backendData) => {
+export const convertRawToTableScheduledCourse = (backendData) => {
     const { course, sections } = backendData;
     const { code, title } = course;
 
@@ -77,8 +78,8 @@ export const convertBackendDataToOurData = (backendData) => {
     return ourData;
 };
 
-export const convertRawToEvents = (
-    data: YearSchedule,
+export const convertRawToEventsSchedule = (
+    data: RawSchedule,
     semester: string,
     firstDate: Date
 ): CalendarYearSchedule => {
@@ -146,8 +147,8 @@ export const convertRawToEvents = (
 
 export const convertEventsToRaw = (
     events: CalendarYearSchedule
-): YearSchedule => {
-    const raw: YearSchedule = { fall: [], spring: [], summer: [] };
+): RawSchedule => {
+    const raw: RawSchedule = { fall: [], spring: [], summer: [] };
 
     for (const [semester, eventsArray] of Object.entries(events)) {
         raw[semester] = eventsArray.map((event) => {

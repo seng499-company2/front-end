@@ -6,6 +6,9 @@ type PEngRequiredRaw = {
 
 type PEngRequiredList = Semester[];
 
+type DayOfWeek = "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY";
+type TableTimeSlots = { [time: string]: number[] };
+
 interface BaseCourse {
     title: string;
     code: string;
@@ -25,15 +28,15 @@ interface Professor {
     id: string;
 }
 
-interface TimeSlot {
-    dayOfWeek: string;
+interface RawTimeSlot {
+    dayOfWeek: DayOfWeek;
     timeRange: string[];
 }
 
 interface Section {
     capacity: number;
     professor: Professor;
-    timeSlots: TimeSlot[];
+    timeSlots: RawTimeSlot[];
 }
 
 interface EventSection extends Section {
@@ -42,12 +45,19 @@ interface EventSection extends Section {
 }
 
 interface BaseScheduledCourse {
-    section: Section;
     sections: Section[];
 }
 
 interface RawScheduledCourse extends BaseScheduledCourse {
     course: RawCourse;
+}
+
+interface TableScheduledCourse {
+    capacity: number;
+    course: BaseCourse;
+    professor: string;
+    section: string;
+    time: TableTimeSlots;
 }
 
 interface EventScheduledCourse extends BaseScheduledCourse {
@@ -69,10 +79,16 @@ type ScheduleCourseEventChange = {
     resourceId: string | number;
 };
 
-type YearSchedule = {
+type RawSchedule = {
     fall: RawScheduledCourse[];
     spring: RawScheduledCourse[];
     summer: RawScheduledCourse[];
+};
+
+type TableSchedule = {
+    fall: TableScheduledCourse[];
+    spring: TableScheduledCourse[];
+    summer: TableScheduledCourse[];
 };
 
 type CalendarYearSchedule = {
@@ -90,14 +106,15 @@ export {
     RawCourse,
     EventCourse,
     Professor,
-    TimeSlot,
+    RawTimeSlot as TimeSlot,
     Section,
     EventSection,
     EventScheduledCourse,
     RawScheduledCourse,
     ScheduleEvent,
     ScheduleCourseEventChange,
-    YearSchedule,
+    RawSchedule,
+    TableSchedule,
     CalendarYearSchedule,
     ScheduleView,
 };
