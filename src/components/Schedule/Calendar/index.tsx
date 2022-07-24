@@ -40,8 +40,8 @@ const Calendar = ({ schedule, semester }) => {
             event: {
                 id,
                 details: {
-                    course: { code },
-                    section: { display },
+                    course: { course_code },
+                    section,
                 },
             },
         } = data;
@@ -49,8 +49,8 @@ const Calendar = ({ schedule, semester }) => {
         // update event in state
         moveEvent(id, newStart, newEnd, semester, {
             type: "resize",
-            code,
-            section: display,
+            code: course_code,
+            section,
         });
     };
 
@@ -61,8 +61,8 @@ const Calendar = ({ schedule, semester }) => {
             event: {
                 id,
                 details: {
-                    course: { code },
-                    section: { display },
+                    course: { course_code },
+                    section,
                 },
             },
         } = data;
@@ -70,8 +70,8 @@ const Calendar = ({ schedule, semester }) => {
         // update event in state
         moveEvent(id, newStart, newEnd, semester, {
             type: "drop",
-            code,
-            section: display,
+            code: course_code,
+            section,
         });
     };
 

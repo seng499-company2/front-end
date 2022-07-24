@@ -1,9 +1,10 @@
 import { TabList, Tabs, Tab, TabPanel, TabPanels } from "@chakra-ui/react";
-import { useLayoutEffect } from "react";
 import Timetable from "./ScheduleSelector";
 
 const ScheduleAvailability = (props) => {
     const { setFieldValue, values, isDisabled = false } = props;
+
+    console.log("ScheduleAvailability values: ", values);
 
     return (
         <Tabs variant="solid-rounded" colorScheme="green" isLazy>

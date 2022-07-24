@@ -35,6 +35,7 @@ const Schedules = () => {
         generated,
         lastGeneratedDate,
         generateSchedule,
+        saveSchedule,
     } = useSchedule();
 
     const onClick = (scheduledSection) => {
@@ -75,7 +76,7 @@ const Schedules = () => {
                 {lastGenerated && (
                     <Tooltip label={`${lastGenerated.toLocaleString()}`}>
                         <Text fontSize="sm" color="gray.500" alignSelf={"end"}>
-                            Last generated:{" "}
+                            Last updated:{" "}
                             {lastGenerated?.toLocaleDateString("en-US")}
                         </Text>
                     </Tooltip>

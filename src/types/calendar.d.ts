@@ -10,13 +10,17 @@ type DayOfWeek = "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY";
 type TableTimeSlots = { [time: string]: number[] };
 
 interface BaseCourse {
-    title: string;
-    code: string;
+    course_title: string;
+    course_code: string;
     yearRequired: number;
+    max_capacity: number;
 }
 
 interface RawCourse extends BaseCourse {
     pengRequired: PEngRequiredRaw;
+    fall_sections: Section[];
+    spring_sections: Section[];
+    summer_sections: Section[];
 }
 
 interface EventCourse extends BaseCourse {
@@ -103,10 +107,11 @@ export {
     Semester,
     PEngRequiredRaw,
     PEngRequiredList,
+    DayOfWeek,
     RawCourse,
     EventCourse,
     Professor,
-    RawTimeSlot as TimeSlot,
+    RawTimeSlot,
     Section,
     EventSection,
     EventScheduledCourse,

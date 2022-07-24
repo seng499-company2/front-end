@@ -161,6 +161,9 @@ export const formatSectionNum = (sectionNum: number): string => {
 
 // format date to EEEE
 export const formatDateWeekday = (date) => {
+    if (!date || !(date instanceof Date)) {
+        return "Invalid date";
+    }
     return date.toLocaleDateString("en-US", {
         weekday: "long",
     });

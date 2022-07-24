@@ -4,6 +4,7 @@ import React, {
     useCallback,
     useContext,
     useEffect,
+    useRef,
     useState,
 } from "react";
 import { AxiosError, AxiosPromise, AxiosRequestConfig } from "axios";
@@ -14,14 +15,17 @@ import {
     RawScheduledCourse,
     Section,
     Semester,
-    TimeSlot,
+    RawTimeSlot,
 } from "src/types/calendar";
 import { useGetQuery } from "./useRequest";
 
 interface RescheduleData {
     courseCode: string;
     courseSectionId: number;
-    newTimeSlots: TimeSlot;
+    timeSlots: {
+        oldTimeSlots: RawTimeSlot[];
+        newTimeSlots: RawTimeSlot[];
+    };
 }
 
 export interface ScheduleContextType {
@@ -40,6 +44,7 @@ export interface ScheduleContextType {
         rescheduleData: RescheduleData,
         semester: Semester
     ) => void;
+    saveSchedule: () => void;
 }
 
 const ScheduleContext = createContext<ScheduleContextType>(
@@ -58,7 +63,8 @@ export function ScheduleProvider({
 }: {
     children: ReactNode;
 }): JSX.Element {
-    const [schedule, setSchedule] = useState<RawSchedule>(null);
+    // const [schedule, setSchedule] = useState<RawSchedule>(null);
+    const scheduleRef = useRef(null);
     const [lastGeneratedDate, setLastGeneratedDate] = useState<Date>(null);
     const [generated, setGenerated] = useState(false);
 
@@ -90,31 +96,34 @@ export function ScheduleProvider({
                 const parsedSchedule = JSON.parse(localSchedule);
                 console.log("parsed schedule", parsedSchedule);
                 setLastGeneratedDate(parsedSchedule.date);
-                setSchedule({
+                scheduleRef.current = {
                     fall: parsedSchedule.fall,
                     spring: parsedSchedule.spring,
                     summer: parsedSchedule.summer,
-                });
+                };
                 setGenerated(true);
             } catch (e) {
                 console.error(e);
-                setSchedule(data);
+                scheduleRef.current = data;
             }
         } else {
-            setSchedule(data);
+            scheduleRef.current = data;
         }
     }, [data]);
 
     // save schedule to localstorage
-    useEffect(() => {
-        console.log("saving schedule");
-        if (!schedule) return;
-        const scheduleWithDate = {
-            ...schedule,
-            date: new Date(),
-        };
-        localStorage.setItem("schedule", JSON.stringify(scheduleWithDate));
-    }, [schedule]);
+    const saveSchedule = () => {
+        if (scheduleRef.current) {
+            console.log("saving schedule");
+            const scheduleWithDate = {
+                ...scheduleRef.current,
+                date: new Date(),
+            };
+            localStorage.setItem("schedule", JSON.stringify(scheduleWithDate));
+        } else {
+            console.log("no schedule to save");
+        }
+    };
 
     const generateSchedule = useCallback(
         (
@@ -211,69 +220,85 @@ export function ScheduleProvider({
          *
          * @param courseCode the course code of the section to reschedule
          * @param courseSectionId the id of the section to reschedule (e.g. A01 -> 0)
-         * @param newTimeSlots the new time slots to reschedule to
+         * @param timeSlots the old and new time slots to reschedule to
          * @param semester the semester of the section to reschedule
          */
         (rescheduleData: RescheduleData, semester: Semester) => {
-            const { courseCode, courseSectionId, newTimeSlots } =
-                rescheduleData;
+            const { courseCode, courseSectionId, timeSlots } = rescheduleData;
 
-            setSchedule((prevSchedule) => {
-                const newSchedule = {
-                    ...prevSchedule,
-                    [semester]: prevSchedule[semester].map(
-                        (course: RawScheduledCourse) => {
-                            if (course.course.code === courseCode) {
-                                console.log(course);
-                                // update start and end times
-                                return {
-                                    ...course,
-                                    // todo: clean this up
-                                    [`${semester}_sections`]: course[
-                                        `${semester}_sections`
-                                    ].map((section: Section, idx: number) => {
+            // setSchedule((prevSchedule) => {
+            scheduleRef.current = {
+                // const newSchedule = {
+                ...scheduleRef.current,
+                [semester]: scheduleRef.current[semester].map(
+                    (scheduledCourse: RawScheduledCourse) => {
+                        if (scheduledCourse.course.course_code === courseCode) {
+                            console.log(scheduledCourse);
+                            // update start and end times
+                            // return {
+                            //     ...course,
+                            //     // todo: clean this up
+                            //     [`${semester}_sections`]: course[
+                            //         `${semester}_sections`
+                            //     ].map((section: Section, idx: number) => {
+                            //         if (idx === courseSectionId) {
+                            //             return {
+                            //                 ...section,
+                            //                 timeSlots: newTimeSlots,
+                            //             };
+                            //         }
+                            //         // no matching section, return original
+                            //         // shouldn't happen
+                            //         return section;
+                            //     }),
+                            // };
+
+                            return {
+                                ...scheduledCourse,
+                                sections: scheduledCourse.sections.map(
+                                    (section: Section, idx: number) => {
                                         if (idx === courseSectionId) {
                                             return {
                                                 ...section,
-                                                timeSlots: newTimeSlots,
+                                                timeSlots:
+                                                    timeSlots.newTimeSlots,
                                             };
                                         }
-                                        // no matching section, return original
-                                        // shouldn't happen
                                         return section;
-                                    }),
-                                };
-                            }
-                            return course;
+                                    }
+                                ),
+                            };
                         }
-                    ),
-                };
-                return newSchedule;
-            });
+                        return scheduledCourse;
+                    }
+                ),
+            };
+            //     return newSchedule;
+            // });
         },
         []
     );
 
     // edit course and/or section data
     const editCourse = useCallback((newCourseData, semester): void => {
-        setSchedule((prevSchedule) => {
-            const newSchedule = {
-                ...prevSchedule,
-                [semester]: prevSchedule[semester].map((course) => {
-                    if (course.course.code === newCourseData.code) {
-                        return {
-                            ...course,
-                            course: {
-                                ...course.course,
-                                ...newCourseData,
-                            },
-                        };
-                    }
-                    return course;
-                }),
-            };
-            return newSchedule;
-        });
+        scheduleRef.current = {
+            // const newSchedule = {
+            ...scheduleRef.current,
+            [semester]: scheduleRef.current[semester].map((course) => {
+                if (course.course.code === newCourseData.code) {
+                    return {
+                        ...course,
+                        course: {
+                            ...course.course,
+                            ...newCourseData,
+                        },
+                    };
+                }
+                return course;
+            }),
+        };
+        //     return newSchedule;
+        // });
     }, []);
 
     console.log("ScheduleProvider: render");
@@ -281,7 +306,7 @@ export function ScheduleProvider({
     return (
         <ScheduleContext.Provider
             value={{
-                schedule,
+                schedule: scheduleRef.current,
                 lastGeneratedDate,
                 isLoading,
                 error,
@@ -290,6 +315,7 @@ export function ScheduleProvider({
                 setCompany,
                 setUseMockData,
                 rescheduleSection,
+                saveSchedule,
             }}
         >
             {children}
