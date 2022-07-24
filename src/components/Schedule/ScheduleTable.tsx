@@ -9,7 +9,7 @@ import { CourseTimeBox } from "src/components/Schedule/CourseTimeBox";
 const ScheduleTable = ({ schedule, onClick }) => {
     const columns = [
         {
-            Header: "COURSE",
+            Header: "Course",
             accessor: "course",
             filter: {
                 type: "text",
@@ -17,7 +17,7 @@ const ScheduleTable = ({ schedule, onClick }) => {
             },
         },
         {
-            Header: "SECTION",
+            Header: "Section",
             accessor: "section",
             filter: {
                 type: "dropdown",
@@ -36,12 +36,12 @@ const ScheduleTable = ({ schedule, onClick }) => {
             },
         },
         {
-            Header: "TIME",
+            Header: "Time",
             accessor: "time",
             disableFilterBy: true,
         },
         {
-            Header: "CAPACITY",
+            Header: "Capacity",
             accessor: "capacity",
             disableFilterBy: true,
         },
