@@ -22,11 +22,24 @@ function convertValuesToDatetime(values, first) {
             let date = new Date();
             date.setDate(first + index - 1);
             // only need the hours part
-            date.setHours(time[0].split(":")[0], 0, 0);
+            time = time[0].split(":");
+            date.setHours(time[0], time[1]);
             datetimeArr.push(date);
         });
     });
     return datetimeArr;
+}
+
+function convertToList(element) {
+    if (element.getMinutes() === 0) {
+        const startTime = element.getHours() + ":00";
+        const endTime = element.getHours() + ":30";
+        return [startTime, endTime];
+    } else {
+        const startTime = element.getHours() + ":30";
+        const endTime = element.getHours() + 1 + ":00";
+        return [startTime, endTime];
+    }
 }
 
 function convertToJsonArr(values) {
@@ -43,7 +56,7 @@ function convertToJsonArr(values) {
         if (typeof list === "undefined") {
             return;
         }
-        list.push([element.getHours() + ":00", element.getHours() + 1 + ":00"]);
+        list.push(convertToList(element));
     });
     return dayTime;
 }
@@ -92,7 +105,8 @@ const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
                 numDays={5}
                 minTime={8}
                 maxTime={20}
-                hourlyChunks={1}
+                hourlyChunks={2}
+                timeFormat={"H:mm"}
                 dateFormat={"dddd"}
                 startDate={new Date(today.setDate(first))}
                 onChange={handleChange}
