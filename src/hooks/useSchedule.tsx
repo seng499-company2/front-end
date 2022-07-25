@@ -17,6 +17,7 @@ import {
     RawTimeSlot,
 } from "src/types/calendar";
 import { useGetQuery } from "./useRequest";
+import { toast, useToast } from "@chakra-ui/react";
 
 interface RescheduleData {
     courseCode: string;
@@ -29,10 +30,11 @@ interface RescheduleData {
 
 export interface ScheduleContextType {
     schedule: RawSchedule;
-    lastGeneratedDate: Date;
+    lastUpdatedDate: Date;
     isLoading: boolean;
     error: AxiosError;
     generated: boolean;
+    isSaving: boolean;
     generateSchedule: (
         config?: AxiosRequestConfig<any>,
         options?: RefetchOptions
@@ -63,11 +65,24 @@ export function ScheduleProvider({
     children: ReactNode;
 }): JSX.Element {
     const [schedule, setSchedule] = useState<RawSchedule>(null);
-    const [lastGeneratedDate, setLastGeneratedDate] = useState<Date>(null);
+    const [lastUpdatedDate, setLastUpdatedDate] = useState<Date>(null);
     const [generated, setGenerated] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     const [company, setCompany] = useState("2");
     const [useMockData, setUseMockData] = useState(false);
+
+    const rawToast = useToast({
+        position: "bottom-left",
+        duration: 4000,
+        isClosable: true,
+    });
+    const toast = useCallback(
+        (message) => {
+            rawToast(message);
+        },
+        [rawToast]
+    );
 
     const {
         data,
@@ -93,7 +108,7 @@ export function ScheduleProvider({
             try {
                 const parsedSchedule = JSON.parse(localSchedule);
                 console.log("parsed schedule", parsedSchedule);
-                setLastGeneratedDate(parsedSchedule.date);
+                setLastUpdatedDate(parsedSchedule.date);
                 setSchedule({
                     fall: parsedSchedule.fall,
                     spring: parsedSchedule.spring,
@@ -110,18 +125,27 @@ export function ScheduleProvider({
     }, [data]);
 
     // save schedule to localstorage
-    const saveSchedule = () => {
+    const saveSchedule = useCallback(() => {
         if (schedule) {
+            setIsSaving(true);
             console.log("saving schedule");
+            const saveDate = new Date();
             const scheduleWithDate = {
                 ...schedule,
-                date: new Date(),
+                date: saveDate,
             };
+            setLastUpdatedDate(saveDate);
             localStorage.setItem("schedule", JSON.stringify(scheduleWithDate));
+            setIsSaving(false);
+            toast({
+                title: "Schedule Saved",
+                description: "Your schedule has been saved.",
+                status: "success",
+            });
         } else {
             console.log("no schedule to save");
         }
-    };
+    }, [schedule, toast]);
 
     const generateSchedule = useCallback(
         (
@@ -210,10 +234,11 @@ export function ScheduleProvider({
         <ScheduleContext.Provider
             value={{
                 schedule,
-                lastGeneratedDate,
+                lastUpdatedDate,
                 isLoading,
                 error,
                 generated,
+                isSaving,
                 generateSchedule,
                 setCompany,
                 setUseMockData,

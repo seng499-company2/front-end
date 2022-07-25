@@ -9,6 +9,7 @@ import {
     Box,
     Tooltip,
     VStack,
+    Checkbox,
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
@@ -23,21 +24,25 @@ import Calendar from "@components/Schedule/Calendar";
 import { convertRawToTableSchedule } from "@lib/convert";
 import { ScheduleView, Semester } from "src/types/calendar";
 import useSchedule from "@hooks/useSchedule";
+import { useAutoSave } from "@hooks/useAutoSave";
 
 const Schedules = () => {
     const [semester, setSemester] = useState<Semester>("fall");
     const [view, setView] = useState<ScheduleView>("calendar");
+    const [autoSaveIsDisabled, setAutoSaveIsDisabled] = useState(true);
 
     const {
         schedule,
         error,
         isLoading,
         generated,
-        lastGeneratedDate,
+        lastUpdatedDate,
+        isSaving,
         generateSchedule,
         saveSchedule,
     } = useSchedule();
 
+    useAutoSave(saveSchedule, autoSaveIsDisabled);
     const toggleScheduleView = () => {
         setView((prevView) => {
             return prevView === "calendar" ? "table" : "calendar";
@@ -61,22 +66,50 @@ const Schedules = () => {
 
     const isCalendar = view === "calendar";
 
-    const lastGenerated = lastGeneratedDate
-        ? new Date(lastGeneratedDate)
-        : null;
+    const lastGenerated = lastUpdatedDate ? new Date(lastUpdatedDate) : null;
 
     return (
         <Flex flexDirection="column" gap={8}>
             {/* display small last generated date */}
             <VStack gap={0} alignItems="stretch">
-                {lastGenerated && (
-                    <Tooltip label={`${lastGenerated.toLocaleString()}`}>
-                        <Text fontSize="sm" color="gray.500" alignSelf={"end"}>
-                            Last updated:{" "}
-                            {lastGenerated?.toLocaleDateString("en-US")}
-                        </Text>
+                <HStack justifyContent={"space-between"}>
+                    <Tooltip
+                        alignSelf={"start"}
+                        maxW={100}
+                        placement="right"
+                        label={`Change to ${
+                            isCalendar ? "Table" : "Calendar"
+                        } view`}
+                        aria-label="Toggle schedule view"
+                    >
+                        <IconButton
+                            aria-label="Toggle schedule view"
+                            onClick={toggleScheduleView}
+                            variant="ghost"
+                            size="lg"
+                            icon={
+                                view === "calendar" ? (
+                                    <ImTable />
+                                ) : (
+                                    <CalendarIcon />
+                                )
+                            }
+                        />
                     </Tooltip>
-                )}
+                    {lastGenerated && (
+                        <Tooltip label={`${lastGenerated.toLocaleString()}`}>
+                            <Text
+                                fontSize="sm"
+                                color="gray.500"
+                                alignSelf={"end"}
+                            >
+                                Last updated:{" "}
+                                {lastGenerated?.toLocaleDateString("en-US")}
+                            </Text>
+                        </Tooltip>
+                    )}
+                </HStack>
+
                 <HStack justifyContent={"space-between"}>
                     <HStack gap={4}>
                         {/* <DeveloperSettings
@@ -92,38 +125,50 @@ const Schedules = () => {
                         }}
                     /> */}
                         {generated && (
-                            <Select
-                                onChange={(e) => {
-                                    setSemester(e.target.value as Semester);
-                                }}
-                            >
-                                <option value="fall">Fall</option>
-                                <option value="spring">Spring</option>
-                                <option value="summer">Summer</option>
-                            </Select>
+                            <>
+                                <Select
+                                    onChange={(e) => {
+                                        setSemester(e.target.value as Semester);
+                                    }}
+                                >
+                                    <option value="fall">Fall</option>
+                                    <option value="spring">Spring</option>
+                                    <option value="summer">Summer</option>
+                                </Select>
+
+                                {isCalendar && (
+                                    <>
+                                        <Button
+                                            onClick={saveSchedule}
+                                            minW={20}
+                                            isLoading={isSaving}
+                                        >
+                                            Save
+                                        </Button>
+                                        <Checkbox
+                                            gap={2}
+                                            minW={"fit-content"}
+                                            isChecked={!autoSaveIsDisabled}
+                                            onChange={() =>
+                                                setAutoSaveIsDisabled(
+                                                    (prev) => !prev
+                                                )
+                                            }
+                                        >
+                                            <>
+                                                <Text>Auto save</Text>
+                                                <Text
+                                                    fontSize={"sm"}
+                                                    color={"gray.400"}
+                                                >
+                                                    Periodic
+                                                </Text>
+                                            </>
+                                        </Checkbox>
+                                    </>
+                                )}
+                            </>
                         )}
-                        <Tooltip
-                            maxW={100}
-                            placement="right"
-                            label={`Change to ${
-                                isCalendar ? "Table" : "Calendar"
-                            } view`}
-                            aria-label="Toggle schedule view"
-                        >
-                            <IconButton
-                                aria-label="Toggle schedule view"
-                                onClick={toggleScheduleView}
-                                variant="ghost"
-                                size="lg"
-                                icon={
-                                    view === "calendar" ? (
-                                        <ImTable />
-                                    ) : (
-                                        <CalendarIcon />
-                                    )
-                                }
-                            />
-                        </Tooltip>
                     </HStack>
                     {generated && (
                         <Box>
