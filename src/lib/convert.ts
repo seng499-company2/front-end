@@ -8,6 +8,7 @@ import {
     Section,
     Semester,
     TableSchedule,
+    TableScheduledCourse,
 } from "src/types/calendar";
 import { formatInitEventTimes, formatSectionNum } from "./format";
 
@@ -45,11 +46,12 @@ export const convertRawToTableSchedule = (data: {
 // convert backend data to our data format per course
 export const convertRawToTableScheduledCourse = (backendData) => {
     const { course, sections } = backendData;
-    const { code, title } = course;
+    const { code, title, yearRequired } = course;
 
     const ourData = sections.map((section, idx) => {
         const {
             capacity,
+            maxCapacity,
             professor: { name },
             timeSlots,
         } = section;
@@ -67,11 +69,13 @@ export const convertRawToTableScheduledCourse = (backendData) => {
         }, {});
 
         return {
-            course: { code, title },
+            course: { code, title, yearRequired },
             section: formatSectionNum(idx + 1),
             professor: name,
             time,
             capacity,
+            maxCapacity,
+            sections,
         };
     });
 
@@ -187,4 +191,22 @@ export const convertEventsToRaw = (
     }
 
     return raw;
+};
+
+export const convertSingleTableRowToRaw = (row: TableScheduledCourse): any => {
+    console.log(row);
+    const { course, section, sections } = row;
+
+    const { code, title, yearRequired } = course;
+
+    // convert A01, A02, A03 to 0, 1, 2
+    const sectionIdx = sections.findIndex(
+        (section) => section.display === section.section
+    );
+
+    return {
+        course: { code, title, yearRequired },
+        sections,
+        section: sectionIdx,
+    };
 };

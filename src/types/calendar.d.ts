@@ -59,10 +59,12 @@ interface RawScheduledCourse extends BaseScheduledCourse {
 
 interface TableScheduledCourse {
     capacity: number;
+    maxCapacity: number;
     course: BaseCourse;
     professor: string;
     section: string;
     time: TableTimeSlots;
+    sections: Sections[];
 }
 
 interface EventScheduledCourse extends BaseScheduledCourse {
@@ -117,6 +119,7 @@ export {
     EventSection,
     EventScheduledCourse,
     RawScheduledCourse,
+    TableScheduledCourse,
     ScheduleEvent,
     ScheduleCourseEventChange,
     RawSchedule,

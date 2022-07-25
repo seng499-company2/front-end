@@ -5,6 +5,7 @@ import { useCallback, useMemo } from "react";
 import Table from "../Table";
 import { CourseNameBox } from "src/components/Courses/CourseNameBox";
 import { CourseTimeBox } from "src/components/Schedule/CourseTimeBox";
+import { convertSingleTableRowToRaw } from "@lib/convert";
 
 const columns = [
     {
@@ -56,6 +57,7 @@ const ScheduleTable = ({ schedule }) => {
     const onClick = useCallback((scheduledSection) => {
         // TODO: show schedule sidesheet
         console.log("table selection", scheduledSection);
+        console.log("converted", convertSingleTableRowToRaw(scheduledSection));
     }, []);
 
     const data = useMemo(() => {

@@ -17,7 +17,7 @@ import {
     RawTimeSlot,
 } from "src/types/calendar";
 import { useGetQuery } from "./useRequest";
-import { toast, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 
 interface RescheduleData {
     courseCode: string;
@@ -130,7 +130,6 @@ export function ScheduleProvider({
     const saveSchedule = useCallback(() => {
         if (schedule) {
             setIsSaving(true);
-            console.log("saving schedule");
             const saveDate = new Date();
             const scheduleWithDate = {
                 ...schedule,
@@ -145,7 +144,7 @@ export function ScheduleProvider({
                 status: "success",
             });
         } else {
-            console.log("no schedule to save");
+            console.error("no schedule to save");
         }
     }, [schedule, toast]);
 
@@ -172,8 +171,6 @@ export function ScheduleProvider({
          */
         (rescheduleData: RescheduleData, semester: Semester) => {
             const { courseCode, courseSectionId, timeSlots } = rescheduleData;
-
-            console.log("rescheduleSection");
 
             setSchedule((prevSchedule) => {
                 const newSchedule = {
@@ -212,6 +209,8 @@ export function ScheduleProvider({
 
     // edit course and/or section data
     const editCourse = useCallback((newCourseData, semester): void => {
+        // TODO make this function work
+
         setSchedule((prevSchedule) => ({
             // const newSchedule = {
             ...prevSchedule,
@@ -229,8 +228,6 @@ export function ScheduleProvider({
             }),
         }));
     }, []);
-
-    console.log("ScheduleProvider: render");
 
     return (
         <ScheduleContext.Provider
