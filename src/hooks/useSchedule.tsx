@@ -35,6 +35,8 @@ export interface ScheduleContextType {
     error: AxiosError;
     generated: boolean;
     isSaving: boolean;
+    useMockData: boolean;
+    company: string;
     generateSchedule: (
         config?: AxiosRequestConfig<any>,
         options?: RefetchOptions
@@ -239,6 +241,8 @@ export function ScheduleProvider({
                 error,
                 generated,
                 isSaving,
+                useMockData,
+                company,
                 generateSchedule,
                 setCompany,
                 setUseMockData,

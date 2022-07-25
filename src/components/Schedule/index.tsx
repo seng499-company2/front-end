@@ -112,18 +112,8 @@ const Schedules = () => {
 
                 <HStack justifyContent={"space-between"}>
                     <HStack gap={4}>
-                        {/* <DeveloperSettings
-                        {...{
-                            error: isError,
-                            setUseMockData,
-                            setCompany,
-                            setSemester,
-                            generated,
-                            useMockData,
-                            company,
-                            execute,
-                        }}
-                    /> */}
+                        {/* @ts-ignore */}
+                        {window?.dev && <DeveloperSettings />}
                         {generated && (
                             <>
                                 <Select
