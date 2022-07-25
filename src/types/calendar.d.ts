@@ -10,10 +10,10 @@ type DayOfWeek = "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY";
 type TableTimeSlots = { [time: string]: number[] };
 
 interface BaseCourse {
-    course_title: string;
-    course_code: string;
+    title: string;
+    code: string;
     yearRequired: number;
-    max_capacity: number;
+    maxCapacity: number;
 }
 
 interface RawCourse extends BaseCourse {
@@ -41,6 +41,7 @@ interface Section {
     capacity: number;
     professor: Professor;
     timeSlots: RawTimeSlot[];
+    maxCapacity: number;
 }
 
 interface EventSection extends Section {
@@ -58,10 +59,12 @@ interface RawScheduledCourse extends BaseScheduledCourse {
 
 interface TableScheduledCourse {
     capacity: number;
+    maxCapacity: number;
     course: BaseCourse;
     professor: string;
     section: string;
     time: TableTimeSlots;
+    sections: Sections[];
 }
 
 interface EventScheduledCourse extends BaseScheduledCourse {
@@ -116,6 +119,7 @@ export {
     EventSection,
     EventScheduledCourse,
     RawScheduledCourse,
+    TableScheduledCourse,
     ScheduleEvent,
     ScheduleCourseEventChange,
     RawSchedule,

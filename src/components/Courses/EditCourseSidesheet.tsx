@@ -16,10 +16,7 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
     const toast = useToast();
 
     const { data, isLoading, isError, execute } = useGetQuery(
-        `/courses/?course_code=${course.course_code}/`,
-        {
-            useCache: false,
-        }
+        `/api/course/${course.course_code}/`
     );
 
     console.log(data);

@@ -167,7 +167,7 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
                 ),
             };
         });
-    }, [data, onClick]);
+    }, [data, execute, isError, isLoading, onClick, primary]);
 
     return <Table columns={columns} data={makeTableData} />;
 };
