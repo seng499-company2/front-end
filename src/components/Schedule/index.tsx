@@ -100,7 +100,6 @@ const Schedules = () => {
                                 onChange={(e) => {
                                     setSemester(e.target.value as Semester);
                                 }}
-                                w="200px"
                             >
                                 <option value="fall">Fall</option>
                                 <option value="spring">Spring</option>

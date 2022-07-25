@@ -53,8 +53,6 @@ const ScheduleTable = ({ schedule, onClick }) => {
         },
     ];
 
-    console.log(schedule[0]);
-
     const data = useMemo(() => {
         if (!schedule || schedule?.length === 0) return [];
         return schedule.map((row) => {

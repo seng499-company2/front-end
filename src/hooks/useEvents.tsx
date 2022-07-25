@@ -22,10 +22,16 @@ function isDayOfWeek(day: string): day is DayOfWeek {
     return DAYS_OF_WEEK.includes(day as any);
 }
 
+function formatTimeDigits(time: number): string {
+    return `${time < 10 ? "0" : ""}${time}`;
+}
+
 function convertEventTimeToTimeSlot(start, end): RawTimeSlot {
     // convert start and end dates to time slots e.g. {dayOfWeek: "MONDAY", timeRange: ["08:00 - 09:15"] }
-    const startTime = `${start.getHours()}:${start.getMinutes()}`;
-    const endTime = `${end.getHours()}:${end.getMinutes()}`;
+    const startTime = `${start.getHours()}:${formatTimeDigits(
+        start.getMinutes()
+    )}`;
+    const endTime = `${end.getHours()}:${formatTimeDigits(end.getMinutes())}`;
     const dayOfWeek = formatDateWeekday(start).toUpperCase();
 
     if (!isDayOfWeek(dayOfWeek)) return null;
