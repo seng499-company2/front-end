@@ -2,9 +2,10 @@ import Sidesheet from "../Layout/Sidesheet";
 import CourseForm from "./CourseForm";
 import { useState } from "react";
 
-import { usePostQuery, useDeleteQuery } from "@hooks/useRequest";
+import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
 import { useToast, useDisclosure } from "@chakra-ui/react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
+import WillingProfList from "./WillingProfList";
 
 export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -14,6 +15,10 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
         onClose: deleteOnClose,
     } = useDisclosure();
     const toast = useToast();
+
+    const { data: extraData, isLoading: isExtraDataLoading } = useGetQuery(
+        `/api/course/${course.course_code}/`
+    );
 
     const { execute: executeEdit, isLoading: isDataSaving } = usePostQuery(
         `/api/course/${course.course_code}/`
@@ -111,6 +116,10 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
                     data={course}
                     disabled={!isEditing}
                     formId={formId}
+                />
+                <WillingProfList
+                    data={extraData}
+                    isLoading={isExtraDataLoading}
                 />
             </Sidesheet>
             <DeleteConfirmation
