@@ -40,7 +40,7 @@ const Calendar = ({ schedule, semester }) => {
             event: {
                 id,
                 details: {
-                    course: { course_code },
+                    course: { code },
                     section,
                 },
             },
@@ -49,7 +49,7 @@ const Calendar = ({ schedule, semester }) => {
         // update event in state
         moveEvent(id, newStart, newEnd, semester, {
             type: "resize",
-            code: course_code,
+            code,
             section,
         });
     };
@@ -61,7 +61,7 @@ const Calendar = ({ schedule, semester }) => {
             event: {
                 id,
                 details: {
-                    course: { course_code },
+                    course: { code },
                     section,
                 },
             },
@@ -70,7 +70,7 @@ const Calendar = ({ schedule, semester }) => {
         // update event in state
         moveEvent(id, newStart, newEnd, semester, {
             type: "drop",
-            code: course_code,
+            code,
             section,
         });
     };
@@ -87,7 +87,7 @@ const Calendar = ({ schedule, semester }) => {
     }, []);
 
     const onSelectEvent = (event) => {
-        console.log("selected", event);
+        console.log("calendar select", event);
     };
 
     const localizer = initLocalizer();

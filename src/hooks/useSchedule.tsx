@@ -4,7 +4,6 @@ import React, {
     useCallback,
     useContext,
     useEffect,
-    useRef,
     useState,
 } from "react";
 import { AxiosError, AxiosPromise, AxiosRequestConfig } from "axios";
@@ -63,8 +62,7 @@ export function ScheduleProvider({
 }: {
     children: ReactNode;
 }): JSX.Element {
-    // const [schedule, setSchedule] = useState<RawSchedule>(null);
-    const scheduleRef = useRef(null);
+    const [schedule, setSchedule] = useState<RawSchedule>(null);
     const [lastGeneratedDate, setLastGeneratedDate] = useState<Date>(null);
     const [generated, setGenerated] = useState(false);
 
@@ -96,27 +94,27 @@ export function ScheduleProvider({
                 const parsedSchedule = JSON.parse(localSchedule);
                 console.log("parsed schedule", parsedSchedule);
                 setLastGeneratedDate(parsedSchedule.date);
-                scheduleRef.current = {
+                setSchedule({
                     fall: parsedSchedule.fall,
                     spring: parsedSchedule.spring,
                     summer: parsedSchedule.summer,
-                };
+                });
                 setGenerated(true);
             } catch (e) {
                 console.error(e);
-                scheduleRef.current = data;
+                setSchedule(data);
             }
         } else {
-            scheduleRef.current = data;
+            setSchedule(data);
         }
     }, [data]);
 
     // save schedule to localstorage
     const saveSchedule = () => {
-        if (scheduleRef.current) {
+        if (schedule) {
             console.log("saving schedule");
             const scheduleWithDate = {
-                ...scheduleRef.current,
+                ...schedule,
                 date: new Date(),
             };
             localStorage.setItem("schedule", JSON.stringify(scheduleWithDate));
@@ -137,83 +135,6 @@ export function ScheduleProvider({
         [execute]
     );
 
-    /*
-{
-    "course": {
-        "code": "SENG360",
-        "title": "Security Engineering",
-        "pengRequired": {
-            "fall": false,
-            "spring": false,
-            "summer": false
-        },
-        "yearRequired": 3
-    },
-    "sections": [
-        {
-            "professor": {
-                "id": "6",
-                "name": "Neil Ernst"
-            },
-            "capacity": 89,
-            "timeSlots": [
-                {
-                    "dayOfWeek": "TUESDAY",
-                    "timeRange": [
-                        "14:30",
-                        "15:20"
-                    ]
-                },
-                {
-                    "dayOfWeek": "WEDNESDAY",
-                    "timeRange": [
-                        "14:30",
-                        "15:20"
-                    ]
-                },
-                {
-                    "dayOfWeek": "FRIDAY",
-                    "timeRange": [
-                        "14:30",
-                        "15:20"
-                    ]
-                }
-            ]
-        },
-        {
-            "professor": {
-                "id": "6",
-                "name": "Neil Ernst"
-            },
-            "capacity": 30,
-            "timeSlots": [
-                {
-                    "dayOfWeek": "TUESDAY",
-                    "timeRange": [
-                        "14:30",
-                        "15:20"
-                    ]
-                },
-                {
-                    "dayOfWeek": "WEDNESDAY",
-                    "timeRange": [
-                        "14:30",
-                        "15:20"
-                    ]
-                },
-                {
-                    "dayOfWeek": "FRIDAY",
-                    "timeRange": [
-                        "14:30",
-                        "15:20"
-                    ]
-                }
-            ]
-        }
-    ]
-}
-    */
-
     // reschedule section
     const rescheduleSection = useCallback(
         /**
@@ -226,65 +147,49 @@ export function ScheduleProvider({
         (rescheduleData: RescheduleData, semester: Semester) => {
             const { courseCode, courseSectionId, timeSlots } = rescheduleData;
 
-            // setSchedule((prevSchedule) => {
-            scheduleRef.current = {
-                // const newSchedule = {
-                ...scheduleRef.current,
-                [semester]: scheduleRef.current[semester].map(
-                    (scheduledCourse: RawScheduledCourse) => {
-                        if (scheduledCourse.course.course_code === courseCode) {
-                            console.log(scheduledCourse);
-                            // update start and end times
-                            // return {
-                            //     ...course,
-                            //     // todo: clean this up
-                            //     [`${semester}_sections`]: course[
-                            //         `${semester}_sections`
-                            //     ].map((section: Section, idx: number) => {
-                            //         if (idx === courseSectionId) {
-                            //             return {
-                            //                 ...section,
-                            //                 timeSlots: newTimeSlots,
-                            //             };
-                            //         }
-                            //         // no matching section, return original
-                            //         // shouldn't happen
-                            //         return section;
-                            //     }),
-                            // };
+            console.log("rescheduleSection");
 
-                            return {
-                                ...scheduledCourse,
-                                sections: scheduledCourse.sections.map(
-                                    (section: Section, idx: number) => {
-                                        if (idx === courseSectionId) {
-                                            return {
-                                                ...section,
-                                                timeSlots:
-                                                    timeSlots.newTimeSlots,
-                                            };
+            setSchedule((prevSchedule) => {
+                const newSchedule = {
+                    ...prevSchedule,
+                    [semester]: prevSchedule[semester].map(
+                        (scheduledCourse: RawScheduledCourse) => {
+                            if (scheduledCourse.course.code === courseCode) {
+                                console.log({ scheduledCourse });
+                                // update start and end times
+
+                                return {
+                                    ...scheduledCourse,
+                                    sections: scheduledCourse.sections.map(
+                                        (section: Section, idx: number) => {
+                                            if (idx === courseSectionId) {
+                                                return {
+                                                    ...section,
+                                                    timeSlots:
+                                                        timeSlots.newTimeSlots,
+                                                };
+                                            }
+                                            return section;
                                         }
-                                        return section;
-                                    }
-                                ),
-                            };
+                                    ),
+                                };
+                            }
+                            return scheduledCourse;
                         }
-                        return scheduledCourse;
-                    }
-                ),
-            };
-            //     return newSchedule;
-            // });
+                    ),
+                };
+                return newSchedule;
+            });
         },
         []
     );
 
     // edit course and/or section data
     const editCourse = useCallback((newCourseData, semester): void => {
-        scheduleRef.current = {
+        setSchedule((prevSchedule) => ({
             // const newSchedule = {
-            ...scheduleRef.current,
-            [semester]: scheduleRef.current[semester].map((course) => {
+            ...prevSchedule,
+            [semester]: prevSchedule[semester].map((course) => {
                 if (course.course.code === newCourseData.code) {
                     return {
                         ...course,
@@ -296,9 +201,7 @@ export function ScheduleProvider({
                 }
                 return course;
             }),
-        };
-        //     return newSchedule;
-        // });
+        }));
     }, []);
 
     console.log("ScheduleProvider: render");
@@ -306,7 +209,7 @@ export function ScheduleProvider({
     return (
         <ScheduleContext.Provider
             value={{
-                schedule: scheduleRef.current,
+                schedule,
                 lastGeneratedDate,
                 isLoading,
                 error,

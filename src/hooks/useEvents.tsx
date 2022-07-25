@@ -3,7 +3,7 @@ import { formatOnDropToast, formatOnResizeToast } from "@lib/calendar";
 import { DAYS_OF_WEEK } from "@lib/constants";
 import { convertRawToEventsSchedule } from "@lib/convert";
 import { formatDateWeekday } from "@lib/format";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
     CalendarYearSchedule,
@@ -51,6 +51,7 @@ export const useEvents = (rawSchedule: RawSchedule, semester: Semester) => {
         },
         [rawToast]
     );
+
     // add 7 days to weekStart  OR figure out how to disable current day styling on table
     const weekStartFuture = useMemo(
         () =>
@@ -67,13 +68,9 @@ export const useEvents = (rawSchedule: RawSchedule, semester: Semester) => {
         weekStartFuture,
     ]);
 
-    // const dataRef = useRef(
-    //     convertInitialEvents(rawSchedule, semester, weekStartFuture)
-    // );
-
     const [events, setEvents] = useState<CalendarYearSchedule>(
         convertInitialEvents(rawSchedule, semester, weekStartFuture)
-    ); // dataRef.current);
+    );
 
     useEffect(() => {
         const initEvents = convertInitialEvents(
@@ -82,7 +79,6 @@ export const useEvents = (rawSchedule: RawSchedule, semester: Semester) => {
             weekStartFuture
         );
         setEvents(initEvents);
-        //dataRef.current = initEvents;
     }, [convertInitialEvents, rawSchedule, semester, weekStartFuture]);
 
     const moveEvent = useCallback(
@@ -93,71 +89,51 @@ export const useEvents = (rawSchedule: RawSchedule, semester: Semester) => {
             let oldTimeSlots: RawTimeSlot[] = [];
             let newTimeSlots: RawTimeSlot[] = [];
 
-            setEvents((prevEvents) => {
-                const newEvents = {
-                    ...events,
-                    [semester]: events[semester].map((event: ScheduleEvent) => {
-                        if (
-                            event.details.course.code === toastData.code &&
-                            event.details.section.id === toastData.section.id
-                        ) {
-                            oldTimeSlots.push(
-                                convertEventTimeToTimeSlot(
-                                    event.start,
-                                    event.end
-                                )
-                            );
-                            if (event.id === id) {
-                                console.log(event.id, id);
-                                course = event.details.course;
-                                sectionId = event.details.section.id;
-                                newTimeSlots.push(
-                                    convertEventTimeToTimeSlot(newStart, newEnd)
-                                );
-                                // update start and end times
-                                return {
-                                    ...event,
-                                    start: newStart,
-                                    end: newEnd,
-                                };
-                            } else {
-                                newTimeSlots.push(
-                                    convertEventTimeToTimeSlot(
-                                        event.start,
-                                        event.end
-                                    )
-                                );
-                            }
-                        }
-
-                        return event;
-                    }),
-                };
-
-                console.log({ course, sectionId, newTimeSlots });
-
-                if (course) {
-                    rescheduleSection(
-                        {
-                            courseCode: course.code,
-                            courseSectionId: sectionId,
-                            timeSlots: {
-                                oldTimeSlots,
-                                newTimeSlots,
-                            },
-                        },
-                        semester
+            events[semester].map((event: ScheduleEvent) => {
+                if (
+                    event.details.course.code === toastData.code &&
+                    event.details.section.id === toastData.section.id
+                ) {
+                    oldTimeSlots.push(
+                        convertEventTimeToTimeSlot(event.start, event.end)
                     );
+                    if (event.id === id) {
+                        console.log(event.id, id);
+                        course = event.details.course;
+                        sectionId = event.details.section.id;
+                        newTimeSlots.push(
+                            convertEventTimeToTimeSlot(newStart, newEnd)
+                        );
+                        // update start and end times
+                        return {
+                            ...event,
+                            start: newStart,
+                            end: newEnd,
+                        };
+                    } else {
+                        newTimeSlots.push(
+                            convertEventTimeToTimeSlot(event.start, event.end)
+                        );
+                    }
                 }
 
-                // dataRef.current = newEvents;
-                // localStorage.setItem(
-                //     "schedule",
-                //     JSON.stringify(convertEventsToRaw(newEvents))
-                // );
-
-                return newEvents;
+                return event;
             });
+
+            if (course) {
+                rescheduleSection(
+                    {
+                        courseCode: course.code,
+                        courseSectionId: sectionId,
+                        timeSlots: {
+                            oldTimeSlots,
+                            newTimeSlots,
+                        },
+                    },
+                    semester
+                );
+            }
+
             if (type === "drop") {
                 toast(
                     formatOnDropToast({
@@ -181,7 +157,7 @@ export const useEvents = (rawSchedule: RawSchedule, semester: Semester) => {
         [events, rescheduleSection, toast]
     );
 
-    const { filteredData, onFilterChange } = useCalendarFilter(events); // dataRef.current);
+    const { filteredData, onFilterChange } = useCalendarFilter(events);
 
     return { events: filteredData, moveEvent, onFilterChange };
 };

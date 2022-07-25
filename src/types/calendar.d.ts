@@ -10,10 +10,10 @@ type DayOfWeek = "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY";
 type TableTimeSlots = { [time: string]: number[] };
 
 interface BaseCourse {
-    course_title: string;
-    course_code: string;
+    title: string;
+    code: string;
     yearRequired: number;
-    max_capacity: number;
+    maxCapacity: number;
 }
 
 interface RawCourse extends BaseCourse {
