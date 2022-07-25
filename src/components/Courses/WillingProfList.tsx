@@ -25,7 +25,6 @@ const WillingProfList = ({ data, isLoading }) => {
             </>
         );
 
-    console.log(data.willingProfessors.length);
     if (Object.values(data.willingProfessors).length === 0)
         return (
             <>
