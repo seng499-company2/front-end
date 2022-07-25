@@ -13,6 +13,7 @@ import { useCalendarRange } from "@hooks/useCalendarRange";
 import Toolbar from "./Toolbar";
 import WeekHeader from "./WeekHeader";
 import { ScheduleCourseEventChange } from "src/types/calendar";
+import { convertSingleEventToRaw } from "@lib/convert";
 
 function withEventFilter(Component, onFilter) {
     return function EventFilter(props) {
@@ -88,6 +89,7 @@ const Calendar = ({ schedule, semester }) => {
 
     const onSelectEvent = (event) => {
         console.log("calendar select", event);
+        console.log("converted to", convertSingleEventToRaw(event));
     };
 
     const localizer = initLocalizer();

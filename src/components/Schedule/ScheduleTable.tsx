@@ -1,57 +1,62 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import Table from "../Table";
 import { CourseNameBox } from "src/components/Courses/CourseNameBox";
 import { CourseTimeBox } from "src/components/Schedule/CourseTimeBox";
 
-const ScheduleTable = ({ schedule, onClick }) => {
-    const columns = [
-        {
-            Header: "Course",
-            accessor: "course",
-            filter: {
-                type: "text",
-                key: "codeAndName",
-            },
+const columns = [
+    {
+        Header: "Course",
+        accessor: "course",
+        filter: {
+            type: "text",
+            key: "codeAndName",
         },
-        {
-            Header: "Section",
-            accessor: "section",
-            filter: {
-                type: "dropdown",
-                options: [
-                    { label: "A01", value: "A01" },
-                    { label: "A02", value: "A02" },
-                ],
-            },
-            disableSortBy: true,
+    },
+    {
+        Header: "Section",
+        accessor: "section",
+        filter: {
+            type: "dropdown",
+            options: [
+                { label: "A01", value: "A01" },
+                { label: "A02", value: "A02" },
+            ],
         },
-        {
-            Header: "Professor",
-            accessor: "professor",
-            filter: {
-                type: "text",
-            },
+        disableSortBy: true,
+    },
+    {
+        Header: "Professor",
+        accessor: "professor",
+        filter: {
+            type: "text",
         },
-        {
-            Header: "Time",
-            accessor: "time",
-            disableFilterBy: true,
-        },
-        {
-            Header: "Capacity",
-            accessor: "capacity",
-            disableFilterBy: true,
-        },
-        {
-            Header: "",
-            accessor: "details",
-            disableSortBy: true,
-            disableFilterBy: true,
-        },
-    ];
+    },
+    {
+        Header: "Time",
+        accessor: "time",
+        disableFilterBy: true,
+    },
+    {
+        Header: "Capacity",
+        accessor: "capacity",
+        disableFilterBy: true,
+    },
+    {
+        Header: "",
+        accessor: "details",
+        disableSortBy: true,
+        disableFilterBy: true,
+    },
+];
+
+const ScheduleTable = ({ schedule }) => {
+    const onClick = useCallback((scheduledSection) => {
+        // TODO: show schedule sidesheet
+        console.log("table selection", scheduledSection);
+    }, []);
 
     const data = useMemo(() => {
         if (!schedule || schedule?.length === 0) return [];

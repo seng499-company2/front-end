@@ -38,10 +38,6 @@ const Schedules = () => {
         saveSchedule,
     } = useSchedule();
 
-    const onClick = (scheduledSection) => {
-        // TODO: show schedule sidesheet
-    };
-
     const toggleScheduleView = () => {
         setView((prevView) => {
             return prevView === "calendar" ? "table" : "calendar";
@@ -171,10 +167,7 @@ const Schedules = () => {
                     {isCalendar ? (
                         <Calendar schedule={schedule} semester={semester} />
                     ) : (
-                        <ScheduleTable
-                            schedule={tableSchedule[semester]}
-                            onClick={onClick}
-                        />
+                        <ScheduleTable schedule={tableSchedule[semester]} />
                     )}
                 </>
             )}

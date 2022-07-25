@@ -41,6 +41,7 @@ interface Section {
     capacity: number;
     professor: Professor;
     timeSlots: RawTimeSlot[];
+    maxCapacity: number;
 }
 
 interface EventSection extends Section {

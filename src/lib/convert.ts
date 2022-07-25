@@ -128,6 +128,7 @@ export const convertRawToEventsSchedule = (
                                         yearRequired:
                                             course.course.yearRequired,
                                         pengRequired: pengRequiredList,
+                                        maxCapacity: course.course.maxCapacity,
                                     },
                                     sections,
                                     section: sections[sectionIdx],
@@ -145,6 +146,35 @@ export const convertRawToEventsSchedule = (
     return events;
 };
 
+export const convertSingleEventToRaw = (event: ScheduleEvent): any => {
+    const {
+        details: { course, sections, section },
+    } = event;
+
+    const { code, title, yearRequired } = course;
+
+    const pengRequired: PEngRequiredRaw = Object.entries(
+        course.pengRequired
+    ).reduce((prev, [s, v]) => (v ? { ...prev, [v]: true } : prev), {
+        fall: false,
+        spring: false,
+        summer: false,
+    });
+
+    const sectionList: Section[] = sections.map((section) => ({
+        capacity: section.capacity,
+        professor: section.professor,
+        timeSlots: section.timeSlots,
+        maxCapacity: section.maxCapacity,
+    }));
+
+    return {
+        course: { code, title, yearRequired, pengRequired },
+        sections: sectionList,
+        section: section.id,
+    };
+};
+
 export const convertEventsToRaw = (
     events: CalendarYearSchedule
 ): RawSchedule => {
@@ -152,35 +182,7 @@ export const convertEventsToRaw = (
 
     for (const [semester, eventsArray] of Object.entries(events)) {
         raw[semester] = eventsArray.map((event) => {
-            const {
-                details: { course, sections, section },
-            } = event;
-
-            const { code, title, yearRequired } = course;
-
-            const pengRequired: PEngRequiredRaw = Object.entries(
-                course.pengRequired
-            ).reduce((prev, [s, v]) => (v ? { ...prev, [s]: true } : prev), {
-                fall: false,
-                spring: false,
-                summer: false,
-            });
-
-            const sectionList: Section[] = sections.map((section) => ({
-                capacity: section.capacity,
-                professor: section.professor,
-                timeSlots: section.timeSlots,
-            }));
-
-            return {
-                course: { code, title, yearRequired, pengRequired },
-                sections: sectionList,
-                section: {
-                    capacity: section.capacity,
-                    professor: section.professor,
-                    timeSlots: section.timeSlots,
-                },
-            };
+            return convertSingleEventToRaw(event);
         });
     }
 
