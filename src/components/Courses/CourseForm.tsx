@@ -76,7 +76,8 @@ const CourseForm = (props) => {
             sectionsTerm.push({
                 section: `A0${i + 1}`,
                 capacity: (
-                    <NumInput
+                    <Field
+                        as={NumInput}
                         name={`${term}_sections[${i}].capacity`}
                         min={0}
                         defaultValue={
@@ -84,14 +85,19 @@ const CourseForm = (props) => {
                             data?.sections?.[term][i]?.capacity ||
                             0
                         }
-                        onChange={(_, v) =>
-                            setFieldValue(`${term}_sections[${i}].capacity`, v)
-                        }
+                        onChange={(_, v) => {
+                            setFieldValue(`${term}_sections[${i}].capacity`, v);
+                            setFieldValue(
+                                `${term}_sections[${i}].maxCapacity`,
+                                0
+                            );
+                        }}
                         isDisabled={disabled}
                     />
                 ),
                 maxCapacity: (
-                    <NumInput
+                    <Field
+                        as={NumInput}
                         name={`${term}_sections[${i}].maxCapacity`}
                         min={0}
                         defaultValue={
@@ -99,12 +105,13 @@ const CourseForm = (props) => {
                             data?.sections?.[term][i]?.maxCapacity ||
                             0
                         }
-                        onChange={(_, v) =>
+                        onChange={(_, v) => {
+                            setFieldValue(`${term}_sections[${i}].capacity`, 0);
                             setFieldValue(
                                 `${term}_sections[${i}].maxCapacity`,
                                 v
-                            )
-                        }
+                            );
+                        }}
                         isDisabled={disabled}
                     />
                 ),
@@ -117,30 +124,9 @@ const CourseForm = (props) => {
             initialValues={{
                 course_code: data?.course_code ?? "",
                 course_title: data?.course_title ?? "",
-                fall_sections: data?.fall_sections || [
-                    {
-                        capacity: 0,
-                        maxCapacity: 0,
-                        professor: null,
-                        timeSlots: [],
-                    },
-                ],
-                spring_sections: data?.spring_sections || [
-                    {
-                        capacity: 0,
-                        maxCapacity: 0,
-                        professor: null,
-                        timeSlots: [],
-                    },
-                ],
-                summer_sections: data?.summer_sections || [
-                    {
-                        capacity: 0,
-                        maxCapacity: 0,
-                        professor: null,
-                        timeSlots: [],
-                    },
-                ],
+                fall_sections: data?.fall_sections || [],
+                spring_sections: data?.spring_sections || [],
+                summer_sections: data?.summer_sections || [],
                 yearRequired: data?.yearRequired || 1,
                 pengRequired: {
                     fall: data?.pengRequired.fall || false,
