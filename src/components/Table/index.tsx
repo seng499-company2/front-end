@@ -1,4 +1,9 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import {
+    ChevronDownIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    ChevronUpIcon,
+} from "@chakra-ui/icons";
 import {
     FormControl,
     Table as ChakraTable,
@@ -8,14 +13,19 @@ import {
     Th,
     Td,
     Flex,
+    NumberInput,
+    NumberInputField,
+    Button,
+    Box,
+    HStack,
 } from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
-import { useTable, useSortBy } from "react-table";
+import { useTable, useSortBy, usePagination } from "react-table";
 
 import TableFilter from "./TableFilter";
 
 const Table = (props) => {
-    const { columns, data, hide = false } = props;
+    const { columns, data, itemsPerPage = 10, hide = false } = props;
     const [tableFilter, setTableFilter] = useState({});
 
     const onFilterChange = useCallback(
@@ -78,17 +88,28 @@ const Table = (props) => {
         return newData;
     }, [data, tableFilter]);
 
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable(
-            {
-                columns,
-                data: filteredData,
-            },
-            useSortBy
-        );
-
-    // TODO: Slice rows for pages
-    let pageRows = rows;
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        prepareRow,
+        page,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        gotoPage,
+        nextPage,
+        previousPage,
+        state: { pageIndex },
+    } = useTable(
+        {
+            columns,
+            data: filteredData,
+            initialState: { pageIndex: 0, pageSize: itemsPerPage },
+        },
+        useSortBy,
+        usePagination
+    );
 
     return (
         <FormControl display={hide ? "none" : null}>
@@ -146,7 +167,7 @@ const Table = (props) => {
                     ))}
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
-                    {pageRows.map((row, rowIdx) => {
+                    {page.map((row, rowIdx) => {
                         prepareRow(row);
                         return (
                             <Tr
@@ -168,6 +189,36 @@ const Table = (props) => {
                     })}
                 </Tbody>
             </ChakraTable>
+            <HStack m={4} alignItems="center">
+                <Button
+                    variant="ghost"
+                    onClick={previousPage}
+                    isDisabled={!canPreviousPage}
+                >
+                    <ChevronLeftIcon ml={1} w={5} h={5} />
+                </Button>
+                <NumberInput
+                    ml={2}
+                    mr={8}
+                    w={28}
+                    min={1}
+                    max={pageOptions.length}
+                    onChange={(_, value) => {
+                        gotoPage(value ? value - 1 : 0);
+                    }}
+                    value={pageIndex + 1}
+                >
+                    <NumberInputField />
+                </NumberInput>
+                <Box>/ {pageOptions.length || 1}</Box>
+                <Button
+                    variant="ghost"
+                    onClick={nextPage}
+                    isDisabled={!canNextPage}
+                >
+                    <ChevronRightIcon ml={1} w={5} h={5} />
+                </Button>
+            </HStack>
         </FormControl>
     );
 };

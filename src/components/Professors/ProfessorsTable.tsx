@@ -113,6 +113,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                     }),
                 [professors, openDetails]
             )}
+            itemsPerPage={25}
         />
     );
 };

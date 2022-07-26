@@ -169,7 +169,7 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
         });
     }, [data, execute, isError, isLoading, onClick, primary]);
 
-    return <Table columns={columns} data={makeTableData} />;
+    return <Table columns={columns} data={makeTableData} itemsPerPage={25} />;
 };
 
 export default CoursesTable;
