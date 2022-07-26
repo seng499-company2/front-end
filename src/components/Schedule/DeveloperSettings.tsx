@@ -11,16 +11,19 @@ import {
     Button,
     HStack,
 } from "@chakra-ui/react";
+import useSchedule from "@hooks/useSchedule";
 
-const DeveloperSettings = ({
-    setUseMockData,
-    setCompany,
-    useMockData,
-    company,
-    execute,
-}) => {
+const DeveloperSettings = ({}) => {
+    const {
+        setUseMockData,
+        setCompany,
+        useMockData,
+        company,
+        generateSchedule,
+    } = useSchedule();
+
     return (
-        <Accordion allowToggle maxW={500}>
+        <Accordion allowToggle maxW={500} minW={"fit-content"}>
             <AccordionItem>
                 <h2>
                     <AccordionButton
@@ -52,7 +55,10 @@ const DeveloperSettings = ({
                                 <Text as="u">Use Company 1 Algorithm</Text>
                             </Checkbox>
                         </VStack>
-                        <Button onClick={() => execute()} colorScheme="red">
+                        <Button
+                            onClick={() => generateSchedule()}
+                            colorScheme="red"
+                        >
                             <Text as="u">Execute</Text>
                         </Button>
                     </HStack>
