@@ -50,11 +50,6 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
             },
         },
         {
-            Header: "# of Sections",
-            accessor: "num_sections",
-            disableFilterBy: true,
-        },
-        {
             Header: "Offered In",
             accessor: "offered",
             filter: {
@@ -144,7 +139,6 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
                     />
                 ),
                 yearRequired: course.yearRequired.toString(),
-                num_sections: countSections(course),
                 offered: (
                     <SemesterBadges
                         semesters={formatSemester(course)}

@@ -119,16 +119,17 @@ const Table = (props) => {
             <ChakraTable {...getTableProps()} variant="striped">
                 <Thead>
                     <Tr>
-                        {columns.map((column) => (
-                            <Td key={column.Header + "-filter"}>
-                                {!column.disableFilterBy && (
-                                    <TableFilter
-                                        column={column}
-                                        onFilter={onFilterChange}
-                                    />
-                                )}
-                            </Td>
-                        ))}
+                        {columns.map(
+                            (column) =>
+                                !column.disableFilterBy && (
+                                    <Td key={column.Header + "-filter"}>
+                                        <TableFilter
+                                            column={column}
+                                            onFilter={onFilterChange}
+                                        />
+                                    </Td>
+                                )
+                        )}
                     </Tr>
                     {headerGroups.map((headerGroup, i) => (
                         <Tr
