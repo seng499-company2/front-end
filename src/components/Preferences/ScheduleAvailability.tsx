@@ -1,10 +1,9 @@
 import { TabList, Tabs, Tab, TabPanel, TabPanels } from "@chakra-ui/react";
+import useProfPrefMeta from "@hooks/useProfPrefMeta";
 import Timetable from "./ScheduleSelector";
 
-const ScheduleAvailability = (props) => {
-    const { setFieldValue, values, isDisabled = false } = props;
-
-    console.log("ScheduleAvailability values: ", values);
+const ScheduleAvailability = () => {
+    const { profType } = useProfPrefMeta();
 
     return (
         <Tabs variant="solid-rounded" colorScheme="green" isLazy>
@@ -15,28 +14,13 @@ const ScheduleAvailability = (props) => {
             </TabList>
             <TabPanels>
                 <TabPanel>
-                    <Timetable
-                        semester="fall"
-                        values={values.fall}
-                        setFieldValue={setFieldValue}
-                        isDisabled={isDisabled}
-                    />
+                    <Timetable semester="fall" />
                 </TabPanel>
                 <TabPanel>
-                    <Timetable
-                        semester="summer"
-                        values={values.summer}
-                        setFieldValue={setFieldValue}
-                        isDisabled={isDisabled}
-                    />
+                    <Timetable semester="summer" />
                 </TabPanel>
                 <TabPanel>
-                    <Timetable
-                        semester="spring"
-                        values={values.spring}
-                        setFieldValue={setFieldValue}
-                        isDisabled={isDisabled}
-                    />
+                    <Timetable semester="spring" />
                 </TabPanel>
             </TabPanels>
         </Tabs>

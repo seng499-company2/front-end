@@ -3,6 +3,9 @@ import { useMemo } from "react";
 
 import Table from "@components/Table";
 import CoursePrefNameCell from "./CoursePrefNameCell";
+import useProfPrefMeta from "@hooks/useProfPrefMeta";
+import { useFormikContext } from "formik";
+import { PreferencesFormType } from "src/types/preferences";
 
 export enum Willingness {
     veryWilling = 3,
@@ -38,14 +41,20 @@ const columns = [
     },
 ];
 
-const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
+const CoursesPreferencesTable = () => {
+    const {
+        values: { coursePreferences },
+        setFieldValue,
+    } = useFormikContext<PreferencesFormType>();
+    const { profType, isDisabled } = useProfPrefMeta();
+
     const makeTableData = useMemo(() => {
-        return Object.keys(values).map((c) => {
+        return Object.keys(coursePreferences).map((c) => {
             return {
                 course: <CoursePrefNameCell name={c} />,
                 willingness: (
                     <Select
-                        value={values[c].willingness}
+                        value={coursePreferences[c].willingness}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.willingness`,
@@ -67,7 +76,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                 ),
                 difficulty: (
                     <Select
-                        value={values[c].difficulty}
+                        value={coursePreferences[c].difficulty}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.difficulty`,
@@ -88,7 +97,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                 ),
             };
         });
-    }, [setFieldValue, values, isDisabled]);
+    }, [setFieldValue, coursePreferences, isDisabled]);
 
     return <Table columns={columns} data={makeTableData} itemsPerPage={10} />;
 };

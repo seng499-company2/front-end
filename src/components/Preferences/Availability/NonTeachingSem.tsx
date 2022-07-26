@@ -1,5 +1,8 @@
 import { FormControl, FormLabel } from "@chakra-ui/react";
+import useProfPrefMeta from "@hooks/useProfPrefMeta";
 import { Select } from "chakra-react-select";
+import { useFormikContext } from "formik";
+import { PreferencesFormType } from "src/types/preferences";
 
 const labels = {
     fall: "Fall",
@@ -7,7 +10,13 @@ const labels = {
     summer: "Summer",
 };
 
-const NonTeachingSem = ({ setFieldValue, value, isDisabled }) => {
+const NonTeachingSem = () => {
+    const {
+        values: { nonTeachingSemester },
+        setFieldValue,
+    } = useFormikContext<PreferencesFormType>();
+    const { profType, isDisabled } = useProfPrefMeta();
+
     return (
         <FormControl>
             <FormLabel>Preferred Non-Teaching Semester</FormLabel>
@@ -15,7 +24,10 @@ const NonTeachingSem = ({ setFieldValue, value, isDisabled }) => {
                 name="nonTeachingSemester"
                 instanceId={"nonTeachingSemester-select"}
                 selectedOptionColor="primary"
-                value={{ label: labels[value], value }}
+                value={{
+                    value: nonTeachingSemester,
+                    label: labels[nonTeachingSemester],
+                }}
                 isDisabled={isDisabled}
                 options={[
                     { value: "fall", label: "Fall" },

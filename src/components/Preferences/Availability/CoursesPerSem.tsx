@@ -1,8 +1,17 @@
 import { FormControl, FormLabel, HStack, Text } from "@chakra-ui/react";
 
 import NumInput from "@components/NumInput";
+import useProfPrefMeta from "@hooks/useProfPrefMeta";
+import { useFormikContext } from "formik";
+import { PreferencesFormType } from "src/types/preferences";
 
-const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
+const CoursesPerSemester = () => {
+    const {
+        values: { numCoursesPerSem, nonTeachingSemester },
+        setFieldValue,
+    } = useFormikContext<PreferencesFormType>();
+    const { profType, isDisabled } = useProfPrefMeta();
+
     return (
         <FormControl>
             <FormLabel>
@@ -14,12 +23,10 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.fall"
-                    isDisabled={
-                        isDisabled || value.nonTeachingSemester === "fall"
-                    }
+                    isDisabled={isDisabled || nonTeachingSemester === "fall"}
                     max={5}
                     min={0}
-                    value={+value.numCoursesPerSem.fall}
+                    value={+numCoursesPerSem.fall}
                     onChange={(v) => setFieldValue("numCoursesPerSem.fall", v)}
                 />
                 <Text alignSelf="center" pl={10}>
@@ -27,12 +34,10 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.spring"
-                    isDisabled={
-                        isDisabled || value.nonTeachingSemester === "spring"
-                    }
+                    isDisabled={isDisabled || nonTeachingSemester === "spring"}
                     max={5}
                     min={0}
-                    value={+value.numCoursesPerSem.spring}
+                    value={+numCoursesPerSem.spring}
                     onChange={(v) =>
                         setFieldValue("numCoursesPerSem.spring", v)
                     }
@@ -42,12 +47,10 @@ const CoursesPerSemester = ({ setFieldValue, isDisabled = false, value }) => {
                 </Text>
                 <NumInput
                     name="numCoursesPerSem.summer"
-                    isDisabled={
-                        isDisabled || value.nonTeachingSemester === "summer"
-                    }
+                    isDisabled={isDisabled || nonTeachingSemester === "summer"}
                     max={5}
                     min={0}
-                    value={+value.numCoursesPerSem.summer}
+                    value={+numCoursesPerSem.summer}
                     onChange={(v) =>
                         setFieldValue("numCoursesPerSem.summer", v)
                     }

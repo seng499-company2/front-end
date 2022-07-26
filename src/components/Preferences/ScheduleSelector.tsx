@@ -1,6 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
+import { useFormikContext } from "formik";
+import { PreferencesFormType } from "src/types/preferences";
+import useProfPrefMeta from "@hooks/useProfPrefMeta";
 
 const dayList = [
     "sunday",
@@ -72,12 +75,18 @@ const selectedColorDict = {
     summer: "#F5761A",
 };
 
-const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
+const Timetable = ({ semester }) => {
+    const {
+        values: {
+            preferredTime: { [semester]: values },
+        },
+        setFieldValue,
+    } = useFormikContext<PreferencesFormType>();
+    const { isDisabled } = useProfPrefMeta();
+
     const today = new Date();
     const first = today.getDate() - today.getDay() + 1;
     const formValue = `preferredTime.${semester}`;
-
-    console.log("Timetable values: ", values);
 
     const [schedule, setSchedule] = useState(
         convertValuesToDatetime(values, first)
@@ -85,6 +94,7 @@ const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
 
     const handleChange = useCallback(
         (newSchedule) => {
+            console.log("handleChange");
             if (!isDisabled) {
                 setSchedule(newSchedule);
                 setFieldValue(formValue, convertToJsonArr(newSchedule));

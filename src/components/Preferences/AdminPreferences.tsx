@@ -57,6 +57,7 @@ const AdminPreferences = ({ professor, isDisabled, handleSubmit }) => {
                     initialValues={initialValues}
                     isProfessorPage={true}
                     handleSubmit={handleSubmit}
+                    profType={professor.type}
                 />
             )}
         </>

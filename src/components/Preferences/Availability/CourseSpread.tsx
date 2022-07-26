@@ -1,4 +1,5 @@
 import { FormControl, FormLabel } from "@chakra-ui/react";
+import useProfPrefMeta from "@hooks/useProfPrefMeta";
 import {
     Select as MultiSelect,
     ActionMeta,
@@ -6,6 +7,8 @@ import {
     OptionBase,
     GroupBase,
 } from "chakra-react-select";
+import { useFormikContext } from "formik";
+import { PreferencesFormType } from "src/types/preferences";
 
 const labels = {
     M: "Monday",
@@ -32,7 +35,13 @@ const preferredDayOptions: PreferredDayOption[] = [
     { label: "Friday", value: "F" },
 ];
 
-const PreferredDays = ({ setFieldValue, values, isDisabled = false }) => {
+const CourseSpread = () => {
+    const {
+        values: { preferredDays },
+        setFieldValue,
+    } = useFormikContext<PreferencesFormType>();
+    const { profType, isDisabled } = useProfPrefMeta();
+
     return (
         <FormControl>
             <FormLabel>Preferred Course Day Spreads</FormLabel>
@@ -43,7 +52,7 @@ const PreferredDays = ({ setFieldValue, values, isDisabled = false }) => {
             >
                 isMulti
                 isDisabled={isDisabled}
-                value={values?.map((v) => ({
+                value={preferredDays?.map((v) => ({
                     label: labels[v],
                     value: v,
                 }))}
@@ -67,4 +76,4 @@ const PreferredDays = ({ setFieldValue, values, isDisabled = false }) => {
     );
 };
 
-export default PreferredDays;
+export default CourseSpread;

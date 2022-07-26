@@ -5,6 +5,8 @@ import Availability from "./Availability";
 import CoursesPreferencesTable from "./CoursePreferencesTable";
 import ScheduleAvailability from "./ScheduleAvailability";
 import DividerHeading from "../DividerHeading";
+import { ProfPrefMetaProvider } from "@hooks/useProfPrefMeta";
+import { PreferencesFormType } from "src/types/preferences";
 
 const PreferencesForm = (props) => {
     const {
@@ -14,73 +16,45 @@ const PreferencesForm = (props) => {
         handleSubmit,
         isError,
         isLoading = false,
+        profType,
     } = props;
+
     return (
-        <Formik
-            enableReinitialize={true}
-            initialValues={initialValues}
-            onSubmit={(values) => {
-                handleSubmit(values);
-            }}
-        >
-            {({ errors, touched, values, setFieldValue }) => {
-                console.log(values);
-                const {
-                    nonTeachingSemester,
-                    numCoursesPerSem,
-                    sabbatical,
-                    preferredDays,
-                    teachingDaysPerWeek,
-                } = values;
-
-                const availabilityValues = {
-                    nonTeachingSemester,
-                    numCoursesPerSem,
-                    sabbatical,
-                    preferredDays,
-                    teachingDaysPerWeek,
-                };
-
-                return (
-                    <Form id="preferences-form">
-                        <DividerHeading title="General Preferences" />
-                        <Availability
-                            setFieldValue={setFieldValue}
-                            values={availabilityValues}
+        <ProfPrefMetaProvider value={{ profType, isDisabled }}>
+            <Formik
+                enableReinitialize={true}
+                initialValues={initialValues as PreferencesFormType}
+                validateOnChange={false}
+                onSubmit={(values) => {
+                    handleSubmit(values);
+                }}
+            >
+                <Form id="preferences-form">
+                    <DividerHeading title="General Preferences" />
+                    <Availability />
+                    <DividerHeading title="Course Preferences" mt={20} />
+                    <CoursesPreferencesTable />
+                    <DividerHeading title="Schedule Preferences" mt={20} />
+                    <ScheduleAvailability />
+                    {isError && (
+                        <Text fontSize="sm" color="red.500">
+                            There was an error saving your preferences.
+                        </Text>
+                    )}
+                    {!isProfessorPage && (
+                        <Button
+                            type="submit"
                             isDisabled={isDisabled}
-                        />
-                        <DividerHeading title="Course Preferences" mt={20} />
-                        <CoursesPreferencesTable
-                            values={values.coursePreferences}
-                            setFieldValue={setFieldValue}
-                            isDisabled={isDisabled}
-                        />
-                        <DividerHeading title="Schedule Preferences" mt={20} />
-                        <ScheduleAvailability
-                            values={values.preferredTime}
-                            setFieldValue={setFieldValue}
-                            isDisabled={isDisabled}
-                        />
-                        {isError && (
-                            <Text fontSize="sm" color="red.500">
-                                There was an error saving your preferences.
-                            </Text>
-                        )}
-                        {!isProfessorPage && (
-                            <Button
-                                type="submit"
-                                isDisabled={isDisabled}
-                                colorScheme={isError ? "red" : "primary"}
-                                isLoading={isLoading}
-                                mt={5}
-                            >
-                                {isError ? "Try Again" : "Submit"}
-                            </Button>
-                        )}
-                    </Form>
-                );
-            }}
-        </Formik>
+                            colorScheme={isError ? "red" : "primary"}
+                            isLoading={isLoading}
+                            mt={5}
+                        >
+                            {isError ? "Try Again" : "Submit"}
+                        </Button>
+                    )}
+                </Form>
+            </Formik>
+        </ProfPrefMetaProvider>
     );
 };
 
