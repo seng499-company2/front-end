@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Box } from "@chakra-ui/react";
+import React, { useCallback, useRef } from "react";
+import { Box, Text } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
 import { useFormikContext } from "formik";
 import { PreferencesFormType } from "src/types/preferences";
@@ -82,7 +82,7 @@ const Timetable = ({ semester, isFillable = true }) => {
         },
         setFieldValue,
     } = useFormikContext<PreferencesFormType>();
-    const { isDisabled } = useProfPrefMeta();
+    const { isDisabled: isDisabledMeta } = useProfPrefMeta();
 
     const today = useRef(new Date());
     const first = today.current.getDate() - today.current.getDay() + 1;
@@ -91,6 +91,8 @@ const Timetable = ({ semester, isFillable = true }) => {
 
     const initVals = useRef(values);
     const schedule = useRef(convertValuesToDatetime(initVals.current, first));
+
+    const isDisabled = isDisabledMeta || !isFillable;
 
     const handleChange = useCallback(
         (newSchedule) => {
@@ -101,6 +103,25 @@ const Timetable = ({ semester, isFillable = true }) => {
         },
         [setFieldValue, formValue, isDisabled]
     );
+
+    if (!isFillable) {
+        return (
+            <Box
+                border="1px solid"
+                borderColor="gray.200"
+                borderRadius="5px"
+                p={2}
+                textAlign="center"
+                fontSize="sm"
+                color="gray.500"
+            >
+                <Text>
+                    Not available with current sabbatical and/or preffered
+                    non-teaching semester choices.
+                </Text>
+            </Box>
+        );
+    }
 
     return (
         <Box

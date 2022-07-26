@@ -26,6 +26,7 @@ const PreferencesForm = (props) => {
                 initialValues={initialValues as PreferencesFormType}
                 validateOnChange={false}
                 onSubmit={(values) => {
+                    console.log(values);
                     handleSubmit(values);
                 }}
             >

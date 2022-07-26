@@ -2,6 +2,7 @@ import { FormControl, FormLabel } from "@chakra-ui/react";
 import useProfPrefMeta from "@hooks/useProfPrefMeta";
 import { Select } from "chakra-react-select";
 import { useFormikContext } from "formik";
+import { useEffect } from "react";
 import { PreferencesFormType } from "src/types/preferences";
 
 const labels = {
@@ -20,11 +21,19 @@ const NonTeachingSem = () => {
     const notAllowed = sabbatical.value;
 
     const selectValue = notAllowed
-        ? { value: null, label: "Not Allowed" }
+        ? { value: "notAllowed", label: "Not Allowed" }
         : {
-              value: nonTeachingSemester,
-              label: labels[nonTeachingSemester],
+              value: nonTeachingSemester ?? "fall",
+              label: labels[nonTeachingSemester] ?? "Fall",
           };
+
+    useEffect(() => {
+        if (notAllowed && nonTeachingSemester) {
+            setFieldValue("nonTeachingSemester", null);
+        } else if (!notAllowed && !nonTeachingSemester) {
+            setFieldValue("nonTeachingSemester", "fall");
+        }
+    }, [notAllowed, setFieldValue, nonTeachingSemester]);
 
     return (
         <FormControl>

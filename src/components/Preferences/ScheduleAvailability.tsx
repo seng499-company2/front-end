@@ -148,8 +148,6 @@ const ScheduleAvailability = () => {
         setFieldValue,
     } = useFormikContext<PreferencesFormType>();
 
-    console.log(preferredTime);
-
     const fillableSems = useMemo(
         () =>
             determineFillableSemesters(
@@ -176,38 +174,61 @@ const ScheduleAvailability = () => {
     const setPreferredTimesIfNotFillable = useCallback(
         (semester) => {
             if (
-                COMPLETE_SEMESTERS.includes(semester) &&
                 !fillableSems.includes(semester) &&
                 preferredTime[semester] !== null
             ) {
+                // not fillable, set to null
                 setPreferredTimes(semester, null);
+            }
+            if (
+                fillableSems.includes(semester) &&
+                preferredTime[semester] === null
+            ) {
+                // reset preferred times to default if necessary
+                setPreferredTimes(semester, []);
             }
         },
         [fillableSems, preferredTime, setPreferredTimes]
     );
 
     useEffect(() => {
+        // WARNING: this is hacky - close to causing infinite loop
         for (const semester of COMPLETE_SEMESTERS) {
             setPreferredTimesIfNotFillable(semester);
         }
     }, [fillableSems, setPreferredTimesIfNotFillable, sabbatical]);
 
+    const disabledSems = {
+        fall: !fillableSems.includes("fall"),
+        spring: !fillableSems.includes("spring"),
+        summer: !fillableSems.includes("summer"),
+    };
+
     return (
         <Tabs variant="solid-rounded" colorScheme="green" isLazy>
             <TabList>
-                <Tab isDisabled={!fillableSems.includes("fall")}>Fall</Tab>
-                <Tab isDisabled={!fillableSems.includes("spring")}>Spring</Tab>
-                <Tab isDisabled={!fillableSems.includes("summer")}>Summer</Tab>
+                <Tab isDisabled={disabledSems.fall}>Fall</Tab>
+                <Tab isDisabled={disabledSems.spring}>Spring</Tab>
+                <Tab isDisabled={disabledSems.summer}>Summer</Tab>
             </TabList>
             <TabPanels>
                 <TabPanel>
-                    <Timetable semester="fall" />
+                    <Timetable
+                        semester="fall"
+                        isFillable={!disabledSems.fall}
+                    />
                 </TabPanel>
                 <TabPanel>
-                    <Timetable semester="summer" />
+                    <Timetable
+                        semester="spring"
+                        isFillable={!disabledSems.spring}
+                    />
                 </TabPanel>
                 <TabPanel>
-                    <Timetable semester="spring" />
+                    <Timetable
+                        semester="summer"
+                        isFillable={!disabledSems.summer}
+                    />
                 </TabPanel>
             </TabPanels>
         </Tabs>

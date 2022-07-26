@@ -10,7 +10,7 @@ import {
 import NumInput from "@components/NumInput";
 import useProfPrefMeta from "@hooks/useProfPrefMeta";
 import { useFormikContext } from "formik";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { PreferencesFormType } from "src/types/preferences";
 
 /*
@@ -292,6 +292,18 @@ function statusForEachSemester(
             }
         }
     }
+
+    return {
+        sum: null,
+        semesters: semesters.map((semester) => {
+            return {
+                semester,
+                isDisabled: false,
+                value: numCoursesPerSem[semester],
+                min: 0,
+            };
+        }),
+    };
 }
 
 const formatSemesterName = (semester: string) => {
@@ -314,11 +326,15 @@ const CoursesPerSemester = () => {
     const { profType, isDisabled } = useProfPrefMeta();
     const errorBgColor = useColorModeValue("red.100", "red.400");
 
-    const semestersReq = statusForEachSemester(
-        numCoursesPerSem,
-        profType,
-        nonTeachingSemester,
-        sabbatical
+    const semestersReq = useMemo(
+        () =>
+            statusForEachSemester(
+                numCoursesPerSem,
+                profType,
+                nonTeachingSemester,
+                sabbatical
+            ),
+        [numCoursesPerSem, profType, nonTeachingSemester, sabbatical]
     );
 
     const { semesters } = semestersReq;
@@ -382,7 +398,7 @@ const CoursesPerSemester = () => {
                                 isDisabled={isDisabled || semester.isDisabled}
                                 max={5}
                                 min={semester.min ?? 0}
-                                value={+semester.value}
+                                value={semester.value ?? 0}
                                 onChange={(v) =>
                                     setFieldValue(
                                         `numCoursesPerSem.${semesterKey}`,
