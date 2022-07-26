@@ -29,7 +29,7 @@ const NonTeachingSem = () => {
 
     useEffect(() => {
         if (notAllowed && nonTeachingSemester) {
-            setFieldValue("nonTeachingSemester", null);
+            setFieldValue("nonTeachingSemester", "");
         } else if (!notAllowed && !nonTeachingSemester) {
             setFieldValue("nonTeachingSemester", "fall");
         }
