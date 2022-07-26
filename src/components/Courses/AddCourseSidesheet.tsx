@@ -46,7 +46,7 @@ export const AddCourseSidesheet = ({ isOpen, onClose, refetch }) => {
             formId={formId}
             isLoading={isDataSaving}
         >
-            <CourseForm handleSubmit={submitData} formId="add-course-form" />
+            <CourseForm handleSubmit={submitData} formId={formId} />
         </Sidesheet>
     );
 };

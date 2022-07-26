@@ -13,7 +13,7 @@ import { Field, Form, Formik } from "formik";
 import NumInput from "@components/NumInput";
 import { SemesterBadges } from "@components/SemesterBadges";
 import Table from "@components/Table";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 
 const CourseForm = (props) => {
     const { handleSubmit, formId, data, disabled } = props;
@@ -23,12 +23,10 @@ const CourseForm = (props) => {
         summer: data?.summer_sections?.length || 1,
     });
     const [offerings, setOfferings] = useState({
-        fall: data?.fall_sections.length > 0 || false,
-        spring: data?.spring_sections.length > 0 || false,
-        summer: data?.summer_sections.length > 0 || false,
+        fall: !!data?.fall_sections.length || false,
+        spring: !!data?.spring_sections.length || false,
+        summer: !!data?.summer_sections.length || false,
     });
-
-    console.log(data);
 
     const increaseNumSections = (term, v, values) => {
         if (v > values[`${term}_sections`].length) {
@@ -132,10 +130,7 @@ const CourseForm = (props) => {
                     summer: data?.pengRequired.summer || false,
                 },
             }}
-            onSubmit={(values) => {
-                console.log(values);
-                handleSubmit(values);
-            }}
+            onSubmit={(values) => handleSubmit(values)}
         >
             {({ values, setFieldValue }) => (
                 <Form id={formId}>
