@@ -42,11 +42,6 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
             },
         },
         {
-            Header: "# of Sections",
-            accessor: "num_sections",
-            disableFilterBy: true,
-        },
-        {
             Header: "Offered In",
             accessor: "offered",
             filter: {
@@ -82,13 +77,13 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
 
     const formatSemester = (obj) => {
         let semArray = [];
-        if (obj.fall_offering) {
+        if (obj.fall_sections.length > 0) {
             semArray.push("fall");
         }
-        if (obj.spring_offering) {
+        if (obj.spring_sections.length > 0) {
             semArray.push("spring");
         }
-        if (obj.summer_offering) {
+        if (obj.summer_sections.length > 0) {
             semArray.push("summer");
         }
         return semArray;
@@ -136,7 +131,6 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
                     />
                 ),
                 yearRequired: course.yearRequired.toString(),
-                num_sections: course.num_sections.toString(),
                 offered: (
                     <SemesterBadges
                         semesters={formatSemester(course)}
