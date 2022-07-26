@@ -314,12 +314,14 @@ const CoursesPerSemester = () => {
     const { profType, isDisabled } = useProfPrefMeta();
     const errorBgColor = useColorModeValue("red.100", "red.400");
 
-    const { sum, semesters } = statusForEachSemester(
+    const semestersReq = statusForEachSemester(
         numCoursesPerSem,
         profType,
         nonTeachingSemester,
         sabbatical
     );
+
+    const { semesters } = semestersReq;
 
     useEffect(() => {
         // update numCoursesPerSem based on sabbatical
@@ -343,7 +345,7 @@ const CoursesPerSemester = () => {
         }
     }, [numCoursesPerSem, sabbatical.value, semesters, setFieldValue]);
 
-    const targetSum = sum;
+    const targetSum = semestersReq.sum ?? 0;
     const actualSum = sumCoursersPerSemester(numCoursesPerSem);
     const sumInvalid = actualSum < targetSum;
 

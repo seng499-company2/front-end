@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
 import { useFormikContext } from "formik";
@@ -75,7 +75,7 @@ const selectedColorDict = {
     summer: "#F5761A",
 };
 
-const Timetable = ({ semester }) => {
+const Timetable = ({ semester, isFillable = true }) => {
     const {
         values: {
             preferredTime: { [semester]: values },
@@ -94,7 +94,6 @@ const Timetable = ({ semester }) => {
 
     const handleChange = useCallback(
         (newSchedule) => {
-            console.log("handleChange");
             if (!isDisabled) {
                 schedule.current = newSchedule;
                 setFieldValue(formValue, convertToJsonArr(newSchedule));
