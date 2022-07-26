@@ -20,8 +20,6 @@ const Sabbatical = () => {
 
     const isResearchProf = profType === "RP";
 
-    console.log({ value, duration, fromMonth });
-
     useEffect(() => {
         if (value && duration === "NONE") {
             setFieldValue("sabbatical.duration", "HALF");

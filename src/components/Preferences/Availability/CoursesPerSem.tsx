@@ -1,8 +1,16 @@
-import { FormControl, FormLabel, HStack, Text } from "@chakra-ui/react";
+import {
+    Box,
+    FormControl,
+    FormLabel,
+    HStack,
+    Text,
+    useColorModeValue,
+} from "@chakra-ui/react";
 
 import NumInput from "@components/NumInput";
 import useProfPrefMeta from "@hooks/useProfPrefMeta";
 import { useFormikContext } from "formik";
+import { useEffect } from "react";
 import { PreferencesFormType } from "src/types/preferences";
 
 /*
@@ -83,178 +91,220 @@ function statusForEachSemester(
 
     if (profType === "RP") {
         // Research Professor
-        if (sabbatical.duration === "FULL") {
-            // Full Leave
-            return semesters.map((semester) => {
-                // All semesters are disabled with value 0
-                return { semester, isDisabled: true, value: 0 };
-            });
-        } else if (sabbatical.duration === "HALF") {
-            // Half Leave
-            if (sabbatical.fromMonth === "1") {
-                // January
-                return semesters.map((semester) => {
-                    if (semester === "spring" || semester === "summer") {
-                        // Spring and Summer off
-                        return { semester, isDisabled: true, value: 0 };
-                    }
-                    return {
-                        semester,
-                        isDisabled: false,
-                        value: numCoursesPerSem.fall || 1,
-                        min: 1,
-                    };
-                });
-            } else {
-                // July
-                return semesters.map((semester) => {
-                    // Summer and Fall off
-                    if (semester === "summer" || semester === "fall") {
-                        return { semester, isDisabled: true, value: 0 };
-                    }
-                    return {
-                        semester,
-                        isDisabled: false,
-                        value: numCoursesPerSem.spring || 1,
-                        min: 1,
-                    };
-                });
-            }
-        } else {
+        if (!sabbatical.value) {
             // No Leave
-            return semesters.map((semester) => {
-                if (semester === nonTeachingSemester) {
-                    // Non-teaching semester is disabled with value 0
-                    return { semester, isDisabled: true, value: 0 };
-                }
-                // Preferred number of courses for the other two semesters should add up to >3
-                return {
-                    semester,
-                    isDisabled: false,
-                    value: numCoursesPerSem[semester],
-                    min: 0,
-                    sum: 3,
-                };
-            });
-        }
-    } else {
-        // Teaching Professor
-        if (sabbatical.duration === "FULL") {
-            // Full Leave
-            if (sabbatical.fromMonth === "1") {
-                // January
-                return semesters.map((semester) => {
-                    if (semester === "spring" || semester === "summer") {
-                        // Spring and Summer off
+            return {
+                sum: 3,
+                semesters: semesters.map((semester) => {
+                    if (semester === nonTeachingSemester) {
+                        // Non-teaching semester is disabled with value 0
                         return { semester, isDisabled: true, value: 0 };
                     }
-                    return {
-                        semester,
-                        isDisabled: false,
-                        value: numCoursesPerSem.fall || 2,
-                        min: 2,
-                    };
-                });
-            } else if (sabbatical.fromMonth === "5") {
-                // May
-                return semesters.map((semester) => {
-                    if (semester === "summer" || semester === "fall") {
-                        // Summer and Fall off
-                        return { semester, isDisabled: true, value: 0 };
-                    }
-                    return {
-                        semester,
-                        isDisabled: false,
-                        value: numCoursesPerSem.spring || 2,
-                        min: 2,
-                    };
-                });
-            } else if (sabbatical.fromMonth === "9") {
-                // September
-                return semesters.map((semester) => {
-                    if (semester === "fall" || semester === "spring") {
-                        // Fall and Spring off
-                        return { semester, isDisabled: true, value: 0 };
-                    }
-                    return {
-                        semester,
-                        isDisabled: false,
-                        value: numCoursesPerSem.summer || 2,
-                        min: 2,
-                    };
-                });
-            }
-        } else if (sabbatical.duration === "HALF") {
-            // Half Leave
-            if (sabbatical.fromMonth === "1") {
-                // January
-                return semesters.map((semester) => {
-                    if (semester === "spring") {
-                        // Spring off
-                        return { semester, isDisabled: true, value: 0 };
-                    }
-                    return {
-                        semester,
-                        isDisabled: false,
-                        value: numCoursesPerSem[semester] || 0,
-                        min: 0,
-                        sum: 3,
-                    };
-                });
-            } else if (sabbatical.fromMonth === "5") {
-                // May
-                return semesters.map((semester) => {
-                    if (semester === "summer") {
-                        // Summer off
-                        return { semester, isDisabled: true, value: 0 };
-                    }
-                    return {
-                        semester,
-                        isDisabled: false,
-                        value: numCoursesPerSem[semester] || 0,
-                        min: 0,
-                        sum: 3,
-                    };
-                });
-            } else if (sabbatical.fromMonth === "9") {
-                // September
-                return semesters.map((semester) => {
-                    if (semester === "fall") {
-                        // Fall off
-                        return { semester, isDisabled: true, value: 0 };
-                    }
-                    return {
-                        semester,
-                        isDisabled: false,
-                        value: numCoursesPerSem[semester] || 0,
-                        min: 0,
-                        sum: 3,
-                    };
-                });
-            }
-        } else {
-            // No Leave
-            return semesters.map((semester) => {
-                if (semester === nonTeachingSemester) {
-                    // Non-teaching semester is disabled with value 0
+                    // Preferred number of courses for the other two semesters should add up to >3
                     return {
                         semester,
                         isDisabled: false,
                         value: numCoursesPerSem[semester],
+                        min: 0,
                     };
-                }
-                // Preferred number of courses for the other two semesters should add up to >6
+                }),
+            };
+        }
+        if (sabbatical.duration === "FULL") {
+            // Full Leave
+            return {
+                sum: null,
+                semesters: semesters.map((semester) => {
+                    // All semesters are disabled with value 0
+                    return { semester, isDisabled: true, value: 0 };
+                }),
+            };
+        } else if (sabbatical.duration === "HALF") {
+            // Half Leave
+            if (sabbatical.fromMonth === "1") {
+                // January
                 return {
-                    semester,
-                    isDisabled: false,
-                    value: numCoursesPerSem[semester],
-                    min: 0,
-                    sum: 6,
+                    sum: null,
+                    semesters: semesters.map((semester) => {
+                        if (semester === "spring" || semester === "summer") {
+                            // Spring and Summer off
+                            return { semester, isDisabled: true, value: 0 };
+                        }
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem.fall || 1,
+                            min: 1,
+                        };
+                    }),
                 };
-            });
+            } else {
+                // July
+                return {
+                    sum: null,
+                    semesters: semesters.map((semester) => {
+                        // Summer and Fall off
+                        if (semester === "summer" || semester === "fall") {
+                            return { semester, isDisabled: true, value: 0 };
+                        }
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem.spring || 1,
+                            min: 1,
+                        };
+                    }),
+                };
+            }
+        }
+    } else {
+        // Teaching Professor
+        if (!sabbatical.value) {
+            // No Leave
+            return {
+                sum: 6,
+                semesters: semesters.map((semester) => {
+                    if (semester === nonTeachingSemester) {
+                        // Non-teaching semester is disabled with value 0
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem[semester],
+                        };
+                    }
+                    // Preferred number of courses for the other two semesters should add up to >6
+                    return {
+                        semester,
+                        isDisabled: false,
+                        value: numCoursesPerSem[semester],
+                        min: 0,
+                    };
+                }),
+            };
+        }
+        if (sabbatical.duration === "FULL") {
+            // Full Leave
+            if (sabbatical.fromMonth === "1") {
+                // January
+                return {
+                    sum: null,
+                    semesters: semesters.map((semester) => {
+                        if (semester === "spring" || semester === "summer") {
+                            // Spring and Summer off
+                            return { semester, isDisabled: true, value: 0 };
+                        }
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem.fall || 2,
+                            min: 2,
+                        };
+                    }),
+                };
+            } else if (sabbatical.fromMonth === "5") {
+                // May
+                return {
+                    sum: null,
+                    semesters: semesters.map((semester) => {
+                        if (semester === "summer" || semester === "fall") {
+                            // Summer and Fall off
+                            return { semester, isDisabled: true, value: 0 };
+                        }
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem.spring || 2,
+                            min: 2,
+                        };
+                    }),
+                };
+            } else if (sabbatical.fromMonth === "9") {
+                // September
+                return {
+                    sum: null,
+                    semesters: semesters.map((semester) => {
+                        if (semester === "fall" || semester === "spring") {
+                            // Fall and Spring off
+                            return { semester, isDisabled: true, value: 0 };
+                        }
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem.summer || 2,
+                            min: 2,
+                        };
+                    }),
+                };
+            }
+        } else if (sabbatical.duration === "HALF") {
+            // Half Leave
+            if (sabbatical.fromMonth === "1") {
+                // January
+                return {
+                    sum: 3,
+                    semesters: semesters.map((semester) => {
+                        if (semester === "spring") {
+                            // Spring off
+                            return { semester, isDisabled: true, value: 0 };
+                        }
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem[semester] || 0,
+                            min: 0,
+                        };
+                    }),
+                };
+            } else if (sabbatical.fromMonth === "5") {
+                // May
+                return {
+                    sum: 3,
+                    semesters: semesters.map((semester) => {
+                        if (semester === "summer") {
+                            // Summer off
+                            return { semester, isDisabled: true, value: 0 };
+                        }
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem[semester] || 0,
+                            min: 0,
+                        };
+                    }),
+                };
+            } else if (sabbatical.fromMonth === "9") {
+                // September
+                return {
+                    sum: 3,
+                    semesters: semesters.map((semester) => {
+                        if (semester === "fall") {
+                            // Fall off
+                            return { semester, isDisabled: true, value: 0 };
+                        }
+                        return {
+                            semester,
+                            isDisabled: false,
+                            value: numCoursesPerSem[semester] || 0,
+                            min: 0,
+                        };
+                    }),
+                };
+            }
         }
     }
 }
+
+const formatSemesterName = (semester: string) => {
+    return semester.charAt(0).toUpperCase() + semester.slice(1);
+};
+
+const sumCoursersPerSemester = (coursesPerSemester) => {
+    return (
+        Number(coursesPerSemester.fall) +
+        Number(coursesPerSemester.spring) +
+        Number(coursesPerSemester.summer)
+    );
+};
 
 const CoursesPerSemester = () => {
     const {
@@ -262,58 +312,87 @@ const CoursesPerSemester = () => {
         setFieldValue,
     } = useFormikContext<PreferencesFormType>();
     const { profType, isDisabled } = useProfPrefMeta();
+    const errorBgColor = useColorModeValue("red.100", "red.400");
 
-    const result = statusForEachSemester(
+    const { sum, semesters } = statusForEachSemester(
         numCoursesPerSem,
         profType,
         nonTeachingSemester,
         sabbatical
     );
 
+    useEffect(() => {
+        // update numCoursesPerSem based on sabbatical
+        if (sabbatical.value) {
+            semesters.forEach((semester) => {
+                if (
+                    semester.isDisabled &&
+                    numCoursesPerSem[semester.semester] != 0
+                ) {
+                    setFieldValue(`numCoursesPerSem.${semester.semester}`, 0);
+                } else if (
+                    semester.value &&
+                    numCoursesPerSem[semester.semester] != semester.value
+                ) {
+                    setFieldValue(
+                        `numCoursesPerSem.${semester.semester}`,
+                        semester.value
+                    );
+                }
+            });
+        }
+    }, [numCoursesPerSem, sabbatical.value, semesters, setFieldValue]);
+
+    const targetSum = sum;
+    const actualSum = sumCoursersPerSemester(numCoursesPerSem);
+    const sumInvalid = actualSum < targetSum;
+
+    const sumValidMessage = sumInvalid ? (
+        <HStack
+            spacing={4}
+            bg={errorBgColor}
+            borderRadius={"md"}
+            justifyContent={"space-between"}
+            my={4}
+            p={2}
+        >
+            <Text fontSize="sm" colorScheme="primary">
+                You have a total of {actualSum} courses. You need to give at
+                least {targetSum}. Please add more courses.
+            </Text>
+        </HStack>
+    ) : null;
+
     return (
-        <FormControl>
+        <FormControl isInvalid={sumInvalid}>
             <FormLabel>
                 Preferred Number of Teaching Courses per Semester
             </FormLabel>
-            <HStack align="left">
-                <Text alignSelf="center" mb={0}>
-                    Fall
-                </Text>
-                <NumInput
-                    name="numCoursesPerSem.fall"
-                    isDisabled={isDisabled || nonTeachingSemester === "fall"}
-                    max={5}
-                    min={0}
-                    value={+numCoursesPerSem.fall}
-                    onChange={(v) => setFieldValue("numCoursesPerSem.fall", v)}
-                />
-                <Text alignSelf="center" pl={10}>
-                    Spring
-                </Text>
-                <NumInput
-                    name="numCoursesPerSem.spring"
-                    isDisabled={isDisabled || nonTeachingSemester === "spring"}
-                    max={5}
-                    min={0}
-                    value={+numCoursesPerSem.spring}
-                    onChange={(v) =>
-                        setFieldValue("numCoursesPerSem.spring", v)
-                    }
-                />
-                <Text alignSelf="center" pl={10}>
-                    Summer
-                </Text>
-                <NumInput
-                    name="numCoursesPerSem.summer"
-                    isDisabled={isDisabled || nonTeachingSemester === "summer"}
-                    max={5}
-                    min={0}
-                    value={+numCoursesPerSem.summer}
-                    onChange={(v) =>
-                        setFieldValue("numCoursesPerSem.summer", v)
-                    }
-                />
+            <HStack alignItems="center" justifyContent={"space-evenly"} gap={6}>
+                {semesters.map((semester, idx) => {
+                    const semesterKey = semester.semester;
+                    const semesterDisplay = formatSemesterName(semesterKey);
+                    return (
+                        <Box key={idx} alignSelf="center" mb={0}>
+                            <Text>{semesterDisplay}</Text>
+                            <NumInput
+                                name={`numCoursesPerSem.${semesterKey}`}
+                                isDisabled={isDisabled || semester.isDisabled}
+                                max={5}
+                                min={semester.min ?? 0}
+                                value={+semester.value}
+                                onChange={(v) =>
+                                    setFieldValue(
+                                        `numCoursesPerSem.${semesterKey}`,
+                                        v
+                                    )
+                                }
+                            />
+                        </Box>
+                    );
+                })}
             </HStack>
+            {sumValidMessage && sumValidMessage}
         </FormControl>
     );
 };
