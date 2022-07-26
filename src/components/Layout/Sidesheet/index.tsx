@@ -51,7 +51,10 @@ const Sidesheet = (props) => {
                         <SidesheetFooter
                             isEditing={isEditing}
                             isLoading={isLoading}
-                            onCancel={onCancel}
+                            onCancel={() => {
+                                onCancel();
+                                onClose();
+                            }}
                             onEdit={onEdit}
                             onSubmit={onSubmit}
                             formId={formId}
