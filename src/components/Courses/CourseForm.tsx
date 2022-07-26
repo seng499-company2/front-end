@@ -245,7 +245,7 @@ const CourseForm = (props) => {
                                                     :
                                                 </FormLabel>
                                                 <NumInput
-                                                    max={3}
+                                                    max={2}
                                                     min={1}
                                                     value={numSections[term]}
                                                     onChange={(_, v) =>
