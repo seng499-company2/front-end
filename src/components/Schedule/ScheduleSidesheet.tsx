@@ -1,38 +1,10 @@
 import Sidesheet from "../Layout/Sidesheet";
 import { useState } from "react";
-import { usePostQuery } from "@hooks/useRequest";
-import {
-    useToast,
-    useDisclosure,
-    Heading,
-    Select,
-    HStack,
-    VStack,
-} from "@chakra-ui/react";
-import OtherSection from "./OtherSection";
-import EditDaysControl from "./EditDaysControl";
-import { FormLabel } from "@chakra-ui/react";
+
+import { useToast } from "@chakra-ui/react";
+
 import { useGetQuery } from "@hooks/useRequest";
-import NumInput from "@components/NumInput";
 import ScheduleForm from "./ScheduleForm";
-
-const hours = [
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-];
-const startMinutes = ["00", "30"];
-
-const endMinutes = ["20", "50"];
 
 export const ScheduleSidesheet = ({ isOpen, onClose, data }) => {
     const [isEditing, setIsEditing] = useState(false);

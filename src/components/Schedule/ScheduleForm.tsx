@@ -7,6 +7,8 @@ import {
     Select,
     Heading,
     Tag,
+    Input,
+    FormErrorMessage,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import OtherSection from "./OtherSection";
@@ -16,23 +18,13 @@ import EditDaysControl from "./EditDaysControl";
 import { useMemo } from "react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-const hours = [
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-];
-const startMinutes = ["00", "30"];
-
-const endMinutes = ["20", "50"];
+const validateTime = (value) => {
+    let errorMessage;
+    if (!/[0-9]+:[0-9]+/i.test(value)) {
+        errorMessage = "Invalid time";
+    }
+    return errorMessage;
+};
 
 const ScheduleForm = ({ data, profData, isEditing, formId }) => {
     const handleSubmit = (values) => {
@@ -61,7 +53,7 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
                 handleSubmit(values);
             }}
         >
-            {({ setFieldValue }) => (
+            {({ setFieldValue, errors }) => (
                 <Form id={formId}>
                     <VStack align="left" gap={2}>
                         <Heading size="sm">Section Details</Heading>
@@ -103,7 +95,7 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
                             isThick={true}
                             disabled={!isEditing}
                         />
-                        {sectionData.timeSlots.map((slot) => (
+                        {sectionData.timeSlots.map((slot, index) => (
                             <div key={slot.dayOfWeek}>
                                 <Tag
                                     colorScheme="blue"
@@ -118,83 +110,70 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
                                         " Time Slot"}
                                 </Tag>
                                 <HStack>
-                                    <VStack align="left">
+                                    <FormControl
+                                        width={100}
+                                        mr={5}
+                                        isInvalid={
+                                            errors?.timeSlots &&
+                                            !!errors?.timeSlots[index]
+                                                ?.timeRange[0]
+                                        }
+                                    >
                                         <FormLabel mb={0}>Starts at</FormLabel>
-                                        <HStack mt={0}>
-                                            <Field
-                                                as={Select}
-                                                name="professor.name"
-                                                disabled={!isEditing}
-                                                width={100}
-                                            >
-                                                {hours.map((hour) => (
-                                                    <option
-                                                        value={hour}
-                                                        key={hour}
-                                                    >
-                                                        {hour}
-                                                    </option>
-                                                ))}
-                                            </Field>
-
-                                            <FormLabel>:</FormLabel>
-                                            <Field
-                                                as={Select}
-                                                name="professor.name"
-                                                disabled={!isEditing}
-                                                width={100}
-                                            >
-                                                {startMinutes.map((minute) => (
-                                                    <option
-                                                        value={minute}
-                                                        key={minute}
-                                                    >
-                                                        {minute}
-                                                    </option>
-                                                ))}
-                                            </Field>
-                                        </HStack>
-                                    </VStack>
-                                    <div>
+                                        <Field
+                                            as={Input}
+                                            name={`timeSlots.${index}.timeRange.${0}`}
+                                            disabled={!isEditing}
+                                            validate={(value) => {
+                                                let errorMessage;
+                                                if (
+                                                    !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
+                                                        value
+                                                    )
+                                                ) {
+                                                    errorMessage =
+                                                        "Invalid time";
+                                                }
+                                                return errorMessage;
+                                            }}
+                                        ></Field>
+                                    </FormControl>
+                                    {/* <div>
                                         <ArrowForwardIcon w={6} h={6} mt={9} />
-                                    </div>
-                                    <VStack align="left">
+                                    </div> */}
+                                    <FormControl
+                                        width={100}
+                                        isInvalid={
+                                            errors?.timeSlots &&
+                                            !!errors?.timeSlots[index]
+                                                ?.timeRange[1]
+                                        }
+                                    >
                                         <FormLabel mb={0}>Ends at</FormLabel>
-                                        <HStack mt={0}>
-                                            <Field
-                                                as={Select}
-                                                name="professor.name"
-                                                disabled={!isEditing}
-                                                width={100}
-                                            >
-                                                {hours.map((hour) => (
-                                                    <option
-                                                        value={hour}
-                                                        key={hour}
-                                                    >
-                                                        {hour}
-                                                    </option>
-                                                ))}
-                                            </Field>
-
-                                            <FormLabel>:</FormLabel>
-                                            <Field
-                                                as={Select}
-                                                name="professor.name"
-                                                disabled={!isEditing}
-                                                width={100}
-                                            >
-                                                {endMinutes.map((minute) => (
-                                                    <option
-                                                        value={minute}
-                                                        key={minute}
-                                                    >
-                                                        {minute}
-                                                    </option>
-                                                ))}
-                                            </Field>
-                                        </HStack>
-                                    </VStack>
+                                        <Field
+                                            as={Input}
+                                            name={`timeSlots.${index}.timeRange.${1}`}
+                                            disabled={!isEditing}
+                                            validate={(value) => {
+                                                let errorMessage;
+                                                if (
+                                                    !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
+                                                        value
+                                                    )
+                                                ) {
+                                                    errorMessage =
+                                                        "Invalid time";
+                                                }
+                                                return errorMessage;
+                                            }}
+                                        />
+                                        {/* <FormErrorMessage>
+                                            {
+                                                errors?.timeSlots[index]
+                                                    .timeRange[1]
+                                            }
+                                        </FormErrorMessage> */}
+                                    </FormControl>
                                 </HStack>
                             </div>
                         ))}
