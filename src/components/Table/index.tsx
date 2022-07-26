@@ -16,6 +16,8 @@ import {
     NumberInput,
     NumberInputField,
     Button,
+    Box,
+    HStack,
 } from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
 import { useTable, useSortBy, usePagination } from "react-table";
@@ -23,7 +25,7 @@ import { useTable, useSortBy, usePagination } from "react-table";
 import TableFilter from "./TableFilter";
 
 const Table = (props) => {
-    const { columns, data, itemsPerPage, hide = false } = props;
+    const { columns, data, itemsPerPage=10, hide = false } = props;
     const [tableFilter, setTableFilter] = useState({});
 
     const onFilterChange = useCallback(
@@ -187,7 +189,7 @@ const Table = (props) => {
                     })}
                 </Tbody>
             </ChakraTable>
-            <Flex m={4} alignItems="center">
+            <HStack m={4} alignItems="center">
                 <Button
                     variant="ghost"
                     onClick={previousPage}
@@ -204,11 +206,11 @@ const Table = (props) => {
                     onChange={(_, value) => {
                         gotoPage(value ? value - 1 : 0);
                     }}
-                    defaultValue={pageIndex + 1}
+                    value={pageIndex + 1}
                 >
                     <NumberInputField />
                 </NumberInput>
-                / {pageOptions.length}
+                <Box>/ {pageOptions.length}</Box>
                 <Button
                     variant="ghost"
                     onClick={nextPage}
@@ -216,7 +218,7 @@ const Table = (props) => {
                 >
                     <ChevronRightIcon ml={1} w={5} h={5} />
                 </Button>
-            </Flex>
+            </HStack>
         </FormControl>
     );
 };
