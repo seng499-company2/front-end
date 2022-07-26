@@ -25,7 +25,7 @@ import { useTable, useSortBy, usePagination } from "react-table";
 import TableFilter from "./TableFilter";
 
 const Table = (props) => {
-    const { columns, data, itemsPerPage=10, hide = false } = props;
+    const { columns, data, itemsPerPage = 10, hide = false } = props;
     const [tableFilter, setTableFilter] = useState({});
 
     const onFilterChange = useCallback(
