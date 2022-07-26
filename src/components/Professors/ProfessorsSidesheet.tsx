@@ -157,6 +157,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 isEditing={isEditing}
                 isLoading={isDetailsDataSaving || isPreferencesDataSaving}
                 isEditable
+                saveMsg={tabIndex ? "Preferences" : "Details"}
             >
                 <Tabs
                     size="md"

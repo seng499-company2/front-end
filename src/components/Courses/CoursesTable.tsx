@@ -12,6 +12,14 @@ import { useConst } from "@chakra-ui/react";
 import Table from "@components/Table";
 import { CourseNameBox } from "./CourseNameBox";
 import { SemesterBadges } from "../SemesterBadges";
+import { COURSE_SECTION_KEYS } from "@lib/constants";
+import { RawCourse } from "src/types/calendar";
+
+const countSections = (course) => {
+    return COURSE_SECTION_KEYS.reduce((acc, section) => {
+        return acc + (course[section].length ? 1 : 0);
+    }, 0);
+};
 
 const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
     const {
@@ -80,15 +88,15 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
         },
     ]);
 
-    const formatSemester = (obj) => {
+    const formatSemester = (course: RawCourse) => {
         let semArray = [];
-        if (obj.fall_offering) {
+        if (course.fall_sections.length) {
             semArray.push("fall");
         }
-        if (obj.spring_offering) {
+        if (course.spring_sections.length) {
             semArray.push("spring");
         }
-        if (obj.summer_offering) {
+        if (course.summer_sections.length) {
             semArray.push("summer");
         }
         return semArray;
@@ -136,7 +144,7 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
                     />
                 ),
                 yearRequired: course.yearRequired.toString(),
-                num_sections: course.num_sections.toString(),
+                num_sections: countSections(course),
                 offered: (
                     <SemesterBadges
                         semesters={formatSemester(course)}
@@ -159,7 +167,7 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
                 ),
             };
         });
-    }, [data, onClick]);
+    }, [data, execute, isError, isLoading, onClick, primary]);
 
     return <Table columns={columns} data={makeTableData} />;
 };
