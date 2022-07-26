@@ -15,20 +15,37 @@ import OtherSection from "./OtherSection";
 
 import NumInput from "@components/NumInput";
 import EditDaysControl from "./EditDaysControl";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-const validateTime = (value) => {
-    let errorMessage;
-    if (!/[0-9]+:[0-9]+/i.test(value)) {
-        errorMessage = "Invalid time";
-    }
-    return errorMessage;
-};
-
 const ScheduleForm = ({ data, profData, isEditing, formId }) => {
+    const [sectionData, setSectionData] = useState(
+        data.sections[data?.section]
+    );
     const handleSubmit = (values) => {
         console.log(values);
+    };
+
+    const changeScheduledDays = (e) => {
+        const value = e.target.name;
+        let included = false;
+        sectionData.timeSlots.forEach((slot) => {
+            if (slot.dayOfWeek === value) {
+                included = true;
+            }
+        });
+        let tempArr = JSON.parse(JSON.stringify(sectionData));
+        if (included) {
+            tempArr.timeSlots = tempArr.timeSlots.filter(
+                (slot) => slot.dayOfWeek !== value
+            );
+        } else {
+            tempArr.timeSlots.push({
+                dayOfWeek: value,
+                timeRange: ["00:00", "00:00"],
+            });
+        }
+        setSectionData(tempArr);
     };
 
     // const otherSections = useMemo(() => {
@@ -37,7 +54,6 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
     //     return copyArr;
     // }, [data.section, data.sections]);
 
-    const sectionData = data.sections[data?.section];
     return (
         <Formik
             initialValues={{
@@ -66,8 +82,16 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
                             >
                                 {profData?.map((prof) => (
                                     <option
-                                        key={prof?.user?.username}
-                                        value={prof?.user?.username}
+                                        key={
+                                            prof?.user?.first_name +
+                                            " " +
+                                            prof?.user?.last_name
+                                        }
+                                        value={
+                                            prof?.user?.first_name +
+                                            " " +
+                                            prof?.user?.last_name
+                                        }
                                     >
                                         {prof?.user?.first_name +
                                             " " +
@@ -94,6 +118,7 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
                             timeslots={sectionData.timeSlots}
                             isThick={true}
                             disabled={!isEditing}
+                            onChange={changeScheduledDays}
                         />
                         {sectionData.timeSlots.map((slot, index) => (
                             <div key={slot.dayOfWeek}>

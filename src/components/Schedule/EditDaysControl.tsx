@@ -11,7 +11,7 @@ const days = [
     "SATURDAY",
 ];
 
-const EditDaysControl = ({ timeslots, isThick, disabled }) => {
+const EditDaysControl = ({ timeslots, isThick, disabled, onChange }) => {
     const daysData = useMemo(() => {
         let daysArr = [];
         timeslots.forEach((slot) => {
@@ -30,9 +30,11 @@ const EditDaysControl = ({ timeslots, isThick, disabled }) => {
             {days.map((day) => (
                 <Button
                     key={day}
+                    name={day}
                     variant="days"
                     isActive={daysData.includes(day)}
                     height={isThick && 30}
+                    onClick={onChange}
                 >
                     {day.substring(0, 1)}
                 </Button>

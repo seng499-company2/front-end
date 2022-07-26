@@ -70,12 +70,13 @@ const theme = extendTheme(
                         },
                         backgroundColor: "gray.400",
                         _active: {
-                            bg: "blue.500",
+                            bgColor: "blue.500",
                             _disabled: { bgColor: "blue.500" },
+                            _hover: { bgColor: "blue.600" },
                         },
                         _disabled: {
                             opacity: 0.8,
-                            cursor: "auto",
+                            cursor: "not-allowed",
                         },
 
                         height: "22px",
