@@ -227,7 +227,7 @@ const Schedules = () => {
                 onClose={onClose}
                 data={selectedSection}
                 semester={semester}
-            ></ScheduleSidesheet>
+            />
         </Flex>
     );
 };
