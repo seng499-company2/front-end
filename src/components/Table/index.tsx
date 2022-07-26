@@ -210,7 +210,7 @@ const Table = (props) => {
                 >
                     <NumberInputField />
                 </NumberInput>
-                <Box>/ {pageOptions.length}</Box>
+                <Box>/ {pageOptions.length || 1}</Box>
                 <Button
                     variant="ghost"
                     onClick={nextPage}
