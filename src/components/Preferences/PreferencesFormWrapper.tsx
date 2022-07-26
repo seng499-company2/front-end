@@ -24,7 +24,10 @@ const PreferencesFormWrapper = () => {
         data: userData,
         isLoading: isLoadingUserData,
         isError: isErrorUserData,
-    } = useGetQuery("/api/user/");
+    } = useGetQuery("/api/user/", {
+        useCache: false,
+        ssr: false,
+    });
 
     const {
         isError,

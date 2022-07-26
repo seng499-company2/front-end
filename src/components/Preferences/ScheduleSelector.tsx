@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
 import { useFormikContext } from "formik";
@@ -84,19 +84,19 @@ const Timetable = ({ semester }) => {
     } = useFormikContext<PreferencesFormType>();
     const { isDisabled } = useProfPrefMeta();
 
-    const today = new Date();
-    const first = today.getDate() - today.getDay() + 1;
+    const today = useRef(new Date());
+    const first = today.current.getDate() - today.current.getDay() + 1;
+    const firstDate = useRef(new Date(today.current.setDate(first)));
     const formValue = `preferredTime.${semester}`;
 
-    const [schedule, setSchedule] = useState(
-        convertValuesToDatetime(values, first)
-    );
+    const initVals = useRef(values);
+    const schedule = useRef(convertValuesToDatetime(initVals.current, first));
 
     const handleChange = useCallback(
         (newSchedule) => {
             console.log("handleChange");
             if (!isDisabled) {
-                setSchedule(newSchedule);
+                schedule.current = newSchedule;
                 setFieldValue(formValue, convertToJsonArr(newSchedule));
             }
         },
@@ -113,14 +113,14 @@ const Timetable = ({ semester }) => {
                 selectedColor={selectedColorDict[semester]}
                 unselectedColor={unselectedColorDict[semester]}
                 hoveredColor={unselectedColorDict[semester]}
-                selection={schedule}
+                selection={schedule.current}
                 numDays={5}
                 minTime={8}
                 maxTime={20}
                 hourlyChunks={2}
                 timeFormat={"H:mm"}
                 dateFormat={"dddd"}
-                startDate={new Date(today.setDate(first))}
+                startDate={firstDate.current}
                 onChange={handleChange}
                 style
             />

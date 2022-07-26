@@ -12,10 +12,19 @@ const labels = {
 
 const NonTeachingSem = () => {
     const {
-        values: { nonTeachingSemester },
+        values: { nonTeachingSemester, sabbatical },
         setFieldValue,
     } = useFormikContext<PreferencesFormType>();
-    const { profType, isDisabled } = useProfPrefMeta();
+    const { isDisabled } = useProfPrefMeta();
+
+    const notAllowed = sabbatical.value;
+
+    const selectValue = notAllowed
+        ? { value: null, label: "Not Allowed" }
+        : {
+              value: nonTeachingSemester,
+              label: labels[nonTeachingSemester],
+          };
 
     return (
         <FormControl>
@@ -24,11 +33,8 @@ const NonTeachingSem = () => {
                 name="nonTeachingSemester"
                 instanceId={"nonTeachingSemester-select"}
                 selectedOptionColor="primary"
-                value={{
-                    value: nonTeachingSemester,
-                    label: labels[nonTeachingSemester],
-                }}
-                isDisabled={isDisabled}
+                value={selectValue}
+                isDisabled={isDisabled || notAllowed}
                 options={[
                     { value: "fall", label: "Fall" },
                     { value: "spring", label: "Spring" },

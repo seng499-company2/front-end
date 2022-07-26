@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode, useContext } from "react";
 
 export interface ProfPrefMetaContextType {
-    profType: string;
+    profType: "RP" | "TP";
     isDisabled: boolean;
 }
 

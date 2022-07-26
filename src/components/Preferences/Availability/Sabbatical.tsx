@@ -7,16 +7,27 @@ import {
 } from "@chakra-ui/react";
 import useProfPrefMeta from "@hooks/useProfPrefMeta";
 import { FastField, Field, useFormikContext } from "formik";
+import { useEffect } from "react";
 import { PreferencesFormType } from "src/types/preferences";
 
 const Sabbatical = () => {
     const {
         values: { sabbatical },
+        setFieldValue,
     } = useFormikContext<PreferencesFormType>();
     const { profType, isDisabled } = useProfPrefMeta();
     const { value, duration, fromMonth } = sabbatical;
 
     const isResearchProf = profType === "RP";
+
+    console.log({ value, duration, fromMonth });
+
+    useEffect(() => {
+        if (value && duration === "NONE") {
+            setFieldValue("sabbatical.duration", "HALF");
+            setFieldValue("sabbatical.fromMonth", "1");
+        }
+    }, [duration, setFieldValue, value]);
 
     return (
         <FormControl>
@@ -25,7 +36,6 @@ const Sabbatical = () => {
                 as={Checkbox}
                 name="sabbatical.value"
                 isDisabled={isDisabled}
-                isChecked={value}
             >
                 Taking Sabbatical
             </FastField>
@@ -40,7 +50,6 @@ const Sabbatical = () => {
                         colorScheme="primary.100"
                         variant="filled"
                         focusBorderColor="primary.500"
-                        value={duration === "NONE" ? "HALF" : duration}
                     >
                         <option value="HALF">Half leave (6 months)</option>
                         <option value="FULL">Full leave (12 months)</option>
@@ -52,7 +61,6 @@ const Sabbatical = () => {
                         isDisabled={isDisabled}
                         colorScheme="primary"
                         variant="filled"
-                        value={fromMonth || "7"}
                     >
                         <option value="7">July</option>
                         {duration === "HALF" && (
@@ -74,8 +82,8 @@ const Sabbatical = () => {
                         focusBorderColor="primary.500"
                         value={duration === "NONE" ? "HALF" : duration}
                     >
-                        <option value="HALF">Half leave (8 months)</option>
-                        <option value="FULL">Full leave (4 months)</option>
+                        <option value="HALF">Half leave (4 months)</option>
+                        <option value="FULL">Full leave (8 months)</option>
                     </Field>
                     <Text mt={5}>Sabbatical Start Month</Text>
                     <Field
