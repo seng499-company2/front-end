@@ -165,6 +165,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                     variant="line"
                     onChange={(idx) => setTabIndex(idx)}
                     isFitted
+                    isLazy
                 >
                     <TabList>
                         <Tab>Details</Tab>
