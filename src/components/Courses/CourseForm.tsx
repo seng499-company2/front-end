@@ -9,16 +9,75 @@ import {
 import { Field, Form, Formik } from "formik";
 import NumInput from "@components/NumInput";
 import { SemesterBadges } from "@components/SemesterBadges";
+import Table from "@components/Table";
+import { useMemo, useState } from "react";
 
 const AddCourseForm = (props) => {
-    const { handleSubmit, data, disabled } = props;
+    const { handleSubmit, formId, data, disabled } = props;
+    const [numSections, setNumSections] = useState({
+        fall: data?.sections?.fall.length || 1,
+        spring: data?.sections?.spring.length || 1,
+        summer: data?.sections?.summer.length || 1,
+    });
+
+    const getSectionFields = (sections, numSectionsTerm, setFieldValue) => {
+        const sectionsTerm = [];
+        for (let i = 0; i < numSectionsTerm; i++)
+            sectionsTerm.push({
+                section: i + 1,
+                capacity: (
+                    <NumInput
+                        name={`sections.fall[${i}].capacity`}
+                        min={0}
+                        defaultValue={
+                            sections[i]?.capacity ||
+                            data?.sections?.fall[i].capacity ||
+                            0
+                        }
+                        onChange={(v) =>
+                            setFieldValue(`sections.fall[${i}].capacity`, v)
+                        }
+                        isDisabled={disabled}
+                    />
+                ),
+                max_capacity_limit: (
+                    <NumInput
+                        name={`sections.fall[${i}].max_capacity_limit`}
+                        min={0}
+                        defaultValue={
+                            sections[i]?.max_capacity_limit ||
+                            data?.sections?.fall[i].max_capacity_limit ||
+                            0
+                        }
+                        onChange={(v) =>
+                            setFieldValue(
+                                `sections.fall[${i}].max_capacity_limit`,
+                                v
+                            )
+                        }
+                        isDisabled={disabled}
+                    />
+                ),
+            });
+        return sectionsTerm;
+    };
 
     return (
         <Formik
             initialValues={{
                 course_code: data?.course_code ?? "",
                 course_title: data?.course_title ?? "",
-                num_sections: data?.num_sections || 1,
+                sections: {
+                    fall: data?.sections?.fall || [
+                        { section: 1, capacity: 0, max_capacity_limit: 0 },
+                    ],
+                    spring: data?.sections?.spring || [
+                        { section: 1, capacity: 0, max_capacity_limit: 0 },
+                    ],
+                    summer: data?.sections?.summer || [
+                        { section: 1, capacity: 0, max_capacity_limit: 0 },
+                    ],
+                },
                 yearRequired: data?.yearRequired || 0,
                 pengRequired: {
                     fall: data?.pengRequired.fall || false,
@@ -30,11 +89,12 @@ const AddCourseForm = (props) => {
                 summer_offering: data?.summer_offering || false,
             }}
             onSubmit={(values) => {
+                console.log(values);
                 handleSubmit(values);
             }}
         >
-            {({ setFieldValue }) => (
-                <Form id="edit-course-form">
+            {({ values, setFieldValue }) => (
+                <Form id={formId}>
                     <VStack spacing={4} align="flex-start">
                         {!data && (
                             <FormControl isRequired={true}>
@@ -72,14 +132,47 @@ const AddCourseForm = (props) => {
                         <FormControl isRequired={true}>
                             <FormLabel>Number of Sections</FormLabel>
                             <NumInput
-                                name="num_sections"
                                 max={3}
                                 min={1}
-                                defaultValue={data?.num_sections || 1}
-                                onChange={(v) =>
-                                    setFieldValue("num_sections", v)
+                                value={numSections.fall}
+                                onChange={(_, v) =>
+                                    setNumSections({
+                                        ...numSections,
+                                        ["fall"]: v,
+                                    })
                                 }
                                 isDisabled={disabled}
+                            />
+                            <Table
+                                columns={[
+                                    {
+                                        Header: "Section",
+                                        accessor: "section",
+                                        disableSortBy: true,
+                                        disableFilterBy: true,
+                                    },
+                                    {
+                                        Header: "Capacity",
+                                        accessor: "capacity",
+                                        disableSortBy: true,
+                                        disableFilterBy: true,
+                                    },
+                                    {
+                                        Header: "Max Capacity Limit",
+                                        accessor: "max_capacity_limit",
+                                        disableSortBy: true,
+                                        disableFilterBy: true,
+                                    },
+                                ]}
+                                data={useMemo(
+                                    () =>
+                                        getSectionFields(
+                                            values.sections["fall"],
+                                            numSections["fall"],
+                                            setFieldValue
+                                        ),
+                                    [values, numSections, setFieldValue]
+                                )}
                             />
                         </FormControl>
                         <FormControl>

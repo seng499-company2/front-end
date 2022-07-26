@@ -107,6 +107,7 @@ export const EditCourseSidesheet = ({ isOpen, onClose, course, refetch }) => {
                     handleSubmit={submitData}
                     data={course}
                     disabled={!isEditing}
+                    formId="edit-course-form"
                 />
             </Sidesheet>
             <DeleteConfirmation
