@@ -210,31 +210,40 @@ export function ScheduleProvider({
 
     // edit course and/or section data
     const editCourse = useCallback((newCourseData, semester): void => {
-        // TODO make this function work
-
         setSchedule((prevSchedule) => ({
-            // const newSchedule = {
             ...prevSchedule,
-            [semester]: prevSchedule[semester].map((course) => {
-                if (course.course.code === newCourseData.code) {
-                    return {
-                        ...course,
-                        // course: {
-                        //     ...course.course,
-                        //     ...newCourseData,
-                        // },
-                        sections: {
-                            ...course.ssctions,
-                            [newCourseData.sectionId]: {
-                                ...course[newCourseData.sectionId],
+            [semester]: prevSchedule[semester].map(
+                (scheduledCourse: RawScheduledCourse) => {
+                    if (scheduledCourse.course.code === newCourseData.code) {
+                        const newSections = [
+                            ...scheduledCourse.sections.slice(
+                                0,
+                                newCourseData.sectionId
+                            ),
+                            {
+                                ...scheduledCourse[newCourseData.sectionId],
                                 professor: newCourseData.professor,
-                                capacity: newCourseData.capacity,
+                                capacity: +newCourseData.capacity,
+                                timeSlots: newCourseData.timeSlots,
                             },
-                        },
-                    };
+                            ...scheduledCourse.sections.slice(
+                                newCourseData.sectionId + 1,
+                                scheduledCourse.sections.length
+                            ),
+                        ];
+
+                        return {
+                            ...scheduledCourse,
+                            // course: {
+                            //     ...course.course,
+                            //     ...newCourseData,
+                            // },
+                            sections: newSections,
+                        };
+                    }
+                    return scheduledCourse;
                 }
-                return course;
-            }),
+            ),
         }));
     }, []);
 

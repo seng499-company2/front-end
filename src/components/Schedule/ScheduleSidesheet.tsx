@@ -19,22 +19,12 @@ export const ScheduleSidesheet = ({ isOpen, onClose, data, semester }) => {
         useCache: false,
     });
 
-    const { rescheduleSection, saveSchedule, editCourse } = useSchedule();
+    const { saveSchedule, editCourse } = useSchedule();
 
     const handleSubmit = (data) => {
-        // console.log(data.timeSlots);
-        // rescheduleSection(
-        //     {
-        //         courseCode: data.courseCode,
-        //         courseSectionId: data.sectionId,
-        //         timeSlots: {
-        //             oldTimeSlots: [],
-        //             newTimeSlots: data.timeSlots,
-        //         },
-        //     },
-        //     semester
-        // );
         editCourse(data, semester);
+        saveSchedule();
+        setIsEditing(false);
     };
 
     const onEdit = () => {
