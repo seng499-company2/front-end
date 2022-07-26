@@ -87,7 +87,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
 
                         const profDetails = {
                             isPeng,
-                            type,
+                            type: profType,
                             complete,
                             firstName,
                             lastName,
