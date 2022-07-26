@@ -5,53 +5,86 @@ import {
     VStack,
     Flex,
     Checkbox,
+    Box,
+    Spacer,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import NumInput from "@components/NumInput";
 import { SemesterBadges } from "@components/SemesterBadges";
 import Table from "@components/Table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const AddCourseForm = (props) => {
     const { handleSubmit, formId, data, disabled } = props;
     const [numSections, setNumSections] = useState({
-        fall: data?.sections?.fall.length || 1,
-        spring: data?.sections?.spring.length || 1,
-        summer: data?.sections?.summer.length || 1,
+        fall: data?.fall_sections?.length || 1,
+        spring: data?.spring_sections?.length || 1,
+        summer: data?.summer_sections?.length || 1,
+    });
+    const [offerings, setOfferings] = useState({
+        fall: data?.fall_sections.length > 0 || false,
+        spring: data?.spring_sections.length > 0 || false,
+        summer: data?.summer_sections.length > 0 || false,
     });
 
-    const getSectionFields = (sections, numSectionsTerm, setFieldValue) => {
+    console.log(data);
+
+    const increaseNumSections = (term, v, values) => {
+        if (v > values[`${term}_sections`].length) {
+            for (let i = 0; i < v - values[`${term}_sections`].length; i++)
+                values[`${term}_sections`].push({
+                    professor: null,
+                    capacity: 0,
+                    maxCapacity: 0,
+                    timeSlots: [],
+                });
+        } else if (v < values[`${term}_sections`].length) {
+            for (let i = 0; i < values[`${term}_sections`].length - v; i++)
+                values[`${term}_sections`].pop();
+        }
+        setNumSections({
+            ...numSections,
+            [term]: v,
+        });
+    };
+
+    const getSectionFields = (
+        term,
+        sections,
+        numSectionsTerm,
+        setFieldValue
+    ) => {
         const sectionsTerm = [];
         for (let i = 0; i < numSectionsTerm; i++)
             sectionsTerm.push({
-                section: i + 1,
+                section: `A0${i + 1}`,
                 capacity: (
                     <NumInput
-                        name={`sections.fall[${i}].capacity`}
+                        name={`${term}_sections[${i}].capacity`}
                         min={0}
                         defaultValue={
                             sections[i]?.capacity ||
-                            data?.sections?.fall[i].capacity ||
+                            data?.sections?.[term][i]?.capacity ||
                             0
                         }
-                        onChange={(v) =>
-                            setFieldValue(`sections.fall[${i}].capacity`, v)
+                        onChange={(_, v) =>
+                            setFieldValue(`${term}_sections[${i}].capacity`, v)
                         }
                         isDisabled={disabled}
                     />
                 ),
-                max_capacity_limit: (
+                maxCapacity: (
                     <NumInput
-                        name={`sections.fall[${i}].max_capacity_limit`}
+                        name={`${term}_sections[${i}].maxCapacity`}
                         min={0}
                         defaultValue={
-                            sections[i]?.max_capacity_limit ||
-                            data?.sections?.fall[i].max_capacity_limit ||
+                            sections[i]?.maxCapacity ||
+                            data?.sections?.[term][i]?.maxCapacity ||
                             0
                         }
-                        onChange={(v) =>
+                        onChange={(_, v) =>
                             setFieldValue(
-                                `sections.fall[${i}].max_capacity_limit`,
+                                `${term}_sections[${i}].maxCapacity`,
                                 v
                             )
                         }
@@ -67,26 +100,36 @@ const AddCourseForm = (props) => {
             initialValues={{
                 course_code: data?.course_code ?? "",
                 course_title: data?.course_title ?? "",
-                sections: {
-                    fall: data?.sections?.fall || [
-                        { section: 1, capacity: 0, max_capacity_limit: 0 },
-                    ],
-                    spring: data?.sections?.spring || [
-                        { section: 1, capacity: 0, max_capacity_limit: 0 },
-                    ],
-                    summer: data?.sections?.summer || [
-                        { section: 1, capacity: 0, max_capacity_limit: 0 },
-                    ],
-                },
+                fall_sections: data?.fall_sections || [
+                    {
+                        capacity: 0,
+                        maxCapacity: 0,
+                        professor: null,
+                        timeSlots: [],
+                    },
+                ],
+                spring_sections: data?.spring_sections || [
+                    {
+                        capacity: 0,
+                        maxCapacity: 0,
+                        professor: null,
+                        timeSlots: [],
+                    },
+                ],
+                summer_sections: data?.summer_sections || [
+                    {
+                        capacity: 0,
+                        maxCapacity: 0,
+                        professor: null,
+                        timeSlots: [],
+                    },
+                ],
                 yearRequired: data?.yearRequired || 0,
                 pengRequired: {
                     fall: data?.pengRequired.fall || false,
                     spring: data?.pengRequired.spring || false,
                     summer: data?.pengRequired.summer || false,
                 },
-                fall_offering: data?.fall_offering || false,
-                spring_offering: data?.spring_offering || false,
-                summer_offering: data?.summer_offering || false,
             }}
             onSubmit={(values) => {
                 console.log(values);
@@ -129,110 +172,123 @@ const AddCourseForm = (props) => {
                                 isDisabled={disabled}
                             />
                         </FormControl>
-                        <FormControl isRequired={true}>
-                            <FormLabel>Number of Sections</FormLabel>
-                            <NumInput
-                                max={3}
-                                min={1}
-                                value={numSections.fall}
-                                onChange={(_, v) =>
-                                    setNumSections({
-                                        ...numSections,
-                                        ["fall"]: v,
-                                    })
-                                }
-                                isDisabled={disabled}
-                            />
-                            <Table
-                                columns={[
-                                    {
-                                        Header: "Section",
-                                        accessor: "section",
-                                        disableSortBy: true,
-                                        disableFilterBy: true,
-                                    },
-                                    {
-                                        Header: "Capacity",
-                                        accessor: "capacity",
-                                        disableSortBy: true,
-                                        disableFilterBy: true,
-                                    },
-                                    {
-                                        Header: "Max Capacity Limit",
-                                        accessor: "max_capacity_limit",
-                                        disableSortBy: true,
-                                        disableFilterBy: true,
-                                    },
-                                ]}
-                                data={useMemo(
-                                    () =>
-                                        getSectionFields(
-                                            values.sections["fall"],
-                                            numSections["fall"],
-                                            setFieldValue
-                                        ),
-                                    [values, numSections, setFieldValue]
-                                )}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>PENG Required</FormLabel>
-                            <Flex direction="column">
-                                <Field
-                                    as={Checkbox}
-                                    name="pengRequired.fall"
-                                    defaultChecked={data?.pengRequired.fall}
-                                    disabled={disabled}
-                                >
-                                    Fall
-                                </Field>
-                                <Field
-                                    as={Checkbox}
-                                    name="pengRequired.spring"
-                                    defaultChecked={data?.pengRequired.spring}
-                                    disabled={disabled}
-                                >
-                                    Spring
-                                </Field>
-                                <Field
-                                    as={Checkbox}
-                                    name="pengRequired.summer"
-                                    defaultChecked={data?.pengRequired.summer}
-                                    disabled={disabled}
-                                >
-                                    Summer
-                                </Field>
-                            </Flex>
-                        </FormControl>
                         <FormControl>
                             <FormLabel>Course Offered</FormLabel>
-                            <Flex direction="column" gap={1}>
-                                <Field
-                                    as={Checkbox}
-                                    name="fall_offering"
-                                    defaultChecked={data?.fall_offering}
+                            <Flex direction="row" gap={6}>
+                                <Checkbox
+                                    isChecked={offerings.fall}
+                                    onChange={(e) =>
+                                        setOfferings({
+                                            ...offerings,
+                                            fall: e.target.checked,
+                                        })
+                                    }
                                     disabled={disabled}
                                 >
                                     <SemesterBadges semesters={["fall"]} />
-                                </Field>
-                                <Field
-                                    as={Checkbox}
-                                    name="spring_offering"
-                                    defaultChecked={data?.spring_offering}
+                                </Checkbox>
+                                <Checkbox
+                                    isChecked={offerings.spring}
+                                    onChange={(e) =>
+                                        setOfferings({
+                                            ...offerings,
+                                            spring: e.target.checked,
+                                        })
+                                    }
                                     disabled={disabled}
                                 >
                                     <SemesterBadges semesters={["spring"]} />
-                                </Field>
-                                <Field
-                                    as={Checkbox}
-                                    name="summer_offering"
-                                    defaultChecked={data?.summer_offering}
+                                </Checkbox>
+                                <Checkbox
+                                    isChecked={offerings.summer}
+                                    onChange={(e) =>
+                                        setOfferings({
+                                            ...offerings,
+                                            summer: e.target.checked,
+                                        })
+                                    }
                                     disabled={disabled}
                                 >
                                     <SemesterBadges semesters={["summer"]} />
-                                </Field>
+                                </Checkbox>
                             </Flex>
                         </FormControl>
+                        {["fall", "spring", "summer"].map(
+                            (term) =>
+                                offerings[term] && (
+                                    <FormControl key={term}>
+                                        <Flex direction="row">
+                                            <Box>
+                                                <FormLabel>
+                                                    Number of Sections in{" "}
+                                                    {term
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                        term.slice(1)}
+                                                    :
+                                                </FormLabel>
+                                                <NumInput
+                                                    max={3}
+                                                    min={1}
+                                                    value={numSections[term]}
+                                                    onChange={(_, v) =>
+                                                        increaseNumSections(
+                                                            term,
+                                                            v,
+                                                            values
+                                                        )
+                                                    }
+                                                    isDisabled={disabled}
+                                                />
+                                            </Box>
+                                            <Spacer />
+                                            <Box>
+                                                <FormLabel>
+                                                    PENG Required
+                                                </FormLabel>
+                                                <Field
+                                                    as={Checkbox}
+                                                    name={`pengRequired.${term}`}
+                                                    defaultChecked={
+                                                        data?.pengRequired[term]
+                                                    }
+                                                    disabled={disabled}
+                                                >
+                                                    Fall
+                                                </Field>
+                                            </Box>
+                                        </Flex>
+                                        <Table
+                                            columns={[
+                                                {
+                                                    Header: "Section",
+                                                    accessor: "section",
+                                                    disableSortBy: true,
+                                                    disableFilterBy: true,
+                                                },
+                                                {
+                                                    Header: "Capacity",
+                                                    accessor: "capacity",
+                                                    disableSortBy: true,
+                                                    disableFilterBy: true,
+                                                },
+                                                {
+                                                    Header: "Max Capacity",
+                                                    accessor: "maxCapacity",
+                                                    disableSortBy: true,
+                                                    disableFilterBy: true,
+                                                },
+                                            ]}
+                                            data={getSectionFields(
+                                                term,
+                                                values[`${term}_sections`],
+                                                numSections[term],
+                                                setFieldValue
+                                            )}
+                                        />
+                                    </FormControl>
+                                )
+                        )}
                     </VStack>
                 </Form>
             )}
