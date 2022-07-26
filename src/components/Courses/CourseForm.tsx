@@ -7,11 +7,12 @@ import {
     Checkbox,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+
 import NumInput from "@components/NumInput";
 import { SemesterBadges } from "@components/SemesterBadges";
 
-const AddCourseForm = (props) => {
-    const { handleSubmit, data, disabled } = props;
+const CourseForm = (props) => {
+    const { handleSubmit, data, disabled, formId } = props;
 
     return (
         <Formik
@@ -19,7 +20,7 @@ const AddCourseForm = (props) => {
                 course_code: data?.course_code ?? "",
                 course_title: data?.course_title ?? "",
                 num_sections: data?.num_sections || 1,
-                yearRequired: data?.yearRequired || 0,
+                yearRequired: data?.yearRequired || 1,
                 pengRequired: {
                     fall: data?.pengRequired.fall || false,
                     spring: data?.pengRequired.spring || false,
@@ -34,7 +35,7 @@ const AddCourseForm = (props) => {
             }}
         >
             {({ setFieldValue }) => (
-                <Form id="edit-course-form">
+                <Form id={formId}>
                     <VStack spacing={4} align="flex-start">
                         {!data && (
                             <FormControl isRequired={true}>
@@ -62,8 +63,8 @@ const AddCourseForm = (props) => {
                             <NumInput
                                 name="yearRequired"
                                 max={4}
-                                min={0}
-                                defaultValue={data?.yearRequired || 0}
+                                min={1}
+                                defaultValue={data?.yearRequired || 1}
                                 onChange={(v) =>
                                     setFieldValue("yearRequired", v)
                                 }
@@ -148,4 +149,4 @@ const AddCourseForm = (props) => {
     );
 };
 
-export default AddCourseForm;
+export default CourseForm;

@@ -8,13 +8,13 @@ export enum Willingness {
     veryWilling = 3,
     willing = 2,
     unWilling = 1,
-    noSelection = 0,
+    notQualified = 0,
 }
 
 export enum Difficulty {
     withEffort = 2,
     able = 1,
-    noSelection = 0,
+    notQualified = 0,
 }
 
 const columns = [
@@ -55,8 +55,8 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         key={c + "-willingness"}
                         isDisabled={isDisabled}
                     >
-                        <option value={Willingness.noSelection}>
-                            No Selection
+                        <option value={Difficulty.notQualified}>
+                            Not Quailified
                         </option>
                         <option value={Willingness.unWilling}>Unwilling</option>
                         <option value={Willingness.willing}>Willing</option>
@@ -77,13 +77,13 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         key={c + "--difficulty"}
                         isDisabled={isDisabled}
                     >
-                        <option value={Difficulty.noSelection}>
-                            No Selection
+                        <option value={Difficulty.notQualified}>
+                            Not Quailified
                         </option>
-                        <option value={Difficulty.able}>Able</option>
                         <option value={Difficulty.withEffort}>
                             With Effort
                         </option>
+                        <option value={Difficulty.able}>Able</option>
                     </Select>
                 ),
             };
