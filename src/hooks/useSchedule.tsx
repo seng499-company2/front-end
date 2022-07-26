@@ -48,6 +48,7 @@ export interface ScheduleContextType {
         semester: Semester
     ) => void;
     saveSchedule: () => void;
+    editCourse: (newCourseData, semester) => void;
 }
 
 const ScheduleContext = createContext<ScheduleContextType>(
@@ -218,9 +219,17 @@ export function ScheduleProvider({
                 if (course.course.code === newCourseData.code) {
                     return {
                         ...course,
-                        course: {
-                            ...course.course,
-                            ...newCourseData,
+                        // course: {
+                        //     ...course.course,
+                        //     ...newCourseData,
+                        // },
+                        sections: {
+                            ...course.ssctions,
+                            [newCourseData.sectionId]: {
+                                ...course[newCourseData.sectionId],
+                                professor: newCourseData.professor,
+                                capacity: newCourseData.capacity,
+                            },
                         },
                     };
                 }
@@ -245,6 +254,7 @@ export function ScheduleProvider({
                 setUseMockData,
                 rescheduleSection,
                 saveSchedule,
+                editCourse,
             }}
         >
             {children}

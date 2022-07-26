@@ -21,6 +21,7 @@ const EditDaysControl = ({ timeslots, isThick, disabled, onChange }) => {
         });
         return daysArr;
     }, [timeslots]);
+
     return (
         <ButtonGroup
             size={isThick ? "md" : "sm"}

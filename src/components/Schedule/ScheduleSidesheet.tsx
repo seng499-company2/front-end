@@ -5,8 +5,9 @@ import { useToast } from "@chakra-ui/react";
 
 import { useGetQuery } from "@hooks/useRequest";
 import ScheduleForm from "./ScheduleForm";
+import useSchedule from "@hooks/useSchedule";
 
-export const ScheduleSidesheet = ({ isOpen, onClose, data }) => {
+export const ScheduleSidesheet = ({ isOpen, onClose, data, semester }) => {
     const [isEditing, setIsEditing] = useState(false);
     const toast = useToast();
     const {
@@ -17,6 +18,24 @@ export const ScheduleSidesheet = ({ isOpen, onClose, data }) => {
     } = useGetQuery(`/api/users`, {
         useCache: false,
     });
+
+    const { rescheduleSection, saveSchedule, editCourse } = useSchedule();
+
+    const handleSubmit = (data) => {
+        // console.log(data.timeSlots);
+        // rescheduleSection(
+        //     {
+        //         courseCode: data.courseCode,
+        //         courseSectionId: data.sectionId,
+        //         timeSlots: {
+        //             oldTimeSlots: [],
+        //             newTimeSlots: data.timeSlots,
+        //         },
+        //     },
+        //     semester
+        // );
+        editCourse(data, semester);
+    };
 
     const onEdit = () => {
         setIsEditing(true);
@@ -52,6 +71,7 @@ export const ScheduleSidesheet = ({ isOpen, onClose, data }) => {
                     profData={profData}
                     isEditing={isEditing}
                     formId="edit-section-form"
+                    handleSubmit={handleSubmit}
                 />
             </Sidesheet>
         </>

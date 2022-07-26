@@ -15,16 +15,13 @@ import OtherSection from "./OtherSection";
 
 import NumInput from "@components/NumInput";
 import EditDaysControl from "./EditDaysControl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-const ScheduleForm = ({ data, profData, isEditing, formId }) => {
+const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
     const [sectionData, setSectionData] = useState(
         data.sections[data?.section]
     );
-    const handleSubmit = (values) => {
-        console.log(values);
-    };
 
     const changeScheduledDays = (e) => {
         const value = e.target.name;
@@ -57,6 +54,8 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
     return (
         <Formik
             initialValues={{
+                code: data.course.code,
+                sectionId: data.section,
                 professor: {
                     id: sectionData.professor.id,
                     name: sectionData.professor.name,
@@ -69,7 +68,7 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
                 handleSubmit(values);
             }}
         >
-            {({ setFieldValue, errors }) => (
+            {({ setFieldValue, errors, values, setValues }) => (
                 <Form id={formId}>
                     <VStack align="left" gap={2}>
                         <Heading size="sm">Section Details</Heading>
@@ -80,6 +79,12 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
                                 name="professor.name"
                                 disabled={!isEditing}
                             >
+                                <option
+                                    key={"static prof"}
+                                    value={"static prof"}
+                                >
+                                    {"Static Professor"}
+                                </option>
                                 {profData?.map((prof) => (
                                     <option
                                         key={
@@ -112,101 +117,99 @@ const ScheduleForm = ({ data, profData, isEditing, formId }) => {
                                 isDisabled={!isEditing}
                             />
                         </FormControl>
-                        <Heading size="sm">Time Slots</Heading>
+                        {/* <Heading size="sm">Time Slots</Heading> */}
 
-                        <EditDaysControl
+                        {/* <EditDaysControl
                             timeslots={sectionData.timeSlots}
                             isThick={true}
                             disabled={!isEditing}
                             onChange={changeScheduledDays}
-                        />
-                        {sectionData.timeSlots.map((slot, index) => (
-                            <div key={slot.dayOfWeek}>
-                                <Tag
-                                    colorScheme="blue"
-                                    color="black"
-                                    mb={2}
-                                    mt={3}
-                                >
-                                    {slot.dayOfWeek.charAt(0) +
-                                        slot.dayOfWeek
-                                            .substring(1)
-                                            .toLowerCase() +
-                                        " Time Slot"}
-                                </Tag>
-                                <HStack>
-                                    <FormControl
-                                        width={100}
-                                        mr={5}
-                                        isInvalid={
-                                            errors?.timeSlots &&
-                                            !!errors?.timeSlots[index]
-                                                ?.timeRange[0]
-                                        }
+                        /> */}
+                        {/* {sectionData.timeSlots.map((slot, index) => {
+                            return (
+                                <div key={slot.dayOfWeek}>
+                                    <Tag
+                                        colorScheme="blue"
+                                        color="black"
+                                        mb={2}
+                                        mt={3}
                                     >
-                                        <FormLabel mb={0}>Starts at</FormLabel>
-                                        <Field
-                                            as={Input}
-                                            name={`timeSlots.${index}.timeRange.${0}`}
-                                            disabled={!isEditing}
-                                            validate={(value) => {
-                                                let errorMessage;
-                                                if (
-                                                    !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
-                                                        value
-                                                    )
-                                                ) {
-                                                    errorMessage =
-                                                        "Invalid time";
-                                                }
-                                                return errorMessage;
-                                            }}
-                                        ></Field>
-                                    </FormControl>
-                                    {/* <div>
-                                        <ArrowForwardIcon w={6} h={6} mt={9} />
-                                    </div> */}
-                                    <FormControl
-                                        width={100}
-                                        isInvalid={
-                                            errors?.timeSlots &&
-                                            !!errors?.timeSlots[index]
-                                                ?.timeRange[1]
-                                        }
-                                    >
-                                        <FormLabel mb={0}>Ends at</FormLabel>
-                                        <Field
-                                            as={Input}
-                                            name={`timeSlots.${index}.timeRange.${1}`}
-                                            disabled={!isEditing}
-                                            validate={(value) => {
-                                                let errorMessage;
-                                                if (
-                                                    !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
-                                                        value
-                                                    )
-                                                ) {
-                                                    errorMessage =
-                                                        "Invalid time";
-                                                }
-                                                return errorMessage;
-                                            }}
-                                        />
-                                        {/* <FormErrorMessage>
-                                            {
-                                                errors?.timeSlots[index]
-                                                    .timeRange[1]
+                                        {slot.dayOfWeek.charAt(0) +
+                                            slot.dayOfWeek
+                                                .substring(1)
+                                                .toLowerCase() +
+                                            " Time Slot"}
+                                    </Tag>
+                                    <HStack>
+                                        <FormControl
+                                            width={100}
+                                            mr={5}
+                                            isInvalid={
+                                                errors?.timeSlots &&
+                                                !!errors?.timeSlots[index]
+                                                    ?.timeRange[0]
                                             }
-                                        </FormErrorMessage> */}
-                                    </FormControl>
-                                </HStack>
-                            </div>
-                        ))}
+                                        >
+                                            <FormLabel mb={0}>
+                                                Starts at
+                                            </FormLabel>
+                                            <Field
+                                                as={Input}
+                                                name={`timeSlots.${index}.timeRange.${0}`}
+                                                disabled={!isEditing}
+                                                validate={(value) => {
+                                                    let errorMessage;
+                                                    if (
+                                                        !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
+                                                            value
+                                                        )
+                                                    ) {
+                                                        errorMessage =
+                                                            "Invalid time";
+                                                    }
+                                                    return errorMessage;
+                                                }}
+                                            ></Field>
+                                        </FormControl>
+                                        
+                                        <FormControl
+                                            width={100}
+                                            isInvalid={
+                                                errors?.timeSlots &&
+                                                !!errors?.timeSlots[index]
+                                                    ?.timeRange[1]
+                                            }
+                                        >
+                                            <FormLabel mb={0}>
+                                                Ends at
+                                            </FormLabel>
+                                            <Field
+                                                as={Input}
+                                                name={`timeSlots.${index}.timeRange.${1}`}
+                                                disabled={!isEditing}
+                                                validate={(value) => {
+                                                    let errorMessage;
+                                                    if (
+                                                        !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
+                                                            value
+                                                        )
+                                                    ) {
+                                                        errorMessage =
+                                                            "Invalid time";
+                                                    }
+                                                    return errorMessage;
+                                                }}
+                                            />
+                                        </FormControl>
+                                    </HStack>
+                                </div>
+                            );
+                        })}
 
                         <Heading size="sm">
                             Other Sections Current Semester
                         </Heading>
-                        {/* {otherSections.map((section) => (
+                        {otherSections.map((section) => (
                             <OtherSection
                                 key={section.section}
                                 data={section}

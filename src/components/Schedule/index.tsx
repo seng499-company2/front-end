@@ -226,6 +226,7 @@ const Schedules = () => {
                 isOpen={isOpen}
                 onClose={onClose}
                 data={selectedSection}
+                semester={semester}
             ></ScheduleSidesheet>
         </Flex>
     );
