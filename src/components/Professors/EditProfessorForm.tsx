@@ -17,10 +17,10 @@ const EditProfessorForm = ({ handleSubmit, professor, disabled }) => {
                     first_name: professor.firstName,
                     last_name: professor.lastName,
                     email: professor.email,
-                    is_superuser: false,
+                    is_superuser: professor.isAdmin,
                 },
-                prof_type: "TP",
-                is_peng: false,
+                prof_type: professor.type,
+                is_peng: professor.isPeng,
                 is_form_submitted: professor.complete,
             }}
             onSubmit={(values) => {

@@ -1,3 +1,4 @@
+import { PreferencesFormType } from "src/types/preferences";
 import {
     Difficulty,
     Willingness,
@@ -90,7 +91,7 @@ function initTermsObjectIfNeeded(times, initVal) {
     return { ...times, ...timesWithKeys };
 }
 
-export function convertFromBackendFormat(input) {
+export function convertFromBackendFormat(input): PreferencesFormType {
     const data = input || defaultInitialValues;
     if (!input) {
         return data;

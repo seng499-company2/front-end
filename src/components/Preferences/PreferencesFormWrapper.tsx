@@ -21,15 +21,24 @@ const PreferencesFormWrapper = () => {
     const toast = useToast();
 
     const {
+        data: userData,
+        isLoading: isLoadingUserData,
+        isError: isErrorUserData,
+    } = useGetQuery("/api/user/", {
+        useCache: false,
+        ssr: false,
+    });
+
+    const {
         isError,
         isLoading,
         execute: executeEdit,
     } = usePostQuery(`/api/preferences/`);
 
     const {
-        data,
-        isError: getError,
-        isLoading: getLoading,
+        data: preferencesData,
+        isError: getPreferencesError,
+        isLoading: isLoadingPreferences,
         execute: executeGet,
     } = useGetQuery(`/api/preferences/`, {
         manual: false,
@@ -54,14 +63,17 @@ const PreferencesFormWrapper = () => {
         });
     };
 
-    const initialValues = convertFromBackendFormat(data);
+    const initialValues = convertFromBackendFormat(preferencesData);
     const errorBgColor = useColorModeValue("red.100", "red.400");
 
-    const showForm = !getLoading && !getError;
+    const getIsLoading = isLoadingUserData || isLoadingPreferences;
+    const getError = isErrorUserData || getPreferencesError;
+
+    const showForm = !getIsLoading && !getError;
 
     return (
         <>
-            {getLoading && (
+            {getIsLoading && (
                 <Progress isIndeterminate hasStripe size="lg" mb={4} />
             )}
             {getError && (
@@ -88,11 +100,12 @@ const PreferencesFormWrapper = () => {
             )}
             {showForm && (
                 <PreferencesForm
-                    isDisabled={getLoading}
+                    isDisabled={getIsLoading}
                     initialValues={initialValues}
                     handleSubmit={submitPreferencesData}
                     isError={isError}
                     isLoading={isLoading}
+                    profType={userData.prof_type}
                 />
             )}
         </>

@@ -1,6 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Box } from "@chakra-ui/react";
+import React, { useCallback, useRef } from "react";
+import { Box, Text } from "@chakra-ui/react";
 import ScheduleSelector from "react-schedule-selector";
+import { useFormikContext } from "formik";
+import { PreferencesFormType } from "src/types/preferences";
+import useProfPrefMeta from "@hooks/useProfPrefMeta";
 
 const dayList = [
     "sunday",
@@ -72,26 +75,53 @@ const selectedColorDict = {
     summer: "#F5761A",
 };
 
-const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
-    const today = new Date();
-    const first = today.getDate() - today.getDay() + 1;
+const Timetable = ({ semester, isFillable = true }) => {
+    const {
+        values: {
+            preferredTime: { [semester]: values },
+        },
+        setFieldValue,
+    } = useFormikContext<PreferencesFormType>();
+    const { isDisabled: isDisabledMeta } = useProfPrefMeta();
+
+    const today = useRef(new Date());
+    const first = today.current.getDate() - today.current.getDay() + 1;
+    const firstDate = useRef(new Date(today.current.setDate(first)));
     const formValue = `preferredTime.${semester}`;
 
-    console.log("Timetable values: ", values);
+    const initVals = useRef(values);
+    const schedule = useRef(convertValuesToDatetime(initVals.current, first));
 
-    const [schedule, setSchedule] = useState(
-        convertValuesToDatetime(values, first)
-    );
+    const isDisabled = isDisabledMeta || !isFillable;
 
     const handleChange = useCallback(
         (newSchedule) => {
             if (!isDisabled) {
-                setSchedule(newSchedule);
+                schedule.current = newSchedule;
                 setFieldValue(formValue, convertToJsonArr(newSchedule));
             }
         },
         [setFieldValue, formValue, isDisabled]
     );
+
+    if (!isFillable) {
+        return (
+            <Box
+                border="1px solid"
+                borderColor="gray.200"
+                borderRadius="5px"
+                p={2}
+                textAlign="center"
+                fontSize="sm"
+                color="gray.500"
+            >
+                <Text>
+                    Not available with current sabbatical and/or preffered
+                    non-teaching semester choices.
+                </Text>
+            </Box>
+        );
+    }
 
     return (
         <Box
@@ -103,14 +133,14 @@ const Timetable = ({ semester, values, setFieldValue, isDisabled = false }) => {
                 selectedColor={selectedColorDict[semester]}
                 unselectedColor={unselectedColorDict[semester]}
                 hoveredColor={unselectedColorDict[semester]}
-                selection={schedule}
+                selection={schedule.current}
                 numDays={5}
                 minTime={8}
                 maxTime={20}
                 hourlyChunks={2}
                 timeFormat={"H:mm"}
                 dateFormat={"dddd"}
-                startDate={new Date(today.setDate(first))}
+                startDate={firstDate.current}
                 onChange={handleChange}
                 style
             />

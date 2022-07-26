@@ -139,6 +139,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
             });
     };
 
+    const typeDisplay = type === "RP" ? "Research" : "Teaching";
     const isPengText = isPeng ? " | Peng" : "";
     const formArray = ["edit-professor-form", "preferences-form"];
 
@@ -147,7 +148,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
             <Sidesheet
                 size="xl"
                 title={`${firstName} ${lastName}`}
-                subTitle={`${email} | ${type}${isPengText}`}
+                subTitle={`${email} | ${typeDisplay}${isPengText}`}
                 formId={formArray[tabIndex]}
                 isOpen={isOpen}
                 onClose={handleClose}
@@ -164,6 +165,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                     variant="line"
                     onChange={(idx) => setTabIndex(idx)}
                     isFitted
+                    isLazy
                 >
                     <TabList>
                         <Tab>Details</Tab>
