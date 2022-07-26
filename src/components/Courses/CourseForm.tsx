@@ -177,36 +177,39 @@ const AddCourseForm = (props) => {
                             <Flex direction="row" gap={6}>
                                 <Checkbox
                                     isChecked={offerings.fall}
-                                    onChange={(e) =>
+                                    onChange={(e) => {
+                                        values.fall_sections = [];
                                         setOfferings({
                                             ...offerings,
                                             fall: e.target.checked,
-                                        })
-                                    }
+                                        });
+                                    }}
                                     disabled={disabled}
                                 >
                                     <SemesterBadges semesters={["fall"]} />
                                 </Checkbox>
                                 <Checkbox
                                     isChecked={offerings.spring}
-                                    onChange={(e) =>
+                                    onChange={(e) => {
+                                        values.spring_sections = [];
                                         setOfferings({
                                             ...offerings,
                                             spring: e.target.checked,
-                                        })
-                                    }
+                                        });
+                                    }}
                                     disabled={disabled}
                                 >
                                     <SemesterBadges semesters={["spring"]} />
                                 </Checkbox>
                                 <Checkbox
                                     isChecked={offerings.summer}
-                                    onChange={(e) =>
+                                    onChange={(e) => {
+                                        values.summer_sections = [];
                                         setOfferings({
                                             ...offerings,
                                             summer: e.target.checked,
-                                        })
-                                    }
+                                        });
+                                    }}
                                     disabled={disabled}
                                 >
                                     <SemesterBadges semesters={["summer"]} />
