@@ -12,6 +12,14 @@ import { useConst } from "@chakra-ui/react";
 import Table from "@components/Table";
 import { CourseNameBox } from "./CourseNameBox";
 import { SemesterBadges } from "../SemesterBadges";
+import { COURSE_SECTION_KEYS } from "@lib/constants";
+import { RawCourse } from "src/types/calendar";
+
+const countSections = (course) => {
+    return COURSE_SECTION_KEYS.reduce((acc, section) => {
+        return acc + (course[section].length ? 1 : 0);
+    }, 0);
+};
 
 const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
     const {
@@ -75,15 +83,15 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
         },
     ]);
 
-    const formatSemester = (obj) => {
+    const formatSemester = (course: RawCourse) => {
         let semArray = [];
-        if (obj.fall_sections.length > 0) {
+        if (course.fall_sections.length) {
             semArray.push("fall");
         }
-        if (obj.spring_sections.length > 0) {
+        if (course.spring_sections.length) {
             semArray.push("spring");
         }
-        if (obj.summer_sections.length > 0) {
+        if (course.summer_sections.length) {
             semArray.push("summer");
         }
         return semArray;
@@ -153,7 +161,7 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
                 ),
             };
         });
-    }, [data, onClick]);
+    }, [data, execute, isError, isLoading, onClick, primary]);
 
     return <Table columns={columns} data={makeTableData} />;
 };

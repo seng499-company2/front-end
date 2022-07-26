@@ -9,8 +9,8 @@ const getCourses = () => {
 
 const coursePreferencesInit = getCourses().reduce((obj, course) => {
     obj[course] = {
-        willingness: Willingness.noSelection,
-        difficulty: Difficulty.noSelection,
+        willingness: Willingness.notQualified,
+        difficulty: Difficulty.notQualified,
     };
     return obj;
 }, {});
@@ -46,14 +46,14 @@ function generateCoursePreferencesFromCodesIfNeeded(
     courseCodes = []
 ) {
     // if coursePreferences is empty, generate it from courseCodes
-    // default values are set to noSelection
-    // i.e. { CSC 225: { difficulty: Difficulty["noSelection"], willingness: Willingness["noSelection"] } }
+    // default values are set to notQualified
+    // i.e. { CSC 225: { difficulty: Difficulty["notQualified"], willingness: Willingness["notQualified"] } }
     // if coursePreferences is not empty for a course, it is not modified
     if (Object.keys(coursePreferences).length === 0) {
         return courseCodes.reduce((obj, course) => {
             obj[course] = {
-                difficulty: Difficulty.noSelection,
-                willingness: Willingness.noSelection,
+                difficulty: Difficulty.notQualified,
+                willingness: Willingness.notQualified,
             };
             return obj;
         }, {});
@@ -69,8 +69,8 @@ function generateCoursePreferencesFromCodesIfNeeded(
     const coursePreferencesWithDefaultValues =
         courseCodesNotInPreferences.reduce((obj, course) => {
             obj[course] = {
-                difficulty: Difficulty.noSelection,
-                willingness: Willingness.noSelection,
+                difficulty: Difficulty.notQualified,
+                willingness: Willingness.notQualified,
             };
             return obj;
         }, {});
@@ -152,3 +152,39 @@ export function convertToBackendPreferencesFormat(data) {
     };
     return backendData;
 }
+export const formatSectionNum = (sectionNum: number): string => {
+    // convert section idx to A01, A02, A03, ..., A20, ...
+    const sectionIdx = sectionNum;
+    const sectionId = `A${sectionIdx < 10 ? `0${sectionIdx}` : sectionIdx}`;
+    return sectionId;
+};
+
+// format date to EEEE
+export const formatDateWeekday = (date) => {
+    if (!date || !(date instanceof Date)) {
+        return "Invalid date";
+    }
+    return date.toLocaleDateString("en-US", {
+        weekday: "long",
+    });
+};
+
+export const formatInitEventTimes = (
+    firstDate: Date,
+    index: number,
+    timeRange: string[]
+) => {
+    const startTime = new Date(firstDate);
+    startTime.setDate(firstDate.getDate() + index);
+    startTime.setHours(
+        parseInt(timeRange[0].split(":")[0], 10),
+        parseInt(timeRange[0].split(":")[1], 10)
+    );
+    const endTime = new Date(startTime);
+    endTime.setHours(
+        parseInt(timeRange[1].split(":")[0], 10),
+        parseInt(timeRange[1].split(":")[1], 10)
+    );
+
+    return { startTime, endTime };
+};

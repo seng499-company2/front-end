@@ -9,12 +9,13 @@ import {
     Spacer,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+
 import NumInput from "@components/NumInput";
 import { SemesterBadges } from "@components/SemesterBadges";
 import Table from "@components/Table";
 import { useEffect, useMemo, useState } from "react";
 
-const AddCourseForm = (props) => {
+const CourseForm = (props) => {
     const { handleSubmit, formId, data, disabled } = props;
     const [numSections, setNumSections] = useState({
         fall: data?.fall_sections?.length || 1,
@@ -124,7 +125,7 @@ const AddCourseForm = (props) => {
                         timeSlots: [],
                     },
                 ],
-                yearRequired: data?.yearRequired || 0,
+                yearRequired: data?.yearRequired || 1,
                 pengRequired: {
                     fall: data?.pengRequired.fall || false,
                     spring: data?.pengRequired.spring || false,
@@ -164,8 +165,8 @@ const AddCourseForm = (props) => {
                             <NumInput
                                 name="yearRequired"
                                 max={4}
-                                min={0}
-                                defaultValue={data?.yearRequired || 0}
+                                min={1}
+                                defaultValue={data?.yearRequired || 1}
                                 onChange={(v) =>
                                     setFieldValue("yearRequired", v)
                                 }
@@ -299,4 +300,4 @@ const AddCourseForm = (props) => {
     );
 };
 
-export default AddCourseForm;
+export default CourseForm;

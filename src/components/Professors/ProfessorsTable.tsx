@@ -5,6 +5,12 @@ import { useMemo } from "react";
 import Table from "../Table";
 import { CompleteStatusBadge } from "../CompleteStatusBadge";
 
+const CompleteSort = (rowA, rowB) => {
+    const valA = rowA.values.status.props.complete;
+    const valB = rowB.values.status.props.complete;
+    return valA > valB ? 1 : -1;
+};
+
 const ProfessorsTable = ({ professors, openDetails }) => {
     return (
         <Table
@@ -39,6 +45,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                         key: "complete", // prop to filter by
                         filterType: "exact",
                     },
+                    sortType: CompleteSort,
                 },
                 {
                     Header: "PEng",
