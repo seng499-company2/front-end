@@ -233,11 +233,11 @@ const CourseForm = (props) => {
                         {["fall", "spring", "summer"].map(
                             (term) =>
                                 offerings[term] && (
-                                    <FormControl key={term}>
+                                    <FormControl key={term} mt={"1rem"}>
                                         <Flex direction="row">
                                             <Box>
                                                 <FormLabel>
-                                                    Number of Sections in{" "}
+                                                    Number of Sections in {" "}
                                                     {term
                                                         .charAt(0)
                                                         .toUpperCase() +
@@ -275,6 +275,8 @@ const CourseForm = (props) => {
                                                 </Field>
                                             </Box>
                                         </Flex>
+                                        <Box mt={"1rem"}>
+                                        <FormLabel>Please indicate section's capacity or max capacity</FormLabel>
                                         <Table
                                             columns={[
                                                 {
@@ -303,6 +305,7 @@ const CourseForm = (props) => {
                                                 setFieldValue
                                             )}
                                         />
+                                        </Box>
                                     </FormControl>
                                 )
                         )}

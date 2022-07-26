@@ -99,14 +99,12 @@ const Table = (props) => {
                 <Thead>
                     <Tr>
                         {columns.map((column) => (
-                            <Td key={column.Header + "-filter"}>
-                                {!column.disableFilterBy && (
+                            !column.disableFilterBy && (<Td key={column.Header + "-filter"}>
                                     <TableFilter
                                         column={column}
                                         onFilter={onFilterChange}
                                     />
-                                )}
-                            </Td>
+                            </Td>)
                         ))}
                     </Tr>
                     {headerGroups.map((headerGroup, i) => (
