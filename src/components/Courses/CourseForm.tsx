@@ -223,7 +223,7 @@ const CourseForm = (props) => {
                                         <Flex direction="row">
                                             <Box>
                                                 <FormLabel>
-                                                    Number of Sections in {" "}
+                                                    Number of Sections in{" "}
                                                     {term
                                                         .charAt(0)
                                                         .toUpperCase() +
@@ -262,35 +262,38 @@ const CourseForm = (props) => {
                                             </Box>
                                         </Flex>
                                         <Box mt={"1rem"}>
-                                        <FormLabel>Please indicate section's capacity or max capacity</FormLabel>
-                                        <Table
-                                            columns={[
-                                                {
-                                                    Header: "Section",
-                                                    accessor: "section",
-                                                    disableSortBy: true,
-                                                    disableFilterBy: true,
-                                                },
-                                                {
-                                                    Header: "Capacity",
-                                                    accessor: "capacity",
-                                                    disableSortBy: true,
-                                                    disableFilterBy: true,
-                                                },
-                                                {
-                                                    Header: "Max Capacity",
-                                                    accessor: "maxCapacity",
-                                                    disableSortBy: true,
-                                                    disableFilterBy: true,
-                                                },
-                                            ]}
-                                            data={getSectionFields(
-                                                term,
-                                                values[`${term}_sections`],
-                                                numSections[term],
-                                                setFieldValue
-                                            )}
-                                        />
+                                            <FormLabel>
+                                                Please indicate capacity or max
+                                                capacity for each section
+                                            </FormLabel>
+                                            <Table
+                                                columns={[
+                                                    {
+                                                        Header: "Section",
+                                                        accessor: "section",
+                                                        disableSortBy: true,
+                                                        disableFilterBy: true,
+                                                    },
+                                                    {
+                                                        Header: "Capacity",
+                                                        accessor: "capacity",
+                                                        disableSortBy: true,
+                                                        disableFilterBy: true,
+                                                    },
+                                                    {
+                                                        Header: "Max Capacity",
+                                                        accessor: "maxCapacity",
+                                                        disableSortBy: true,
+                                                        disableFilterBy: true,
+                                                    },
+                                                ]}
+                                                data={getSectionFields(
+                                                    term,
+                                                    values[`${term}_sections`],
+                                                    numSections[term],
+                                                    setFieldValue
+                                                )}
+                                            />
                                         </Box>
                                     </FormControl>
                                 )
