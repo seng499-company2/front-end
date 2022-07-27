@@ -44,7 +44,7 @@ export const Header = ({ onOpen, ...rest }: HeaderProps) => (
             borderRadius="full"
         />
         <Heading color="background.main" mr="auto" fontSize="2xl">
-            Course Scheduler 2022
+            Course Scheduler
         </Heading>
 
         {/* <Text
