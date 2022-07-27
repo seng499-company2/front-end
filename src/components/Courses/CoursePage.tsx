@@ -25,7 +25,7 @@ const CoursePage = () => {
             <Center height="50vh">
                 <CircularProgress color="primary.400" isIndeterminate />
                 <Text ml={2} color="primary.700" fontSize="xl">
-                    Loading Courses Table
+                    Loading Courses
                 </Text>
             </Center>
         );

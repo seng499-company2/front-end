@@ -22,13 +22,15 @@ const ProfessorPage = () => {
 
     return (
         <Flex flexDirection="column" pt="1rem">
-            <Button
-                ml="auto"
-                leftIcon={<FaPlus />}
-                onClick={() => setAddIsOpen(true)}
-            >
-                Add Professor
-            </Button>
+            {!isLoading && (
+                <Button
+                    ml="auto"
+                    leftIcon={<FaPlus />}
+                    onClick={() => setAddIsOpen(true)}
+                >
+                    Add Professor
+                </Button>
+            )}
             <AddProfessorSidesheet
                 isOpen={addIsOpen}
                 onClose={() => setAddIsOpen(false)}
