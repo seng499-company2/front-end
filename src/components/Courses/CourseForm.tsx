@@ -7,6 +7,8 @@ import {
     Checkbox,
     Box,
     Spacer,
+    Divider,
+    Heading,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 
@@ -173,6 +175,9 @@ const CourseForm = (props) => {
                                 isDisabled={disabled}
                             />
                         </FormControl>
+
+                        <Divider />
+
                         <FormControl>
                             <FormLabel>Course Offered</FormLabel>
                             <Flex direction="row" gap={6}>
@@ -216,20 +221,20 @@ const CourseForm = (props) => {
                                     <SemesterBadges semesters={["summer"]} />
                                 </Checkbox>
                             </Flex>
+                            <Divider my={4} />
                         </FormControl>
                         {["fall", "spring", "summer"].map(
                             (term) =>
                                 offerings[term] && (
                                     <FormControl key={term} mt={"1rem"}>
+                                        <Heading fontSize={"xl"} mb={4}>
+                                            {term.charAt(0).toUpperCase() +
+                                                term.slice(1)}
+                                        </Heading>
                                         <Flex direction="row">
                                             <Box>
                                                 <FormLabel>
-                                                    Number of Sections in{" "}
-                                                    {term
-                                                        .charAt(0)
-                                                        .toUpperCase() +
-                                                        term.slice(1)}
-                                                    :
+                                                    Number of Sections
                                                 </FormLabel>
                                                 <NumInput
                                                     max={2}
@@ -295,6 +300,7 @@ const CourseForm = (props) => {
                                                     setFieldValue
                                                 )}
                                             />
+                                            <Divider my={8} />
                                         </Box>
                                     </FormControl>
                                 )
