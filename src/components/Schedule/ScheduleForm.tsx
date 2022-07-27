@@ -161,11 +161,11 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                                         <FormControl
                                             width={100}
                                             mr={5}
-                                            isInvalid={
-                                                errors?.timeSlots &&
-                                                !!errors?.timeSlots[index]
-                                                    ?.timeRange[0]
-                                            }
+                                            // isInvalid={
+                                            //     errors?.timeSlots &&
+                                            //     !!errors?.timeSlots[index]
+                                            //         ?.timeRange[0]
+                                            // }
                                         >
                                             <FormLabel mb={0}>
                                                 Starts at
@@ -185,28 +185,28 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                                                         0
                                                     )
                                                 }
-                                                validate={(value) => {
-                                                    let errorMessage;
-                                                    if (
-                                                        !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
-                                                            value
-                                                        )
-                                                    ) {
-                                                        errorMessage =
-                                                            "Invalid time";
-                                                    }
-                                                    return errorMessage;
-                                                }}
+                                                // validate={(value) => {
+                                                //     let errorMessage;
+                                                //     if (
+                                                //         !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
+                                                //             value
+                                                //         )
+                                                //     ) {
+                                                //         errorMessage =
+                                                //             "Invalid time";
+                                                //     }
+                                                //     return errorMessage;
+                                                // }}
                                             ></Field>
                                         </FormControl>
 
                                         <FormControl
                                             width={100}
-                                            isInvalid={
-                                                errors?.timeSlots &&
-                                                !!errors?.timeSlots[index]
-                                                    ?.timeRange[1]
-                                            }
+                                            // isInvalid={
+                                            //     errors?.timeSlots &&
+                                            //     !!errors?.timeSlots[index]
+                                            //         ?.timeRange[1]
+                                            // }
                                         >
                                             <FormLabel mb={0}>
                                                 Ends at
@@ -226,18 +226,18 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                                                         1
                                                     )
                                                 }
-                                                validate={(value) => {
-                                                    let errorMessage;
-                                                    if (
-                                                        !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
-                                                            value
-                                                        )
-                                                    ) {
-                                                        errorMessage =
-                                                            "Invalid time";
-                                                    }
-                                                    return errorMessage;
-                                                }}
+                                                // validate={(value) => {
+                                                //     let errorMessage;
+                                                //     if (
+                                                //         !/^(1[0-2]|0?[1-9]):[0-5][0-9]$/i.test(
+                                                //             value
+                                                //         )
+                                                //     ) {
+                                                //         errorMessage =
+                                                //             "Invalid time";
+                                                //     }
+                                                //     return errorMessage;
+                                                // }}
                                             />
                                         </FormControl>
                                     </HStack>
