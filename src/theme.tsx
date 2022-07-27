@@ -1,6 +1,5 @@
 import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 import { createBreakpoints } from "@chakra-ui/theme-tools";
-import { FaBluetooth } from "react-icons/fa";
 
 const fonts = { mono: `'Menlo', monospace` };
 
