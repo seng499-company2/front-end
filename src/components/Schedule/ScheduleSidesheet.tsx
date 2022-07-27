@@ -10,16 +10,12 @@ import useSchedule from "@hooks/useSchedule";
 export const ScheduleSidesheet = ({ isOpen, onClose, data, semester }) => {
     const [isEditing, setIsEditing] = useState(false);
     const toast = useToast();
-    const {
-        data: profData,
-        isLoading,
-        isError,
-        execute,
-    } = useGetQuery(`/api/users`, {
+    const { data: profData } = useGetQuery(`/api/users`, {
         useCache: false,
     });
 
-    const { saveSchedule, editCourse, rescheduleSection } = useSchedule();
+    const { saveSchedule, editCourse, rescheduleSection, isSaving } =
+        useSchedule();
 
     const handleSubmit = (data, timeSlots) => {
         editCourse(data, semester);
@@ -64,7 +60,7 @@ export const ScheduleSidesheet = ({ isOpen, onClose, data, semester }) => {
                 onCancel={onCancel}
                 formId="edit-section-form"
                 isEditing={isEditing}
-                //isLoading={isDataSaving}
+                isLoading={isSaving}
                 isEditable
             >
                 <ScheduleForm

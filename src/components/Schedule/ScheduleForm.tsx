@@ -1,22 +1,20 @@
 import {
     FormControl,
     FormLabel,
-    Flex,
     HStack,
     VStack,
     Select,
     Heading,
     Tag,
     Input,
-    FormErrorMessage,
+    //FormErrorMessage,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
-import OtherSection from "./OtherSection";
+//import OtherSection from "./OtherSection";
 
 import NumInput from "@components/NumInput";
 import EditDaysControl from "./EditDaysControl";
-import { useEffect, useMemo, useState } from "react";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { useState } from "react";
 
 const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
     const [sectionData, setSectionData] = useState(
