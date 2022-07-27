@@ -20,6 +20,18 @@ export enum Difficulty {
     notQualified = 0,
 }
 
+const WillingnessSort = (rowA, rowB) => {
+    const valA = rowA.values.willingness.props.value;
+    const valB = rowB.values.willingness.props.value;
+    return valA > valB ? 1 : -1;
+};
+
+const DifficultySort = (rowA, rowB) => {
+    const valA = rowA.values.difficulty.props.value;
+    const valB = rowB.values.difficulty.props.value;
+    return valA > valB ? 1 : -1;
+};
+
 const columns = [
     {
         Header: "Course",
@@ -32,12 +44,31 @@ const columns = [
     {
         Header: "Willingness",
         accessor: "willingness",
-        disableFilterBy: true,
+        filter: {
+            type: "dropdown",
+            options: [
+                { label: "Very Willing", value: Willingness.veryWilling },
+                { label: "Willing", value: Willingness.willing },
+                { label: "Unwilling", value: Willingness.unWilling },
+                { label: "Not Qualified", value: Willingness.notQualified },
+            ],
+            key: "value", // prop to filter by
+        },
+        sortType: WillingnessSort,
     },
     {
         Header: "Difficulty",
         accessor: "difficulty",
-        disableFilterBy: true,
+        filter: {
+            type: "dropdown",
+            options: [
+                { label: "With Effort", value: Difficulty.withEffort },
+                { label: "Able", value: Difficulty.able },
+                { label: "Not Qualified", value: Difficulty.notQualified },
+            ],
+            key: "value", // prop to filter by
+        },
+        sortType: DifficultySort,
     },
 ];
 
