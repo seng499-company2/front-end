@@ -189,3 +189,18 @@ export const formatInitEventTimes = (
 
     return { startTime, endTime };
 };
+
+export const formatWillingness = (willingness: Willingness) => {
+    switch (willingness) {
+        case Willingness.notQualified:
+            return "Not Qualified";
+        case Willingness.unWilling:
+            return "Not Willing";
+        case Willingness.willing:
+            return "Willing";
+        case Willingness.veryWilling:
+            return "Very Willing";
+        default:
+            return "";
+    }
+};

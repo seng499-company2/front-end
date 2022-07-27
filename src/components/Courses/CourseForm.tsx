@@ -177,8 +177,6 @@ const CourseForm = (props) => {
                             />
                         </FormControl>
 
-                        <Divider />
-
                         <FormControl>
                             <FormLabel>Course Offered</FormLabel>
                             <Flex direction="row" gap={6}>
@@ -231,7 +229,7 @@ const CourseForm = (props) => {
                                     />
                                 </Checkbox>
                             </Flex>
-                            <Divider my={4} />
+                            <Divider my={4} borderColor="gray.300" />
                         </FormControl>
                         {["fall", "spring", "summer"].map(
                             (term) =>
@@ -240,6 +238,7 @@ const CourseForm = (props) => {
                                         <SemesterBadges
                                             semesters={[term]}
                                             mb={4}
+                                            size="lg"
                                             textTransform="capitalize"
                                         />
                                         <Flex direction="row">
@@ -312,7 +311,10 @@ const CourseForm = (props) => {
                                                     setFieldValue
                                                 )}
                                             />
-                                            <Divider my={8} />
+                                            <Divider
+                                                my={8}
+                                                borderColor="gray.300"
+                                            />
                                         </Box>
                                     </FormControl>
                                 )
