@@ -10,29 +10,30 @@ const ProfessorPage = () => {
     const [detailsIsOpen, setDetailsIsOpen] = useState(false);
     const [addIsOpen, setAddIsOpen] = useState(false);
     const [prof, setProf] = useState({});
-    const { data, isLoading, isError, execute } = useGetQuery("/api/users", {
+
+    const { data, isLoading, isError, execute } = useGetQuery(`/api/users`, {
         useCache: false,
     });
 
     const openDetails = (prof) => {
-        // can use prof values here (from backend)
-        setDetailsIsOpen(!detailsIsOpen);
+        setDetailsIsOpen(true);
         setProf(prof);
     };
 
     return (
         <Flex flexDirection="column" pt="1rem">
-            <Button
-                ml="auto"
-                leftIcon={<FaPlus />}
-                onClick={() => setAddIsOpen(true)}
-            >
-                Add Professor
-            </Button>
+            {!isLoading && (
+                <Button
+                    ml="auto"
+                    leftIcon={<FaPlus />}
+                    onClick={() => setAddIsOpen(true)}
+                >
+                    Add Professor
+                </Button>
+            )}
             <AddProfessorSidesheet
                 isOpen={addIsOpen}
                 onClose={() => setAddIsOpen(false)}
-                handleSubmit={setAddIsOpen}
                 refetch={execute}
             />
             <ProfessorsTableWrapper

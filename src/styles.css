@@ -1,0 +1,20 @@
+/* disable calendar "all day" row */
+/* .rbc-time-view .rbc-row {
+    min-height: 0px;
+} */
+
+.rbc-time-view .rbc-row div:nth-child(1) {
+    min-height: 2rem !important;
+}
+
+.rbc-time-header-cell {
+    height: 2rem;
+}
+
+.rbc-row {
+    min-height: 0px !important;
+}
+
+.rbc-header + .rbc-header {
+    min-height: 2rem;
+}
