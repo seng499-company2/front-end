@@ -5,6 +5,9 @@ import {
     Input,
     VStack,
     Select,
+    Switch,
+    HStack,
+    Box,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 
@@ -31,99 +34,108 @@ const AddProfessorForm = ({ handleSubmit }) => {
             {({ errors, touched }) => (
                 <Form id="add-professor-form">
                     <VStack spacing={4} align="flex-start">
-                        <FormControl
-                            isInvalid={
-                                errors?.user?.first_name &&
-                                touched?.user?.first_name
-                            }
-                        >
-                            <FormLabel>First Name</FormLabel>
-                            <Field
-                                as={Input}
-                                name="user.first_name"
-                                variant="filled"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
+                        <HStack w="100%">
+                            <Box minW="80%">
+                                <FormControl
+                                    isInvalid={
+                                        errors?.user?.first_name &&
+                                        touched?.user?.first_name
                                     }
-                                    return error;
-                                }}
-                            />
-                            <FormErrorMessage>
-                                {errors?.user?.first_name}
-                            </FormErrorMessage>
-                        </FormControl>
-                        <FormControl
-                            isInvalid={
-                                errors?.user?.last_name &&
-                                touched?.user?.last_name
-                            }
-                        >
-                            <FormLabel>Last Name</FormLabel>
-                            <Field
-                                as={Input}
-                                name="user.last_name"
-                                variant="filled"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
+                                >
+                                    <FormLabel>First Name</FormLabel>
+                                    <Field
+                                        as={Input}
+                                        name="user.first_name"
+                                        variant="filled"
+                                        mb={2}
+                                        validate={(value) => {
+                                            let error;
+                                            if (value.length < 1) {
+                                                error = "Required";
+                                            }
+                                            return error;
+                                        }}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors?.user?.first_name}
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl
+                                    isInvalid={
+                                        errors?.user?.last_name &&
+                                        touched?.user?.last_name
                                     }
-                                    return error;
-                                }}
-                            />
-                            <FormErrorMessage>
-                                {errors.user?.last_name}
-                            </FormErrorMessage>
-                        </FormControl>
-                        <FormControl
-                            isInvalid={
-                                errors.user?.email && touched.user?.email
-                            }
-                        >
-                            <FormLabel>Email</FormLabel>
-                            <Field
-                                as={Input}
-                                name="user.email"
-                                variant="filled"
-                                type="email"
-                                validate={(value) => {
-                                    let error;
-                                    if (value.length < 1) {
-                                        error = "Required";
+                                >
+                                    <FormLabel>Last Name</FormLabel>
+                                    <Field
+                                        as={Input}
+                                        name="user.last_name"
+                                        variant="filled"
+                                        mb={2}
+                                        validate={(value) => {
+                                            let error;
+                                            if (value.length < 1) {
+                                                error = "Required";
+                                            }
+                                            return error;
+                                        }}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors.user?.last_name}
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl
+                                    isInvalid={
+                                        errors.user?.email &&
+                                        touched.user?.email
                                     }
-                                    return error;
-                                }}
-                            />
-                            <FormErrorMessage>
-                                {errors.user?.email}
-                            </FormErrorMessage>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Super User</FormLabel>
-                            <Field
-                                as={Select}
-                                name="user.is_superuser"
-                                variant="filled"
-                                type="email"
+                                >
+                                    <FormLabel>Email</FormLabel>
+                                    <Field
+                                        as={Input}
+                                        name="user.email"
+                                        variant="filled"
+                                        type="email"
+                                        validate={(value) => {
+                                            let error;
+                                            if (value.length < 1) {
+                                                error = "Required";
+                                            }
+                                            return error;
+                                        }}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors.user?.email}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Box>
+                            <VStack
+                                minW="20%"
+                                alignItems={"center"}
+                                justifyContent="space-between"
+                                gap={8}
                             >
-                                <option value={0}>False</option>
-                                <option value={1}>True</option>
-                            </Field>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Is PEng</FormLabel>
-                            <Field
-                                as={Select}
-                                name="is_peng"
-                                variant="filled"
-                                type="email"
-                            >
-                                <option value={0}>False</option>
-                                <option value={1}>True</option>
-                            </Field>
-                        </FormControl>
+                                <FormControl w="fit-content">
+                                    <FormLabel>Administrator</FormLabel>
+                                    <Field
+                                        as={Switch}
+                                        name="user.is_superuser"
+                                        variant="filled"
+                                        ml={8}
+                                    />
+                                </FormControl>
+                                <FormControl w="fit-content">
+                                    <FormLabel>P.Eng.</FormLabel>
+                                    <Field
+                                        as={Switch}
+                                        name="is_peng"
+                                        variant="filled"
+                                        ml={1}
+                                    />
+                                </FormControl>
+                            </VStack>
+                        </HStack>
+
                         <FormControl>
                             <FormLabel>Professor Type</FormLabel>
                             <Field
