@@ -58,6 +58,32 @@ const theme = extendTheme(
                     focusBorderColor: "primary.500",
                 },
             },
+            Button: {
+                variants: {
+                    days: {
+                        _hover: {
+                            _disabled: {
+                                bgColor: "gray.400",
+                            },
+                            bgColor: "blue.600",
+                        },
+                        backgroundColor: "gray.400",
+                        _active: {
+                            bgColor: "blue.500",
+                            _disabled: { bgColor: "blue.500" },
+                            _hover: { bgColor: "blue.600" },
+                        },
+                        _disabled: {
+                            opacity: 0.8,
+                            cursor: "not-allowed",
+                        },
+
+                        height: "22px",
+                        width: "20px",
+                        color: "white",
+                    },
+                },
+            },
         },
     },
 

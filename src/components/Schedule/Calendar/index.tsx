@@ -30,7 +30,7 @@ function withEventFilter(Component, onFilter) {
 
 const DnDCalendar = withDragAndDrop(ReactBigCalendar as any);
 
-const Calendar = ({ schedule, semester }) => {
+const Calendar = ({ schedule, semester, onOpenSidesheet }) => {
     const { events, moveEvent, onFilterChange } = useEvents(schedule, semester);
     const { min, max } = useCalendarRange();
 
@@ -88,8 +88,9 @@ const Calendar = ({ schedule, semester }) => {
     }, []);
 
     const onSelectEvent = (event) => {
-        console.log("calendar select", event);
-        console.log("converted to", convertSingleEventToRaw(event));
+        //console.log("calendar select", event);
+        //console.log("converted to", convertSingleEventToRaw(event));
+        onOpenSidesheet(convertSingleEventToRaw(event));
     };
 
     const localizer = initLocalizer();

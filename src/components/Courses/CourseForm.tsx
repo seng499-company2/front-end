@@ -156,6 +156,7 @@ const CourseForm = (props) => {
                                 name="course_title"
                                 variant="filled"
                                 disabled={disabled}
+                                //_disabled={{ opacity: 0.8 }}
                             />
                         </FormControl>
 

@@ -10,8 +10,9 @@ import {
     Tooltip,
     VStack,
     Checkbox,
+    useDisclosure,
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { CircularProgress } from "@chakra-ui/progress";
 import { useTheme } from "@chakra-ui/system";
 import { ImTable } from "react-icons/im";
@@ -25,11 +26,14 @@ import { convertRawToTableSchedule } from "@lib/convert";
 import { ScheduleView, Semester } from "src/types/calendar";
 import useSchedule from "@hooks/useSchedule";
 import { useAutoSave } from "@hooks/useAutoSave";
+import ScheduleSidesheet from "./ScheduleSidesheet";
 
 const Schedules = () => {
     const [semester, setSemester] = useState<Semester>("fall");
     const [view, setView] = useState<ScheduleView>("calendar");
     const [autoSaveIsDisabled, setAutoSaveIsDisabled] = useState(true);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [selectedSection, setSelectedSection] = useState();
 
     const {
         schedule,
@@ -56,6 +60,14 @@ const Schedules = () => {
     const {
         colors: { primary },
     } = useTheme();
+
+    const onOpenSidesheet = useCallback(
+        (sectionData) => {
+            setSelectedSection(sectionData);
+            onOpen();
+        },
+        [onOpen]
+    );
 
     if (isLoading)
         return (
@@ -200,12 +212,25 @@ const Schedules = () => {
             {!error && generated && (
                 <>
                     {isCalendar ? (
-                        <Calendar schedule={schedule} semester={semester} />
+                        <Calendar
+                            schedule={schedule}
+                            semester={semester}
+                            onOpenSidesheet={onOpenSidesheet}
+                        />
                     ) : (
-                        <ScheduleTable schedule={tableSchedule[semester]} />
+                        <ScheduleTable
+                            schedule={tableSchedule[semester]}
+                            onOpenSidesheet={onOpenSidesheet}
+                        />
                     )}
                 </>
             )}
+            <ScheduleSidesheet
+                isOpen={isOpen}
+                onClose={onClose}
+                data={selectedSection}
+                semester={semester}
+            />
         </Flex>
     );
 };

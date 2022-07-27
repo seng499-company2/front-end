@@ -53,12 +53,16 @@ const columns = [
     },
 ];
 
-const ScheduleTable = ({ schedule }) => {
-    const onClick = useCallback((scheduledSection) => {
-        // TODO: show schedule sidesheet
-        console.log("table selection", scheduledSection);
-        console.log("converted", convertSingleTableRowToRaw(scheduledSection));
-    }, []);
+const ScheduleTable = ({ schedule, onOpenSidesheet }) => {
+    const onClick = useCallback(
+        (scheduledSection) => {
+            onOpenSidesheet(convertSingleTableRowToRaw(scheduledSection));
+            // TODO: show schedule sidesheet
+            // console.log("table selection", scheduledSection);
+            // console.log("converted", convertSingleTableRowToRaw(scheduledSection));
+        },
+        [onOpenSidesheet]
+    );
 
     const data = useMemo(() => {
         if (!schedule || schedule?.length === 0) return [];
