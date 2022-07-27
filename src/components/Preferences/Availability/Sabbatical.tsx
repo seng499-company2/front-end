@@ -33,6 +33,7 @@ const Sabbatical = () => {
             <FastField
                 as={Checkbox}
                 name="sabbatical.value"
+                isChecked={value}
                 isDisabled={isDisabled}
             >
                 Taking Sabbatical
