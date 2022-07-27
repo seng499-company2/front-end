@@ -27,6 +27,7 @@ import { ScheduleView, Semester } from "src/types/calendar";
 import useSchedule from "@hooks/useSchedule";
 import { useAutoSave } from "@hooks/useAutoSave";
 import ScheduleSidesheet from "./ScheduleSidesheet";
+import RegenerateConfirmation from "@components/Layout/RegenerateConfirmation";
 
 const Schedules = () => {
     const [semester, setSemester] = useState<Semester>("fall");
@@ -34,6 +35,12 @@ const Schedules = () => {
     const [autoSaveIsDisabled, setAutoSaveIsDisabled] = useState(true);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedSection, setSelectedSection] = useState();
+
+    const {
+        isOpen: regenIsOpen,
+        onOpen: triggerRegenConfirmation,
+        onClose: closeRegenConfirmation,
+    } = useDisclosure();
 
     const {
         schedule,
@@ -175,9 +182,7 @@ const Schedules = () => {
                     {generated && (
                         <Box>
                             <Button
-                                onClick={() => {
-                                    generateSchedule();
-                                }}
+                                onClick={triggerRegenConfirmation}
                                 isLoading={isLoading}
                                 colorScheme="red"
                             >
@@ -230,6 +235,11 @@ const Schedules = () => {
                 onClose={onClose}
                 data={selectedSection}
                 semester={semester}
+            />
+            <RegenerateConfirmation
+                isOpen={regenIsOpen}
+                onClose={closeRegenConfirmation}
+                onConfirm={generateSchedule}
             />
         </Flex>
     );
