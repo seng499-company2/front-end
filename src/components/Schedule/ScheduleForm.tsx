@@ -45,6 +45,23 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
         setSectionData(tempArr);
     };
 
+    const handleTimeChange = (e, index, type) => {
+        const v = e.target.value;
+        setSectionData({
+            ...sectionData,
+            timeSlots: Object.values({
+                ...sectionData.timeSlots,
+                [index]: {
+                    ...sectionData.timeSlots[index],
+                    timeRange: Object.values({
+                        ...sectionData.timeSlots[index].timeRange,
+                        [type]: v,
+                    }),
+                },
+            }),
+        });
+    };
+
     // const otherSections = useMemo(() => {
     //     const copyArr = data.sections;
     //     copyArr.splice(data.section);
@@ -65,10 +82,10 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                 timeSlots: sectionData.timeSlots,
             }}
             onSubmit={(values) => {
-                handleSubmit(values);
+                handleSubmit(values, sectionData.timeSlots);
             }}
         >
-            {({ setFieldValue, errors, values, setValues }) => (
+            {({ setFieldValue, errors }) => (
                 <Form id={formId}>
                     <VStack align="left" gap={2}>
                         <Heading size="sm">Section Details</Heading>
@@ -117,15 +134,15 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                                 isDisabled={!isEditing}
                             />
                         </FormControl>
-                        {/* <Heading size="sm">Time Slots</Heading> */}
+                        <Heading size="sm">Time Slots</Heading>
 
-                        {/* <EditDaysControl
+                        <EditDaysControl
                             timeslots={sectionData.timeSlots}
                             isThick={true}
                             disabled={!isEditing}
                             onChange={changeScheduledDays}
-                        /> */}
-                        {/* {sectionData.timeSlots.map((slot, index) => {
+                        />
+                        {sectionData.timeSlots.map((slot, index) => {
                             return (
                                 <div key={slot.dayOfWeek}>
                                     <Tag
@@ -157,6 +174,17 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                                                 as={Input}
                                                 name={`timeSlots.${index}.timeRange.${0}`}
                                                 disabled={!isEditing}
+                                                value={
+                                                    sectionData.timeSlots[index]
+                                                        .timeRange[0]
+                                                }
+                                                onChange={(v) =>
+                                                    handleTimeChange(
+                                                        v,
+                                                        index,
+                                                        0
+                                                    )
+                                                }
                                                 validate={(value) => {
                                                     let errorMessage;
                                                     if (
@@ -171,7 +199,7 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                                                 }}
                                             ></Field>
                                         </FormControl>
-                                        
+
                                         <FormControl
                                             width={100}
                                             isInvalid={
@@ -187,6 +215,17 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                                                 as={Input}
                                                 name={`timeSlots.${index}.timeRange.${1}`}
                                                 disabled={!isEditing}
+                                                value={
+                                                    sectionData.timeSlots[index]
+                                                        .timeRange[1]
+                                                }
+                                                onChange={(v) =>
+                                                    handleTimeChange(
+                                                        v,
+                                                        index,
+                                                        1
+                                                    )
+                                                }
                                                 validate={(value) => {
                                                     let errorMessage;
                                                     if (
@@ -206,7 +245,7 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                             );
                         })}
 
-                        <Heading size="sm">
+                        {/* <Heading size="sm">
                             Other Sections Current Semester
                         </Heading>
                         {otherSections.map((section) => (

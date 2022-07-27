@@ -21,7 +21,7 @@ export const ScheduleSidesheet = ({ isOpen, onClose, data, semester }) => {
 
     const { saveSchedule, editCourse } = useSchedule();
 
-    const handleSubmit = (data) => {
+    const handleSubmit = (data, timeSlots) => {
         editCourse(data, semester);
         saveSchedule();
         setIsEditing(false);
