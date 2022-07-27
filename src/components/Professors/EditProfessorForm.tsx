@@ -5,6 +5,9 @@ import {
     Input,
     VStack,
     Select,
+    Box,
+    HStack,
+    Switch,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 
@@ -27,72 +30,103 @@ const EditProfessorForm = ({ handleSubmit, professor, disabled }) => {
                 handleSubmit(values);
             }}
         >
-            {({ errors, touched }) => (
+            {({ values, errors }) => (
                 <Form id="edit-professor-form">
                     <VStack spacing={4} align="flex-start">
-                        <FormControl isRequired>
-                            <FormLabel>First Name</FormLabel>
-                            <Field
-                                as={Input}
-                                name="user.first_name"
-                                variant="filled"
-                                disabled={disabled}
-                            />
-                            <FormErrorMessage>
-                                {errors?.user?.first_name}
-                            </FormErrorMessage>
-                        </FormControl>
-                        <FormControl isRequired>
-                            <FormLabel>Last Name</FormLabel>
-                            <Field
-                                as={Input}
-                                name="user.last_name"
-                                variant="filled"
-                                disabled={disabled}
-                            />
-                            <FormErrorMessage>
-                                {errors.user?.last_name}
-                            </FormErrorMessage>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Email</FormLabel>
-                            <Field
-                                as={Input}
-                                name="user.email"
-                                variant="filled"
-                                type="email"
-                                disabled={disabled}
-                            />
-                            <FormErrorMessage>
-                                {errors.user?.email}
-                            </FormErrorMessage>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Super User</FormLabel>
-                            <Field
-                                as={Select}
-                                name="user.is_superuser"
-                                variant="filled"
-                                type="email"
-                                disabled={disabled}
+                        <HStack w="100%">
+                            <Box minW="80%">
+                                <FormControl isRequired>
+                                    <FormLabel>First Name</FormLabel>
+                                    <Field
+                                        as={Input}
+                                        name="user.first_name"
+                                        variant="filled"
+                                        mb={2}
+                                        disabled={disabled}
+                                        validate={(value) => {
+                                            let error;
+                                            if (value.length < 1) {
+                                                error = "Required";
+                                            }
+                                            return error;
+                                        }}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors?.user?.first_name}
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isRequired>
+                                    <FormLabel>Last Name</FormLabel>
+                                    <Field
+                                        as={Input}
+                                        name="user.last_name"
+                                        variant="filled"
+                                        mb={2}
+                                        disabled={disabled}
+                                        validate={(value) => {
+                                            let error;
+                                            if (value.length < 1) {
+                                                error = "Required";
+                                            }
+                                            return error;
+                                        }}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors.user?.last_name}
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isRequired>
+                                    <FormLabel>Email</FormLabel>
+                                    <Field
+                                        as={Input}
+                                        name="user.email"
+                                        variant="filled"
+                                        type="email"
+                                        disabled={disabled}
+                                        validate={(value) => {
+                                            let error;
+                                            if (value.length < 1) {
+                                                error = "Required";
+                                            }
+                                            return error;
+                                        }}
+                                    />
+                                    <FormErrorMessage>
+                                        {errors.user?.email}
+                                    </FormErrorMessage>
+                                </FormControl>
+                            </Box>
+                            <VStack
+                                minW="20%"
+                                alignItems={"center"}
+                                justifyContent="space-between"
+                                gap={8}
                             >
-                                <option value={0}>False</option>
-                                <option value={1}>True</option>
-                            </Field>
-                        </FormControl>
-                        <FormControl>
-                            <FormLabel>Is PEng</FormLabel>
-                            <Field
-                                as={Select}
-                                name="is_peng"
-                                variant="filled"
-                                type="email"
-                                disabled={disabled}
-                            >
-                                <option value={0}>False</option>
-                                <option value={1}>True</option>
-                            </Field>
-                        </FormControl>
+                                <FormControl w="fit-content">
+                                    <FormLabel>Administrator</FormLabel>
+                                    <Field
+                                        as={Switch}
+                                        name="user.is_superuser"
+                                        isChecked={values.user.is_superuser}
+                                        disabled={disabled}
+                                        variant="filled"
+                                        ml={8}
+                                    />
+                                </FormControl>
+                                <FormControl w="fit-content">
+                                    <FormLabel>P.Eng.</FormLabel>
+                                    <Field
+                                        as={Switch}
+                                        name="is_peng"
+                                        variant="filled"
+                                        disabled={disabled}
+                                        isChecked={values.is_peng}
+                                        ml={1}
+                                    />
+                                </FormControl>
+                            </VStack>
+                        </HStack>
+
                         <FormControl>
                             <FormLabel>Professor Type</FormLabel>
                             <Field
