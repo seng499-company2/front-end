@@ -72,7 +72,8 @@ Teaching Professors
         Preferred times for the non-teaching semester is fillable
 */
 function determineFillableSemesters(sabbatical, profType, nonTeachingSemester) {
-    const { value, duration, fromMonth } = sabbatical;
+    const { value, duration } = sabbatical;
+    const fromMonth = `${sabbatical.fromMonth}`;
     const isResearchProf = profType === "RP";
 
     if (isResearchProf) {
