@@ -80,6 +80,14 @@ const Schedules = () => {
         return (
             <Center height="50vh">
                 <CircularProgress color={primary[400]} isIndeterminate />
+                <VStack ml={4}>
+                    <Text ml={2} color="primary.700" fontSize="xl">
+                        Generating Schedule
+                    </Text>
+                    <Text ml={2} color="primary.400" fontSize="md">
+                        This could take up to a minute.
+                    </Text>
+                </VStack>
             </Center>
         );
 
