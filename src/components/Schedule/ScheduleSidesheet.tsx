@@ -19,10 +19,21 @@ export const ScheduleSidesheet = ({ isOpen, onClose, data, semester }) => {
         useCache: false,
     });
 
-    const { saveSchedule, editCourse } = useSchedule();
+    const { saveSchedule, editCourse, rescheduleSection } = useSchedule();
 
     const handleSubmit = (data, timeSlots) => {
         editCourse(data, semester);
+        rescheduleSection(
+            {
+                courseCode: data.code,
+                courseSectionId: data.sectionId,
+                timeSlots: {
+                    oldTimeSlots: [],
+                    newTimeSlots: timeSlots,
+                },
+            },
+            semester
+        );
         saveSchedule();
         setIsEditing(false);
     };
