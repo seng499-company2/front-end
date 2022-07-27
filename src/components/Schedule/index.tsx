@@ -113,7 +113,7 @@ const Schedules = () => {
                 <HStack justifyContent={"space-between"}>
                     <HStack gap={4}>
                         {/* @ts-ignore */}
-                        {window?.dev && <DeveloperSettings />}
+                        <DeveloperSettings />
                         {generated && (
                             <>
                                 <Select
