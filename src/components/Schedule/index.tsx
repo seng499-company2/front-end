@@ -218,7 +218,10 @@ const Schedules = () => {
                             onOpenSidesheet={onOpenSidesheet}
                         />
                     ) : (
-                        <ScheduleTable schedule={tableSchedule[semester]} />
+                        <ScheduleTable
+                            schedule={tableSchedule[semester]}
+                            onOpenSidesheet={onOpenSidesheet}
+                        />
                     )}
                 </>
             )}
