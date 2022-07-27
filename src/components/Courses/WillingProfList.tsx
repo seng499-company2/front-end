@@ -4,9 +4,12 @@ import {
     Tag,
     CircularProgress,
     Center,
+    Tooltip,
+    Heading,
 } from "@chakra-ui/react";
 import { Willingness } from "../Preferences/CoursePreferencesTable";
 import { useTheme } from "@chakra-ui/system";
+import { formatWillingness } from "@lib/format";
 
 const WillingProfList = ({ data, isLoading }) => {
     const {
@@ -36,29 +39,40 @@ const WillingProfList = ({ data, isLoading }) => {
         );
 
     return (
-        <>
-            <FormLabel as="h6" size="xs" mt={4}>
-                Willing Professors:
+        <Box my={8}>
+            <FormLabel mb={4}>
+                <Heading size="sm">Willing Professors</Heading>
             </FormLabel>
             <Box>
-                {Object.values(data.willingProfessors).map((value, index) => {
-                    return (
-                        <Tag
-                            mr="1"
-                            mt={1}
-                            colorScheme={
-                                value["willingness"] === Willingness.veryWilling
-                                    ? "green"
-                                    : "gray"
-                            }
-                            key={index}
-                        >
-                            {value["name"]}
-                        </Tag>
-                    );
-                })}
+                {Object.values(data.willingProfessors)
+                    .sort((a: any, b: any) =>
+                        a.willingness < b.willingness ? 1 : -1
+                    )
+                    .map((value: any, index) => {
+                        return (
+                            <Tooltip
+                                key={index}
+                                placement="top"
+                                label={formatWillingness(value.willingness)}
+                            >
+                                <Tag
+                                    mr="1"
+                                    mt={1}
+                                    size="lg"
+                                    colorScheme={
+                                        value.willingness ===
+                                        Willingness.veryWilling
+                                            ? "green"
+                                            : "gray"
+                                    }
+                                >
+                                    {value.name ?? "Unknown"}
+                                </Tag>
+                            </Tooltip>
+                        );
+                    })}
             </Box>
-        </>
+        </Box>
     );
 };
 

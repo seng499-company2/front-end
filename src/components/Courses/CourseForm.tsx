@@ -7,11 +7,14 @@ import {
     Checkbox,
     Box,
     Spacer,
+    Divider,
+    Heading,
+    Switch,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 
 import NumInput from "@components/NumInput";
-import { SemesterBadges } from "@components/SemesterBadges";
+import { getSemesterColor, SemesterBadges } from "@components/SemesterBadges";
 import Table from "@components/Table";
 import { useState } from "react";
 
@@ -173,6 +176,7 @@ const CourseForm = (props) => {
                                 isDisabled={disabled}
                             />
                         </FormControl>
+
                         <FormControl>
                             <FormLabel>Course Offered</FormLabel>
                             <Flex direction="row" gap={6}>
@@ -187,7 +191,10 @@ const CourseForm = (props) => {
                                     }
                                     disabled={disabled}
                                 >
-                                    <SemesterBadges semesters={["fall"]} />
+                                    <SemesterBadges
+                                        semesters={["fall"]}
+                                        textTransform="capitalize"
+                                    />
                                 </Checkbox>
                                 <Checkbox
                                     isChecked={offerings.spring}
@@ -200,7 +207,10 @@ const CourseForm = (props) => {
                                     }
                                     disabled={disabled}
                                 >
-                                    <SemesterBadges semesters={["spring"]} />
+                                    <SemesterBadges
+                                        semesters={["spring"]}
+                                        textTransform="capitalize"
+                                    />
                                 </Checkbox>
                                 <Checkbox
                                     isChecked={offerings.summer}
@@ -213,23 +223,28 @@ const CourseForm = (props) => {
                                     }
                                     disabled={disabled}
                                 >
-                                    <SemesterBadges semesters={["summer"]} />
+                                    <SemesterBadges
+                                        semesters={["summer"]}
+                                        textTransform="capitalize"
+                                    />
                                 </Checkbox>
                             </Flex>
+                            <Divider my={4} borderColor="gray.300" />
                         </FormControl>
                         {["fall", "spring", "summer"].map(
                             (term) =>
                                 offerings[term] && (
                                     <FormControl key={term} mt={"1rem"}>
+                                        <SemesterBadges
+                                            semesters={[term]}
+                                            mb={4}
+                                            size="lg"
+                                            textTransform="capitalize"
+                                        />
                                         <Flex direction="row">
                                             <Box>
                                                 <FormLabel>
-                                                    Number of Sections in{" "}
-                                                    {term
-                                                        .charAt(0)
-                                                        .toUpperCase() +
-                                                        term.slice(1)}
-                                                    :
+                                                    Number of Sections
                                                 </FormLabel>
                                                 <NumInput
                                                     max={2}
@@ -246,21 +261,22 @@ const CourseForm = (props) => {
                                                 />
                                             </Box>
                                             <Spacer />
-                                            <Box>
+                                            <VStack>
                                                 <FormLabel>
                                                     PENG Required
                                                 </FormLabel>
                                                 <Field
-                                                    as={Checkbox}
+                                                    as={Switch}
                                                     name={`pengRequired.${term}`}
+                                                    colorScheme={getSemesterColor(
+                                                        term
+                                                    )}
                                                     defaultChecked={
                                                         data?.pengRequired[term]
                                                     }
                                                     disabled={disabled}
-                                                >
-                                                    Fall
-                                                </Field>
-                                            </Box>
+                                                ></Field>
+                                            </VStack>
                                         </Flex>
                                         <Box mt={"1rem"}>
                                             <FormLabel>
@@ -294,6 +310,10 @@ const CourseForm = (props) => {
                                                     numSections[term],
                                                     setFieldValue
                                                 )}
+                                            />
+                                            <Divider
+                                                my={8}
+                                                borderColor="gray.300"
                                             />
                                         </Box>
                                     </FormControl>
