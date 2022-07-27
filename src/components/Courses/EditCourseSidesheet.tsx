@@ -3,7 +3,7 @@ import CourseForm from "./CourseForm";
 import { useState } from "react";
 
 import { useGetQuery, usePostQuery, useDeleteQuery } from "@hooks/useRequest";
-import { useToast, useDisclosure } from "@chakra-ui/react";
+import { useToast, useDisclosure, Divider } from "@chakra-ui/react";
 import DeleteConfirmation from "@components/Layout/DeleteConfirmation";
 import WillingProfList from "./WillingProfList";
 
