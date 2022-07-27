@@ -22,7 +22,7 @@ const formatErrorText = (error: string | TokenError) => {
         return "Your session has expired. Please log in again.";
     }
 
-    if (error.includes("ERROR WITH ALGORITHMS")) {
+    if (error?.includes("ERROR WITH ALGORITHMS")) {
         return "Something went wrong with the algorithms. Please adjust constraints and try again.";
     }
 
