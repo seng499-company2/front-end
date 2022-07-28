@@ -26,19 +26,19 @@ const Sabbatical = () => {
             setFieldValue("sabbatical.fromMonth", "1");
         }
     }, [duration, setFieldValue, value]);
+    console.log({ isDisabled });
 
     return (
         <FormControl>
             <FormLabel>Sabbatical Preferences</FormLabel>
-            <FastField
+            <Field
                 as={Checkbox}
                 name="sabbatical.value"
                 isChecked={value}
                 isDisabled={isDisabled}
             >
                 Taking Sabbatical
-            </FastField>
-
+            </Field>
             {value && isResearchProf && (
                 <>
                     <Text mt={5}>Sabbatical Length</Text>
@@ -68,7 +68,6 @@ const Sabbatical = () => {
                     </Field>
                 </>
             )}
-
             {value && !isResearchProf && (
                 <>
                     <Text mt={5}>Sabbatical Length</Text>
