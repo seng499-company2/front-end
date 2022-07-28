@@ -168,7 +168,7 @@ function statusForEachSemester(
                         // Non-teaching semester is disabled with value 0
                         return {
                             semester,
-                            isDisabled: true,
+                            isDisabled: false,
                             value: numCoursesPerSem[semester],
                         };
                     }
@@ -338,7 +338,6 @@ const CoursesPerSemester = () => {
     );
 
     const { semesters } = semestersReq;
-    console.log({ semesters });
 
     useEffect(() => {
         // update numCoursesPerSem based on sabbatical
@@ -389,7 +388,6 @@ const CoursesPerSemester = () => {
             </FormLabel>
             <HStack alignItems="center" justifyContent={"space-evenly"} gap={6}>
                 {semesters.map((semester, idx) => {
-                    console.log({ semester });
                     const semesterKey = semester.semester;
                     const semesterDisplay = formatSemesterName(semesterKey);
                     return (

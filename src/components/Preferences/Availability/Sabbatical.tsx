@@ -30,14 +30,14 @@ const Sabbatical = () => {
     return (
         <FormControl>
             <FormLabel>Sabbatical Preferences</FormLabel>
-            <Field
+            <FastField
                 as={Checkbox}
                 name="sabbatical.value"
                 isChecked={value}
                 isDisabled={isDisabled}
             >
                 Taking Sabbatical
-            </Field>
+            </FastField>
             {value && isResearchProf && (
                 <>
                     <Text mt={5}>Sabbatical Length</Text>
