@@ -168,7 +168,7 @@ function statusForEachSemester(
                         // Non-teaching semester is disabled with value 0
                         return {
                             semester,
-                            isDisabled: false,
+                            isDisabled: true,
                             value: numCoursesPerSem[semester],
                         };
                     }
