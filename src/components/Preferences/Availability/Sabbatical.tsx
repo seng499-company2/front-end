@@ -26,7 +26,6 @@ const Sabbatical = () => {
             setFieldValue("sabbatical.fromMonth", "1");
         }
     }, [duration, setFieldValue, value]);
-    console.log({ isDisabled });
 
     return (
         <FormControl>
