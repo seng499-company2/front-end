@@ -72,7 +72,7 @@ const CoursesTable = ({ onClick, data, isLoading, isError, execute }) => {
                     { label: "Spring", value: "spring" },
                     { label: "Summer", value: "summer" },
                 ],
-                key: "pengString",
+                key: "semesterString",
             },
         },
         {
