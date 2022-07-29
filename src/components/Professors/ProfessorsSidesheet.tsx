@@ -9,7 +9,7 @@ import {
     HStack,
     Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import AdminPreferences from "@components/Preferences/AdminPreferences";
 import Sidesheet from "../Layout/Sidesheet";
@@ -76,6 +76,10 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 });
             });
     };
+
+    useEffect(() => {
+        onCancel();
+    }, [tabIndex]);
 
     const submitDetailsData = (values) => {
         executeEditDetails({
