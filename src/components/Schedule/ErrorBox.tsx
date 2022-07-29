@@ -1,12 +1,32 @@
 import { VStack, Text, Button, useColorModeValue } from "@chakra-ui/react";
 import { FiRefreshCcw } from "react-icons/fi";
 
-const formatErrorText = (error: string) => {
-    if (error.includes("No schedule found")) {
-        return "No schedule found. Please adjust constraints and try again.";
+interface TokenErrorMessage {
+    message: string;
+    token_class: string;
+    token_type: string;
+}
+
+interface TokenError {
+    code: string;
+    detail: string;
+    messages: TokenErrorMessage[];
+}
+
+const isTokenError = (error: string | TokenError): error is TokenError => {
+    return (error as TokenError).code !== undefined;
+};
+
+const formatErrorText = (error: string | TokenError) => {
+    if (isTokenError(error)) {
+        return "Your session has expired. Please log in again.";
     }
 
-    return "Something went wrong with the algorithm. Please adjust constraints and try again.";
+    if (error?.includes("ERROR WITH ALGORITHMS")) {
+        return "Something went wrong with the algorithms. Please adjust constraints and try again.";
+    }
+
+    return error;
 };
 
 const ErrorBox = ({ error, retry }) => {

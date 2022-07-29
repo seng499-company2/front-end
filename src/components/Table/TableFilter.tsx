@@ -4,10 +4,11 @@ import {
     InputLeftElement,
     Icon,
     Select,
+    Box,
 } from "@chakra-ui/react";
 import { FaFilter } from "react-icons/fa";
 
-export const TableFilter = ({ column, onFilter }) => {
+export const TableFilter = ({ column, onFilter, ...props }) => {
     const placeholder = column.Header;
 
     const onChange = (e) => {
@@ -15,7 +16,7 @@ export const TableFilter = ({ column, onFilter }) => {
     };
 
     return (
-        <>
+        <Box {...props}>
             {column.filter.type === "text" ? (
                 <InputGroup>
                     <Input
@@ -43,7 +44,7 @@ export const TableFilter = ({ column, onFilter }) => {
                     ))}
                 </Select>
             )}
-        </>
+        </Box>
     );
 };
 

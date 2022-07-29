@@ -5,6 +5,12 @@ import { useMemo } from "react";
 import Table from "../Table";
 import { CompleteStatusBadge } from "../CompleteStatusBadge";
 
+const CompleteSort = (rowA, rowB) => {
+    const valA = rowA.values.status.props.complete;
+    const valB = rowB.values.status.props.complete;
+    return valA > valB ? 1 : -1;
+};
+
 const ProfessorsTable = ({ professors, openDetails }) => {
     return (
         <Table
@@ -39,6 +45,19 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                         key: "complete", // prop to filter by
                         filterType: "exact",
                     },
+                    sortType: CompleteSort,
+                },
+                {
+                    Header: "PEng",
+                    accessor: "is_peng",
+                    filter: {
+                        type: "dropdown",
+                        options: [
+                            { label: "Yes", value: "Yes" },
+                            { label: "No", value: " " },
+                        ],
+                        filterType: "exact",
+                    },
                 },
                 {
                     Header: "",
@@ -68,7 +87,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
 
                         const profDetails = {
                             isPeng,
-                            type,
+                            type: profType,
                             complete,
                             firstName,
                             lastName,
@@ -81,6 +100,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                             name: `${firstName} ${lastName}`,
                             type: type,
                             status: <CompleteStatusBadge complete={complete} />,
+                            is_peng: isPeng ? "Yes" : " ",
                             details: (
                                 <Button
                                     variant="ghost"
@@ -93,6 +113,7 @@ const ProfessorsTable = ({ professors, openDetails }) => {
                     }),
                 [professors, openDetails]
             )}
+            itemsPerPage={25}
         />
     );
 };

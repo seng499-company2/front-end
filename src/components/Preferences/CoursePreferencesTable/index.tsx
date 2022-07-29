@@ -3,19 +3,34 @@ import { useMemo } from "react";
 
 import Table from "@components/Table";
 import CoursePrefNameCell from "./CoursePrefNameCell";
+import useProfPrefMeta from "@hooks/useProfPrefMeta";
+import { useFormikContext } from "formik";
+import { PreferencesFormType } from "src/types/preferences";
 
 export enum Willingness {
     veryWilling = 3,
     willing = 2,
     unWilling = 1,
-    noSelection = 0,
+    notQualified = 0,
 }
 
 export enum Difficulty {
     withEffort = 2,
     able = 1,
-    noSelection = 0,
+    notQualified = 0,
 }
+
+const WillingnessSort = (rowA, rowB) => {
+    const valA = rowA.values.willingness.props.value;
+    const valB = rowB.values.willingness.props.value;
+    return valA > valB ? 1 : -1;
+};
+
+const DifficultySort = (rowA, rowB) => {
+    const valA = rowA.values.difficulty.props.value;
+    const valB = rowB.values.difficulty.props.value;
+    return valA > valB ? 1 : -1;
+};
 
 const columns = [
     {
@@ -29,23 +44,48 @@ const columns = [
     {
         Header: "Willingness",
         accessor: "willingness",
-        disableFilterBy: true,
+        filter: {
+            type: "dropdown",
+            options: [
+                { label: "Very Willing", value: Willingness.veryWilling },
+                { label: "Willing", value: Willingness.willing },
+                { label: "Unwilling", value: Willingness.unWilling },
+                { label: "Not Qualified", value: Willingness.notQualified },
+            ],
+            key: "value", // prop to filter by
+        },
+        sortType: WillingnessSort,
     },
     {
         Header: "Difficulty",
         accessor: "difficulty",
-        disableFilterBy: true,
+        filter: {
+            type: "dropdown",
+            options: [
+                { label: "With Effort", value: Difficulty.withEffort },
+                { label: "Able", value: Difficulty.able },
+                { label: "Not Qualified", value: Difficulty.notQualified },
+            ],
+            key: "value", // prop to filter by
+        },
+        sortType: DifficultySort,
     },
 ];
 
-const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
+const CoursesPreferencesTable = () => {
+    const {
+        values: { coursePreferences },
+        setFieldValue,
+    } = useFormikContext<PreferencesFormType>();
+    const { profType, isDisabled } = useProfPrefMeta();
+
     const makeTableData = useMemo(() => {
-        return Object.keys(values).map((c) => {
+        return Object.keys(coursePreferences).map((c) => {
             return {
                 course: <CoursePrefNameCell name={c} />,
                 willingness: (
                     <Select
-                        value={values[c].willingness}
+                        value={coursePreferences[c].willingness}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.willingness`,
@@ -55,8 +95,8 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         key={c + "-willingness"}
                         isDisabled={isDisabled}
                     >
-                        <option value={Willingness.noSelection}>
-                            No Selection
+                        <option value={Difficulty.notQualified}>
+                            Not Quailified
                         </option>
                         <option value={Willingness.unWilling}>Unwilling</option>
                         <option value={Willingness.willing}>Willing</option>
@@ -67,7 +107,7 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                 ),
                 difficulty: (
                     <Select
-                        value={values[c].difficulty}
+                        value={coursePreferences[c].difficulty}
                         onChange={(v) =>
                             setFieldValue(
                                 `coursePreferences.${c}.difficulty`,
@@ -77,20 +117,20 @@ const CoursesPreferencesTable = ({ values, setFieldValue, isDisabled }) => {
                         key={c + "--difficulty"}
                         isDisabled={isDisabled}
                     >
-                        <option value={Difficulty.noSelection}>
-                            No Selection
+                        <option value={Difficulty.notQualified}>
+                            Not Quailified
                         </option>
-                        <option value={Difficulty.able}>Able</option>
                         <option value={Difficulty.withEffort}>
                             With Effort
                         </option>
+                        <option value={Difficulty.able}>Able</option>
                     </Select>
                 ),
             };
         });
-    }, [setFieldValue, values, isDisabled]);
+    }, [setFieldValue, coursePreferences, isDisabled]);
 
-    return <Table columns={columns} data={makeTableData} />;
+    return <Table columns={columns} data={makeTableData} itemsPerPage={10} />;
 };
 
 export default CoursesPreferencesTable;

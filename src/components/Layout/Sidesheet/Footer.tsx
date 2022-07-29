@@ -1,8 +1,8 @@
 import { Button, Flex } from "@chakra-ui/react";
 
-const EditButton = ({ onClick, ...other }) => (
-    <Button onClick={onClick} colorScheme="blue" {...other}>
-        Edit
+const EditButton = ({ onClick, msg, ...other }) => (
+    <Button onClick={onClick} colorScheme="blue" ml="auto" {...other}>
+        Edit {msg}
     </Button>
 );
 const CancelButton = ({ onClick, ...other }) => (
@@ -10,9 +10,9 @@ const CancelButton = ({ onClick, ...other }) => (
         Cancel
     </Button>
 );
-const SubmitButton = ({ onClick, ...other }) => (
+const SubmitButton = ({ onClick, msg, ...other }) => (
     <Button type="submit" onClick={onClick} {...other}>
-        Save
+        Save {msg}
     </Button>
 );
 
@@ -31,10 +31,13 @@ export const SidesheetFooter = ({
     formId,
     onDelete,
     isEditable,
+    saveMsg,
 }) => {
     return (
         <Flex direction="row" width="100%" gap={3}>
-            {isEditable && !isEditing && <DeleteButton onClick={onDelete} />}
+            {isEditable && !isEditing && onDelete && (
+                <DeleteButton onClick={onDelete} />
+            )}
             {isEditable &&
                 (isEditing ? (
                     <>
@@ -43,10 +46,11 @@ export const SidesheetFooter = ({
                             onClick={onSubmit}
                             isLoading={isLoading}
                             form={formId}
+                            msg={saveMsg}
                         />
                     </>
                 ) : (
-                    <EditButton onClick={onEdit} />
+                    <EditButton onClick={onEdit} msg={saveMsg} />
                 ))}
             {!isEditable && (
                 <SubmitButton
@@ -54,6 +58,7 @@ export const SidesheetFooter = ({
                     isLoading={isLoading}
                     form={formId}
                     ml="auto"
+                    msg={saveMsg}
                 />
             )}
         </Flex>
