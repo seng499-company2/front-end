@@ -1,8 +1,8 @@
 import { Button, Flex } from "@chakra-ui/react";
 
-const EditButton = ({ onClick, ...other }) => (
+const EditButton = ({ onClick, msg, ...other }) => (
     <Button onClick={onClick} colorScheme="blue" ml="auto" {...other}>
-        Edit
+        Edit {msg}
     </Button>
 );
 const CancelButton = ({ onClick, ...other }) => (
@@ -50,7 +50,7 @@ export const SidesheetFooter = ({
                         />
                     </>
                 ) : (
-                    <EditButton onClick={onEdit} />
+                    <EditButton onClick={onEdit} msg={saveMsg} />
                 ))}
             {!isEditable && (
                 <SubmitButton
