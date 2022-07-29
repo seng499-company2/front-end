@@ -168,8 +168,8 @@ function statusForEachSemester(
                         // Non-teaching semester is disabled with value 0
                         return {
                             semester,
-                            isDisabled: false,
-                            value: numCoursesPerSem[semester],
+                            isDisabled: true,
+                            value: 0,
                         };
                     }
                     // Preferred number of courses for the other two semesters should add up to >6
