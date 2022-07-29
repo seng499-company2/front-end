@@ -18,10 +18,14 @@ import { useDeleteQuery, usePostQuery } from "@hooks/useRequest";
 import EditProfessorForm from "./EditProfessorForm";
 import { CompleteStatusBadge } from "@components/CompleteStatusBadge";
 import { convertToBackendPreferencesFormat } from "@lib/format";
+import useAuth from "@hooks/useAuth";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const { isPeng, type, firstName, lastName, email, username, complete } =
         professor;
+    const {
+        user: { username: authUsername },
+    } = useAuth();
 
     const [tabIndex, setTabIndex] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
@@ -173,7 +177,9 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 >
                     <TabList>
                         <Tab>Details</Tab>
-                        <Tab isDisabled={!complete}>
+                        <Tab
+                            isDisabled={!complete && authUsername !== username}
+                        >
                             <HStack gap={2}>
                                 <Text>Preferences</Text>
                                 {!complete && (

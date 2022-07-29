@@ -10,16 +10,22 @@ import { useGetQuery } from "@hooks/useRequest";
 import { FiRefreshCcw } from "react-icons/fi";
 import PreferencesForm from "./PreferencesForm";
 import { convertFromBackendFormat } from "@lib/format";
+import useAuth from "@hooks/useAuth";
 
 const AdminPreferences = ({ professor, isDisabled, handleSubmit }) => {
-    const { data, isError, isLoading, execute } = useGetQuery(
-        `/api/preferences/${professor.username}/`,
-        {
-            manual: false,
-            ssr: false,
-            useCache: false,
-        }
-    );
+    const {
+        user: { username },
+    } = useAuth();
+    const profIsAdmin = username === professor.username;
+    const preferencesPath = profIsAdmin
+        ? `/api/preferences/`
+        : `/api/preferences/${professor.username}/`;
+
+    const { data, isError, isLoading, execute } = useGetQuery(preferencesPath, {
+        manual: false,
+        ssr: false,
+        useCache: false,
+    });
     const initialValues = convertFromBackendFormat(data);
     const errorBgColor = useColorModeValue("red.100", "red.400");
     const showForm = !isLoading && !isError;
