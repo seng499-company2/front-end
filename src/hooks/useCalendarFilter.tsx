@@ -43,10 +43,11 @@ const useCalendarFilter = (data) => {
             Object.keys(data).forEach((semester) => {
                 newData[semester] = newData[semester].filter((e) => {
                     const eF = {
-                        course: e.details.course.code,
-                        professor: e.details.section.professor.name,
-                        yearRequired: e.details.course.yearRequired,
-                        pengRequired: e.details.course.pengRequired,
+                        course: e.details.course?.code,
+                        professor:
+                            e.details.section.professor?.name || "No Professor",
+                        yearRequired: e.details.course?.yearRequired,
+                        pengRequired: e.details.course?.pengRequired,
                     };
                     const filterVal = filterObj.value;
                     if (filterObj.filter.type === "dropdown") {

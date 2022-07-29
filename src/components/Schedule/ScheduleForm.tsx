@@ -72,8 +72,8 @@ const ScheduleForm = ({ data, profData, isEditing, formId, handleSubmit }) => {
                 code: data.course.code,
                 sectionId: data.section,
                 professor: {
-                    id: sectionData.professor.id,
-                    name: sectionData.professor.name,
+                    id: sectionData.professor?.id,
+                    name: sectionData.professor?.name,
                 },
                 capacity: sectionData.capacity,
                 maxCapacity: sectionData.maxCapacity,
