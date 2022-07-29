@@ -35,12 +35,13 @@ const Label = ({
 // body of the event
 const CalendarEvent: React.FC<CalendarEventProps> = (props) => {
     const {
-        course: { code },
-        section: {
-            display: sectionDisplay,
-            professor: { name: profName },
-        },
+        course,
+        section: { display, professor },
     } = props.event.details;
+
+    const courseCodeDisplay = course?.code || "No Course Code";
+    const sectionDisplay = display || "No Section";
+    const profName = professor?.name || "No Professor";
 
     return (
         <Tooltip
@@ -51,14 +52,14 @@ const CalendarEvent: React.FC<CalendarEventProps> = (props) => {
             closeOnMouseDown
             label={
                 <Label
-                    code={code}
+                    code={courseCodeDisplay}
                     sectionDisplay={sectionDisplay}
                     profName={profName}
                 />
             }
         >
             <Box>
-                <Text>{code}</Text>
+                <Text>{courseCodeDisplay}</Text>
                 <Text>{sectionDisplay}</Text>
             </Box>
         </Tooltip>

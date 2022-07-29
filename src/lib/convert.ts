@@ -49,12 +49,7 @@ export const convertRawToTableScheduledCourse = (backendData) => {
     const { code, title, yearRequired } = course;
 
     const ourData = sections.map((section, idx) => {
-        const {
-            capacity,
-            maxCapacity,
-            professor: { name },
-            timeSlots,
-        } = section;
+        const { capacity, maxCapacity, professor, timeSlots } = section;
 
         const time = timeSlots.reduce((acc, timeSlot) => {
             const { dayOfWeek, timeRange } = timeSlot;
@@ -71,7 +66,7 @@ export const convertRawToTableScheduledCourse = (backendData) => {
         return {
             course: { code, title, yearRequired },
             section: formatSectionNum(idx + 1),
-            professor: name,
+            professor: professor?.name ?? "No Professor",
             time,
             capacity,
             maxCapacity,
@@ -137,7 +132,7 @@ export const convertRawToEventsSchedule = (
                                     sections,
                                     section: sections[sectionIdx],
                                 },
-                                id: `${course.course.code}-${sectionIdx}-${section.professor.id}-${i}-${semester}`,
+                                id: `${course.course.code}-${sectionIdx}-${section.professor?.id}-${i}-${semester}`,
                             };
                             events[sem].push(event);
                         }
@@ -167,7 +162,7 @@ export const convertSingleEventToRaw = (event: ScheduleEvent): any => {
 
     const sectionList: Section[] = sections.map((section) => ({
         capacity: section.capacity,
-        professor: section.professor,
+        professor: section.professor ?? { id: "", name: "No Professor" },
         timeSlots: section.timeSlots,
         maxCapacity: section.maxCapacity,
     }));
