@@ -16,6 +16,10 @@ const dayList = [
 ];
 
 function convertValuesToDatetime(values, first) {
+    if (!values) {
+        return null;
+    }
+
     const datetimeArr = [];
     dayList.forEach((day, index) => {
         if (!values[day]) {
@@ -104,7 +108,7 @@ const Timetable = ({ semester, isFillable = true }) => {
         [setFieldValue, formValue, isDisabled]
     );
 
-    if (!isFillable) {
+    if (!isFillable || schedule.current === null) {
         return (
             <Box
                 border="1px solid"
