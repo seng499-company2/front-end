@@ -169,7 +169,7 @@ function statusForEachSemester(
                         return {
                             semester,
                             isDisabled: true,
-                            value: numCoursesPerSem[semester],
+                            value: 0,
                         };
                     }
                     // Preferred number of courses for the other two semesters should add up to >6
