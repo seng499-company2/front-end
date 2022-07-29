@@ -18,10 +18,14 @@ import { useDeleteQuery, usePostQuery } from "@hooks/useRequest";
 import EditProfessorForm from "./EditProfessorForm";
 import { CompleteStatusBadge } from "@components/CompleteStatusBadge";
 import { convertToBackendPreferencesFormat } from "@lib/format";
+import useAuth from "@hooks/useAuth";
 
 export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const { isPeng, type, firstName, lastName, email, username, complete } =
         professor;
+    const {
+        user: { username: authUsername },
+    } = useAuth();
 
     const [tabIndex, setTabIndex] = useState(0);
     const [isEditing, setIsEditing] = useState(false);
@@ -35,10 +39,15 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const { execute: executeEditDetails, isLoading: isDetailsDataSaving } =
         usePostQuery(`/api/users/${username}/`);
 
+    const profIsAdmin = username === professor.username;
+    const preferencesPath = profIsAdmin
+        ? `/api/preferences/`
+        : `/api/preferences/${username}/`;
+
     const {
         execute: executeEditPreferences,
         isLoading: isPreferencesDataSaving,
-    } = usePostQuery(`/api/preferences/${username}/`);
+    } = usePostQuery(preferencesPath);
 
     const { execute: executeDelete, isLoading: isDeleteLoading } =
         useDeleteQuery(`/api/users/${username}/`);
@@ -173,7 +182,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
                 >
                     <TabList>
                         <Tab>Details</Tab>
-                        <Tab isDisabled={!complete}>
+                        <Tab isDisabled={!complete && !profIsAdmin}>
                             <HStack gap={2}>
                                 <Text>Preferences</Text>
                                 {!complete && (
