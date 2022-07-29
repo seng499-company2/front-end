@@ -402,7 +402,7 @@ const CoursesPerSemester = () => {
                                 onChange={(v) =>
                                     setFieldValue(
                                         `numCoursesPerSem.${semesterKey}`,
-                                        v
+                                        +v
                                     )
                                 }
                             />
