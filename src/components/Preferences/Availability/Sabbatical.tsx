@@ -38,7 +38,6 @@ const Sabbatical = () => {
             >
                 Taking Sabbatical
             </Field>
-
             {value && isResearchProf && (
                 <>
                     <Text mt={5}>Sabbatical Length</Text>
@@ -68,7 +67,6 @@ const Sabbatical = () => {
                     </Field>
                 </>
             )}
-
             {value && !isResearchProf && (
                 <>
                     <Text mt={5}>Sabbatical Length</Text>
