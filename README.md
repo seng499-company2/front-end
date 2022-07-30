@@ -20,6 +20,12 @@ To generate the production build, run the following command in the root director
 npm run build
 ```
 
+To run the build production app, run
+
+```bash
+npm start
+```
+
 ### Development
 
 Ensure the dependencies are installed.

@@ -39,7 +39,7 @@ export const ProfessorSidesheet = ({ isOpen, onClose, professor, refetch }) => {
     const { execute: executeEditDetails, isLoading: isDetailsDataSaving } =
         usePostQuery(`/api/users/${username}/`);
 
-    const profIsAdmin = username === professor.username;
+    const profIsAdmin = authUsername === professor.username;
     const preferencesPath = profIsAdmin
         ? `/api/preferences/`
         : `/api/preferences/${username}/`;
