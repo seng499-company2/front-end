@@ -22,7 +22,19 @@ npm run build
 
 ### Development
 
-Ensure the dependencies are installed. Then, run the following command to start the development server:
+Ensure the dependencies are installed.
+
+```bash
+npm ci
+```
+
+Copy the example local environment variables to `.env.local` so they can be used by NextJS. Modify the variables as necessary. The NextJS server must be restarted to use any changed environment variables. 
+
+```bash
+cp .example.env.local .env.local
+```
+
+Run the following command to start the development server:
 
 ```bash
 npm run dev
