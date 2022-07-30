@@ -20,9 +20,27 @@ To generate the production build, run the following command in the root director
 npm run build
 ```
 
+To run the build production app, run
+
+```bash
+npm start
+```
+
 ### Development
 
-Ensure the dependencies are installed. Then, run the following command to start the development server:
+Ensure the dependencies are installed.
+
+```bash
+npm ci
+```
+
+Copy the example local environment variables to `.env.local` so they can be used by NextJS. Modify the variables as necessary. The NextJS server must be restarted to use any changed environment variables.
+
+```bash
+cp .example.env.local .env.local
+```
+
+Run the following command to start the development server:
 
 ```bash
 npm run dev
@@ -39,7 +57,7 @@ npm run lint
 This also checks for `prettier` formatting. To explicitly format the code with `prettier`, run the following command:
 
 ```bash
-npm run format
+npm run prettier
 ```
 
 It's recommended to enable the `prettier` plugin in VS Code to automatically format the code when you save it. See [this page](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) or [this one](https://www.digitalocean.com/community/tutorials/code-formatting-with-prettier-in-visual-studio-code) for more information.
