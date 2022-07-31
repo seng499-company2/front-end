@@ -120,7 +120,7 @@ const Timetable = ({ semester, isFillable = true }) => {
                 color="gray.500"
             >
                 <Text>
-                    Not available with current sabbatical and/or preffered
+                    Not available with current sabbatical and/or preferred
                     non-teaching semester choices.
                 </Text>
             </Box>
